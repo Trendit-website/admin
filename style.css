@@ -1,0 +1,40 @@
+@import url('https://fonts.cdnfonts.com/css/campton');
+
+*{
+    margin: 0;
+    padding:0;
+    list-style-type: none;
+    text-decoration: none;
+    background-color: var(--bg-color);
+    box-sizing: border-box;
+    font-family: var(--font-family1);
+}
+   
+
+
+:root{
+    --bg-color:#000000;
+    --second-bg-color:#121212;
+    --text-color:#fff;
+    --main-color:#ff6dfb;
+    --second-color:#FFD0FE;
+    --text-muted:#b1b1b1;
+    --font-family1: 'Campton', sans-serif;
+    --font-family2: 'Inter', sans-serif;
+}
+
+
+
+html{
+        font-size: 62.5%;
+        color: #000;
+    
+}
+
+header{
+    display:flex;
+
+}   
+nav{
+    display: flex;
+}

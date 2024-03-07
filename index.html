@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trendit Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo"><img src="./images/logo.svg" alt=""></div>
+            
+            <nav class="nav-bar">
+                <ul>
+                    <li><a id="selected" href="#">Home</a></li>
+                    <li> <a href="">Earn appeal <span>3</span></a></li>
+                    <li> <a href="">Ad approval<span>30+</span></a></li>
+                    <li> <a href="">Reseller<span>30+</span></a></li>
+                    <li><a href="#">Users</a></li>
+                    <li><a href="#">Wallet</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </nav>
+                <div><div class="search-box">
+                    <input type="search" name="search" id="search-box">
+                    
+                        <img src="./images/search.png" alt="">
+                        <p>Search</p>
+                    </div>
+                    <img src="./images/light.png" alt="">
+                    <img src="./images/bell.png" alt="">
+                    <img src="./images/Rectangle 1.png" alt="">
+                    <img src="./images/arrowdown.png" alt="">
+                </div>
+                <div class="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <!-- <div class="cancel" id="cancel">&#10005;</div> -->
+        </header>
+        
+      
+
+
+    </div>
+
+    <!-- JavaScript for Hamburger Menu -->
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const sidebar = document.querySelector('.sidebar');
+
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>
