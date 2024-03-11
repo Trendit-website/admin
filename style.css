@@ -795,9 +795,9 @@ section h3 {
     
     }
      .nav-bar ul li a{
-        margin-bottom: 12px;
+        margin:54px;
         font-size: 25px;
-       
+       padding: 2px 0;
        
         
     }
