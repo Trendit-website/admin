@@ -32,9 +32,10 @@ header{
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 5px 48px;
+    padding:10px 48px;
     gap: 64px;
     background-color: var(--bg-color);
+    
 }
 
 .nav-bar{
@@ -61,7 +62,7 @@ header ul a{
     letter-spacing: -0.06em;
     text-wrap: nowrap;
     gap: 4px;
-    padding: 12px 0 ;
+    padding: 20px 0 ;
     margin-right: 14px;
    
    
@@ -98,7 +99,7 @@ header .icons{
 .hero{
     background-color: #121212;
     width: 100%;
-    height: 150vh;
+    min-height: 200vh;
     padding: 32px 204px;
     gap: 32px;
     color: white;
@@ -116,7 +117,6 @@ header .icons{
 .hero .notification p{
    
    color: red;
- 
     font-size: 12px;
     font-weight: 400;
     text-align: left;
@@ -281,24 +281,17 @@ padding: 0 10px;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-/* earn appeal */
+/* earn appeal & ad approval */
 section h3 {
     padding-left: 12px 0;
     font-size: 24px;
     color: #fff;
     font-weight: 500;
 } 
+.top-nav {
+    margin-top: 30px;
+    width: 100%;
+}
 .top-nav .left{
     display: flex;
 }
@@ -315,7 +308,7 @@ section h3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
     color: var(--text-color);
-    gap: 15px;
+    gap: 8px;
     text-align: left;
     align-items: center;
     height: auto;
@@ -393,6 +386,269 @@ section h3 {
   line-height: 16px;
   letter-spacing: -0.06em;
   margin: 0; /* Remove default margin */
+}
+
+/* reseller */
+
+.reseller-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
+    color: var(--text-color);
+    gap: 8px;
+    text-align: left;
+    align-items: center;
+    height: auto;
+    justify-content: center;
+    width: 100%;
+}
+
+.reseller-container .box1 {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    text-align: left;
+    margin: auto; /* Center the boxes horizontally */
+    min-width: 339px;
+}
+
+.reseller-container .car-info{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    font-size: 14px;
+    gap: 12px;
+    
+}
+.reseller-container .car-info #fade{
+    color: #b1b1b1;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: -0.06em;
+    
+}
+.reseller-container .details #fade{
+   text-decoration: line-through;
+    
+}
+.reseller-container .details .right{
+   color: #FF6DFB;
+   display: flex;
+    gap: 5px;
+    align-items: center;
+}
+.reseller-container .name, .details{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.reseller-container  .commision{
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-weight:700 ;
+}
+.reseller-container  button{
+    border: 1px solid #8E60CF3B;
+    padding: 8px;
+    border-radius: 2px;
+    border: 1px;
+    color: #000;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 12px;
+    letter-spacing: -0.06em;
+    text-align: center;
+    gap: 4px;
+
+}
+
+
+/* users */
+
+.navigation{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: -0.06em;
+    color: #b1b1b1;
+    margin-top: 30px;
+    gap: 5px;
+}
+.navigation span{
+    padding-left: 10px;
+}
+.navigation .right{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 135px;
+}
+
+.name-box{
+    background-color: var(--bg-color);
+    border-radius: 8px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin: 16px 0;
+    color: #fff;
+    
+}
+
+.name-box .name{
+    justify-content: left;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.name-box .name p#highlight{
+    font-size: 14px;
+}
+.name-box p{
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    color: #b1b1b1;
+
+}
+.name-box  #highlight{
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: -0.06em;
+    color: #fff;
+
+}
+.name-box .earning,.name-box .advertise{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+.name-box .right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+}
+
+/* wallet */
+
+
+.hero .wallet-container .top-boxes{
+    display: flex;
+    align-items: center;
+    font-size:9px;
+    margin-top: 10px;
+}
+.hero .wallet-container .top-boxes img{
+    width: 8px;
+    margin-left: 5px;
+  
+  }
+.hero .wallet-container  .box1{
+    padding: 24px;
+    width: 100%;
+    text-align: left;
+    margin-right: 10px;
+    background-color: hsl(0, 0%, 0%);
+}
+.hero .wallet-container .box1:hover{
+    box-shadow: 0px 4px 20px 0px #FF6DFB42;
+    cursor: pointer;
+}
+
+
+.hero  .wallet-container .box1 h6{
+    font-size: 32px;
+    color: #FFD0FE;
+}
+
+.hero .wallet-container  .box1  p{
+    margin-bottom: 20px;
+    font-size: 9px;
+}
+.hero .wallet-container  .box1  #ngn{
+    font-size: 14px;
+}
+.hero .wallet-container .box1 img{
+   width: 8px;
+   align-items: center;
+   margin-left: 5px;
+}
+.hero .wallet-container .box1 .rate{
+    display: flex;
+    align-items: center;
+}
+.hero .wallet-container .box1 .rate span{
+    color: rgb(196, 4, 4);
+}
+
+.hero .wallet-container .box1 button{
+    width: 109px;
+    height: 34px;
+    padding: 8px;
+    gap: 4px;
+    font-weight: 500;
+    margin-left: 140px;
+    border: 1px solid #000000;
+    background-color: #fff;
+    color: #000;
+}
+
+.wallet-container .wallet-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-color);
+    color: #fff;
+    margin:5px 0;
+    padding: 12px;
+}
+.wallet-container .wallet-box .left{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   gap: 24px;
+}
+.wallet-container .wallet-box .credit-date{
+    gap: 6px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.wallet-container .wallet-box #date{
+    font-size: 9px;
+    font-weight: 400;
+    line-height: 10px;
+}
+
+
+.wallet-container .navigation{
+    padding: 10px 0;
+}
+.wallet-container .navigation .left{
+    display: flex;
+    justify-content: space-between;
+    gap: 140px;
+    align-items: center;
+}
+
+.wallet-container .wallet-box  img{
+    width: 30px;
+}
+.wallet-container .wallet-box  p{
+   font-size: 13px;
+   font-weight: 500;
 }
 
 
