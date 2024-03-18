@@ -62,56 +62,60 @@
                 <div class="boxes">
                     <div class="top-boxes">
                         <div id="selected" class="box1">
+                            <!-- Content for Wallet Balance Box -->
                             <p>Wallet Balance</p>
                             <p id="ngn">NGN <img src="./images/arrowdown.png" alt=""></p>
                             <div class="rate">
-                            <h6>N535,894 </h6>
-                            <img src="./images/mdi_arrow-down.png" alt="">
-                            <span> 533%</span>
-                            <button><img src="./images/withdraw.png" alt=""> Withdraw</button>
+                                <h6>N535,894</h6>
+                                <img src="./images/mdi_arrow-down.png" alt="">
+                                <span>533%</span>
+                                <button><img src="./images/withdraw.png" alt=""> Withdraw</button>
+                            </div>
                         </div>
-                        </div>
-                        <div class="box1">
+                        <div id="totalPayouts" class="box1">
+                            <!-- Content for Total Payouts Box -->
                             <p>Total Payouts <span><img src="./images/support.png" alt=""></span></p>
                             <p id="ngn">NGN <img src="./images/arrowdown.png" alt=""></p>
                             <div class="rate">
-                            <h6>N8,783.87 </h6>
-                            <img src="./images/mdi_arrow-down.png" alt="">
-                            <span>533%</span> 
-                    
+                                <h6>N8,783.87</h6>
+                                <img src="./images/mdi_arrow-down.png" alt="">
+                                <span>533%</span>
                             </div>
                         </div>
                     </div>
                     <div class="bottom-boxes">
-                        <div class="box1">
-                            <p>No of Earners<img src="./images/support.png" alt=""></p>
+                        <div id="noOfEarners" class="box1">
+                            <!-- Content for No of Earners Box -->
+                            <p>No of Earners <img src="./images/support.png" alt=""></p>
                             <div class="rate">
-                            <h6>35,894</h6>
-                            
-                            <img src="./images/mdi_arrow-down.png" alt="">
-                            <span> 533%</span>
+                                <h6>35,894</h6>
+                                <img src="./images/mdi_arrow-down.png" alt="">
+                                <span>533%</span>
                             </div>
                         </div>
-                        <div class="box1">
-                            <p>No of Advertisers<img src="./images/support.png" alt=""></p>
+                        <div id="noOfAdvertisers" class="box1">
+                            <!-- Content for No of Advertisers Box -->
+                            <p>No of Advertisers <img src="./images/support.png" alt=""></p>
                             <div class="rate">
-                            <h6>8,783.87</h6>
-                            <img src="./images/mdi_arrow-down.png" alt="">
-                            <span> 533%</span>
+                                <h6>8,783.87</h6>
+                                <img src="./images/mdi_arrow-down.png" alt="">
+                                <span>533%</span>
                             </div>
                         </div>
-                        <div class="box1">
-                            <p>No of aproved Ads<img src="./images/support.png" alt=""></p>
+                        <div id="noOfApprovedAds" class="box1">
+                            <!-- Content for No of Approved Ads Box -->
+                            <p>No of Approved Ads <img src="./images/support.png" alt=""></p>
                             <div class="rate">
-                            <h6>35,894</h6>
+                                <h6>35,894</h6>
                             </div>
                         </div>
-                        <div class="box1">
-                            <p>No of Affiliate Resell<img src="./images/support.png" alt=""></p>
+                        <div id="noOfAffiliateResell" class="box1">
+                            <!-- Content for No of Affiliate Resell Box -->
+                            <p>No of Affiliate Resell <img src="./images/support.png" alt=""></p>
                             <div class="rate">
-                            <h6>4,785</h6>
-                            <img src="./images/mdi_arrow-up.png" alt="">
-                            <span style="color: green;"> 533%</span>
+                                <h6>4,785</h6>
+                                <img src="./images/mdi_arrow-up.png" alt="">
+                                <span style="color: green;">533%</span>
                             </div>
                         </div>
                     </div>
@@ -127,7 +131,10 @@
                     <p>Period <span>This Week <img src="/images/arrowdown.png" alt=""></span></p>
                    
                  </div> 
-                 <img src="./images/Frame 237982.png" width="100%">
+                 <div id="bar-chart">
+
+                 </div>
+                 
                 
             </div>
         </section>
@@ -137,6 +144,7 @@
 
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.47.0/apexcharts.min.js"></script>
     <!-- JavaScript for Hamburger Menu -->
     <script src="./script.js"> </script>
     

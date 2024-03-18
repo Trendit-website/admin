@@ -72,7 +72,7 @@ header ul a{
 header ul a span{
     color: #fff;
     margin-left:5px ;
- 
+   
    
 }   
 header .icons{
@@ -130,6 +130,7 @@ header .icons{
    color: #FFE9E9;
     font-size: 32px;
     font-weight: 700;
+    padding: 10px 0;
 }
 
 .hero h4{
@@ -302,6 +303,7 @@ section h3 {
 .top-nav {
     margin-top: 30px;
     width: 100%;
+    text-wrap: nowrap;
 }
 .top-nav .left{
     display: flex;
@@ -336,6 +338,11 @@ section h3 {
     text-align: left;
     margin: auto; /* Center the boxes horizontally */
     min-width: 330px;
+    transition: .5s ease-in-out;
+}
+.earn-container .box1:hover {
+    background-color: #1E1E1E;
+
 }
 
 .earn-container .box1 .pending {
@@ -701,7 +708,7 @@ section h3 {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #1E1E1E;
-    gap: 4px;
+    gap:5px;
     text-transform: capitalize;
     font-size: 12px;
     font-weight: 700;
@@ -713,7 +720,15 @@ section h3 {
 }  
 
 .hero .top-nav p{
-    padding: 12px 8px;
+    padding: 12px 18px;
+   
+}  
+.hero .top-nav p span{
+    color: #fff;
+    margin-left: 5px;
+    font-size: 11px;
+    font-weight: 500;
+
 }  
 
 .hero .top-nav #selected{
