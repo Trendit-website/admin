@@ -7,6 +7,74 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    const boxes = document.querySelectorAll(".box1");
+    const popup = document.querySelector(".popup");
+    const overlay = document.querySelector(".overlay");
+    const overlay2 = document.querySelector(".overlay2");
+    const cancelBtn = document.querySelector(".cancel-btn");
+    const saveBtn = document.querySelector(".save-btn");
+    const approveBox = document.querySelector(".approve-box");
+    const approveYesBtn = document.querySelector(".approve-box .approve-yes");
+    const approveCancelBtn = document.querySelector(".approve-box .approve-cancel");
+    const earnInfo=document.querySelector(".earn-info")
+  
+    boxes.forEach(box => {
+      box.addEventListener("click", function() {
+        // Show the pop-up and overlay
+        popup.style.display = "block";
+        overlay.style.display = "block";
+      });
+    });
+  
+    cancelBtn.addEventListener("click", function() {
+      // Close the pop-up and overlay without saving
+      popup.style.display = "none";
+      overlay.style.display = "none";
+    });
+  
+    function showearnInfo() {
+      earnInfo.style.display = "block";
+      overlay2.style.display = "block";
+    }
+  
+    function hideearnInfo() {
+      earnInfo.style.display = "none";
+      overlay2.style.display = "none";
+    }
+    function showApproveBox() {
+      approveBox.style.display = "block";
+      overlay2.style.display = "block";
+    }
+  
+    function hideApproveBox() {
+      approveBox.style.display = "none";
+      overlay2.style.display = "none";
+    }
+  
+    saveBtn.addEventListener("click", function() {
+      showApproveBox();
+    });
+  
+    approveYesBtn.addEventListener("click", function() {
+      // Add functionality for approving the ad
+      hideApproveBox();
+      alert("Ad Approved!"); // Placeholder for approval action
+    });
+  
+    approveCancelBtn.addEventListener("click", function() {
+      hideApproveBox();
+    });
+  
+  });
+  
+  
+  
+
+  
+  
+
+
 
 // bar chart
 // Function to generate random data for the chart
