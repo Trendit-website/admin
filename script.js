@@ -7,30 +7,59 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+
 document.addEventListener("DOMContentLoaded", function() {
     const boxes = document.querySelectorAll(".box1");
+    const earnBoxes = document.querySelectorAll(".earn-container .box1");
     const popup = document.querySelector(".popup");
+    const popup2 = document.querySelector(".popup2");
     const overlay = document.querySelector(".overlay");
     const overlay2 = document.querySelector(".overlay2");
     const cancelBtn = document.querySelector(".cancel-btn");
-    const saveBtn = document.querySelector(".save-btn");
+    const saveBtn = document.querySelectorAll(".save-btn");
     const approveBox = document.querySelector(".approve-box");
     const approveYesBtn = document.querySelector(".approve-box .approve-yes");
-    const approveCancelBtn = document.querySelector(".approve-box .approve-cancel");
-    const earnInfo=document.querySelector(".earn-info")
+    const approveCancelBtns = document.querySelectorAll(".approve-box .cancel-btn");
+    const earnInfo = document.querySelector(".earn-info");
+    const goBackBtn = document.querySelector(".back");
   
     boxes.forEach(box => {
       box.addEventListener("click", function() {
-        // Show the pop-up and overlay
         popup.style.display = "block";
         overlay.style.display = "block";
       });
     });
   
+    earnBoxes.forEach(earnBox => {
+      earnBox.addEventListener("click", function() {
+        showearnInfo();
+      });
+    });
+  
     cancelBtn.addEventListener("click", function() {
-      // Close the pop-up and overlay without saving
       popup.style.display = "none";
       overlay.style.display = "none";
+    });
+  
+    saveBtn.forEach(btn => {
+      btn.addEventListener("click", function() {
+        showApproveBox();
+      });
+    });
+  
+    goBackBtn.addEventListener("click", function() {
+      hideearnInfo();
+    });
+  
+    approveYesBtn.addEventListener("click", function() {
+      hideApproveBox();
+      alert("Ad Approved!");
+    });
+  
+    approveCancelBtns.forEach(cancel => {
+      cancel.addEventListener("click", function() {
+        hideApproveBox();
+      });
     });
   
     function showearnInfo() {
@@ -42,6 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
       earnInfo.style.display = "none";
       overlay2.style.display = "none";
     }
+  
     function showApproveBox() {
       approveBox.style.display = "block";
       overlay2.style.display = "block";
@@ -51,29 +81,9 @@ document.addEventListener("DOMContentLoaded", function() {
       approveBox.style.display = "none";
       overlay2.style.display = "none";
     }
-  
-    saveBtn.addEventListener("click", function() {
-      showApproveBox();
-    });
-  
-    approveYesBtn.addEventListener("click", function() {
-      // Add functionality for approving the ad
-      hideApproveBox();
-      alert("Ad Approved!"); // Placeholder for approval action
-    });
-  
-    approveCancelBtn.addEventListener("click", function() {
-      hideApproveBox();
-    });
-  
   });
   
   
-  
-
-  
-  
-
 
 
 // bar chart

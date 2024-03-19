@@ -452,7 +452,9 @@ section h3 {
     background-color: #1E1E1E;
     transition: .5s ease-in-out;
     padding: 24px;   
+    justify-content: center;
 }
+  
   .popup .popup-box2 .buttons  {
     display: flex;
     align-items: center;
@@ -465,6 +467,8 @@ section h3 {
     padding: 5px 30px;  
     gap: 4px;
     font-size: 10px;
+    min-width: 150px;
+    text-wrap: nowrap;
     font-weight: 500;
     border-radius: 2px;   
 }
@@ -497,6 +501,7 @@ section h3 {
     flex-direction: column;
     gap: 24px;
     padding: 10px 0;
+    min-width: 200px;
    
   }
   .popup .row{
@@ -645,9 +650,8 @@ section h3 {
     width: 100%;
     height: 100%;
     background: #212121D4; 
-    /* Dark overlay color with transparency */
-    z-index: 999; /* Place overlay below pop-up */
-    display: none; /* Initially hidden */
+    z-index: 999; 
+    display: none; 
   }
   
   .approve-box {
@@ -662,7 +666,7 @@ section h3 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1001; /* Make sure it's above the overlay */
+    z-index: 1003; /* Make sure it's above the overlay */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   }
   
@@ -720,6 +724,17 @@ section h3 {
     z-index: 1001;
     display: none;
   }
+  .overlay3 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #212121; /* Semi-transparent dark background color */
+    z-index: 100;
+    display: none;
+  }
+
   
   .approve-box .cancel-btn {
     position: absolute;
@@ -752,17 +767,222 @@ section h3 {
   .earn-info {
     display: none;
     position: absolute;
-    top: 70%;
-    left: 70%;
+    top:80%;
+    left: 50%;
     transform: translate(-50%, -50%);
     background:#121212;/* Dark background with transparency */
-    padding:32px 204px;
+    padding:32px 100px;
     border-radius: 8px;
-    z-index: 1000;
-    width: 600px;
+    z-index: 1003;
+    align-items: center;
+    justify-content: center;
     gap: 32px;
 
   }
+  .earn-info .back{
+    display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 15px 0;
+  }
+  .earn-info .back img{
+    width: 20px;
+  }
+  .earn-info .popup-box{
+    display: flex;
+    align-items: center;
+    background-color: #000;
+    text-align: left;
+    overflow: hidden;
+    position: relative;
+    justify-content: space-between;
+    min-width: 330px;
+    transition: .5s ease-in-out;
+}
+
+  .earn-info .left{
+   padding: 0 12px ;
+   text-wrap: nowrap;
+   z-index: 1;
+   position: absolute;
+ 
+}
+
+.earn-info p {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: -0.06em;
+  margin: 8px 0; 
+  /* Add vertical margin for spacing */
+}
+
+.earn-info span {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  color: #b1b1b1;
+}
+
+.earn-info .earning {
+  display: flex;
+  align-items: center;
+
+}
+.earn-info .counts {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.earn-info .counts span{
+  display: flex;
+  align-items: center;
+}
+
+.earn-info .earning img {
+  width: 9px; /* Adjust image width as needed */
+  margin-right: 5px; /* Add margin for spacing */
+}
+
+.earn-info .earning span {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  color: #b1b1b1;
+  margin-right: 5px; /* Add margin for spacing */
+}
+
+.earn-info .earning p {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: -0.06em;
+  margin: 0; /* Remove default margin */
+}
+
+ 
+
+  .earn-info .boxes{
+    gap: 12px;
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    flex-direction: row;
+  }
+  .earn-info .boxes .first-box, .second-box{
+    background-color: #080808;
+    gap: 40px;
+    border-radius:8px ;
+    min-width: 510px;
+    min-height: 578px;
+    padding: 32px;
+ 
+  }
+  .earn-info .boxes .first-box h5, .second-box h5{
+    font-weight: 500;
+    font-size: 24px;
+    text-align: center;
+    color: #fff;
+    padding: 24px 0;
+ 
+  }
+  .earn-info .boxes .first-box span{
+    font-size:12px ;
+    font-weight: 600;
+    color: #fff;
+  }
+  .earn-info .boxes .first-box p{
+    font-weight:400 ;
+    color: #b1b1b1;
+ 
+  }
+  .earn-info .boxes .first-box .link, #name{
+    gap: 4px;
+    padding: 8px;
+    background: #FFFFFF14;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+ 
+  }
+  .earn-info .boxes .first-box .link .visit-link{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  
+  }
+  .earn-info .boxes .first-box .link .visit-link p{
+    color: #ff6dfb;
+  }
+  .earn-info .boxes .first-box .notification {
+    padding: 12px;
+    gap: 29px;
+    margin: 15px 0;
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .earn-info .boxes .first-box .notification p {
+
+    color: #ff3d00;
+  }
+  .earn-info  .bottom {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    justify-content: space-between;
+  }
+  .earn-info  .bottom .warning{
+    display: flex;
+    align-items: center;
+    gap: 5px;;
+    padding: 10px;
+  }
+  .earn-info  .bottom .warning p{
+    color: #ff3d00;
+  }
+
+.earn-info .second-box{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    
+}
+.earn-info .second-box p{
+    color:#fff;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: left;
+}
+.earn-info .second-box input{
+    border: none;
+    width: 100%;
+}
+.earn-info .second-box .buttons{
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    justify-content: space-between;
+    
+}
+.earn-info .second-box button{
+    font-size: 10px;
+    font-weight: 500;
+    background: #FF6DFB1A;
+    border: 1px solid #8E60CF3B;
+    padding: 8px;
+    border-radius: 6px;
+    color: #fff;
+
+}
+.earn-info .second-box button.save-btn{
+    background: none;
+    border: none;
+    color: #13bf62;
+    text-align: right;
+  margin-top: 0;
+}
 
 /* reseller */
 
@@ -1299,6 +1519,56 @@ section h3 {
   
    .wallet-container .wallet-box  img{
     width: 25px;
+   }
+
+   .popup{
+    top: 60%;
+    padding: 25px;
+    width: fit-content;
+    left: 50%;
+   }
+   
+   .popup .row p:last-child,.popup .row p{
+    font-size: 12px;
+   }
+   .earn-info{
+    top: 95%;
+    padding: 20px;
+    width: fit-content;
+    left: 50%;
+   }
+   .earn-info .boxes{
+    flex-direction: column;
+    gap: 25px;
+   }
+   .earn-info .boxes .first-box, .second-box{
+    min-width: 300px;
+    min-height: 320px;
+    gap: 30px;
+   }
+   .earn-info .p{
+    margin: 10px 0;
+   }
+   .earn-info .second-box button{
+    text-wrap: nowrap;
+    white-space: nowrap;
+   }
+   .earn-info  .bottom{
+    padding: 0 15px;
+   }
+   .earn-info .back{
+    padding: 15px 10px;
+   }
+   .approve-box{
+    width: 350px;
+    gap: 20px;
+   }
+
+   .approve-box .buttons button{
+
+    max-width: 125px;
+   min-width: 125px;
+   align-self: center;
    }
 
 }
