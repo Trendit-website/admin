@@ -64,12 +64,13 @@ document.addEventListener("DOMContentLoaded", function() {
   
     function showearnInfo() {
       earnInfo.style.display = "block";
-      overlay2.style.display = "block";
+      overlay.style.display = "block";
     }
   
     function hideearnInfo() {
       earnInfo.style.display = "none";
       overlay2.style.display = "none";
+      overlay.style.display="none";
     }
   
     function showApproveBox() {
@@ -81,7 +82,37 @@ document.addEventListener("DOMContentLoaded", function() {
       approveBox.style.display = "none";
       overlay2.style.display = "none";
     }
+
+
+    
+    
   });
+  // Function to close Earn Appeal Popup
+function closeEarnAppealPopup() {
+  var earnAppealPopup = document.getElementById("earn-appeal-popup");
+  var overlay2 = document.querySelector(".overlay2");
+  earnAppealPopup.style.display = "none";
+  overlay2.style.display = "none";
+}
+
+// Function to close Ad Approval Popup
+function closeAdApprovalPopup() {
+  var adApprovalPopup = document.getElementById("ad-approval-popup");
+  var overlay2 = document.querySelector(".overlay2");
+  adApprovalPopup.style.display = "none";
+  overlay2.style.display = "none";
+}
+
+// Event listeners for cancel buttons
+document.getElementById("earn-appeal-cancel-btn").addEventListener("click", function() {
+  closeEarnAppealPopup();
+});
+
+document.getElementById("ad-approval-cancel-btn").addEventListener("click", function() {
+  closeAdApprovalPopup();
+});
+
+  
   
   
 

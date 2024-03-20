@@ -467,7 +467,7 @@ section h3 {
     padding: 5px 30px;  
     gap: 4px;
     font-size: 10px;
-    min-width: 150px;
+    min-width: 165px;
     text-wrap: nowrap;
     font-weight: 500;
     border-radius: 2px;   
@@ -482,6 +482,55 @@ section h3 {
     color: #fff;
     background-color: #ff6dfb;  
     width: 20px;
+}
+
+.popup .popup-box2 .box1 {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border-radius: 8px;
+  background-color: #1a1a1a;
+  text-align: left;
+  margin: auto; /* Center the boxes horizontally */
+  min-width: 339px;
+}
+
+.popup .popup-box2 .car-info{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  font-size: 14px;
+  gap: 12px;
+  
+}
+.popup .popup-box2 .car-info #fade{
+  color: #b1b1b1;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: -0.06em;
+  
+}
+.popup .popup-box2 .details #fade{
+ text-decoration: line-through;
+  
+}
+.popup .popup-box2 .details .right{
+ color: #FF6DFB;
+ display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.popup .popup-box2 .name, .details{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.popup .popup-box2  .commision{
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-weight:700 ;
 }
 
   .popup .notification2{
@@ -650,7 +699,7 @@ section h3 {
     width: 100%;
     height: 100%;
     background: #212121D4; 
-    z-index: 999; 
+    z-index: 1000; 
     display: none; 
   }
   
@@ -724,16 +773,7 @@ section h3 {
     z-index: 1001;
     display: none;
   }
-  .overlay3 {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #212121; /* Semi-transparent dark background color */
-    z-index: 100;
-    display: none;
-  }
+  
 
   
   .approve-box .cancel-btn {
@@ -773,7 +813,7 @@ section h3 {
     background:#121212;/* Dark background with transparency */
     padding:32px 100px;
     border-radius: 8px;
-    z-index: 1003;
+    z-index: 1000;
     align-items: center;
     justify-content: center;
     gap: 32px;
@@ -1342,6 +1382,242 @@ section h3 {
 
 
 
+@media only screen and (max-width: 1024px) {
+
+    .header {
+        padding: 12px 14px;
+    }
+    .hamburger .bar {
+        width: 30px;
+        height: 3px;
+        background-color: #fff;
+        margin: 6px 0;
+    }
+    #signin-btn{
+        display: none;
+    }
+    .hamburger {
+        display: block;
+        cursor: pointer;
+    }
+    .nav-bar {
+        display: none;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        right: 0;
+        z-index: 3;
+        width: 100vw;
+        height: 450px;
+        background: #000 ;
+        transition:  0.3s ease-in-out,  opacity 0.1s ease-out;
+        overflow: hidden;
+        opacity: 0;
+    }
+    .nav-bar.active{
+        height: 100vh;
+        display: block;
+        opacity: 1;
+    }
+    .nav-bar ul{
+        flex-direction: column;
+        width: fit-content;
+        margin: 80px auto 0 auto;
+        transition: 0.5s;
+        opacity: 0;
+    
+    }
+     .nav-bar ul li a{
+        margin:54px;
+        font-size: 25px;
+       padding: 2px 0;
+       
+        
+    }
+    #search-box{
+        display: none;
+    }
+
+    .nav-bar ul li a:hover,
+    .nav-bar ul li a#selected{
+        color: #ff6dfb;
+        border: none;
+    }
+    
+    .header .icons{
+        display: none;
+    }
+    .nav-bar.active ul{
+       opacity: 1;
+       
+    } 
+
+
+
+   .hero{
+    padding: 20px ;
+   }
+   .hero .notification{
+    margin-bottom: 10px;
+   }
+   .hero h3{
+    font-size: 28px;
+   }
+   .hero .overview h5{
+    font-size: 20px;
+   }
+   .hero .overview p{
+    font-size: 12px;
+   }
+   .hero .activities h5{
+    font-size: 20px;
+   }
+   .hero .activities p{
+    font-size: 12px;
+   }
+   .hero .boxes{
+    justify-content: left;
+    gap: 5px;
+    align-items: start;
+   }
+   .hero .boxes .box1{
+    margin: 0;
+   }
+   .hero .boxes .top-boxes{
+    flex-direction: column;
+    display: flex;
+    gap: 5px;
+   }
+   .hero .boxes .bottom-boxes{
+    max-width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    
+   }
+   .hero .boxes .bottom-boxes .box1{
+    max-width: 351px;
+    width: 100%;
+    
+   }
+   .hero .boxes .box1 button{
+    margin-left: 10px;
+   }
+   .hero .top-nav{
+    flex-direction: column;
+    justify-content: left;
+    display: flex;
+    align-items: flex-start;
+    border: none;
+    margin-bottom: 10px;
+   }
+   .earn-container,.reseller-container{
+    display: flex; 
+    align-items: unset;
+    flex-direction: column;
+    gap: 10px;
+   }
+   .reseller-container{
+    align-items: center;
+   }
+   .earn-container .box1{
+    margin: 0;
+   
+   }
+   .reseller-container .box1{
+    width: 330px;
+  margin: 0;
+  
+   }
+   .navigation{
+    display: none;
+   }
+   .name-box{
+    text-wrap: nowrap;
+    gap: 12px;
+    flex-direction: column;
+    justify-content: left;
+    align-items: start;
+   }
+   .hero .wallet-container .top-boxes{
+    display: flex; 
+    align-items: unset;
+    flex-direction: column;
+    gap: 10px;
+   }
+   .hero .wallet-container .box1 button{
+    margin-left: 20px;
+   }
+   .wallet-container .wallet-box .left{
+    gap: 12px;
+   }
+   .wallet-container .wallet-box p{
+    font-size: 10px;
+
+   }
+  
+   .wallet-container .wallet-box  img{
+    width: 25px;
+   }
+
+   .popup{
+    top: 60%;
+    padding: 25px;
+    width: fit-content;
+    left: 50%;
+    margin: 5px;
+   }
+  
+   
+   .popup .row p:last-child,.popup .row p{
+    font-size: 12px;
+   }
+   .earn-info{
+    top: 90%;
+    padding: 20px;
+    width: fit-content;
+    left: 50%;
+    margin: 10px;
+   }
+   .earn-info .boxes{
+    flex-direction: column;
+    gap: 25px;
+   }
+   .earn-info .boxes .first-box, .second-box{
+    min-width: 300px;
+    min-height: 320px;
+    gap: 30px;
+   }
+   .earn-info .p{
+    margin: 10px 0;
+   }
+   .earn-info .second-box button{
+    text-wrap: nowrap;
+    white-space: nowrap;
+   }
+   .earn-info  .bottom{
+    padding: 0 15px;
+   }
+   .earn-info .back{
+    padding: 15px 10px;
+   }
+   .approve-box{
+    width: 350px;
+    gap: 20px;
+    top: 40%;
+    left: 46%;
+   }
+
+   .approve-box .buttons button{
+
+    max-width: 125px;
+   min-width: 125px;
+   align-self: center;
+   }
+
+}
+
 @media only screen and (max-width: 767px) {
 
     .header {
@@ -1526,16 +1802,19 @@ section h3 {
     padding: 25px;
     width: fit-content;
     left: 50%;
+    margin: 5px;
    }
+  
    
    .popup .row p:last-child,.popup .row p{
     font-size: 12px;
    }
    .earn-info{
-    top: 95%;
+    top: 90%;
     padding: 20px;
     width: fit-content;
     left: 50%;
+    margin: 10px;
    }
    .earn-info .boxes{
     flex-direction: column;
@@ -1562,6 +1841,8 @@ section h3 {
    .approve-box{
     width: 350px;
     gap: 20px;
+    top: 40%;
+    left: 46%;
    }
 
    .approve-box .buttons button{
