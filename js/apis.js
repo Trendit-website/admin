@@ -4,7 +4,7 @@
 // endpoints
 async function fetchUsers() {
     try {
-      const response = await fetch('https://api.trendit3.com/api/admin/users', {
+      const response = await fetch('https://api.trendit3.com/api/admin//', {
         method: 'GET',
       });
       const responseData = await response.json();
@@ -82,8 +82,6 @@ async function fetchUsers() {
   // Call the fetchDashboardData function when the page loads
   document.addEventListener('DOMContentLoaded', fetchDashboardData);
   
-
-
 
 
 
