@@ -1841,7 +1841,7 @@ section h3 {
     text-align: left;
    }
    .earn-info .popup-box{
-    max-width: 320px;
+    max-width: 350px;
     
    }
    .earn-info .boxes .first-box .link .visit-link p{
@@ -1852,16 +1852,37 @@ section h3 {
     flex-direction: column;
     gap: 25px;
    }
-   .earn-info .boxes .first-box, .second-box{
-    min-width: 300px;
+   .earn-info .boxes {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .earn-info .boxes .first-box,
+  .earn-info .boxes .second-box {
+    min-width: 350px; /* Adjust as needed */
     min-height: 320px;
     gap: 30px;
-   }
-   
-   .earn-info .boxes .second-box{
-    max-width: 320x;
-   }
-   
+  }
+  
+  .earn-info .boxes .second-box {
+    max-width: 350px; /* Adjust as needed */
+  }
+  
+  .earn-info .popup-box {
+    display: flex;
+    align-items: center;
+    background-color: #000;
+    text-align: left;
+    overflow: hidden;
+    position: relative;
+    justify-content: space-between;
+    min-width: 280px; /* Adjust as needed */
+    transition: 0.5s ease-in-out;
+  }
+  
    .earn-info .boxes .first-box p{
     text-align: left;
    }
@@ -1877,12 +1898,14 @@ section h3 {
     padding: 15px 10px;
    }
    .approve-box{
-    width: 350px;
+    width: 345px;
+    height: min-content ;
     gap: 20px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
+    position: fixed;
    }
 
    .approve-box .buttons button{
