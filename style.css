@@ -1840,10 +1840,10 @@ section h3 {
    .earn-info .text{
     text-align: left;
    }
-   /* .earn-info .popup-box{
-    width: 300px;
+   .earn-info .popup-box{
+    max-width: 320px;
     
-   } */
+   }
    .earn-info .boxes .first-box .link .visit-link p{
     white-space: nowrap;
    }
@@ -1856,6 +1856,10 @@ section h3 {
     min-width: 300px;
     min-height: 320px;
     gap: 30px;
+   }
+   
+   .earn-info .boxes .second-box{
+    max-width: 320x;
    }
    
    .earn-info .boxes .first-box p{
