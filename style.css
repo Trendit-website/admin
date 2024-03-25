@@ -1840,6 +1840,10 @@ section h3 {
    .earn-info .text{
     text-align: left;
    }
+   .earn-info .popup-box{
+    width: 300px;
+    
+   }
    .earn-info .boxes .first-box .link .visit-link p{
     white-space: nowrap;
    }
@@ -1853,15 +1857,16 @@ section h3 {
     min-height: 320px;
     gap: 30px;
    }
-   .earn-info .second-box{
-    max-width: 330px;
-   }
+   
    .earn-info .boxes .first-box p{
     text-align: left;
    }
    .earn-info .second-box button{
     text-wrap: nowrap;
     white-space: nowrap;
+   }
+   .earn-info .second-box {
+    width: 320px;
    }
    .earn-info  .bottom{
     padding: 0 15px;
