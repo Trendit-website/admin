@@ -1812,10 +1812,10 @@ section h3 {
 
    .popup{
     padding: 25px;
-    width: fit-content;
+    width: min-content;
     left: 50%;
     margin: 5px;
-    top: 70%;
+    top: 10%;
     transform: translateX(-50%);
     position: absolute;
    }
@@ -1825,9 +1825,9 @@ section h3 {
     font-size: 12px;
    }
    .earn-info{
-    top: 70%;
+    top: 10%;
     padding: 20px;
-    width: fit-content;
+    width:min-content;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
