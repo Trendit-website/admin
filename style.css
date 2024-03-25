@@ -1845,6 +1845,9 @@ section h3 {
     min-width: 300px;
     
    }
+   .popup .popup-box{
+    min-width: 300px;
+   }
    .earn-info .boxes .first-box .link .visit-link p{
     white-space: nowrap;
    }
