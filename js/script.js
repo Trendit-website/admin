@@ -1,5 +1,5 @@
 // const { getAllUsers, displayAllUsers } = require('./backend.js');
-import { getAllUsers, displayAllUsers } from './backend.js';
+// import { getAllUsers, displayAllUsers } from './backend.js';
     
 document.addEventListener("DOMContentLoaded", function() {
     var hamburgerMenu = document.querySelector('.hamburger');
