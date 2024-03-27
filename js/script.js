@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 // Function to fetch and display user data
-
+    displayAllUsers(getAllUsers());
     
   });
   // Function to close Earn Appeal Popup
