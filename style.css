@@ -459,7 +459,11 @@ section h3 {
     display: flex;
     align-items: center;
     border-radius: 8px;
-    gap: 12px;
+    gap: 4px;
+      
+}
+  .green-btn  {
+    margin-left: 120px;
       
 }
   .popup .popup-box2 .buttons button {
@@ -497,16 +501,13 @@ section h3 {
 
 .popup .popup-box2 .car-info{
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
   font-size: 14px;
   gap: 12px;
-  padding: 0 10px;
-  
+  padding:0  10px;
+  margin: 10px;
 }
-.popup .popup-box2 .save-btn{
-  margin-left:115px;
-}
+
 
 .popup .popup-box2 .car-info #fade{
   color: #b1b1b1;
@@ -688,6 +689,7 @@ section h3 {
     font-weight: 500;
     border: none;
     gap: 8px;
+    align-self: center;
     width: 290px;
     border-radius: 100px;
     cursor: pointer;
@@ -1858,12 +1860,14 @@ section h3 {
     
    }
    .popup .popup-box2 .box1 {
-    left: -90px;
+    padding: 10px;
+    min-width: fit-content;
+    margin: 0;
   }
 
   
    .popup .popup-box2 .car-info{
-    margin:0 20px;
+  
    }
  
    .popup .popup-box{
@@ -1895,6 +1899,9 @@ section h3 {
     white-space: nowrap;
    }
 
+.green-btn  {
+    margin-left: 30px;
+}
    .earn-info  .bottom{
     padding: 0 15px;
    }

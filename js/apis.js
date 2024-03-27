@@ -3,6 +3,8 @@
 ///
 // endpoints
 
+
+
 async function fetchUsers() {
   try {
       const response = await fetch('http://localhost:5000/users');
@@ -30,30 +32,30 @@ async function fetchUsers() {
 
 fetchUsers();
 
-async function fetchDashboardData() {
-  try {
-      const response = await fetch('http://localhost:5000/dashboard_data', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          }
-      });
-      const data = await response.json();
+// async function fetchDashboardData() {
+//   try {
+//       const response = await fetch('http://localhost:5000/dashboard_data', {
+//           method: 'POST',
+//           headers: {
+//               'Content-Type': 'application/json'
+//           }
+//       });
+//       const data = await response.json();
 
-      // Populate dashboard data
-      document.getElementById('walletBalanceAmount').innerText = data.total_received_payments;
-      document.getElementById('totalPayoutsAmount').innerText = data.total_payouts;
-      document.getElementById('noOfEarners').querySelector('h6').innerText = Object.values(data.received_payments_per_month).reduce((acc, val) => acc + val, 0);
-      document.getElementById('noOfAdvertisers').querySelector('h6').innerText = Object.values(data.payouts_per_month).reduce((acc, val) => acc + val, 0);
-      document.getElementById('noOfApprovedAds').querySelector('h6').innerText = Object.values(data.payment_activities_per_month).reduce((acc, val) => acc + val, 0);
-      document.getElementById('noOfAffiliateResell').querySelector('h6').innerText = Object.values(data.payment_activities_per_month).reduce((acc, val) => acc + val, 0);
+//       // Populate dashboard data
+//       document.getElementById('walletBalanceAmount').innerText = data.total_received_payments;
+//       document.getElementById('totalPayoutsAmount').innerText = data.total_payouts;
+//       document.getElementById('noOfEarners').querySelector('h6').innerText = Object.values(data.received_payments_per_month).reduce((acc, val) => acc + val, 0);
+//       document.getElementById('noOfAdvertisers').querySelector('h6').innerText = Object.values(data.payouts_per_month).reduce((acc, val) => acc + val, 0);
+//       document.getElementById('noOfApprovedAds').querySelector('h6').innerText = Object.values(data.payment_activities_per_month).reduce((acc, val) => acc + val, 0);
+//       document.getElementById('noOfAffiliateResell').querySelector('h6').innerText = Object.values(data.payment_activities_per_month).reduce((acc, val) => acc + val, 0);
 
-  } catch (error) {
-      console.error('Failed to fetch dashboard data:', error);
-  }
-}
+//   } catch (error) {
+//       console.error('Failed to fetch dashboard data:', error);
+//   }
+// }
 
-fetchDashboardData();
+// fetchDashboardData();
 
 // Base URL: https://api.trendit3.com/
 
