@@ -1,5 +1,6 @@
-const { getAllUsers, displayAllUsers } = require('./backend.js');
-
+// const { getAllUsers, displayAllUsers } = require('./backend.js');
+import { getAllUsers, displayAllUsers } from './backend.js';
+    
 document.addEventListener("DOMContentLoaded", function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
