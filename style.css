@@ -959,7 +959,7 @@ section h3 {
     gap: 5px;
   
   }
-  .earn-info .boxes .first-box .link .visit-link p{
+  .earn-info .boxes .first-box .link .visit-link a{
     color: #ff6dfb;
   }
   .earn-info .boxes .first-box .notification {
@@ -1866,14 +1866,12 @@ section h3 {
   }
 
   
-   .popup .popup-box2 .car-info{
-  
-   }
+    
  
    .popup .popup-box{
     min-width: 300px;
    }
-   .earn-info .boxes .first-box .link .visit-link p{
+   .earn-info .boxes .first-box .link .visit-link a{
     white-space: nowrap;
    }
    
