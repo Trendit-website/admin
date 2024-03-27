@@ -198,4 +198,4 @@ function fetchMoreUsers(page) {
 
 //-------------------------- Export Functions ------------------------------------//
 
-module.exports = { getAllUsers, displayAllUsers };
+// module.exports = { getAllUsers, displayAllUsers };
