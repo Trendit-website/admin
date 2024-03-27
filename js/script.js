@@ -12,6 +12,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 document.addEventListener("DOMContentLoaded", function() {
+    // Function to fetch and display user data
+    displayAllUsers(getAllUsers());
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
     const boxes = document.querySelectorAll(".box1");
     const earnBoxes = document.querySelectorAll(".earn-container .box1");
     const popup = document.querySelector(".popup");
@@ -86,8 +92,7 @@ document.addEventListener("DOMContentLoaded", function() {
       overlay2.style.display = "none";
     }
 
-// Function to fetch and display user data
-    displayAllUsers(getAllUsers());
+
     
   });
   // Function to close Earn Appeal Popup
