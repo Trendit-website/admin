@@ -31,8 +31,12 @@
                     },
                     body: JSON.stringify({ token: token })
                 })
-                .then(response => {
-                    if (response.ok) {
+                .then(response => response.json())
+                .then(data => {
+                    if (data.access_token) {
+                        // Save the access token to localStorage
+                        localStorage.setItem('accessToken', data.access_token);
+                        // Redirect to the predefined URL upon successful verification
                         window.location.href = successRedirectUrl;
                     } else {
                         document.getElementById('status').textContent = 'Verification failed. Please try again or contact support.';
