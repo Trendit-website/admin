@@ -1,3 +1,5 @@
+const { getAllUsers, displayAllUsers } = require('./functions.js');
+
 document.addEventListener("DOMContentLoaded", function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
