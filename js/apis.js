@@ -4,40 +4,27 @@
 // endpoints
 
 async function fetchUsers() {
-  try {
-    const response = await fetch('https://api.trendit3.com/api/admin/users', {
-      method: 'GET',
-    });
-    const responseData = await response.json();
+  const response = await fetch('http://localhost:5000/users');
+  const data = await response.json();
 
-    console.log('API Response:', responseData);
+  const users = data.users;
 
-    if (responseData.status === 'success') {
-      const users = responseData.users;
+  // Populate data for user 1
+  document.getElementById('user1-name').innerText = users[0].name;
+  document.getElementById('user1-email').innerText = users[0].email;
+  document.getElementById('user1-earning').innerText = users[0].earning;
+  document.getElementById('user1-advertise').innerText = users[0].advertise;
+  document.getElementById('user1-date').innerText = users[0].date;
 
-      // Loop through each user and update HTML elements
-      users.forEach((user, index) => {
-        const userBox = document.getElementById(`user${index + 1}`);
-        if (!userBox) return;
-
-        userBox.querySelector('.name-email #user-name').textContent = `${user.firstname} ${user.lastname}`;
-        userBox.querySelector('.name-email #user-email').textContent = user.email;
-        userBox.querySelector('.earning #user-earning').textContent = user.wallet.balance;
-        userBox.querySelector('.advertise #user-advertise').textContent = user.wallet.balance; // Adjust as needed
-        userBox.querySelector('.right #user-date').textContent = new Date(user.date_joined).toDateString(); // Adjust as needed
-      });
-    } else {
-      console.error('Error fetching users:', responseData.message);
-    }
-  } catch (error) {
-    console.error('Error fetching users:', error);
-  }
+  // Populate data for user 2
+  document.getElementById('user2-name').innerText = users[1].name;
+  document.getElementById('user2-email').innerText = users[1].email;
+  document.getElementById('user2-earning').innerText = users[1].earning;
+  document.getElementById('user2-advertise').innerText = users[1].advertise;
+  document.getElementById('user2-date').innerText = users[1].date;
 }
 
-document.addEventListener('DOMContentLoaded', fetchUsers);
-
-
-
+fetchUsers();
 
 // Base URL: https://api.trendit3.com/
 
