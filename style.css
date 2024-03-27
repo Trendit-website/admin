@@ -504,6 +504,10 @@ section h3 {
   padding: 0 10px;
   
 }
+.popup .popup-box2 .save-btn{
+  margin-left:115px;
+}
+
 .popup .popup-box2 .car-info #fade{
   color: #b1b1b1;
   font-size: 14px;
@@ -1856,6 +1860,7 @@ section h3 {
    .popup .popup-box2 .box1 {
     left: -90px;
   }
+
   
    .popup .popup-box2 .car-info{
     margin:0 20px;

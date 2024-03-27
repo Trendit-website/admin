@@ -1,96 +1,73 @@
 
 //https://api.trendit3.com/
-
+///
 // endpoints
+
 async function fetchUsers() {
-    try {
-      const response = await fetch('https://api.trendit3.com/api/admin//', {
-        method: 'GET',
+  try {
+    const response = await fetch('https://api.trendit3.com/api/admin/users', {
+      method: 'GET',
+    });
+    const responseData = await response.json();
+
+    console.log('API Response:', responseData);
+
+    if (responseData.status === 'success') {
+      const users = responseData.users;
+
+      // Loop through each user and update HTML elements
+      users.forEach((user, index) => {
+        const userBox = document.getElementById(`user${index + 1}`);
+        if (!userBox) return;
+
+        userBox.querySelector('.name-email #user-name').textContent = `${user.firstname} ${user.lastname}`;
+        userBox.querySelector('.name-email #user-email').textContent = user.email;
+        userBox.querySelector('.earning #user-earning').textContent = user.wallet.balance;
+        userBox.querySelector('.advertise #user-advertise').textContent = user.wallet.balance; // Adjust as needed
+        userBox.querySelector('.right #user-date').textContent = new Date(user.date_joined).toDateString(); // Adjust as needed
       });
-      const responseData = await response.json();
-  
-      console.log('API Response:', responseData);
-  
-      if (responseData.status === 'success') {
-        const users = responseData.users;
-  
-        // Loop through each user and update HTML elements
-        users.forEach((user, index) => {
-          const userBox = document.getElementById(`user${index + 1}`);
-          if (!userBox) return;
-  
-          userBox.querySelector('.name-email #user-name').textContent = `${user.firstname} ${user.lastname}`;
-          userBox.querySelector('.name-email #user-email').textContent = user.email;
-          userBox.querySelector('.earning #user-earning').textContent = user.wallet.balance;
-          userBox.querySelector('.advertise #user-advertise').textContent = user.wallet.balance; // Adjust as needed
-          userBox.querySelector('.right #user-date').textContent = new Date(user.date_joined).toDateString(); // Adjust as needed
-        });
-      } else {
-        console.error('Error fetching users:', responseData.message);
-      }
-    } catch (error) {
-      console.error('Error fetching users:', error);
+    } else {
+      console.error('Error fetching users:', responseData.message);
     }
+  } catch (error) {
+    console.error('Error fetching users:', error);
   }
-  
-  document.addEventListener('DOMContentLoaded', fetchUsers);
-  
-  //dashboard
+}
 
-  async function fetchDashboardData() {
-    try {
-      const response = await fetch('https://api.trendit3.com/dashboard_data', {
-        method: 'POST'
-      });
-      const responseData = await response.json();
-  
-      console.log('Dashboard Data:', responseData);
-  
-      // Check if request was successful
-      if (responseData.status === 'success') {
-        // Update Wallet Balance Box
-        const walletBalanceBox = document.getElementById('selected');
-        walletBalanceBox.querySelector('h6').textContent = `NGN ${responseData.total_received_payments}`;
-        
-        // Update Total Payouts Box
-        const totalPayoutsBox = document.getElementById('totalPayouts');
-        totalPayoutsBox.querySelector('h6').textContent = `NGN ${responseData.total_payouts}`;
-        
-        // Update No of Earners Box
-        const noOfEarnersBox = document.getElementById('noOfEarners');
-        noOfEarnersBox.querySelector('h6').textContent = responseData.payment_activities_per_month["2023-01"];
-        
-        // Update No of Advertisers Box
-        const noOfAdvertisersBox = document.getElementById('noOfAdvertisers');
-        noOfAdvertisersBox.querySelector('h6').textContent = responseData.payment_activities_per_month["2023-02"];
-        
-        // Update No of Approved Ads Box
-        const noOfApprovedAdsBox = document.getElementById('noOfApprovedAds');
-        noOfApprovedAdsBox.querySelector('h6').textContent = responseData.payment_activities_per_month["2023-03"];
-        
-        // Update No of Affiliate Resell Box
-        const noOfAffiliateResellBox = document.getElementById('noOfAffiliateResell');
-        noOfAffiliateResellBox.querySelector('h6').textContent = responseData.received_payments_per_month["2023-01"];
-      } else {
-        console.error('Error fetching dashboard data:', responseData.message);
-      }
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-    }
-  }
-  
-  // Call the fetchDashboardData function when the page loads
-  document.addEventListener('DOMContentLoaded', fetchDashboardData);
-  
+document.addEventListener('DOMContentLoaded', fetchUsers);
 
 
 
-
-
-
-// The admin endpoints
 
 // Base URL: https://api.trendit3.com/
+
+
+// Dashboard Data:
+
+// Path: /dashboard_data
+// Method: POST
+// Sample response:
+
+// response_data = {
+//     "total_received_payments": 5000.0,
+//     "total_payouts": 3000.0,
+//     "received_payments_per_month": {
+//         "2023-01": 2000.0,
+//         "2023-02": 1500.0,
+//         "2023-03": 1500.0
+//     },
+//     "payouts_per_month": {
+//         "2023-01": 1000.0,
+//         "2023-02": 1000.0,
+//         "2023-03": 1000.0
+//     },
+//     "payment_activities_per_month": {
+//         "2023-01": 3,
+//         "2023-02": 2,
+//         "2023-03": 2
+//     }
+// }
+
 
 
 // Users - get all users:
@@ -288,7 +265,6 @@ async function fetchUsers() {
 //     "status": "success",
 //     "status_code": 200
 // }
-
 
 
 
