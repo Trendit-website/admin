@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Verify Email</title>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Define the base URL for the fetch request
@@ -52,8 +53,106 @@
         });
     </script>
 </head>
+<style>
+    body{
+        font-family:'Campton', sans-serif ;
+        background-color: black;
+        color: white;
+        height: 100vh;
+        box-sizing: border-box;
+    }
+    .container{
+        gap: 5px;
+    }
+    .input-field{
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 100px 0;
+        position: relative;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+    .input-field input{
+        height: 100%;
+        width: 100%;
+        border: none;
+        outline: none;
+        background-color: #212121;
+        border-radius: 4px;
+        font-size: 15px;
+        font-weight: 400;
+        padding: 10px 15px;
+        width: 300px;
+    }
+    input::placeholder{
+        color: #a3a3a3;
+    }
+    #status{
+        color: black;
+        bottom: 20px;
+        position: absolute;
+        padding: 15px;
+        font-size: 14px;
+        font-weight: 400;
+        background: #E5F0FF;
+        color: #1877F2;
+    }
+    h1{
+        font-family: 'Inter', sans-serif;
+        font-weight:800;
+        font-size: 35px;
+        text-align: center;
+        
+    }
+    .header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding:30PX ;
+    }
+    .header p{
+        font-size: 16PX;
+        font-weight: 500;
+    }
+   
+    button{
+        padding:12px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    gap: 8px;
+    align-self: center;
+    width: 150px;
+    border-radius: 100px;
+    cursor: pointer;
+    width: 280px;
+    color: #fff;
+    margin-top: 10px;
+    background-color: #ff6dfb
+    }
+    #text{
+        margin-top: -10px;
+        color: #a3a3a3;
+        font-family:'Inter', sans-serif ; ;
+    }
+</style>
 <body>
-    <h1>Email Verification</h1>
-    <p id="status">Verifying your email, please wait...</p>
+    <div class="container">
+        <div class="header">
+            <img src="./images/Logo_Default.png" >
+        <p>Go back</p>
+    </div>
+        
+    <div class="input-field">
+        <h1>Welcome <br> back, Admin</h1>
+        <p id="text">Login with registered email</p>
+        <p id="status"> Verifying your email, please wait...</p>
+        <form action="" method="get">
+            <input type="email" placeholder="Enter your email">
+        </form>
+        <button>Send login link</button>
+    </div>
+    </div>
 </body>
 </html>

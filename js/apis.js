@@ -1,4 +1,3 @@
-
 //https://api.trendit3.com/
 ///
 // endpoints
@@ -284,9 +283,175 @@ fetchUsers();
 //     "status_code": 200
 // }
 
+//<div id="tasks-container"></div>
+// function getAllTasks() {
+//   const tasksUrl = `${baseUrl}/tasks`;
+
+//   fetch(tasksUrl, {
+//     method: 'POST',
+//     headers: {
+//       'Authorization': `Bearer ${accessToken}`,
+//       'Content-Type': 'application/json'
+//     }
+//   })
+//   .then(response => {
+//     if (!response.ok) {
+//       throw new Error('Network response was not ok');
+//     }
+//     return response.json();
+//   })
+//   .then(data => {
+//     displayAllTasks(data);
+//   })
+//   .catch(error => {
+//     console.error('Error fetching tasks:', error);
+//   });
+// }
+
+// function displayAllTasks(data) {
+//   const tasks = data.tasks;
+//   const container = document.getElementById('tasks-container');
+
+//   tasks.forEach(task => {
+//     const taskBox = document.createElement('div');
+//     taskBox.classList.add('box1');
+
+//     // Task Information
+//     const taskInfo = document.createElement('div');
+//     taskInfo.classList.add('pending');
+
+//     const taskImage = document.createElement('img');
+//     taskImage.src = `./images/${task.platform}.png`; // Assuming platform images are named accordingly
+//     taskImage.alt = task.platform;
+
+//     const taskTitle = document.createElement('p');
+//     taskTitle.textContent = task.status.charAt(0).toUpperCase() + task.status.slice(1);
+
+//     taskInfo.appendChild(taskImage);
+//     taskInfo.appendChild(taskTitle);
+
+//     // Task Description
+//     const taskDescription = document.createElement('p');
+//     taskDescription.textContent = task.goal;
+
+//     // Task Date
+//     const taskDate = document.createElement('span');
+//     taskDate.textContent = new Date(task.date_created).toLocaleString();
+
+//     // Earning
+//     const earningDiv = document.createElement('div');
+//     earningDiv.classList.add('earning');
+
+//     const earningImage = document.createElement('img');
+//     earningImage.src = "./images/wallet.png";
+//     earningImage.width = "9px";
+//     earningImage.alt = "Earning Image";
+
+//     const earningSpan = document.createElement('span');
+//     earningSpan.textContent = 'Earning:';
+
+//     const earningValue = document.createElement('p');
+//     earningValue.textContent = `₦${task.engagements_count * 3} per ${task.task_type}`;
+
+//     earningDiv.appendChild(earningImage);
+//     earningDiv.appendChild(earningSpan);
+//     earningDiv.appendChild(earningValue);
+
+//     // Append all elements to taskBox
+//     taskBox.appendChild(taskInfo);
+//     taskBox.appendChild(taskDescription);
+//     taskBox.appendChild(taskDate);
+//     taskBox.appendChild(earningDiv);
+
+//     // Add event listeners for approval and rejection
+//     const approveButton = document.createElement('button');
+//     approveButton.textContent = 'Approve Task';
+//     approveButton.addEventListener('click', () => {
+//       approveTask(task.id);
+//     });
+
+//     const rejectButton = document.createElement('button');
+//     rejectButton.textContent = 'Reject Task';
+//     rejectButton.addEventListener('click', () => {
+//       rejectTask(task.id);
+//     });
+
+//     taskBox.appendChild(approveButton);
+//     taskBox.appendChild(rejectButton);
+
+//     container.appendChild(taskBox);
+//   });
+// }
+
+// // Function to approve a task
+// function approveTask(taskId) {
+//   const url = `${baseUrl}/approve-task/${taskId}`;
+
+//   fetch(url, {
+//     method: 'POST',
+//     headers: {
+//       'Authorization': `Bearer ${accessToken}`,
+//       'Content-Type': 'application/json'
+//     }
+//   })
+//   .then(response => {
+//     if (!response.ok) {
+//       throw new Error('Failed to approve task');
+//     }
+//     return response.json();
+//   })
+//   .then(data => {
+//     displayNotification('Task Approved Successfully', 'success');
+//   })
+//   .catch(error => {
+//     console.error('Error approving task:', error);
+//     displayNotification('Error Approving Task', 'error');
+//   });
+// }
+
+// // Function to reject a task
+// function rejectTask(taskId) {
+//   const url = `${baseUrl}/reject-task/${taskId}`;
+
+//   fetch(url, {
+//     method: 'POST',
+//     headers: {
+//       'Authorization': `Bearer ${accessToken}`,
+//       'Content-Type': 'application/json'
+//     }
+//   })
+//   .then(response => {
+//     if (!response.ok) {
+//       throw new Error('Failed to reject task');
+//     }
+//     return response.json();
+//   })
+//   .then(data => {
+//     displayNotification('Task Rejected Successfully', 'success');
+//   })
+//   .catch(error => {
+//     console.error('Error rejecting task:', error);
+//     displayNotification('Error Rejecting Task', 'error');
+//   });
+// }
+
+// function displayNotification(message, status) {
+//   const notificationBox = document.createElement('div');
+//   notificationBox.classList.add('notification-box');
+//   notificationBox.classList.add(status);
+
+//   const messageParagraph = document.createElement('p');
+//   messageParagraph.textContent = message;
+
+//   notificationBox.appendChild(messageParagraph);
+
+//   document.body.insertBefore(notificationBox, document.body.firstChild);
+
+//   setTimeout(() => {
+//     notificationBox.remove();
+//   }, 3000);
 
 
-
-
+// }
 
   
