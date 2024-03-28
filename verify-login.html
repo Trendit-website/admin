@@ -40,7 +40,7 @@
                         // Redirect to the predefined URL upon successful verification
                         window.location.href = successRedirectUrl;
                     } else {
-                        document.getElementById('status').textContent = 'Verification failed. Please try again or contact support.';
+                        document.getElementById('status').textContent = data.message;
                     }
                 })
                 .catch(error => {
@@ -145,13 +145,13 @@
     </div>
         
     <div class="input-field">
-        <h1>Welcome <br> back, Admin</h1>
-        <p id="text">Login with registered email</p>
+<!--         <h1>Welcome <br> back, Admin</h1> -->
+<!--         <p id="text">Login with registered email</p> -->
         <p id="status"> Verifying your email, please wait...</p>
-        <form action="" method="get">
+<!--         <form action="" method="get">
             <input type="email" placeholder="Enter your email">
         </form>
-        <button>Send login link</button>
+        <button>Send login link</button> -->
     </div>
     </div>
 </body>
