@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Email</title>
+    <style>
+      body{
+          font-family:'Campton', sans-serif ;
+          background-color: black;
+          color: white;
+          height: 100vh;
+          box-sizing: border-box;
+      }
+      .container{
+          gap: 5px;
+      }
+      .input-field{
+          flex-direction: column;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 100px 0;
+          position: relative;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      }
+      .input-field input{
+          height: 100%;
+          width: 100%;
+          border: none;
+          outline: none;
+          background-color: #212121;
+          border-radius: 4px;
+          font-size: 15px;
+          font-weight: 400;
+          padding: 10px 15px;
+          width: 300px;
+      }
+      input::placeholder{
+          color: #a3a3a3;
+      }
+      #status{
+          color: black;
+          bottom: 20px;
+          position: absolute;
+          padding: 15px;
+          font-size: 14px;
+          font-weight: 400;
+          background: #E5F0FF;
+          color: #1877F2;
+      }
+      h1{
+          font-family: 'Inter', sans-serif;
+          font-weight:800;
+          font-size: 35px;
+          text-align: center;
+          
+      }
+      .header{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding:30PX ;
+      }
+      .header p{
+          font-size: 16PX;
+          font-weight: 500;
+      }
+     
+      button{
+          padding:12px 24px;
+      font-size: 13px;
+      font-weight: 500;
+      border: none;
+      gap: 8px;
+      align-self: center;
+      width: 150px;
+      border-radius: 100px;
+      cursor: pointer;
+      width: 280px;
+      color: #fff;
+      margin-top: 10px;
+      background-color: #ff6dfb
+      }
+      #text{
+          margin-top: -10px;
+          color: #a3a3a3;
+          font-family:'Inter', sans-serif ; ;
+      }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="./images/Logo_Default.png" >
+            <p>Go back</p>
+        </div>
+        
+        <div class="input-field">
+            <h1>Welcome <br> back, Admin</h1>
+            <p id="text">Login with registered email</p>            
+            <p id="status" style="display: none;"></p>
+            <form style="display: flex; flex-direction: column;" id="emailForm">
+<!--            <label for="email" id="text">Login with registered email</label> -->
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+                <button type="submit" id="submitButton">Send login link</button>
+            </form>
+            
+        </div>
+    </div>
+      <script>
+          document.getElementById("emailForm").addEventListener("submit", function(event) {
+          event.preventDefault(); // Prevent default form submission
+
+          // Define the base URL for the fetch request
+          const baseUrl = 'https://api.trendit3.com/api/admin';
+    
+          var email = document.getElementById("email").value;
+          // Construct the full URL for the verification request
+          const verifyUrl = `${baseUrl}/admin-login`;
+    
+          // Sending POST request to the endpoint
+          fetch(verifyUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email: email })
+          })
+          .then(response => {
+            if (response.ok) {
+              // If response is successful, display a message to the user
+              document.getElementById("status").textContent = "Verification email sent.";
+            } else {
+              // If response is not successful, display an error message
+              document.getElementById("status").textContent = "Error sending verification email. Please try again later.";
+            }
+          })
+          .catch(error => {
+            console.error("Error:", error);
+            document.getElementById("status").textContent = "An unexpected error occurred. Please try again later.";
+          });
+        });
+    </script>
+</body>
+</html>
