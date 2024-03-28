@@ -97,10 +97,10 @@
         
         <div class="input-field">
             <h1>Welcome <br> back, Admin</h1>
-            
-            <p id="status"></p>
-            <form id="emailForm">
-                <label for="email" id="text">Login with registered email</label>
+            <p id="text">Login with registered email</p>            
+            <p id="status" style="display: none;"></p>
+            <form style="display: flex; flex-direction: column;" id="emailForm">
+<!--            <label for="email" id="text">Login with registered email</label> -->
                 <input type="email" id="email" name="email" placeholder="Enter your email">
                 <button type="submit" id="submitButton">Send login link</button>
             </form>
