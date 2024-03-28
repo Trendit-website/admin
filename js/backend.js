@@ -121,6 +121,36 @@ function displayAllUsers(data) {
 }
 
 
+function createAdmin(email) {
+  
+  const formData = new FormData();
+  formData.append('email', email);
+
+  // Construct the full URL for the verification request
+  const createAdminUrl = `${baseUrl}/create_junior_admin`;
+  
+  fetch(createAdminUrl, {
+    method:'POST',
+    body: formData,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response=> {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    // subject to change
+    return response.json();
+    
+  })
+  .catch((error) => {
+    console.error('Error', error);
+  });
+}
+
+
 
 
 
