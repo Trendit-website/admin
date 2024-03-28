@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 //const { getAllUsers, displayAllUsers } = require('./backend.js');
 
+=======
+// const { getAllUsers, displayAllUsers } = require('./backend.js');
+// import { getAllUsers, displayAllUsers } from './backend.js';
+    
+>>>>>>> 34a54bd75ca4415993cf00f7de1873ff7acb54a8
 document.addEventListener("DOMContentLoaded", function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
@@ -7,6 +13,12 @@ document.addEventListener("DOMContentLoaded", function() {
     hamburgerMenu.addEventListener('click', function() {
         navBar.classList.toggle('active');
     });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Function to fetch and display user data
+    displayAllUsers(getAllUsers());
 });
 
 
@@ -85,7 +97,6 @@ document.addEventListener("DOMContentLoaded", function() {
       overlay2.style.display = "none";
     }
 
-// Function to fetch and display user data
 
     
   });

@@ -4,32 +4,32 @@
 
 
 
-async function fetchUsers() {
-  try {
-      const response = await fetch('http://localhost:5000/users');
-      const data = await response.json();
+// async function fetchUsers() {
+//   try {
+//       const response = await fetch('http://localhost:5000/users');
+//       const data = await response.json();
 
-      const users = data.users;
+//       const users = data.users;
 
-      // Populate data for user 1
-      document.getElementById('user1-name').innerText = users[0].name;
-      document.getElementById('user1-email').innerText = users[0].email;
-      document.getElementById('user1-earning').innerText = users[0].earning;
-      document.getElementById('user1-advertise').innerText = users[0].advertise;
-      document.getElementById('user1-date').innerText = users[0].date;
+//       // Populate data for user 1
+//       document.getElementById('user1-name').innerText = users[0].name;
+//       document.getElementById('user1-email').innerText = users[0].email;
+//       document.getElementById('user1-earning').innerText = users[0].earning;
+//       document.getElementById('user1-advertise').innerText = users[0].advertise;
+//       document.getElementById('user1-date').innerText = users[0].date;
 
-      // Populate data for user 2
-      document.getElementById('user2-name').innerText = users[1].name;
-      document.getElementById('user2-email').innerText = users[1].email;
-      document.getElementById('user2-earning').innerText = users[1].earning;
-      document.getElementById('user2-advertise').innerText = users[1].advertise;
-      document.getElementById('user2-date').innerText = users[1].date;
-  } catch (error) {
-      console.error('Failed to fetch users:', error);
-  }
-}
+//       // Populate data for user 2
+//       document.getElementById('user2-name').innerText = users[1].name;
+//       document.getElementById('user2-email').innerText = users[1].email;
+//       document.getElementById('user2-earning').innerText = users[1].earning;
+//       document.getElementById('user2-advertise').innerText = users[1].advertise;
+//       document.getElementById('user2-date').innerText = users[1].date;
+//   } catch (error) {
+//       console.error('Failed to fetch users:', error);
+//   }
+// }
 
-fetchUsers();
+// fetchUsers();
 
 // async function fetchDashboardData() {
 //   try {
