@@ -92,18 +92,54 @@
     <div class="container">
         <div class="header">
             <img src="./images/Logo_Default.png" >
-        <p>Go back</p>
-    </div>
+            <p>Go back</p>
+        </div>
         
-    <div class="input-field">
-        <h1>Welcome <br> back, Admin</h1>
-        <p id="text">Login with registered email</p>
-        <p id="status"> Verifying your email, please wait...</p>
-        <form action="" method="get">
-            <input type="email" placeholder="Enter your email">
-        </form>
-        <button>Send login link</button>
+        <div class="input-field">
+            <h1>Welcome <br> back, Admin</h1>
+            
+            <p id="status"></p>
+            <form id="emailForm">
+                <label for="email" id="text">Login with registered email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+                <button type="submit" id="submitButton">Send login link</button>
+            </form>
+            
+        </div>
     </div>
-    </div>
+      <script>
+          document.getElementById("emailForm").addEventListener("submit", function(event) {
+          event.preventDefault(); // Prevent default form submission
+
+          // Define the base URL for the fetch request
+          const baseUrl = 'https://api.trendit3.com/api/admin';
+    
+          var email = document.getElementById("email").value;
+          // Construct the full URL for the verification request
+          const verifyUrl = `${baseUrl}/admin-login`;
+    
+          // Sending POST request to the endpoint
+          fetch(verifyUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email: email })
+          })
+          .then(response => {
+            if (response.ok) {
+              // If response is successful, display a message to the user
+              document.getElementById("status").textContent = "Verification email sent.";
+            } else {
+              // If response is not successful, display an error message
+              document.getElementById("status").textContent = "Error sending verification email. Please try again later.";
+            }
+          })
+          .catch(error => {
+            console.error("Error:", error);
+            document.getElementById("status").textContent = "An unexpected error occurred. Please try again later.";
+          });
+        });
+    </script>
 </body>
 </html>
