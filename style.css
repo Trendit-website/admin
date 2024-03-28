@@ -698,6 +698,21 @@ section h3 {
     margin-top: 20px;
     background-color: #13bf62;
   }
+  .invite-cancel{
+    padding:12px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    gap: 8px;
+    align-self: center;
+    width: 290px;
+    border-radius: 100px;
+    cursor: pointer;
+    width: 280px;
+    color: #fff;
+    margin-top: 20px;
+    background-color: #FF6DFB;
+  }
   
   .overlay {
     position: fixed;
@@ -1369,6 +1384,7 @@ section h3 {
     display: inline-flex;
     align-items: center;
     width: 100%;
+    
 }
 
 .add-email input {
@@ -1376,13 +1392,13 @@ section h3 {
     padding: 0;
     border: none;
     outline: none;
-    text-transform: capitalize;
 }
 
 .invite-text {
     color: #ccc;
     font-size: 14px;
    right: 12px;
+   cursor: pointer;
    
    position: absolute;
 }
@@ -1604,7 +1620,7 @@ section h3 {
     white-space: nowrap;
    }
    .earn-info .second-box {
-    min-width: 370px;
+    min-width: 350px;
    }
    .earn-info  .bottom{
     padding: 0 15px;

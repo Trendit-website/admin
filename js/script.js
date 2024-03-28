@@ -1,11 +1,11 @@
-<<<<<<< HEAD
+//HEAD
 //const { getAllUsers, displayAllUsers } = require('./backend.js');
 
-=======
+
 // const { getAllUsers, displayAllUsers } = require('./backend.js');
 // import { getAllUsers, displayAllUsers } from './backend.js';
     
->>>>>>> 34a54bd75ca4415993cf00f7de1873ff7acb54a8
+//34a54bd75ca4415993cf00f7de1873ff7acb54a8
 document.addEventListener("DOMContentLoaded", function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
@@ -36,7 +36,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const approveCancelBtns = document.querySelectorAll(".approve-box .cancel-btn");
     const earnInfo = document.querySelector(".earn-info");
     const goBackBtn = document.querySelector(".back");
-  
+    const inviteBtn = document.getElementById('inviteBtn');
+    const inviteCancel = document.querySelectorAll('.invite-cancel');
+    
+    
+
+
     boxes.forEach(box => {
       box.addEventListener("click", function() {
         popup.style.display = "block";
@@ -61,6 +66,10 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     });
   
+    inviteBtn.addEventListener("click", function() {
+      showApproveBox();
+    });
+
     goBackBtn.addEventListener("click", function() {
       hideearnInfo();
     });
@@ -126,7 +135,23 @@ document.getElementById("ad-approval-cancel-btn").addEventListener("click", func
 });
 
   
-  
+// Function to show the popup
+function showPopup() {
+  overlay.style.display = 'block';
+  popup.style.display = 'block';
+}
+
+// Function to hide the popup
+function hidePopup() {
+  overlay.style.display = 'none';
+  popup.style.display = 'none';
+}
+
+// Event listener for the "Invite" button to show the popup
+inviteBtn.addEventListener('click', showPopup);
+
+// Event listener for the cancel button to hide the popup
+cancelButton.addEventListener('click', hidePopup);
   
 
 
