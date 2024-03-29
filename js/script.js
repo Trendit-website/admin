@@ -13,16 +13,10 @@ document.addEventListener("DOMContentLoaded", function() {
     hamburgerMenu.addEventListener('click', function() {
         navBar.classList.toggle('active');
     });
-});
 
-
-document.addEventListener("DOMContentLoaded", function() {
     // Function to fetch and display user data
     displayAllUsers(getAllUsers());
-});
 
-
-document.addEventListener("DOMContentLoaded", function() {
     const boxes = document.querySelectorAll(".box1");
     const earnBoxes = document.querySelectorAll(".earn-container .box1");
     const popup = document.querySelector(".popup");
@@ -84,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function() {
         hideApproveBox();
       });
     });
-  
+
     function showearnInfo() {
       earnInfo.style.display = "block";
       overlay.style.display = "block";
@@ -106,9 +100,26 @@ document.addEventListener("DOMContentLoaded", function() {
       overlay2.style.display = "none";
     }
 
+    // Event listeners for cancel buttons
+    document.getElementById("earn-appeal-cancel-btn").addEventListener("click", function() {
+      closeEarnAppealPopup();
+    });
+
+    document.getElementById("ad-approval-cancel-btn").addEventListener("click", function() {
+      closeAdApprovalPopup();
+    });
 
     
-  });
+    // Event listener for the "Invite" button to show the popup
+    inviteBtn.addEventListener('click', showPopup);
+
+    // Event listener for the cancel button to hide the popup
+    cancelButton.addEventListener('click', hidePopup);
+
+
+});
+
+
   // Function to close Earn Appeal Popup
 function closeEarnAppealPopup() {
   var earnAppealPopup = document.getElementById("earn-appeal-popup");
@@ -125,14 +136,7 @@ function closeAdApprovalPopup() {
   overlay2.style.display = "none";
 }
 
-// Event listeners for cancel buttons
-document.getElementById("earn-appeal-cancel-btn").addEventListener("click", function() {
-  closeEarnAppealPopup();
-});
 
-document.getElementById("ad-approval-cancel-btn").addEventListener("click", function() {
-  closeAdApprovalPopup();
-});
 
   
 // Function to show the popup
@@ -146,12 +150,6 @@ function hidePopup() {
   overlay.style.display = 'none';
   popup.style.display = 'none';
 }
-
-// Event listener for the "Invite" button to show the popup
-inviteBtn.addEventListener('click', showPopup);
-
-// Event listener for the cancel button to hide the popup
-cancelButton.addEventListener('click', hidePopup);
   
 
 
