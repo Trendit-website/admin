@@ -38,7 +38,9 @@
                 .then(data => {
                     if (data.access_token) {
                         // Save the access token to localStorage
-                        localStorage.setItem('accessToken', data.access_token);
+                        // localStorage.setItem('accessToken', data.access_token);
+                        setCookie('accessToken', data.access_token, 1);
+
                         // Redirect to the predefined URL upon successful verification
                         window.location.href = successRedirectUrl;
                     } else {
