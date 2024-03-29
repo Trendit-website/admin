@@ -15,8 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Function to fetch and display user data
-    data = getAllUsers();
-    console.log(data);
+    var data = getAllUsers();
     displayAllUsers(data);
 
     const boxes = document.querySelectorAll(".box1");

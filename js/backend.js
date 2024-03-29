@@ -10,7 +10,7 @@ function getAllUsers() {
   // Construct the full URL for the verification request
   const usersUrl = `${baseUrl}/users`;
   
-  fetch(usersUrl, {
+  return fetch(usersUrl, {
     method:'POST',
     // body: formData,
     headers: {
