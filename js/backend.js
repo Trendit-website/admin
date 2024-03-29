@@ -36,6 +36,7 @@ async function displayAllUsers(promise) {
 
         const response = await promise;
         const users = response.users;
+        console.log(users);
 
         // Get the container where the user information will be displayed
         const container = document.getElementById('users-container');
