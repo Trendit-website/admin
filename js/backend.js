@@ -1,14 +1,36 @@
 const baseUrl = 'https://api.trendit3.com/api/admin';
-const accessToken = localStorage.getItem('accessToken');
 
 
-function getAllUsers() {
+// Function to set cookie with dynamic expiry time
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Calculate expiry time
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+
+
+// Retrieve cookie
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+
+
+// get access token
+const accessToken = getCookie('accessToken');
+
+
+function getAllUsers(page=1) {
   
   // const formData = new FormData();
   // formData.append('item_type', 'item_type');
 
   // Construct the full URL for the verification request
-  const usersUrl = `${baseUrl}/users`;
+  const usersUrl = `${baseUrl}/users?page=${page}`;
   
   return fetch(usersUrl, {
     method:'POST',
@@ -176,7 +198,7 @@ const options = {
     threshold: 0.5 // Trigger when 50% of the target is visible
 };
 
-let currentPage = 1;
+let currentPage = 2;
 let isLoading = false;
 
 const observer = new IntersectionObserver((entries, observer) => {
@@ -184,57 +206,14 @@ const observer = new IntersectionObserver((entries, observer) => {
         if (entry.isIntersecting && !isLoading) {
             // Load more data when intersection occurs
             isLoading = true;
-            loadMoreUsers(currentPage);
+            // loadMoreUsers(currentPage);
+            // Function to fetch and display user data
+            var data = getAllUsers(currentPage);
+            displayAllUsers(data);
+            currentPage++;
         }
     });
 }, options);
 
 observer.observe(document.getElementById('load-more-trigger'));
 
-// Function to load more users
-function loadMoreUsers(page) {
-    // Simulated asynchronous data loading
-    setTimeout(() => {
-        // Assuming you have a function to fetch more data, let's call it fetchMoreUsers
-        fetchMoreUsers(page).then(response => {
-            displayUsers(response); // Display the newly loaded users
-            currentPage++; // Increment the current page counter
-            isLoading = false; // Reset loading state
-        }).catch(error => {
-            console.error('Error loading more users:', error);
-            isLoading = false; // Reset loading state even in case of error
-        });
-    }, 1000); // Simulated delay for loading
-}
-
-// Sample function to fetch more users (replace this with your actual function)
-function fetchMoreUsers(page) {
-    // Simulated asynchronous fetch
-    return new Promise((resolve, reject) => {
-        // Simulated JSON response
-        const jsonResponse = {
-            "message": "More users fetched successfully",
-            "status": "success",
-            "status_code": 200,
-            "total": 2,
-            "users": [
-                {
-                    // User data
-                },
-                {
-                    // Another user data
-                }
-            ]
-        };
-        resolve(jsonResponse);
-    });
-}
-
-
-//------------------------------------------ NOT Ready ----------------------------------------------//
-
-
-
-//-------------------------- Export Functions ------------------------------------//
-
-// module.exports = { getAllUsers, displayAllUsers };
