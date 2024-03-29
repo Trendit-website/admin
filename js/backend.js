@@ -38,7 +38,12 @@ async function displayAllUsers(promise) {
 
         const response = await promise;
         const users = response.users;
-        console.log(users);
+
+        // Check if the users array exists and is not empty
+        if (!users || users.length === 0) {
+            console.log("No users to display.");
+            return; // Exit the function if there are no users
+        }
 
         // Get the container where the user information will be displayed
         const container = document.getElementById('users-container');
