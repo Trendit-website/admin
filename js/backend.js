@@ -175,7 +175,7 @@ function createAdmin(email) {
 const options = {
     root: null,
     rootMargin: '0px',
-    threshold: 0.5 // Trigger when 50% of the target is visible
+    threshold: 0.2 // Trigger when 50% of the target is visible
 };
 
 let currentPage = 2;
