@@ -30,93 +30,101 @@ function getAllUsers() {
 }
 
 
-function displayAllUsers(data) {
-  const users = data.users;
-  
-  // Get the container where the user information will be displayed
-  const container = document.getElementById('users-container');
+async function displayAllUsers(promise) {
 
-    // Loop through each user in the response
-    users.forEach(user => {
-        // Create elements for the user information
-        const nameBox = document.createElement('div');
-        nameBox.classList.add('name-box');
+    try {
 
-        const nameDiv = document.createElement('div');
-        nameDiv.classList.add('name');
+        const response = await promise;
+        const users = response.users;
 
-        const userImage = document.createElement('img');
-        userImage.src = "./images/js.svg";
-        userImage.alt = "User Image";
+        // Get the container where the user information will be displayed
+        const container = document.getElementById('users-container');
 
-        const nameEmailDiv = document.createElement('div');
-        nameEmailDiv.classList.add('name-email');
+        // Loop through each user in the response
+        users.forEach(user => {
+            // Create elements for the user information
+            const nameBox = document.createElement('div');
+            nameBox.classList.add('name-box');
 
-        const nameParagraph = document.createElement('p');
-        nameParagraph.id = "highlight";
-        nameParagraph.textContent = user.firstname + ' ' + user.lastname;
+            const nameDiv = document.createElement('div');
+            nameDiv.classList.add('name');
 
-        const emailParagraph = document.createElement('p');
-        emailParagraph.textContent = user.email;
+            const userImage = document.createElement('img');
+            userImage.src = "./images/js.svg";
+            userImage.alt = "User Image";
 
-        nameEmailDiv.appendChild(nameParagraph);
-        nameEmailDiv.appendChild(emailParagraph);
+            const nameEmailDiv = document.createElement('div');
+            nameEmailDiv.classList.add('name-email');
 
-        nameDiv.appendChild(userImage);
-        nameDiv.appendChild(nameEmailDiv);
+            const nameParagraph = document.createElement('p');
+            nameParagraph.id = "highlight";
+            nameParagraph.textContent = user.firstname + ' ' + user.lastname;
 
-        const rightDiv = document.createElement('div');
-        rightDiv.classList.add('right');
+            const emailParagraph = document.createElement('p');
+            emailParagraph.textContent = user.email;
 
-        const earningDiv = document.createElement('div');
-        earningDiv.classList.add('earning');
+            nameEmailDiv.appendChild(nameParagraph);
+            nameEmailDiv.appendChild(emailParagraph);
 
-        const earningImage = document.createElement('img');
-        earningImage.src = "./images/wallet.png";
-        earningImage.alt = "Earning Image";
+            nameDiv.appendChild(userImage);
+            nameDiv.appendChild(nameEmailDiv);
 
-        const earningTitle = document.createElement('p');
-        earningTitle.textContent = "Earning";
+            const rightDiv = document.createElement('div');
+            rightDiv.classList.add('right');
 
-        const earningHighlight = document.createElement('p');
-        earningHighlight.id = "highlight";
-        earningHighlight.textContent = user.wallet.balance;
+            const earningDiv = document.createElement('div');
+            earningDiv.classList.add('earning');
 
-        earningDiv.appendChild(earningImage);
-        earningDiv.appendChild(earningTitle);
-        earningDiv.appendChild(earningHighlight);
+            const earningImage = document.createElement('img');
+            earningImage.src = "./images/wallet.png";
+            earningImage.alt = "Earning Image";
 
-        const advertiseDiv = document.createElement('div');
-        advertiseDiv.classList.add('advertise');
+            const earningTitle = document.createElement('p');
+            earningTitle.textContent = "Earning";
 
-        const advertiseImage = document.createElement('img');
-        advertiseImage.src = "./images/wallet.png";
-        advertiseImage.alt = "Advertise Image";
+            const earningHighlight = document.createElement('p');
+            earningHighlight.id = "highlight";
+            earningHighlight.textContent = user.wallet.balance;
 
-        const advertiseTitle = document.createElement('p');
-        advertiseTitle.textContent = "Advertise";
+            earningDiv.appendChild(earningImage);
+            earningDiv.appendChild(earningTitle);
+            earningDiv.appendChild(earningHighlight);
 
-        const advertiseHighlight = document.createElement('p');
-        advertiseHighlight.id = "highlight";
-        advertiseHighlight.textContent = "23"; // Assuming this value is constant for now
+            const advertiseDiv = document.createElement('div');
+            advertiseDiv.classList.add('advertise');
 
-        advertiseDiv.appendChild(advertiseImage);
-        advertiseDiv.appendChild(advertiseTitle);
-        advertiseDiv.appendChild(advertiseHighlight);
+            const advertiseImage = document.createElement('img');
+            advertiseImage.src = "./images/wallet.png";
+            advertiseImage.alt = "Advertise Image";
 
-        const dateParagraph = document.createElement('p');
-        dateParagraph.id = "highlight";
-        dateParagraph.textContent = new Date(user.date_joined).toDateString(); // Convert date string to Date object and format it
+            const advertiseTitle = document.createElement('p');
+            advertiseTitle.textContent = "Advertise";
 
-        rightDiv.appendChild(earningDiv);
-        rightDiv.appendChild(advertiseDiv);
-        rightDiv.appendChild(dateParagraph);
+            const advertiseHighlight = document.createElement('p');
+            advertiseHighlight.id = "highlight";
+            advertiseHighlight.textContent = "23"; // Assuming this value is constant for now
 
-        nameBox.appendChild(nameDiv);
-        nameBox.appendChild(rightDiv);
+            advertiseDiv.appendChild(advertiseImage);
+            advertiseDiv.appendChild(advertiseTitle);
+            advertiseDiv.appendChild(advertiseHighlight);
 
-        container.appendChild(nameBox);
-    });
+            const dateParagraph = document.createElement('p');
+            dateParagraph.id = "highlight";
+            dateParagraph.textContent = new Date(user.date_joined).toDateString(); // Convert date string to Date object and format it
+
+            rightDiv.appendChild(earningDiv);
+            rightDiv.appendChild(advertiseDiv);
+            rightDiv.appendChild(dateParagraph);
+
+            nameBox.appendChild(nameDiv);
+            nameBox.appendChild(rightDiv);
+
+            container.appendChild(nameBox);
+        });
+
+    } catch (error) {
+        console.error('Error displaying users:', error);
+    }
 
 }
 
