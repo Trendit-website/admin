@@ -15,7 +15,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Function to fetch and display user data
-    displayAllUsers(getAllUsers());
+    data = getAllUsers();
+    console.log(data);
+    displayAllUsers(data);
 
     const boxes = document.querySelectorAll(".box1");
     const earnBoxes = document.querySelectorAll(".earn-container .box1");
@@ -109,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function() {
       closeAdApprovalPopup();
     });
 
-    
+
     // Event listener for the "Invite" button to show the popup
     inviteBtn.addEventListener('click', showPopup);
 
