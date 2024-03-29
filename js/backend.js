@@ -181,16 +181,20 @@ const options = {
 let currentPage = 2;
 let isLoading = false;
 
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
+const observer = new IntersectionObserver(async (entries, observer) => {
+    entries.forEach(async entry => {
         if (entry.isIntersecting && !isLoading) {
-            // Load more data when intersection occurs
             isLoading = true;
-            // loadMoreUsers(currentPage);
-            // Function to fetch and display user data
-            var data = getAllUsers(currentPage);
-            displayAllUsers(data);
-            currentPage++;
+            try {
+                // Assuming getAllUsers is asynchronous and returns a Promise
+                var data = await getAllUsers(currentPage);
+                displayAllUsers(data);
+                currentPage++;
+            } catch (error) {
+                console.error('Failed to load new users:', error);
+            } finally {
+                isLoading = false;
+            }
         }
     });
 }, options);
