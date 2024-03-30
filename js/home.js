@@ -75,10 +75,10 @@ async function displayDashboardData(promise) {
         var total_earners = document.getElementById('total_earners');
 
 
-        total_payouts.textContent = `₦${totalPayouts}`;
-        total_received_payments.textContent =  `₦${totalReceivedPayments}`;
-        total_earners.textContent = `${totalEarners}`;
-        total_advertisers.textContent = `${totalAdvertisers}`
+        total_payouts.textContent = `₦${totalPayouts.toLocaleString()}`;
+        total_received_payments.textContent =  `₦${totalReceivedPayments.toLocaleString()}`;
+        total_earners.textContent = `${totalEarners.toLocaleString()}`;
+        total_advertisers.textContent = `${totalAdvertisers.toLocaleString()}`
 
         console.log(response)
 
