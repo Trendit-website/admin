@@ -160,45 +160,6 @@ async function displayAllUsers(promise) {
 
 
 
-// Function to fetch and display user details in modal
-async function displayUserInModal(userId) {
-    try {
-        const response = await fetch(`/api/users/${userId}`);
-        const userDetails = await response.json();
-        
-        if (response.ok) {
-            populateModal(userDetails);
-        } else {
-            throw new Error('Failed to fetch user details');
-        }
-    } catch (error) {
-        console.error('Error fetching user details:', error);
-        // Optionally, show an error message in your UI
-    }
-}
-
-// Function to populate the modal with user details
-function populateModal(userDetails) {
-    const modalTitle = document.getElementById('modal-title');
-    const modalBody = document.getElementById('modal-body');
-    
-    // Clear previous content
-    modalTitle.textContent = '';
-    modalBody.innerHTML = '';
-
-    // Populate with new content
-    modalTitle.textContent = `${userDetails.firstname} ${userDetails.lastname}`;
-    
-    const emailParagraph = document.createElement('p');
-    emailParagraph.textContent = `Email: ${userDetails.email}`;
-    modalBody.appendChild(emailParagraph);
-    
-    // Include other details as needed...
-    
-    // Show the modal
-    // This depends on how your modal is implemented. For Bootstrap, it would be something like:
-    // $('#userModal').modal('show');
-}
 
 
 
