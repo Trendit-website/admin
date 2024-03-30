@@ -70,8 +70,8 @@ async function displayDashboardData(promise) {
         const total_received_payments = document.getElementById('total_received_payments');
 
 
-        total_payouts.innerHTML = `₦${total_payouts}`;
-        total_received_payments.innerHTML =  `₦${total_received_payments}`;
+        total_payouts.textContent = `₦${total_payouts}`;
+        total_received_payments.textContent =  `₦${total_received_payments}`;
 
         console.log(response)
 
