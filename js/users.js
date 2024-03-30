@@ -9,9 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to fetch and display user data
     var data = getAllUsers();
     // Display all users and execute the callback function once done
-    displayAllUsers(data, function() {
-        
-    });
+    displayAllUsers(data);
 });
 
 
