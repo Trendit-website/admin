@@ -81,7 +81,7 @@ async function displayDashboardData(promise) {
         total_received_payments.textContent =  `₦${totalReceivedPayments.toLocaleString()}`;
         total_earners.textContent = `${totalEarners.toLocaleString()}`;
         total_advertisers.textContent = `${totalAdvertisers.toLocaleString()}`;
-        total_approved_tasks = `${totalApprovedTasks.toLocaleString()}`;
+        total_approved_tasks.textContent = `${totalApprovedTasks.toLocaleString()}`;
 
         console.log(response)
 
