@@ -66,8 +66,8 @@ async function displayDashboardData(promise) {
         }
 
         // Get the container where the user information will be displayed
-        const total_payouts = document.getElementById('total_payouts');
-        const total_received_payments = document.getElementById('total_received_payments');
+        var total_payouts = document.getElementById('total_payouts');
+        var total_received_payments = document.getElementById('total_received_payments');
 
 
         total_payouts.textContent = `₦${total_payouts}`;
