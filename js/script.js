@@ -78,27 +78,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
 
-        function showearnInfo() {
-            earnInfo.style.display = "block";
-            overlay.style.display = "block";
-        }
-
-        function hideearnInfo() {
-            earnInfo.style.display = "none";
-            overlay2.style.display = "none";
-            overlay.style.display="none";
-        }
-
-        function showApproveBox() {
-            approveBox.style.display = "block";
-            overlay2.style.display = "block";
-        }
-
-        function hideApproveBox() {
-            approveBox.style.display = "none";
-            overlay2.style.display = "none";
-        }
-
+        
         // Event listeners for cancel buttons
         document.getElementById("earn-appeal-cancel-btn").addEventListener("click", function() {
             closeEarnAppealPopup();
@@ -150,6 +130,26 @@ function hidePopup() {
   
 
 
+function showearnInfo() {
+    earnInfo.style.display = "block";
+    overlay.style.display = "block";
+}
+
+function hideearnInfo() {
+    earnInfo.style.display = "none";
+    overlay2.style.display = "none";
+    overlay.style.display="none";
+}
+
+function showApproveBox() {
+    approveBox.style.display = "block";
+    overlay2.style.display = "block";
+}
+
+function hideApproveBox() {
+    approveBox.style.display = "none";
+    overlay2.style.display = "none";
+}
 
 
 
