@@ -68,9 +68,9 @@ async function convertData(promise){
     try {
         const data = await promise;
         return {
-            'noOfEarners': data.payment_activities_per_month;
-            'noOfAdvertisers': data.payouts_per_month;
-            'noOfApprovedAds': data.recieved_payments_per_month; 
+            'noOfEarners': data.payment_activities_per_month,
+            'noOfAdvertisers': data.payouts_per_month,
+            'noOfApprovedAds': data.recieved_payments_per_month
         }
     } catch(error) {
         console.error('Error converting data:', error);        

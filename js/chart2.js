@@ -37,7 +37,7 @@ const boxIds = {
 
 var barChartOptions = {
     series: [{
-        data: generateRandomData()
+        data: getDataForChart(boxId, dashboardData)
     }],
     chart: {
         type: 'bar',
