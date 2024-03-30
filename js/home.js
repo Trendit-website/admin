@@ -60,6 +60,7 @@ async function displayDashboardData(promise) {
         const paymentActivitiesPerMonth = response.payment_activities_per_month
         const totalEarners = response.total_earners
         const totalAdvertisers = response.total_advertisers
+        const totalApprovedTasks = response.total_approved_tasks
 
 
         // Check if the respose array exists and is not empty
@@ -73,12 +74,14 @@ async function displayDashboardData(promise) {
         var total_received_payments = document.getElementById('total_received_payments');
         var total_advertisers = document.getElementById('total_advertisers');
         var total_earners = document.getElementById('total_earners');
+        var total_approved_tasks = document.getElementById('total_approved_tasks');
 
 
         total_payouts.textContent = `₦${totalPayouts.toLocaleString()}`;
         total_received_payments.textContent =  `₦${totalReceivedPayments.toLocaleString()}`;
         total_earners.textContent = `${totalEarners.toLocaleString()}`;
-        total_advertisers.textContent = `${totalAdvertisers.toLocaleString()}`
+        total_advertisers.textContent = `${totalAdvertisers.toLocaleString()}`;
+        total_approved_tasks = `${totalApprovedTasks.toLocaleString()}`;
 
         console.log(response)
 
