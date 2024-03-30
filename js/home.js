@@ -26,7 +26,7 @@ function getDashboardData() {
   // formData.append('item_type', 'item_type');
 
   // Construct the full URL for the verification request
-  const usersUrl = `${baseUrl}/dashboard-data`;
+  const usersUrl = `${baseUrl}/dashboard_data`;
   
   return fetch(usersUrl, {
     method:'POST',
