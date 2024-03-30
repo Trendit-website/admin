@@ -10,6 +10,23 @@ document.addEventListener("DOMContentLoaded", function() {
     var data = getDashboardData();
     // Display all users and execute the callback function once done
     displayDashboardData(data);
+
+    var dashboardData = convertData(data);
+
+    Object.keys(boxIds).forEach(boxId => {
+        const box = document.getElementById(boxId);
+        box.addEventListener('click', () => {
+            // Assume the boxId matches the key in the dashboardData
+            const { categories, data } = getDataForChart(boxId, dashboardData);
+            barChart.updateOptions({
+                xaxis: { categories: categories },
+                series: [{ data: data }]
+            }, true, true);
+        });
+    });
+
+    var barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
+    barChart.render();
 });
 
 
@@ -47,6 +64,18 @@ function getDashboardData() {
 }
 
 
+async function convertData(promise){
+    try {
+        const data = await promise;
+        return {
+            'noOfEarners': data.payment_activities_per_month;
+            'noOfAdvertisers': data.payouts_per_month;
+            'noOfApprovedAds': data.recieved_payments_per_month; 
+        }
+    } catch(error) {
+        console.error('Error converting data:', error);        
+    }
+}
 
 async function displayDashboardData(promise) {
 
