@@ -57,7 +57,10 @@ async function displayDashboardData(promise) {
         const totalReceivedPayments = response.total_received_payments
         const receivedPaymentsPerMonth = response.recieved_payments_per_month
         const payoutsPerMonth = response.payouts_per_month
-        const payment_activities_per_month = response.payment_activities_per_month
+        const paymentActivitiesPerMonth = response.payment_activities_per_month
+        const totalEarners = response.total_earners
+        const totalAdvertisers = response.total_advertisers
+
 
         // Check if the respose array exists and is not empty
         if (!response || response.length === 0) {
@@ -68,10 +71,14 @@ async function displayDashboardData(promise) {
         // Get the container where the user information will be displayed
         var total_payouts = document.getElementById('total_payouts');
         var total_received_payments = document.getElementById('total_received_payments');
+        var total_advertisers = document.getElementById('total_advertisers');
+        var total_earners = document.getElementById('total_earners');
 
 
         total_payouts.textContent = `₦${totalPayouts}`;
         total_received_payments.textContent =  `₦${totalReceivedPayments}`;
+        total_earners.textContent = `${totalEarners}`;
+        total_advertisers.textContent = `${totalAdvertisers}`
 
         console.log(response)
 
