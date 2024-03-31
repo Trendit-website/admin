@@ -1,7 +1,8 @@
 // ApexCharts configuration
 // bar chart
 // Function to generate data for the chart
-function getDataForChart(dataType, dashboardData) {
+function getDataForChart(dataType, data) {
+    const dashboardData = await data;
     const dataObj = dashboardData[dataType];
     const categories = Object.keys(dataObj);
     const data = Object.values(dataObj);
