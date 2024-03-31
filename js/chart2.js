@@ -36,9 +36,9 @@ const boxIds = {
 
 
 var barChartOptions = {
-    series: [{
-        data: generateRandomData()
-    }],
+    // series: [{
+    //     data: generateRandomData()
+    // }],
     chart: {
         type: 'bar',
         height: 350,
