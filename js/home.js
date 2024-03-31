@@ -68,13 +68,13 @@ function getDashboardData() {
 async function convertData(promise){
     try {
         const data = await promise;
-        const boxData = {
-            'noOfEarners': fillMissingMonths(data.payment_activities_per_month),
-            'noOfAdvertisers': fillMissingMonths(data.payouts_per_month),
-            'noOfApprovedAds': fillMissingMonths(data.recieved_payments_per_month)
-        };
-        console.log(boxData);
-        return boxData;
+        var boxData =  {
+            'noOfEarners': Object.values(data.payment_activities_per_month),
+            'noOfAdvertisers': Object.values(data.payouts_per_month),
+            'noOfApprovedAds': Object.values(data.recieved_payments_per_month)
+        }
+        console.log(boxData)
+        return boxData
     } catch(error) {
         console.error('Error converting data:', error);        
     }
