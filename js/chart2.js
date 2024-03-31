@@ -1,12 +1,12 @@
 // ApexCharts configuration
 // bar chart
 // Function to generate data for the chart
-// function getDataForChart(dataType, dashboardData) {
-//     const dataObj = dashboardData[dataType];
-//     const categories = Object.keys(dataObj);
-//     const data = Object.values(dataObj);
-//     return { categories, data };
-// }
+function getDataForChart(dataType, dashboardData) {
+    const dataObj = dashboardData[dataType];
+    const categories = Object.keys(dataObj);
+    const data = Object.values(dataObj);
+    return { categories, data };
+}
 
 function generateRandomData() {
     return Array.from({ length: 12 }, () => Math.floor(Math.random() * 200));
