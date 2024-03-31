@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Display all users and execute the callback function once done
     displayDashboardData(data);
 
-    var dashboardData = await convertData(data);
+    var dashboardData = convertData(data);
     console.log(dashboardData);
 
     Object.keys(boxIds).forEach(boxId => {
@@ -68,11 +68,13 @@ function getDashboardData() {
 async function convertData(promise){
     try {
         const data = await promise;
-        return {
+        var boxData =  {
             'noOfEarners': data.payment_activities_per_month,
             'noOfAdvertisers': data.payouts_per_month,
             'noOfApprovedAds': data.recieved_payments_per_month
         }
+        console.log(boxData)
+        return boxData
     } catch(error) {
         console.error('Error converting data:', error);        
     }
