@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", async function() { // Note the async keyword
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
 
@@ -6,29 +6,31 @@ document.addEventListener("DOMContentLoaded", function() {
         navBar.classList.toggle('active');
     });
 
-    // Function to fetch and display user data
-    var data = getDashboardData();
-    // Display all users and execute the callback function once done
-    displayDashboardData(data);
+    // Assuming displayDashboardData is designed to handle promises or async operations
+    var dataPromise = getDashboardData();
+    displayDashboardData(dataPromise);
 
-    var dashboardData = convertData(data);
+    var dashboardData = await convertData(dataPromise); // Wait for the data
     console.log(dashboardData);
 
+    // Make sure boxIds is defined somewhere in your script
     Object.keys(boxIds).forEach(boxId => {
         const box = document.getElementById(boxId);
         box.addEventListener('click', () => {
-            // Assume the boxId matches the key in the dashboardData
-            const { categories, data } = getDataForChart(boxId, dashboardData);
-            barChart.updateOptions({
-                xaxis: { categories: categories },
-                series: [{ data: data }]
-            }, true, true);
+            const { categories, data } = getDataForChart(boxId, dashboardData); // Ensure this is correct
+            if (categories && data) { // Check if categories and data are not undefined
+                barChart.updateOptions({
+                    xaxis: { categories: categories },
+                    series: [{ data: data }]
+                }, true, true);
+            }
         });
     });
 
     var barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
     barChart.render();
 });
+
 
 
 
@@ -61,7 +63,7 @@ function getDashboardData() {
   })
 
   // commented out this part to let any errors propagate
-  
+
   // .catch((error) => {
   //   console.error('Error', error);
   // });
