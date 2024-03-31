@@ -68,17 +68,40 @@ function getDashboardData() {
 async function convertData(promise){
     try {
         const data = await promise;
-        var boxData =  {
-            'noOfEarners': data.payment_activities_per_month,
-            'noOfAdvertisers': data.payouts_per_month,
-            'noOfApprovedAds': data.recieved_payments_per_month
-        }
-        console.log(boxData)
-        return boxData
+        const boxData = {
+            'noOfEarners': fillMissingMonths(data.payment_activities_per_month),
+            'noOfAdvertisers': fillMissingMonths(data.payouts_per_month),
+            'noOfApprovedAds': fillMissingMonths(data.recieved_payments_per_month)
+        };
+        console.log(boxData);
+        return boxData;
     } catch(error) {
         console.error('Error converting data:', error);        
     }
 }
+
+function fillMissingMonths(data) {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1; // Adding 1 because getMonth() returns zero-based index
+
+    // Create an object to store the data for 12 months
+    const filledData = {};
+    
+    // Start filling from the current month backward
+    for (let i = currentMonth; i > 0; i--) {
+        const month = `${currentYear}-${i.toString().padStart(2, '0')}`; // Format the month as YYYY-MM
+        filledData[month] = data && data[month] ? data[month] : 0; // If data for the month is available, use it; otherwise, set to 0
+    }
+
+    // Fill in the remaining months from the previous year if necessary
+    for (let i = 12; i > currentMonth; i--) {
+        const month = `${currentYear - 1}-${i.toString().padStart(2, '0')}`; // Format the month as YYYY-MM
+        filledData[month] = data && data[month] ? data[month] : 0; // If data for the month is available, use it; otherwise, set to 0
+    }
+
+    return filledData;
+}
+
 
 async function displayDashboardData(promise) {
 
