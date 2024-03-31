@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    var barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
+    var barChart = new ApexCharts(document.querySelector("#bar-chart"));
     barChart.render();
 });
 
