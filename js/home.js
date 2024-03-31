@@ -59,26 +59,38 @@ function getDashboardData() {
     }
     return response.json();
   })
-  .catch((error) => {
-    console.error('Error', error);
-  });
+
+  // commented out this part to let any errors propagate
+  
+  // .catch((error) => {
+  //   console.error('Error', error);
+  // });
 }
 
 
-async function convertData(promise){
+async function convertData(promise) {
     try {
         const data = await promise;
-        var boxData =  {
-            'noOfEarners': Object.values(data.payment_activities_per_month),
-            'noOfAdvertisers': Object.values(data.payouts_per_month),
-            'noOfApprovedAds': Object.values(data.recieved_payments_per_month)
+        if (!data) { // Check if data is null or undefined
+            console.error('Received no data');
+            return {
+                'noOfEarners': [],
+                'noOfAdvertisers': [],
+                'noOfApprovedAds': []
+            };
         }
-        console.log(boxData)
-        return boxData
-    } catch(error) {
-        console.error('Error converting data:', error);        
+        var boxData = {
+            'noOfEarners': Object.values(data.payment_activities_per_month || {}),
+            'noOfAdvertisers': Object.values(data.payouts_per_month || {}),
+            'noOfApprovedAds': Object.values(data.recieved_payments_per_month || {})
+        };
+        console.log(boxData);
+        return boxData;
+    } catch (error) {
+        console.error('Error converting data:', error);
     }
 }
+
 
 function fillMissingMonths(data) {
     const currentYear = new Date().getFullYear();
