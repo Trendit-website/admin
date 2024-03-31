@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // Display all users and execute the callback function once done
     displayDashboardData(data);
 
-    var dashboardData = convertData(data);
-    console.log(await dashboardData);
+    var dashboardData = await convertData(data);
+    console.log(dashboardData);
 
     Object.keys(boxIds).forEach(boxId => {
         const box = document.getElementById(boxId);
