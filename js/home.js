@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     displayDashboardData(data);
 
     var dashboardData = convertData(data);
-    console.log(dashboardData);
+    console.log(await dashboardData);
 
     Object.keys(boxIds).forEach(boxId => {
         const box = document.getElementById(boxId);
