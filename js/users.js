@@ -1,3 +1,19 @@
+document.addEventListener("DOMContentLoaded", function() {
+    var hamburgerMenu = document.querySelector('.hamburger');
+    var navBar = document.querySelector('.nav-bar');
+
+    hamburgerMenu.addEventListener('click', function() {
+        navBar.classList.toggle('active');
+    });
+
+    // Function to fetch and display user data
+    var data = getAllUsers();
+    // Display all users and execute the callback function once done
+    displayAllUsers(data);
+});
+
+
+
 const baseUrl = 'https://api.trendit3.com/api/admin';
 
 // get access token
@@ -53,6 +69,11 @@ async function displayAllUsers(promise) {
             // Create elements for the user information
             const nameBox = document.createElement('div');
             nameBox.classList.add('name-box');
+            nameBox.dataset.userId = user.id; // Store user ID for easy access
+
+            nameBox.addEventListener('click', function() {
+                displayUserInModal(user.id);
+            });
 
             const nameDiv = document.createElement('div');
             nameDiv.classList.add('name');
@@ -137,40 +158,7 @@ async function displayAllUsers(promise) {
 }
 
 
-function createAdmin(email) {
-  
-  const formData = new FormData();
-  formData.append('email', email);
 
-  // Construct the full URL for the verification request
-  const createAdminUrl = `${baseUrl}/create_junior_admin`;
-  
-  fetch(createAdminUrl, {
-    method:'POST',
-    body: formData,
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(response=> {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    // subject to change
-    return response.json();
-    
-  })
-  .catch((error) => {
-    console.error('Error', error);
-  });
-}
-
-
-
-
-
-//------------------------------------------ NOT Ready ----------------------------------------------//
 
 
 
