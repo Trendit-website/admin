@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     var dataPromise = getDashboardData();
     // Wait for the data to be resolved before setting up the click event listeners
     displayDashboardData(dataPromise);
-    
+
     var dashboardData = await convertData(dataPromise); 
 
     // Make sure boxIds is defined somewhere in your script
@@ -23,10 +23,11 @@ document.addEventListener("DOMContentLoaded", async function() {
             const categories = getChartIndices(dataPromise);
             const data = Object.values(dashboardData[boxId]);
             if (categories && data) {
-                barChart.updateOptions({
-                    xaxis: { categories: categories },
-                    series: [{ data: data }]
-                }, true, true);
+                // barChart.updateOptions({
+                //     xaxis: { categories: categories },
+                //     series: [{ data: data }]
+                // }, true, true);
+                barChart.updateSeries([{data: data}]);
             }
         });
     });
