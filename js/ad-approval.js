@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         boxes.forEach(box => {
             box.addEventListener("click", function() {
+                console.log("clicked");
                 popup.style.display = "block";
                 overlay.style.display = "block";
             });
