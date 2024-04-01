@@ -6,32 +6,30 @@ document.addEventListener("DOMContentLoaded", async function() { // Note the asy
         navBar.classList.toggle('active');
     });
 
-    // Assuming displayDashboardData is designed to handle promises or async operations
-    var dataPromise = getDashboardData();
-    displayDashboardData(dataPromise);
+    try {
+        var dashboardData = await getDashboardData(); // Wait for the data to be available
+        console.log(dashboardData);
 
-    var dashboardData = await convertData(dataPromise); // Wait for the data
-    console.log(dashboardData);
-
-    // Make sure boxIds is defined somewhere in your script
-    Object.keys(boxIds).forEach(boxId => {
-        const box = document.getElementById(boxId);
-        box.addEventListener('click', () => {
-            // const { categories, data } = getDataForChart(boxId, dashboardData); // Ensure this is correct
-            const categories = getChartIndices(dataPromise);
-            // const data = getDataForChart(boxId);
-            const data = Object.values(dashboardData[boxId]);
-            if (categories && data) { // Check if categories and data are not undefined
-                barChart.updateOptions({
-                    xaxis: { categories: categories },
-                    series: [{ data: data }]
-                }, true, true);
-            }
+        // Make sure boxIds is defined somewhere in your script
+        Object.keys(boxIds).forEach(boxId => {
+            const box = document.getElementById(boxId);
+            box.addEventListener('click', () => {
+                const categories = getChartIndices(dataPromise);
+                const data = Object.values(dashboardData[boxId]);
+                if (categories && data) { // Check if categories and data are not undefined
+                    barChart.updateOptions({
+                        xaxis: { categories: categories },
+                        series: [{ data: data }]
+                    }, true, true);
+                }
+            });
         });
-    });
 
-    var barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
-    barChart.render();
+        var barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
+        barChart.render();
+    } catch (error) {
+        console.error("Error occurred while fetching dashboard data:", error);
+    }
 });
 
 
