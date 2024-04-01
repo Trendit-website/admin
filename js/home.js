@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async function() { // Note the async keyword
+document.addEventListener("DOMContentLoaded", async function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
 
@@ -6,30 +6,31 @@ document.addEventListener("DOMContentLoaded", async function() { // Note the asy
         navBar.classList.toggle('active');
     });
 
-    try {
-        var dashboardData = await getDashboardData(); // Wait for the data to be available
-        console.log(dashboardData);
+    var dataPromise = getDashboardData();
+    // Wait for the data to be resolved before setting up the click event listeners
+    var dashboardData = await convertData(dataPromise); 
 
-        // Make sure boxIds is defined somewhere in your script
-        Object.keys(boxIds).forEach(boxId => {
-            const box = document.getElementById(boxId);
-            box.addEventListener('click', () => {
-                const categories = getChartIndices(dataPromise);
-                const data = Object.values(dashboardData[boxId]);
-                if (categories && data) { // Check if categories and data are not undefined
-                    barChart.updateOptions({
-                        xaxis: { categories: categories },
-                        series: [{ data: data }]
-                    }, true, true);
-                }
-            });
+    // Make sure boxIds is defined somewhere in your script
+    Object.keys(boxIds).forEach(boxId => {
+        const box = document.getElementById(boxId);
+        box.addEventListener('click', () => {
+            if (!dashboardData[boxId]) {
+                console.warn(`No data available for boxId: ${boxId}`);
+                return;
+            }
+            const categories = getChartIndices(dataPromise);
+            const data = Object.values(dashboardData[boxId]);
+            if (categories && data) {
+                barChart.updateOptions({
+                    xaxis: { categories: categories },
+                    series: [{ data: data }]
+                }, true, true);
+            }
         });
+    });
 
-        var barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
-        barChart.render();
-    } catch (error) {
-        console.error("Error occurred while fetching dashboard data:", error);
-    }
+    var barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
+    barChart.render();
 });
 
 
