@@ -1519,8 +1519,13 @@ section h3 {
     width: 100%;
     
    }
+   .hero .boxes .top-boxes .box1{
+    min-width:92vw;
+    width: 100%;
+    
+   }
    .hero .boxes .bottom-boxes .box1{
-    max-width: 351px;
+    max-width:92vw;
     width: 100%;
     
    }
@@ -1755,6 +1760,11 @@ section h3 {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+    width: 100%;
+    
+   }
+   .hero .boxes .top-boxes .box1{
+    min-width: 351px;
     width: 100%;
     
    }
