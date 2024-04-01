@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     var dataPromise = getDashboardData();
     // Wait for the data to be resolved before setting up the click event listeners
+    displayDashboardData(dataPromise);
+    
     var dashboardData = await convertData(dataPromise); 
 
     // Make sure boxIds is defined somewhere in your script
