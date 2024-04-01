@@ -17,7 +17,10 @@ document.addEventListener("DOMContentLoaded", async function() { // Note the asy
     Object.keys(boxIds).forEach(boxId => {
         const box = document.getElementById(boxId);
         box.addEventListener('click', () => {
-            const { categories, data } = getDataForChart(boxId, dashboardData); // Ensure this is correct
+            // const { categories, data } = getDataForChart(boxId, dashboardData); // Ensure this is correct
+            const categories = getChartIndices(dataPromise);
+            // const data = getDataForChart(boxId);
+            const data = Object.values(dashboardData[boxId]);
             if (categories && data) { // Check if categories and data are not undefined
                 barChart.updateOptions({
                     xaxis: { categories: categories },
@@ -68,6 +71,23 @@ function getDashboardData() {
   //   console.error('Error', error);
   // });
 }
+
+
+async function getChartIndices(promise) {
+    try {
+        const data = await promise;
+        if (!data) { // Check if data is null or undefined
+            console.error('Received no data');
+            return ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT', 'OCT', 'NOV', 'DEC'];
+        }
+        var indices = Object.keys(data.payment_activities_per_month || {});
+        console.log(indices);
+        return indices;
+    } catch (error) {
+        console.error('Error converting data:', error);
+    }
+}
+
 
 
 async function convertData(promise) {
