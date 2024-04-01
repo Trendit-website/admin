@@ -42,6 +42,7 @@ const boxIds = {
     noOfAffiliateResell: 5,
 };
 
+
 const baseUrl = 'https://api.trendit3.com/api/admin';
 
 // get access token
@@ -94,7 +95,6 @@ async function getChartIndices(promise) {
 }
 
 
-
 async function convertData(promise) {
     try {
         const data = await promise;
@@ -107,6 +107,7 @@ async function convertData(promise) {
             };
         }
         var boxData = {
+            'totalPayouts':Object.values(data.payouts_per_month || {})
             'noOfEarners': Object.values(data.payment_activities_per_month || {}),
             'noOfAdvertisers': Object.values(data.payouts_per_month || {}),
             'noOfApprovedAds': Object.values(data.recieved_payments_per_month || {})
@@ -191,6 +192,7 @@ function generateRandomData() {
     return Array.from({ length: 12 }, () => Math.floor(Math.random() * 200));
 }
 
+
 function getLast12Months() {
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEPT", "OCT", "NOV", "DEC"];
     const date = new Date();
@@ -206,6 +208,7 @@ function getLast12Months() {
     
     return last12Months;
 }
+
 
 var barChartOptions = {
     series: [{
