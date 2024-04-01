@@ -198,7 +198,7 @@ async function displayAllAds(promise) {
 
         const adsContainer = document.getElementById('earn-container');
 
-        data.tasks.forEach(task => {
+        data.forEach(task => {
             const adBox = document.createElement('div');
             adBox.classList.add('box1');
 
