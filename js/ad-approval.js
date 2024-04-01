@@ -202,6 +202,12 @@ async function displayAllAds(promise) {
         data.forEach(task => {
             const adBox = document.createElement('div');
             adBox.classList.add('box1');
+            adBox.addEventListener("click", function() {
+                console.log("clicked");
+                popup.style.display = "block";
+                overlay.style.display = "block";
+                showearnInfo();
+            });
 
             const statusDiv = document.createElement('div');
             statusDiv.classList.add('pending');
