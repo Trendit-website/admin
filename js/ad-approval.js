@@ -27,7 +27,7 @@ function showAdInfo() {
 
 
 function closeAdPopup(){
-    
+
 }
 
 
@@ -137,3 +137,43 @@ async function displayAllAds(promise) {
         console.error('Error displaying ads:', error);
     }
 }
+
+
+
+
+
+
+
+
+
+
+// Intersection Observer setup
+const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.2 // Trigger when 50% of the target is visible
+};
+
+let currentPage = 2;
+let isLoading = false;
+
+const observer = new IntersectionObserver(async (entries, observer) => {
+    entries.forEach(async entry => {
+        if (entry.isIntersecting && !isLoading) {
+            isLoading = true;
+            try {
+                // getAllAds is asynchronous and returns a Promise
+                var data = await getAllAds(currentPage);
+                displayAllAds(data);
+                currentPage++;
+            } catch (error) {
+                console.error('Failed to load new users:', error);
+            } finally {
+                isLoading = false;
+            }
+        }
+    });
+}, options);
+
+observer.observe(document.getElementById('load-more-trigger'));
+
