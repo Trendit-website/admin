@@ -179,7 +179,7 @@ const observer = new IntersectionObserver(async (entries, observer) => {
         if (entry.isIntersecting && !isLoading) {
             isLoading = true;
             try {
-                // Assuming getAllUsers is asynchronous and returns a Promise
+                // getAllUsers is asynchronous and returns a Promise
                 var data = await getAllUsers(currentPage);
                 displayAllUsers(data);
                 currentPage++;
