@@ -23,10 +23,6 @@ document.addEventListener("DOMContentLoaded", async function() {
             const categories = getChartIndices(dataPromise);
             const data = Object.values(dashboardData[boxId]);
             if (categories && data) {
-                // barChart.updateOptions({
-                //     xaxis: { categories: categories },
-                //     series: [{ data: data }]
-                // }, true, true);
                 barChart.updateSeries([{data: data}]);
             }
         });
@@ -195,6 +191,21 @@ function generateRandomData() {
     return Array.from({ length: 12 }, () => Math.floor(Math.random() * 200));
 }
 
+function getLast12Months() {
+    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEPT", "OCT", "NOV", "DEC"];
+    const date = new Date();
+    const currentMonth = date.getMonth(); // getMonth() returns a zero-based index, 0 for January, 11 for December
+
+    let last12Months = [];
+    for (let i = 1; i <= 12; i++) {
+        // Calculate month index
+        const monthIndex = (currentMonth + i) % 12;
+        // Add the month to the list
+        last12Months.push(months[monthIndex]);
+    }
+    
+    return last12Months;
+}
 
 var barChartOptions = {
     series: [{
@@ -231,7 +242,7 @@ var barChartOptions = {
         show: false
     },
     xaxis: {
-        categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT', 'OCT', 'NOV', 'DEC'],
+        categories: getLast12Months(),
         labels: {
             style: {
                 colors: '#b1b1b1',
