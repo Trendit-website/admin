@@ -154,6 +154,9 @@ function hideApproveBox() {
 
 const baseUrl = 'https://api.trendit3.com/api/admin';
 
+// get access token
+const accessToken = getCookie('accessToken');
+
 
 function getAllAds(page=1) {
 
