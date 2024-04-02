@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     var dataPromise = getDashboardData();
     // Wait for the data to be resolved before setting up the click event listeners
     displayDashboardData(dataPromise);
-    
+
     var dashboardData = await convertData(dataPromise); 
 
     // Make sure boxIds is defined somewhere in your script
@@ -23,10 +23,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             const categories = getChartIndices(dataPromise);
             const data = Object.values(dashboardData[boxId]);
             if (categories && data) {
-                barChart.updateOptions({
-                    xaxis: { categories: categories },
-                    series: [{ data: data }]
-                }, true, true);
+                barChart.updateSeries([{data: data}]);
             }
         });
     });
@@ -44,6 +41,7 @@ const boxIds = {
     noOfApprovedAds: 4,
     noOfAffiliateResell: 5,
 };
+
 
 const baseUrl = 'https://api.trendit3.com/api/admin';
 
@@ -97,7 +95,6 @@ async function getChartIndices(promise) {
 }
 
 
-
 async function convertData(promise) {
     try {
         const data = await promise;
@@ -110,6 +107,7 @@ async function convertData(promise) {
             };
         }
         var boxData = {
+            'totalPayouts':Object.values(data.payouts_per_month || {})
             'noOfEarners': Object.values(data.payment_activities_per_month || {}),
             'noOfAdvertisers': Object.values(data.payouts_per_month || {}),
             'noOfApprovedAds': Object.values(data.recieved_payments_per_month || {})
@@ -195,6 +193,23 @@ function generateRandomData() {
 }
 
 
+function getLast12Months() {
+    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEPT", "OCT", "NOV", "DEC"];
+    const date = new Date();
+    const currentMonth = date.getMonth(); // getMonth() returns a zero-based index, 0 for January, 11 for December
+
+    let last12Months = [];
+    for (let i = 1; i <= 12; i++) {
+        // Calculate month index
+        const monthIndex = (currentMonth + i) % 12;
+        // Add the month to the list
+        last12Months.push(months[monthIndex]);
+    }
+    
+    return last12Months;
+}
+
+
 var barChartOptions = {
     series: [{
         data: generateRandomData()
@@ -230,7 +245,7 @@ var barChartOptions = {
         show: false
     },
     xaxis: {
-        categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT', 'OCT', 'NOV', 'DEC'],
+        categories: getLast12Months(),
         labels: {
             style: {
                 colors: '#b1b1b1',
