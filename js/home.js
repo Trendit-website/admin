@@ -107,7 +107,7 @@ async function convertData(promise) {
             };
         }
         var boxData = {
-            'totalPayouts':Object.values(data.payouts_per_month || {})
+            'totalPayouts':Object.values(data.payouts_per_month || {}),
             'noOfEarners': Object.values(data.payment_activities_per_month || {}),
             'noOfAdvertisers': Object.values(data.payouts_per_month || {}),
             'noOfApprovedAds': Object.values(data.recieved_payments_per_month || {})
