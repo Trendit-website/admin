@@ -1230,6 +1230,209 @@ section h3 {
     gap: 24px;
 }
 
+/* user popup */
+.user-popup{
+  display: flex;
+  flex-direction: column;
+  font-family: 'Campton''sans-serif';
+  background-color: #000000;
+  border-top: 2px solid tan;
+  color: #fff;
+  /* display: none; */
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /*background:#121212; Dark background with transparency */
+    padding:61px  37px;
+    z-index: 1000;
+    width: 1000px;
+    gap: 8px;
+}
+.user-popup .back{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  align-self: left;
+
+}
+.user-popup .back p{
+  color: #FFD0FE;
+font-size: 14px;
+font-weight: 500;
+line-height: 16.3px;
+}
+.user-popup .user-info1 {
+  display: flex;
+  flex-direction: column;
+  background: #080808;
+  border-radius: 4px;
+  padding: 14px 24px;
+  gap: 24px;
+
+}
+.user-popup .user-info1 .name-controls .name-profile{
+  display: flex;
+  align-items: end;
+  gap: 10px;
+}
+.user-popup .user-info1 .name-controls .name-profile img{
+ width: 70px;
+}
+.user-popup .user-info1 .name-controls .name-profile .name h6{
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 27.94px;
+  letter-spacing: -0.06em;
+
+}
+.user-popup .user-info1 .name-controls .name-profile .name span{
+  font-size: 14px;
+  font-weight: 500;
+  color: #b1b1b1;
+
+}
+
+.user-popup .user-info1 .name-controls{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.user-popup .user-info1 .name-controls .buttons{
+  display: flex;
+  gap: 12px;
+}
+.user-popup .user-info1 .name-controls .buttons button{
+  background: #13BF62;
+  padding: 14px 24px;
+  border-radius: 100px;
+  border: none;
+  color: #fff;
+  outline: none;
+
+}
+.user-popup .user-info1 .name-controls .buttons button#suspend-user{
+  color: red;
+  background-color: #FFE9E9;
+}
+.user-popup .user-info1 .user-input{
+  display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
+    color: var(--text-color);
+    gap: 8px;
+    text-align: left;
+    align-items: center;
+    height: auto;
+    justify-content: center;
+    width: 100%;
+    text-align: left;
+    
+}
+.user-popup .user-info1 .user-input span{
+ color: #b1b1b1;
+font-size: 12.83px;
+font-weight: 400;
+
+}
+.user-popup .user-info1 .user-input p{
+  background: #0c0c0c;
+padding: 8px 12px;
+border-radius: 4px;
+font-size: 12.83px;
+font-weight: 400;
+gap: 8px;
+}
+.user-popup .user-info1 .user-input p span{
+  padding-left: 5px;
+}
+
+
+
+.wallet-container .wallet-box{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-color);
+  color: #fff;
+  margin:5px 0;
+  padding: 12px;
+}
+.wallet-container .wallet-box .left{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ gap: 24px;
+}
+.wallet-container .wallet-box .credit-date{
+  gap: 6px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.wallet-container .wallet-box #date{
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 10px;
+}
+
+
+.wallet-container .navigation{
+  padding: 10px 0;
+}
+.wallet-container .navigation .left{
+  display: flex;
+  justify-content: space-between;
+  gap: 140px;
+  align-items: center;
+}
+
+.wallet-container .wallet-box  img{
+  width: 30px;
+}
+.wallet-container .wallet-box  p{
+ font-size: 13px;
+ font-weight: 500;
+}
+
+
+
+.user-info-transaction .top-nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1E1E1E;
+  gap:5px;
+  text-transform: capitalize;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 15px;
+  letter-spacing: -0.06em;
+  margin-bottom: 32px;
+  color: #b1b1b1;
+
+}  
+
+.user-info-transaction .top-nav p{
+  padding: 12px 18px;
+ 
+}  
+.user-info-transaction .top-nav p span{
+  color: #fff;
+  margin-left: 5px;
+  font-size: 11px;
+  font-weight: 500;
+
+}  
+
+.user-info-transaction .top-nav #selected{
+  padding: 12px 8px;
+  border-bottom: 1px solid #FF6DFB;
+  color: #FF6DFB;
+}
+
+
+
+
 /* wallet */
 
 
@@ -1954,29 +2157,34 @@ section h3 {
    }
 
   .container .input-field {
-    padding: 100px 10px ;
+    padding:10px ;
     height: 50vh;
+    gap: 10px;
+   align-self: center;
+    width: fit-content;
     
     /* Adjust padding for smaller screens */
   }
 
   .container .input-field input {
-      max-width: 250px;
+      max-width: 300px;
   }
 
   .container h1 {
-      font-size: 30px;
+      font-size: 45px;
+  line-height: 45.76px;
+ 
+
   }
+
 
   .container button {
       width: 100%;
-      max-width: 200px;
+      max-width: 250px;
       padding:10px 20px;
       
   }
-  .container #text{
-      padding: 10px;
-  }
+
 }
 
 @media only screen and (max-width: 500px) {

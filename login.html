@@ -21,7 +21,7 @@
         
           
       }
-      .input-field{
+      .container .input-field{
           flex-direction: column;
           display: flex;
           align-items: center;
@@ -30,25 +30,26 @@
           width: 500px;
           align-self: center;
           position: relative;
+          gap: 24px;
           box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
       }
-      .input-field input{
+      .container .input-field input{
           height: 100%;
           width: 100%;
           border: none;
           outline: none;
-          background-color: #212121;
+          background-color: #FFFFFF14;
           border-radius: 4px;
           font-size: 15px;
           font-weight: 400;
-          padding: 10px 15px;
+          padding: 14px 12px;
           color: #a3a3a3;
-          width: 300px;
+          width: 365px;
       }
-      input::placeholder{
+      .container input::placeholder{
           color: #a3a3a3;
       }
-      #status{
+      .container #status{
           color: black;
           bottom: 20px;
           position: absolute;
@@ -58,26 +59,30 @@
           background: #E5F0FF;
           color: #1877F2;
       }
-      h1{
-          font-family: 'Inter', sans-serif;
-          font-weight:800;
-          font-size: 35px;
+      .container h1{
+          font-family: 'Campton', sans-serif;
+          font-weight:600;
+          font-size: 64px;
+          color: #fff;
           text-align: center;
-          
+          font-family: Campton;
+            line-height: 53.76px;
+            letter-spacing: -0.06em;
+    
       }
-      .header{
+      .container .header{
           display: flex;
           align-items: center;
           justify-content: space-between;
           padding:30px ;
       }
-      .header p{
+      .container .header p{
           font-size: 16PX;
           font-weight: 500;
       }
      
-      button{
-          padding:12px 24px;
+      .container button{
+          padding:14px 24px;
       font-size: 13px;
       font-weight: 500;
       border: none;
@@ -89,12 +94,81 @@
       width: 280px;
       color: #fff;
       margin-top: 10px;
-      background-color: #ff6dfb
+      background-color: #cb29be
       }
-      #text{
-        padding: 5px;
-          color: #a3a3a3;
+      .container #text{
+        
+          color: #b1b1b1;
+          font-size: 15px;
+          font-weight: 400;
           font-family:'Inter', sans-serif ; ;
+      }
+      .verify-popup{
+        width: 483px;
+        height: 204px;
+        border-radius: 4px;
+        padding: 48px;
+        gap: 24px;
+        align-items: center;
+        text-align: center;
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        background-color: #121212;
+      }
+      .verify-popup .cancel-btn{
+            position: absolute;
+        top: -10px;
+        right: -16px;
+        background: none;
+        border: none;
+        font-size: 12px;
+        padding: 8px;
+        border-radius: 500px;
+        color: #fff;
+        background-color: #ff6dfb;
+        cursor: pointer;
+        padding: 10px;
+        width: 40px;
+      }
+      .verify-popup h6{
+        font-family: 'Campton', sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 27.94px;
+        letter-spacing: -0.06em;
+        padding: 5px;
+
+      }
+      .verify-popup p{
+        font-family: 'Campton', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 13.97px;
+    letter-spacing: -0.06em;
+    color: #b1b1b1;
+    width: 253px;
+    padding-bottom: 10px;
+      }
+      .verify-popup .verify, .invalid{
+        text-align: center;
+      }
+      .verify img{
+        width: 38px;
+        height: 38px;
+      }
+      .verify-popup .continue{
+        padding:12px 24px;
+        font-size: 13px;
+        font-weight: 500;
+        border: none;
+        gap: 8px;
+        align-self: center;
+        width: 290px;
+        border-radius: 100px;
+        cursor: pointer;
+        color: #b1b1b1;
+        background-color: #D9D9D9;
       }
 
       @media (max-width:500px) {
@@ -121,6 +195,27 @@
             
         </div>
     </div>
+    <div class="overlay"></div>
+    <div class="verify-popup"  style="display: none;">
+            <button  class="cancel-btn">&#10006;</button>
+            <div class="verify">
+              <img src="./images/message.svg" alt="">
+              <h6>Verify Your Account</h6>
+                  <p>A login link has be sent to email <span id="email">davory202@gmail.com</span>please check to login</p>
+                    <button class="continue">Continue</button>
+                    
+            </div>
+            <div class="invalid" style="display: none;">
+              <h6>Invalid Token</h6>
+                  <p>This token is invalid or has been used</p>
+                    <button class="continue">Continue</button>
+                    
+            </div>
+                
+        </div>
+
+          
+
       <script src="./js/cookie.js"></script>
       <script src="./js/login.js"></script>
 </body>
