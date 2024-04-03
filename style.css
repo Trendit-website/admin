@@ -1969,6 +1969,7 @@ gap: 8px;
    .hero .boxes .top-boxes .box1{
     min-width: 351px;
     width: 100%;
+    max-width: 351px;
     
    }
    .hero .boxes .bottom-boxes .box1{
