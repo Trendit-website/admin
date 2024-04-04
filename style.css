@@ -1238,7 +1238,7 @@ section h3 {
   background-color: #121212;
   border-top: 2px solid tan;
   color: #fff;
-  /* display: none; */
+  display: none; 
     position: absolute;
     top: 100%;
     left: 50%;
