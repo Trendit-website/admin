@@ -85,7 +85,8 @@
 
 
     <!-- user-info popup -->
-    <div class="user-popup" style="display: none;">
+    <div class="overlay"></div>
+    <div class="user-popup" >
         <div class="back">
             <img src="./images/left.png" width="15px">
             <p>Go back</p>
@@ -110,32 +111,34 @@
 
             </div>
             <div class="user-input">
-                <div class="username"> <span>username</span>
+                <div class="username"> <span>Username</span>
                 <p>@moski7</p>
-                </div>
-               <div class="phone">
-                <span>Phone Number</span>
-                <p><span>+234</span>810467330202</p>
                 </div>
                 <div class="gender">
                 <span>Gender</span>
                 <p>male</p>
                 </div>
-                <div class="bday">
-                <span>Birthday</span>
-                <p>24 Jan, 2023</p>
-                </div>
                 <div class="location">
                 <span>Location</span>
                 <p>Ikeja, Nigeria</p>
                 </div>
+               <div class="phone">
+                <span>Phone Number</span>
+                <p><span>+234</span>810467330202</p>
+                </div>
+                
+                <div class="bday">
+                <span>Birthday</span>
+                <p>24 Jan, 2023</p>
+                </div>
+                
                 
             </div>
         </div>
         <div class="user-info-wallet">
             <div class="date">
-                <img src="./images/calendar.png" alt=""> 
-                <p>Jan 1 - Jan 27, 2023</p>
+                
+                <p><img src="./images/calendar.png" alt=""> Jan 1 - Jan 27, 2023</p>
                 <div class="left">
                     <p><img src="./images/download.png" alt="">Export</p>
                     <div class="period">
@@ -148,7 +151,7 @@
             <div class="balance">
                 <p>₦3,321.09</p>
             </div>
-            <div class="earn-info">
+            <div class="earn-infos">
                 <div class="total-earned">
                     <p>Total Earned</p>
                     <div class="rate">
@@ -164,26 +167,24 @@
                         <img src="./images/mdi_arrow-down.png" alt="">
                         <span>533%</span>
                 </div>
-            </div>
+                </div>
                 <div class="total-earned">
                     <p>Total Earned</p>
                     <div class="rate">
                         <h6>0.00</h6>
-                        <img src="./images/mdi_arrow-down.png" alt="">
-                        <span>533%</span>
+                        
                 </div>
-            </div>
+                </div>
                 <div class="total-earned">
                     <p>Total Earned</p>
                     <div class="rate">
                         <h6 id="total_payouts">N 30,008.25</h6>
                         <img src="./images/mdi_arrow-up.png" alt="">
-                        <span>533%</span>
+                        <span style="color: green;">533%</span>
                 </div>
 
+                </div>
             </div>
-
-        </div>
     </div>
 
         <div class="user-info-transaction">
@@ -353,6 +354,7 @@
           </div>
         </div>
    </div>
+   
     <script src="./js/cookie.js"></script>
     <script src="./js/users.js"></script>
     <!-- <script src="./js/apis.js"></script> -->

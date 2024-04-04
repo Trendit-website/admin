@@ -1235,26 +1235,26 @@ section h3 {
   display: flex;
   flex-direction: column;
   font-family: 'Campton''sans-serif';
-  background-color: #000000;
+  background-color: #121212;
   border-top: 2px solid tan;
   color: #fff;
   /* display: none; */
     position: absolute;
-    top: 120%;
+    top: 100%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /*background:#121212; Dark background with transparency */
     padding:61px  37px;
     z-index: 1000;
     width: 1000px;
-    gap: 8px;
+    gap: 15px;
 }
 .user-popup .back{
   display: flex;
   gap: 5px;
   align-items: center;
   align-self: left;
-
+  padding: 10px 0;
+  cursor: pointer;
 }
 .user-popup .back p{
   color: #FFD0FE;
@@ -1301,6 +1301,7 @@ line-height: 16.3px;
 .user-popup .user-info1 .name-controls .buttons{
   display: flex;
   gap: 12px;
+  
 }
 .user-popup .user-info1 .name-controls .buttons button{
   background: #13BF62;
@@ -1309,10 +1310,12 @@ line-height: 16.3px;
   border: none;
   color: #fff;
   outline: none;
+  cursor: pointer;
 
 }
 .user-popup .user-info1 .name-controls .buttons button#suspend-user{
   color: red;
+  cursor: pointer;
   background-color: #FFE9E9;
 }
 .user-popup .user-info1 .user-input{
@@ -1343,12 +1346,107 @@ font-weight: 400;
 gap: 8px;
 }
 .user-popup .user-info1 .user-input p span{
+  padding : 5px;
+  color: #fff;
+}
+
+
+.user-popup .user-info-wallet {
+  display: flex;
+  flex-direction: column;
+  background: #080808;
+  border-radius: 4px;
+  padding: 14px 24px;
+  gap: 24px;
+}
+.user-popup .user-info-wallet .date {
+  display: flex;
+ align-items: center;
+ justify-content: space-between;
+}
+.user-popup .user-info-wallet .date p{
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.3px;
+  letter-spacing: -0.06em;
+  text-align: left;
+  color: #b1b1b1;
+  
+}
+.user-popup .user-info-wallet .balance p{
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 46.56px;
+  text-align: left;
+  color: #FFD0FE;
+}
+.user-popup .user-info-wallet .date .left, .user-info-wallet .period{
+  display: flex;
+ align-items: center;
+ gap: 10px;
+}
+.user-popup .user-info-wallet .date .left .period p{
+  color: #b1b1b1;
+}
+.user-popup .user-info-wallet .date .left .period img{
+ width: 12px;
+}
+.user-popup .user-info-wallet .date .left p{
+  color: #FF6DFB;
+}
+.user-popup .user-info-wallet .earn-infos{
+  display: flex;
+ align-items: center;
+ gap: 5px;
+ justify-content: space-between;
+}
+.user-popup .user-info-wallet .earn-infos .total-earned{
+  gap: 10px;
+}
+.user-popup .user-info-wallet .earn-infos .rate{
+  display: flex;
+ align-items: center;
+ gap: 5px;
+ padding: 5px 0;
+}
+.user-popup .user-info-wallet .earn-infos .total-earned p img{
+  width: 15px;
   padding-left: 5px;
+  color: #fff;
+}
+.user-popup .user-info-wallet .earn-infos .total-earned p {
+  font-size: 8.83px;
+  font-weight: 500;
+  line-height: 10.27px;
+  letter-spacing: -0.06em;
+
+
+}
+.user-popup .user-info-wallet .earn-infos .total-earned h6 {
+  font-size: 12.83px;
+  font-weight: 500;
+  line-height: 14.93px;
+  letter-spacing: -0.06em;
+
+
+}
+.user-popup .user-info-wallet .earn-infos .total-earned span{
+ color: red;
 }
 
 
 
-.wallet-container .wallet-box{
+
+
+.user-info-transaction h4{
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 27.94px;
+  letter-spacing: -0.06em;
+
+
+}
+.user-info-transaction .wallet-box{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1356,40 +1454,42 @@ gap: 8px;
   color: #fff;
   margin:5px 0;
   padding: 12px;
+  cursor: pointer;
 }
-.wallet-container .wallet-box .left{
+.user-info-transaction .wallet-box .left{
   display: flex;
   justify-content: space-between;
   align-items: center;
  gap: 24px;
 }
-.wallet-container .wallet-box .credit-date{
+.user-info-transaction .wallet-box .credit-date{
   gap: 6px;
   display: flex;
   flex-direction: column;
   text-align: left;
 }
-.wallet-container .wallet-box #date{
+.user-info-transaction .wallet-box #date{
   font-size: 9px;
   font-weight: 400;
   line-height: 10px;
 }
 
 
-.wallet-container .navigation{
+.user-info-transaction .navigation{
   padding: 10px 0;
+  
 }
-.wallet-container .navigation .left{
+.user-info-transaction .navigation .left{
   display: flex;
   justify-content: space-between;
   gap: 140px;
   align-items: center;
 }
 
-.wallet-container .wallet-box  img{
+.user-info-transaction .wallet-box  img{
   width: 30px;
 }
-.wallet-container .wallet-box  p{
+.user-info-transaction .wallet-box  p{
  font-size: 13px;
  font-weight: 500;
 }
@@ -1409,6 +1509,7 @@ gap: 8px;
   letter-spacing: -0.06em;
   margin-bottom: 32px;
   color: #b1b1b1;
+  cursor: pointer;
 
 }  
 
