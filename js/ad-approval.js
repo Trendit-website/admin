@@ -21,15 +21,30 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+
+// Function to show popup and overlay when a box is clicked
 function showAdInfo() {
-
+    popup.style.display = "block";
+    overlay.style.display = "block";
 }
 
-
-function closeAdPopup(){
-
+// Function to close popup when "X" button is clicked
+function closeAdPopup() {
+    popup.style.display = "none";
+    overlay.style.display = "none";
 }
 
+// Function to show approve box when "Approve Ad" button is clicked
+function showApproveBox() {
+    earnAppealPopup.style.display = "block";
+    overlay2.style.display = "block";
+}
+
+// Function to close approve box when "Cancel" button is clicked
+function closeApproveBox() {
+    earnAppealPopup.style.display = "none";
+    overlay2.style.display = "none";
+}
 
 
 function getAllAds(page=1) {
