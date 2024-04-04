@@ -194,8 +194,7 @@ function displayUserPopup(user) {
         throw new Error('Network response was not ok');
       }
   
-      const userData = await response.json();
-      displayUserPopup(userData.user);
+      const userDetails = await response.json();
   
     } catch (error) {
       console.error('Error fetching user details:', error);
