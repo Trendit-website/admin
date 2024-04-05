@@ -82,12 +82,18 @@ function showTaskPopup(task) {
     // Add click event listener to approve button in the popup
     const approveButton = document.querySelector('.save-btn');
     approveButton.addEventListener('click', function() {
-        approveTask(task.id)
+        const taskId = task.id;
+        approveTask(taskId)
             .then(response => {
                 console.log(response.message);
                 showApproveBox();
+                closeAdPopup();
             })
             .catch(error => console.error('Error approving task:', error));
+    });
+    const closeButton = document.querySelector('.cancel-btn');
+    closeButton.addEventListener('click', function() {
+        closeAdPopup();
     });
 }
 
