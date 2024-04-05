@@ -81,7 +81,7 @@ function showTaskPopup(task) {
     overlay.style.display = "block";
 
     // Add click event listener to approve button in the popup
-    const approveButton = document.querySelector('.approve-btn');
+    const approveButton = document.querySelector('.save-btn');
     approveButton.addEventListener('click', function() {
         const taskId = task.id;
         approveTask(taskId)
