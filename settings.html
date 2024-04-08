@@ -44,14 +44,14 @@
             <p id="selected">Security</p>
             <div class="right">
                 <img src="./images/tick.png" alt="">
-                <p>Save</p>
+                <p id="saveBtn" style="cursor: pointer;">Save</p>
                 
             </div>
             
         </div>
         <p style="font-size: 14px; font-weight: 700; margin-bottom: 15px; color: #fff;">Add admin</p>
         <p style="padding-left: 8px; font-size: 12px;
-        margin-bottom: 5px;">Confirm Password</p>
+        margin-bottom: 5px;">Confirm Email</p>
 
         <div class="add-email">
             <input type="text" name="email" id="email" placeholder="Add Email">
@@ -59,16 +59,36 @@
         </div>
     </section>
     <div class="overlay2" ></div>
-        <div class="approve-box" >
-            <button id="invite-cancel-btn" class="cancel-btn invite-cancel">&#10006;</button>
-            <div class="approve">
-              <img src="./images/Illustration.png" alt="">
-              <h6>Successful</h6>
-              <p>Are you sure you want to generate your next Twitter task now? You have 1 hour to perform this task. Please confirm only if you are ready to perform the task.</p>
-                <button class="invite-cancel">Go Home</button>
-             
-            </div>
-          </div>
+    <div class="approve-box">
+        <button id="invite-cancel-btn" class="cancel-btn invite-cancel">&#10006;</button>
+        <div class="approve">
+            <img src="./images/message.svg" alt="">
+            <h6>Admin Added</h6>
+            <p>The admin has been successfully added. An invitation email has been sent to the provided email address.</p>
+            <button class="invite-cancel">Close</button>
+        </div>
+    </div>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#inviteBtn').click(function() {
+            $('.overlay2').fadeIn();
+            $('.approve-box').fadeIn();
+        });
+
+        $('.invite-cancel, #invite-cancel-btn, .overlay2').click(function() {
+            $('.overlay2').fadeOut();
+            $('.approve-box').fadeOut();
+        });
+        $('#saveBtn').click(function() {
+            // Add code here to navigate to the home page or dashboard
+            window.location.href = 'index.html';
+        });
+        
+    });
+</script>
+
     <script src="./js/script.js"></script>
 </body>
 </html>
