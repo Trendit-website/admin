@@ -32,19 +32,11 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Add click event listeners to cancel buttons in popup
-    const cancelPopupButtons = document.querySelectorAll('.cancel-popup-btn');
-    cancelPopupButtons.forEach(cancelBtn => {
+    // Add click event listeners to cancel buttons
+    const cancelButtons = document.querySelectorAll('.cancel-btn');
+    cancelButtons.forEach(cancelBtn => {
         cancelBtn.addEventListener('click', function() {
             closeAdPopup();
-        });
-    });
-
-    // Add click event listeners to cancel buttons in approve box
-    const cancelApproveButtons = document.querySelectorAll('.cancel-approve-btn');
-    cancelApproveButtons.forEach(cancelBtn => {
-        cancelBtn.addEventListener('click', function() {
-            closeApproveBox();
         });
     });
 });
@@ -59,7 +51,7 @@ function showTaskPopup(task) {
     const taskEarning = `${task.total_allocated} per ${task.goal}`;
 
     const popupContent = `
-        <button class="cancel-popup-btn">&#10006;</button>
+        <button class="cancel-btn">&#10006;</button>
         <div class="popup-box">
             <div class="left">
                 <span>${taskDate}</span>
@@ -79,7 +71,7 @@ function showTaskPopup(task) {
         <div class="checkout">
             <span>Total Paid</span>
             <p>${task.total_allocated}</p>
-            <button class="show-approve-box-btn">Approve Ad &#x1F5F8;</button>
+            <button class="save-btn">Approve Ad &#x1F5F8;</button>
         </div>
     `;
 
@@ -87,14 +79,19 @@ function showTaskPopup(task) {
     popup.style.display = "block";
     overlay.style.display = "block";
 
-    // Add click event listener to show approve box button in the popup
-    const showApproveBoxButton = document.querySelector('.show-approve-box-btn');
-    showApproveBoxButton.addEventListener('click', function() {
-        showApproveBox();
+    // Add click event listener to approve button in the popup
+    const approveButton = document.querySelector('.save-btn');
+    approveButton.addEventListener('click', function() {
+        const taskId = task.id;
+        approveTask(taskId)
+            .then(response => {
+                console.log(response.message);
+                showApproveBox();
+                closeAdPopup();
+            })
+            .catch(error => console.error('Error approving task:', error));
     });
-
-    // Add click event listener to close button in the popup
-    const closeButton = document.querySelector('.cancel-popup-btn');
+    const closeButton = document.querySelector('.cancel-btn');
     closeButton.addEventListener('click', function() {
         closeAdPopup();
     });
@@ -250,43 +247,6 @@ function approveTask(taskId) {
     .catch((error) => {
         console.error('Error', error);
     });
-}
-
-function showApproveBox() {
-    const popup = document.querySelector('.popup');
-    const approveBox = document.querySelector('.approve-box');
-    const overlay = document.querySelector('.overlay');
-
-    popup.style.display = "none";
-    approveBox.style.display = "block";
-    overlay.style.display = "block";
-
-    // Add click event listener to "Yes, Approve" button in the approve box
-    const yesApproveButton = document.querySelector('.yes-approve-btn');
-    yesApproveButton.addEventListener('click', function() {
-        const taskId = popup.getAttribute('data-task-id');
-        approveTask(taskId)
-            .then(response => {
-                console.log(response.message);
-                closeAdPopup();
-                closeApproveBox();
-            })
-            .catch(error => console.error('Error approving task:', error));
-    });
-
-    // Add click event listener to close button in the approve box
-    const closeButton = document.querySelector('.cancel-approve-btn');
-    closeButton.addEventListener('click', function() {
-        closeApproveBox();
-    });
-}
-
-function closeApproveBox() {
-    const approveBox = document.querySelector('.approve-box');
-    const overlay = document.querySelector('.overlay');
-
-    approveBox.style.display = "none";
-    overlay.style.display = "none";
 }
 
 
