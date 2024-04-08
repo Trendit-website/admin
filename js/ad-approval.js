@@ -273,11 +273,9 @@ function approveTask(taskId) {
 }
 
 function showApproveBox() {
-    const popup = document.querySelector('.popup');
     const approveBox = document.querySelector('.approve-box');
     const overlay = document.querySelector('.overlay');
 
-    popup.style.display = "none";
     approveBox.style.display = "block";
     overlay.style.display = "block";
 }
