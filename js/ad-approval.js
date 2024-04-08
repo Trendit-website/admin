@@ -86,8 +86,8 @@ function showTaskPopup(task) {
             const taskId = task.id;
             const response = await approveTask(taskId);
             console.log(response.message);
-            showApproveBox();
-            closeAdPopup();
+            showApproveBox(); // Function to show a success message, you need to define this
+            closeAdPopup(); // Close the popup after approval
         } catch (error) {
             console.error('Error approving task:', error);
         }
@@ -254,7 +254,14 @@ function approveTask(taskId) {
 }
 
 
-
+function showApproveBox() {
+    // This function displays a success message box
+    const approveBox = document.querySelector('.approve-box');
+    approveBox.style.display = "block"; // Show the approve box
+    setTimeout(function() {
+        approveBox.style.display = "none"; // Hide the approve box after some time
+    }, 3000); // Hide after 3 seconds (adjust as needed)
+}
 
 // document.addEventListener("DOMContentLoaded", function() {
 //     var hamburgerMenu = document.querySelector('.hamburger');
