@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Function to fetch and display user data
     async function getAllUsers(page = 1) {
-        const baseUrl = 'https://api.trendit35.com/api/admin';
+        const baseUrl = 'https://api.trendit3.com/api/admin';
         const accessToken = getCookie('accessToken');
 
         const usersUrl = `${baseUrl}/users?page=${page}`;
