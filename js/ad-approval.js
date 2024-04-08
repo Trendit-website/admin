@@ -7,7 +7,6 @@
     
 //34a54bd75ca4415993cf00f7de1873ff7acb54a8
 
-
 document.addEventListener("DOMContentLoaded", function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
@@ -71,7 +70,7 @@ function showTaskPopup(task) {
         <div class="checkout">
             <span>Total Paid</span>
             <p>${task.total_allocated}</p>
-            <button class="save-btn">Approve Ad &#x1F5F8;</button>
+            <button class="show-approve-box-btn">Approve Ad &#x1F5F8;</button>
         </div>
     `;
 
@@ -79,18 +78,10 @@ function showTaskPopup(task) {
     popup.style.display = "block";
     overlay.style.display = "block";
 
-    // Add click event listener to approve button in the popup
-    const approveButton = document.querySelector('.save-btn');
-    approveButton.addEventListener('click', async function() {
-        try {
-            const taskId = task.id;
-            const response = await approveTask(taskId);
-            console.log(response.message);
-            showApproveBox(); // Function to show a success message, you need to define this
-            closeAdPopup(); // Close the popup after approval
-        } catch (error) {
-            console.error('Error approving task:', error);
-        }
+    // Add click event listener to show approve box button in the popup
+    const showApproveBoxButton = document.querySelector('.show-approve-box-btn');
+    showApproveBoxButton.addEventListener('click', function() {
+        showApproveBox();
     });
 
     // Add click event listener to close button in the popup
@@ -99,7 +90,6 @@ function showTaskPopup(task) {
         closeAdPopup();
     });
 }
-
 
 function closeAdPopup() {
     const popup = document.querySelector('.popup');
@@ -253,15 +243,38 @@ function approveTask(taskId) {
     });
 }
 
-
 function showApproveBox() {
-    // This function displays a success message box
+    const popup = document.querySelector('.popup');
     const approveBox = document.querySelector('.approve-box');
-    approveBox.style.display = "block"; // Show the approve box
-    setTimeout(function() {
-        approveBox.style.display = "none"; // Hide the approve box after some time
-    }, 3000); // Hide after 3 seconds (adjust as needed)
+
+    popup.style.display = "none";
+    approveBox.style.display = "block";
+
+    // Add click event listener to "Yes, Approve" button in the approve box
+    const yesApproveButton = document.querySelector('.yes-approve-btn');
+    yesApproveButton.addEventListener('click', function() {
+        const popup = document.querySelector('.popup');
+        const overlay = document.querySelector('.overlay');
+        const taskId = popup.getAttribute('data-task-id');
+        approveTask(taskId)
+            .then(response => {
+                console.log(response.message);
+                showApproveBox();
+                closeAdPopup();
+            })
+            .catch(error => console.error('Error approving task:', error));
+    });
+
+    // Add click event listener to close button in the approve box
+    const closeButton = document.querySelector('.cancel-approve-btn');
+    closeButton.addEventListener('click', function() {
+        const approveBox = document.querySelector('.approve-box');
+        approveBox.style.display = "none";
+    });
 }
+
+
+
 
 // document.addEventListener("DOMContentLoaded", function() {
 //     var hamburgerMenu = document.querySelector('.hamburger');
