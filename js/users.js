@@ -39,9 +39,7 @@ function getAllUsers(page=1) {
 }
 
 async function displayAllUsers(promise) {
-
     try {
-
         const response = await promise;
         const users = response.users;
 
@@ -54,16 +52,15 @@ async function displayAllUsers(promise) {
         // Get the container where the user information will be displayed
         const container = document.getElementById('users-container');
 
+        // Clear any existing content in the container
+        container.innerHTML = '';
+
         // Loop through each user in the response
         users.forEach(user => {
             // Create elements for the user information
             const nameBox = document.createElement('div');
             nameBox.classList.add('name-box');
             nameBox.dataset.userId = user.id; // Store user ID for easy access
-
-            nameBox.addEventListener('click', function() {
-                displayUserInModal(user.id);
-            });
 
             const nameDiv = document.createElement('div');
             nameDiv.classList.add('name');
@@ -141,11 +138,20 @@ async function displayAllUsers(promise) {
             container.appendChild(nameBox);
         });
 
+        // Add event listener to the parent container for event delegation
+        container.addEventListener('click', function(event) {
+            const clickedElement = event.target;
+            if (clickedElement.classList.contains('name-box')) {
+                const userId = clickedElement.dataset.userId;
+                displayUserInModal(userId);
+            }
+        });
+
     } catch (error) {
         console.error('Error displaying users:', error);
     }
-
 }
+
 
 function displayUserInModal(userId) {
     const popup = document.querySelector('.user-popup');
