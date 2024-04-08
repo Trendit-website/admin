@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-const baseUrl = 'https://api.trendit35.com/api/admin';
+const baseUrl = 'https://api.trendit3.com/api/admin';
 
 // get access token
 const accessToken = getCookie('accessToken');
