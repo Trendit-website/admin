@@ -350,7 +350,10 @@ section h3 {
     padding:0 6px;
 
 }
-
+.popup .popup-box .left img{
+  max-width: 50px;
+    min-width: 50px;
+}
 .earn-container .box1 .pending {
   display: flex;
   align-items: center;
