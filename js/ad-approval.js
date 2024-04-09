@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Add click event listeners to cancel buttons in approve box
-    const cancelApproveButtons = document.querySelectorAll('.cancel-approve-btn');
+    const cancelApproveButtons = document.querySelectorAll('.approve-cancel');
     cancelApproveButtons.forEach(cancelBtn => {
         cancelBtn.addEventListener('click', function() {
             closeApproveBox();
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Add click event listener to "Yes, Approve" button in the approve box
-    const yesApproveButton = document.querySelector('.yes-approve-btn');
+    const yesApproveButton = document.querySelector('.approve-yes');
     yesApproveButton.addEventListener('click', function() {
         const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
         approveTask(taskId)
@@ -274,18 +274,18 @@ function approveTask(taskId) {
 
 function showApproveBox() {
     const approveBox = document.querySelector('.approve-box');
-    const overlay2 = document.querySelector('.overlay2');
+    const overlay = document.querySelector('.overlay');
 
     approveBox.style.display = "block";
-    overlay2.style.display = "block";
+    overlay.style.display = "block";
 }
 
 function closeApproveBox() {
     const approveBox = document.querySelector('.approve-box');
-    const overlay2 = document.querySelector('.overlay2');
+    const overlay = document.querySelector('.overlay');
 
     approveBox.style.display = "none";
-    overlay2.style.display = "none";
+    overlay.style.display = "none";
 }
 
 
