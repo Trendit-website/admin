@@ -73,101 +73,40 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.error('Error approving task:', error));
     });
-});
 
-    // Top Navigation Click Event Listeners
+    // Add event listeners to top navigation links for filtering
     const topNavLinks = document.querySelectorAll('.top-nav p');
     topNavLinks.forEach(link => {
         link.addEventListener('click', function() {
-            // Remove 'selected' class from all links
-            topNavLinks.forEach(navLink => {
-                navLink.classList.remove('selected');
-            });
-
-            // Add 'selected' class to the clicked link
-            link.classList.add('selected');
-
-            // Filter based on the clicked link (You can modify this based on your API/data)
-            const filter = link.textContent.toLowerCase();
-            filterAds(filter);
+            const status = link.textContent.toLowerCase();
+            filterAds(status);
         });
     });
 
-    // Filter Button Click Event Listener
-    const filterButton = document.querySelector('.right p:first-child');
+    // Add event listener to filter button
+    const filterButton = document.querySelector('.filter-btn');
     filterButton.addEventListener('click', function() {
-        // Function to handle filter logic (You can modify this based on your API/data)
-        console.log("Filter button clicked");
-        // Example: filterAdsByFilterOption();
+        const filterOption = document.querySelector('.filter-option').value;
+        filterAdsByFilterOption(filterOption);
     });
 
-    // Sort Button Click Event Listener
-    const sortButton = document.querySelector('.right p:last-child');
+    // Add event listener to sort button
+    const sortButton = document.querySelector('.sort-btn');
     sortButton.addEventListener('click', function() {
-        // Function to handle sorting logic (You can modify this based on your API/data)
-        console.log("Sort button clicked");
-        // Example: sortAdsBySortOption();
+        const sortOption = document.querySelector('.sort-option').value;
+        sortAdsBySortOption(sortOption);
     });
+});
 
-
-function showTaskPopup(task) {
-    const popup = document.querySelector('.popup');
-    const overlay = document.querySelector('.overlay');
-
-    // Populate popup with task details
-    const taskDate = new Date(task.date_created).toLocaleString('en-US', { timeZone: 'GMT' });
-    const taskDescription = task.caption ? task.caption : `Like and follow ${task.platform} business pages`;
-    const taskEarning = `${task.total_allocated} per ${task.goal}`;
-
-    const popupContent = `
-        <button class="cancel-btn">&#10006;</button>
-        <div class="popup-box">
-            <div class="left">
-                <span>${taskDate}</span>
-                <p style="font-size: 20px;">${taskDescription}</p>
-                <div class="earning">
-                    <img src="./images/wallet.png" width="9px">
-                    <span>Earning:</span>
-                    <p>${taskEarning}</p>
-                </div>
-            </div>
-            <img src="./images/${task.platform}.png" width="300px">
-        </div>
-        <div class="info">
-            <!-- Populate with task details as needed -->
-        </div>
-        <!-- Save and Cancel buttons -->
-        <div class="checkout">
-            <span>Total Paid</span>
-            <p>${task.total_allocated}</p>
-            <button class="save-btn" data-task-id="${task.id}">Approve Ad &#x1F5F8;</button>
-        </div>
-    `;
-
-    popup.innerHTML = popupContent;
-    popup.style.display = "block";
-    overlay.style.display = "block";
-
-    // Add click event listener to close button in the popup
-    const closeButton = document.querySelector('.cancel-btn');
-    closeButton.addEventListener('click', function() {
-        closeAdPopup();
-    });
-}
-
-function closeAdPopup() {
-    const popup = document.querySelector('.popup');
-    const overlay = document.querySelector('.overlay');
-    popup.style.display = "none";
-    overlay.style.display = "none";
-}
-
-function getAllAds(page=1) {
+// Function to filter ads based on the selected status
+function filterAds(status) {
+    console.log("Filtering ads by:", status);
+    // Fetch ads based on status (You can modify this based on your API/data)
     const baseUrl = 'https://api.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
-    const tasksUrl = `${baseUrl}/tasks?page=${page}`;
-  
-    return fetch(tasksUrl, {
+    const tasksUrl = `${baseUrl}/tasks?status=${status}`;
+
+    fetch(tasksUrl, {
         method:'POST',
         headers: {
             'Authorization': `Bearer ${accessToken}`,
@@ -180,147 +119,89 @@ function getAllAds(page=1) {
         }
         return response.json();
     })
-    .catch((error) => {
-        console.error('Error', error);
-    });
-}
-
-async function displayAllAds(promise) {
-
-    try {
-        const response = await promise;
-        const data = response.tasks;
-
-        // Check if the data array exists and is not empty
-        if (!data || data.length === 0) {
-            console.log("No ads to display.");
-            return; // Exit the function if there are no ads
-        }
-
+    .then(data => {
         const adsContainer = document.getElementById('earn-container');
+        adsContainer.innerHTML = ''; // Clear existing ads
 
-        data.forEach(task => {
-            const adBox = document.createElement('div');
-            adBox.classList.add('box1');
-            adBox.setAttribute('data-task-id', task.id); // Set task ID as attribute
-
-            adBox.addEventListener("click", function() {
-                console.log("clicked");
-                showTaskPopup(task);
-            });
-
-            const statusDiv = document.createElement('div');
-            statusDiv.classList.add('pending');
-
-            const platformImage = document.createElement('img');
-            platformImage.src = `./images/${task.platform}.png`;
-            platformImage.alt = task.platform;
-
-            const statusParagraph = document.createElement('p');
-            statusParagraph.textContent = task.status.charAt(0).toUpperCase() + task.status.slice(1); // Capitalize first letter
-
-            statusDiv.appendChild(platformImage);
-            statusDiv.appendChild(statusParagraph);
-
-            const descriptionParagraph = document.createElement('p');
-            if (task.caption) {
-                descriptionParagraph.textContent = task.caption;
-            } else {
-                descriptionParagraph.textContent = `Like and follow ${task.platform} business pages`;
-            }
-
-            const dateSpan = document.createElement('span');
-            dateSpan.textContent = new Date(task.date_created).toLocaleString('en-US', { timeZone: 'GMT' }); // Convert to local time
-
-            const earningDiv = document.createElement('div');
-            earningDiv.classList.add('earning');
-
-            const earningImage = document.createElement('img');
-            earningImage.src = "./images/wallet.png";
-            earningImage.width = "9";
-
-            const earningSpan = document.createElement('span');
-            earningSpan.textContent = 'Earning:';
-
-            const earningParagraph = document.createElement('p');
-            earningParagraph.textContent = task.total_allocated + ' per ' + task.goal;
-
-            earningDiv.appendChild(earningImage);
-            earningDiv.appendChild(earningSpan);
-            earningDiv.appendChild(earningParagraph);
-
-            adBox.appendChild(statusDiv);
-            adBox.appendChild(descriptionParagraph);
-            adBox.appendChild(dateSpan);
-            adBox.appendChild(earningDiv);
-
+        data.tasks.forEach(task => {
+            const adBox = createAdBox(task);
             adsContainer.appendChild(adBox);
         });
-    } catch (error) {
-        console.error('Error displaying ads:', error);
+    })
+    .catch((error) => {
+        console.error('Error filtering ads:', error);
+    });
+}
+
+// Function to filter ads by specific filter option
+function filterAdsByFilterOption(filterOption) {
+    console.log("Filtering ads by filter option:", filterOption);
+    // Fetch ads based on filter option (You can modify this based on your API/data)
+}
+
+// Function to sort ads based on the selected sort option
+function sortAdsBySortOption(sortOption) {
+    console.log("Sorting ads by:", sortOption);
+    // Sort ads based on sort option (You can modify this based on your API/data)
+}
+
+// Function to create an ad box element
+function createAdBox(task) {
+    const adBox = document.createElement('div');
+    adBox.classList.add('box1');
+    adBox.setAttribute('data-task-id', task.id);
+
+    adBox.addEventListener("click", function() {
+        console.log("clicked");
+        showTaskPopup(task);
+    });
+
+    const statusDiv = document.createElement('div');
+    statusDiv.classList.add('pending');
+
+    const platformImage = document.createElement('img');
+    platformImage.src = `./images/${task.platform}.png`;
+    platformImage.alt = task.platform;
+
+    const statusParagraph = document.createElement('p');
+    statusParagraph.textContent = task.status.charAt(0).toUpperCase() + task.status.slice(1);
+
+    statusDiv.appendChild(platformImage);
+    statusDiv.appendChild(statusParagraph);
+
+    const descriptionParagraph = document.createElement('p');
+    if (task.caption) {
+        descriptionParagraph.textContent = task.caption;
+    } else {
+        descriptionParagraph.textContent = `Like and follow ${task.platform} business pages`;
     }
-}
 
-function getTaskById(taskId) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
-    const accessToken = getCookie('accessToken');
-    const taskUrl = `${baseUrl}/tasks/${taskId}`;
-  
-    return fetch(taskUrl, {
-        method:'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response=> {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .catch((error) => {
-        console.error('Error', error);
-    });
-}
+    const dateSpan = document.createElement('span');
+    dateSpan.textContent = new Date(task.date_created).toLocaleString('en-US', { timeZone: 'GMT' });
 
-function approveTask(taskId) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
-    const accessToken = getCookie('accessToken');
-    const approveUrl = `${baseUrl}/approve-task/${taskId}`;
-  
-    return fetch(approveUrl, {
-        method:'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response=> {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .catch((error) => {
-        console.error('Error', error);
-    });
-}
+    const earningDiv = document.createElement('div');
+    earningDiv.classList.add('earning');
 
-function showApproveBox() {
-    const approveBox = document.querySelector('.approve-box');
-    const overlay = document.querySelector('.overlay');
+    const earningImage = document.createElement('img');
+    earningImage.src = "./images/wallet.png";
+    earningImage.width = "9";
 
-    approveBox.style.display = "block";
-    overlay.style.display = "block";
-}
+    const earningSpan = document.createElement('span');
+    earningSpan.textContent = 'Earning:';
 
-function closeApproveBox() {
-    const approveBox = document.querySelector('.approve-box');
-    const overlay = document.querySelector('.overlay');
+    const earningParagraph = document.createElement('p');
+    earningParagraph.textContent = task.total_allocated + ' per ' + task.goal;
 
-    approveBox.style.display = "none";
-    overlay.style.display = "none";
+    earningDiv.appendChild(earningImage);
+    earningDiv.appendChild(earningSpan);
+    earningDiv.appendChild(earningParagraph);
+
+    adBox.appendChild(statusDiv);
+    adBox.appendChild(descriptionParagraph);
+    adBox.appendChild(dateSpan);
+    adBox.appendChild(earningDiv);
+
+    return adBox;
 }
 
 
