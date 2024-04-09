@@ -274,18 +274,18 @@ function approveTask(taskId) {
 
 function showApproveBox() {
     const approveBox = document.querySelector('.approve-box');
-    const overlay = document.querySelector('.overlay');
+    const overlay2 = document.querySelector('.overlay2');
 
     approveBox.style.display = "block";
-    overlay.style.display = "block";
+    overlay2.style.display = "block";
 }
 
 function closeApproveBox() {
     const approveBox = document.querySelector('.approve-box');
-    const overlay = document.querySelector('.overlay');
+    const overlay2 = document.querySelector('.overlay2');
 
     approveBox.style.display = "none";
-    overlay.style.display = "none";
+    overlay2.style.display = "none";
 }
 
 
