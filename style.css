@@ -345,8 +345,9 @@ section h3 {
 
 }
 .earn-container .box1 .pending img {
-    background-color: #1E1E1E;max-width: 20px;
-    min-width: 20px;
+    max-width: 25px;
+    min-width: 25px;
+    padding:0 6px;
 
 }
 
