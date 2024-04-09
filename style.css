@@ -345,14 +345,14 @@ section h3 {
 
 }
 .earn-container .box1 .pending img {
-    max-width: 25px;
-    min-width: 25px;
+    max-width: 40px;
+    min-width: 40px;
     padding:0 6px;
 
 }
 .popup .popup-box .left img{
-  max-width: 50px;
-    min-width: 50px;
+  max-width: 100px;
+    min-width:100px;
 }
 .earn-container .box1 .pending {
   display: flex;
