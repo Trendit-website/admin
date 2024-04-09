@@ -75,6 +75,41 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+    // Top Navigation Click Event Listeners
+    const topNavLinks = document.querySelectorAll('.top-nav p');
+    topNavLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            // Remove 'selected' class from all links
+            topNavLinks.forEach(navLink => {
+                navLink.classList.remove('selected');
+            });
+
+            // Add 'selected' class to the clicked link
+            link.classList.add('selected');
+
+            // Filter based on the clicked link (You can modify this based on your API/data)
+            const filter = link.textContent.toLowerCase();
+            filterAds(filter);
+        });
+    });
+
+    // Filter Button Click Event Listener
+    const filterButton = document.querySelector('.right p:first-child');
+    filterButton.addEventListener('click', function() {
+        // Function to handle filter logic (You can modify this based on your API/data)
+        console.log("Filter button clicked");
+        // Example: filterAdsByFilterOption();
+    });
+
+    // Sort Button Click Event Listener
+    const sortButton = document.querySelector('.right p:last-child');
+    sortButton.addEventListener('click', function() {
+        // Function to handle sorting logic (You can modify this based on your API/data)
+        console.log("Sort button clicked");
+        // Example: sortAdsBySortOption();
+    });
+
+
 function showTaskPopup(task) {
     const popup = document.querySelector('.popup');
     const overlay = document.querySelector('.overlay');

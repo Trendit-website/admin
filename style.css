@@ -621,10 +621,7 @@ section h3 {
    position: absolute;
  
 }
-.popup .popup-box img{
-  max-width: 100px;
-    min-width:100px;
-}
+
 .popup .popup-box p {
   font-size: 14px;
   font-weight: 500;
@@ -1663,6 +1660,7 @@ gap: 8px;
     align-items: center;
     border-bottom: 1px solid #1E1E1E;
     gap:5px;
+    cursor: pointer;
     text-transform: capitalize;
     font-size: 12px;
     font-weight: 700;
