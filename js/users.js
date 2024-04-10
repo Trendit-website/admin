@@ -15,20 +15,23 @@ document.addEventListener("DOMContentLoaded", function() {
 function displayUserInModal(user, userId) {
     // Update the user popup with the user's information
     const userName = document.getElementById('user-name');
-    const userEmail = document.getElementById('user-email');
-    const username = document.getElementById('username');
-    const gender = document.getElementById('gender');
-    const location = document.getElementById('location');
-    const phone = document.getElementById('phone');
-    const birthday = document.getElementById('birthday');
+        const userEmail = document.getElementById('user-email');
+        const username = document.getElementById('username');
+        const gender = document.getElementById('gender');
+        const location = document.getElementById('location');
+        const phone = document.getElementById('phone');
+        const birthday = document.getElementById('birthday');
+        const profilePicture = document.getElementById('profile-picture');
 
-    userName.textContent = user.firstname + ' ' + user.lastname;
-    userEmail.textContent = user.email;
-    username.textContent = '@' + user.username;
-    gender.textContent = user.gender;
-    location.textContent = user.location;
-    phone.textContent = '+234' + user.phone;
-    birthday.textContent = user.birthday;
+        userName.textContent = user.firstname + ' ' + user.lastname;
+        userEmail.textContent = user.email;
+        username.textContent = '@' + user.username;
+        gender.textContent = user.gender || "Not Specified";
+        location.textContent = user.country || "Not Specified";
+        phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
+        birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
+        profilePicture.src = user.profile_picture || "./images/default-profile-pic.jpg"; // Default profile picture if none provided
+
 
     // Show the user popup
     const userPopup = document.querySelector('.user-popup');
