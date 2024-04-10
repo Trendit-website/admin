@@ -256,6 +256,8 @@ document.addEventListener("DOMContentLoaded", function() {
   
 // script.js
 
+// script.js
+
 document.addEventListener("DOMContentLoaded", function() {
   // Fetch the earn-appeal.html file
   fetch('earn-appeal.html')
@@ -271,12 +273,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
           // Update the text inside the <p> tag with the count
           var pendingCountElement = document.getElementById("pendingCount");
-          pendingCountElement.textContent = pendingCount + " pending earnings";
+          pendingCountElement.textContent = pendingCount + " pending earning";
       })
       .catch(error => {
           console.error('Error fetching earn-appeal.html:', error);
       });
 });
-
-
-
