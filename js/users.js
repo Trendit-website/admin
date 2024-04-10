@@ -21,7 +21,6 @@ function displayUserInModal(user, userId) {
     const location = document.getElementById('location');
     const phone = document.getElementById('phone');
     const birthday = document.getElementById('birthday');
-    const overlay = document.querySelector(".overlay");
 
     userName.textContent = user.firstname + ' ' + user.lastname;
     userEmail.textContent = user.email;
@@ -33,15 +32,18 @@ function displayUserInModal(user, userId) {
 
     // Show the user popup
     const userPopup = document.querySelector('.user-popup');
+    const overlay = document.querySelector(".overlay");
     userPopup.style.display = 'block';
-    overlay.style.display='block'
+    overlay.style.display='block';
 }
 
 // Close the user popup when "Go back" is clicked
 const backButton = document.querySelector('.user-popup .back');
 backButton.addEventListener('click', function() {
     const userPopup = document.querySelector('.user-popup');
+    const overlay = document.querySelector(".overlay");
     userPopup.style.display = 'none';
+    overlay.style.display='none';
 });
 
 // Event delegation to handle click events on user name boxes
