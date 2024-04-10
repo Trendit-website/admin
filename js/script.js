@@ -254,28 +254,5 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   
   
-// script.js
 
-// script.js
 
-document.addEventListener("DOMContentLoaded", function() {
-  // Fetch the earn-appeal.html file
-  fetch('earn-appeal.html')
-      .then(response => response.text())
-      .then(data => {
-          // Create a temporary element to hold the fetched HTML content
-          var tempContainer = document.createElement('div');
-          tempContainer.innerHTML = data;
-
-          // Count the number of elements with the class "box1" inside .earn-container
-          var box1Elements = tempContainer.querySelectorAll(".earn-container .box1");
-          var pendingCount = box1Elements.length;
-
-          // Update the text inside the <p> tag with the count
-          var pendingCountElement = document.getElementById("pendingCount");
-          pendingCountElement.textContent = pendingCount + " pending earning";
-      })
-      .catch(error => {
-          console.error('Error fetching earn-appeal.html:', error);
-      });
-});
