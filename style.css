@@ -1247,7 +1247,6 @@ section h3 {
   flex-direction: column;
   font-family: 'Campton''sans-serif';
   background-color: #121212;
-  border-top: 2px solid tan;
   color: #fff;
   display: none; 
     position: absolute;
@@ -2299,6 +2298,40 @@ gap: 8px;
       padding:10px 20px;
       
   }
+  .user-popup{
+    top: 110%;
+    top: 10%;
+    padding: 15px;
+    box-sizing: border-box;
+    width: calc(100% - 40px);
+    max-width: 400px;
+    justify-content: center;
+  }
+  .user-info-transaction .top-boxes{
+    display: flex; 
+    align-items: unset;
+    flex-direction: column;
+    gap: 10px;
+   }
+   .user-info-transaction .box1 button{
+    margin-left: 20px;
+    white-space: nowrap;
+    text-wrap: nowrap;
+   }
+   .user-info-transaction .wallet-box .left{
+    gap: 12px;
+   }
+   .user-info-transaction .wallet-box p{
+    font-size: 10px;
+
+   }
+  
+   .user-info-transaction .wallet-box  img{
+    width: 25px;
+   }
+
+
+
 
 }
 
