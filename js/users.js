@@ -12,6 +12,50 @@ document.addEventListener("DOMContentLoaded", function() {
     displayAllUsers(data);
 });
 
+function displayUserInModal(user, userId) {
+    // Update the user popup with the user's information
+    const userName = document.getElementById('user-name');
+    const userEmail = document.getElementById('user-email');
+    const username = document.getElementById('username');
+    const gender = document.getElementById('gender');
+    const location = document.getElementById('location');
+    const phone = document.getElementById('phone');
+    const birthday = document.getElementById('birthday');
+
+    userName.textContent = user.firstname + ' ' + user.lastname;
+    userEmail.textContent = user.email;
+    username.textContent = '@' + user.username;
+    gender.textContent = user.gender;
+    location.textContent = user.location;
+    phone.textContent = '+234' + user.phone;
+    birthday.textContent = user.birthday;
+
+    // Show the user popup
+    const userPopup = document.querySelector('.user-popup');
+    userPopup.style.display = 'block';
+}
+
+// Close the user popup when "Go back" is clicked
+const backButton = document.querySelector('.user-popup .back');
+backButton.addEventListener('click', function() {
+    const userPopup = document.querySelector('.user-popup');
+    userPopup.style.display = 'none';
+});
+
+// Event delegation to handle click events on user name boxes
+const container = document.getElementById('users-container');
+container.addEventListener('click', function(event) {
+    const nameBox = event.target.closest('.name-box');
+    if (nameBox) {
+        const userId = nameBox.dataset.userId;
+        const user = data.users.find(user => user.id === parseInt(userId, 10));
+        if (user) {
+            displayUserInModal(user, userId);
+        } else {
+            console.error("User not found.");
+        }
+    }
+});
 
 
 const baseUrl = 'https://api.trendit3.com/api/admin';
@@ -160,43 +204,7 @@ async function displayAllUsers(promise) {
 }
 
 
-function displayUserInModal(userId) {
-    // Find the user with the matching ID from the fetched data
-    const user = data.users.find(user => user.id === userId);
 
-    if (!user) {
-        console.error("User not found.");
-        return;
-    }
-
-    // Update the user popup with the user's information
-    const userName = document.getElementById('user-name');
-    const userEmail = document.getElementById('user-email');
-    const username = document.getElementById('username');
-    const gender = document.getElementById('gender');
-    const location = document.getElementById('location');
-    const phone = document.getElementById('phone');
-    const birthday = document.getElementById('birthday');
-
-    userName.textContent = user.firstname + ' ' + user.lastname;
-    userEmail.textContent = user.email;
-    username.textContent = '@' + user.username;
-    gender.textContent = user.gender;
-    location.textContent = user.location;
-    phone.textContent = '+234' + user.phone;
-    birthday.textContent = user.birthday;
-
-    // Show the user popup
-    const userPopup = document.querySelector('.user-popup');
-    userPopup.style.display = 'block';
-}
-
-// Close the user popup when "Go back" is clicked
-const backButton = document.querySelector('.user-popup .back');
-backButton.addEventListener('click', function() {
-    const userPopup = document.querySelector('.user-popup');
-    userPopup.style.display = 'none';
-});
 
 
 
