@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
           // Update the text inside the <p> tag with the count
           var pendingCountElement = document.getElementById("pendingCount");
-          pendingCountElement.textContent = pendingCount + " pending earning";
+          pendingCountElement.textContent = pendingCount + " pending earnings";
       })
       .catch(error => {
           console.error('Error fetching earn-appeal.html:', error);
