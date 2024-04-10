@@ -21,6 +21,7 @@ function displayUserInModal(user, userId) {
     const location = document.getElementById('location');
     const phone = document.getElementById('phone');
     const birthday = document.getElementById('birthday');
+    const overlay = document.querySelector(".overlay");
 
     userName.textContent = user.firstname + ' ' + user.lastname;
     userEmail.textContent = user.email;
@@ -33,6 +34,7 @@ function displayUserInModal(user, userId) {
     // Show the user popup
     const userPopup = document.querySelector('.user-popup');
     userPopup.style.display = 'block';
+    overlay.style.display='block'
 }
 
 // Close the user popup when "Go back" is clicked
