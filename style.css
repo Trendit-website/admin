@@ -2313,6 +2313,16 @@ gap: 8px;
     text-wrap: nowrap;
     font-size: 20px;
   }
+  .user-popup .user-info1 .user-input{
+    display: flex;
+    flex-direction: column;
+  }
+  .user-popup .user-info-wallet .earn-infos{
+    flex-direction: column;
+  }
+  .user-popup .user-info-wallet .date p,.user-popup .user-info-wallet .date .left, .user-info-wallet .period{
+    text-wrap: nowrap;
+  }
 
   .user-info-transaction .top-boxes{
     display: flex; 
