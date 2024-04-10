@@ -2300,13 +2300,20 @@ gap: 8px;
   }
   .user-popup{
     top: 110%;
-    top: 10%;
     padding: 15px;
     box-sizing: border-box;
     width: calc(100% - 40px);
     max-width: 400px;
     justify-content: center;
   }
+  .user-popup .user-info1 .name-controls{
+    flex-direction: column;
+  }
+  .user-popup .user-info1 .name-controls .name-profile .name h6{
+    text-wrap: nowrap;
+    font-size: 20px;
+  }
+
   .user-info-transaction .top-boxes{
     display: flex; 
     align-items: unset;
