@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
             closeApproveBox();
         });
     });
+    
 
     // Add click event listener to "Yes, Approve" button in the approve box
     const yesApproveButton = document.querySelector('.approve-yes');

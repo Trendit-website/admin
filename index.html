@@ -46,7 +46,7 @@
 
         <section class="hero">
             <div class="notification">
-                <p>23 pending earning</p>
+                <p id="pendingCount">23 pending earning</p>
                 <img src="./images/redwarning.png" alt="">
             </div>
                 <h3>Welcome back Admin</h3>
@@ -153,7 +153,18 @@
     <script src="./js/home.js"></script>
     <script src="./js/checkLogin.js"></script>
   
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        // Count the number of elements with the class "box1"
+        var box1Elements = document.querySelectorAll(".box1");
+        var pendingCount = box1Elements.length;
 
+        // Update the text inside the <p> tag with the count
+        var pendingCountElement = document.getElementById("pendingCount");
+        pendingCountElement.textContent = pendingCount + " pending earning";
+    });
+
+    </script>
     <!-- <script src="./js/backend.js"></script> -->
     
 </body>
