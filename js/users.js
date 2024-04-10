@@ -43,7 +43,8 @@ backButton.addEventListener('click', function() {
     const userPopup = document.querySelector('.user-popup');
     const overlay = document.querySelector(".overlay");
     userPopup.style.display = 'none';
-    overlay.style.display='none';
+    overlay.style.display = 'none';
+    
 });
 
 // Event delegation to handle click events on user name boxes
