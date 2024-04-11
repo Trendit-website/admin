@@ -2308,7 +2308,7 @@ gap: 8px;
       
   }
   .user-popup{
-    top: 110%;
+    top: 125%;
     padding: 15px;
     box-sizing: border-box;
     width: calc(100% - 40px);
