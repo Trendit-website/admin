@@ -1962,6 +1962,14 @@ gap: 8px;
    min-width: 125px;
    align-self: center;
    }
+   .user-popup{
+    top: 110%;
+    padding: 15px;
+    box-sizing: border-box;
+    width: calc(100% - 40px);
+    min-width: 600px;
+    justify-content: center;
+  }
 
 } 
 
