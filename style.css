@@ -1963,7 +1963,7 @@ gap: 8px;
    align-self: center;
    }
    .user-popup{
-    top: 110%;
+    top: 120%;
     padding: 15px;
     box-sizing: border-box;
     width: calc(100% - 40px);
