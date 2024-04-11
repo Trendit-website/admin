@@ -2316,12 +2316,18 @@ gap: 8px;
   .user-popup .user-info1 .user-input{
     display: flex;
     flex-direction: column;
+    text-align: left;
+    justify-content: left;
+    width: 300px;
   }
   .user-popup .user-info-wallet .earn-infos{
     flex-direction: column;
+    text-align: left;
+    justify-content: left;
   }
   .user-popup .user-info-wallet .date p,.user-popup .user-info-wallet .date .left, .user-info-wallet .period{
     text-wrap: nowrap;
+
   }
 
   .user-info-transaction .top-boxes{
