@@ -21,6 +21,49 @@ document.addEventListener("DOMContentLoaded", function() {
     // Display all users and execute the callback function once done
     displayAllAds(data);
 
+
+
+    const filterOptions = document.querySelectorAll('.filter-option');
+    filterOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const filter = option.dataset.filter;
+            // Remove 'selected' class from all options
+            filterOptions.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            // Add 'selected' class to clicked option
+            option.classList.add('selected');
+            // Filter tasks based on the selected category
+            filterTasks(filter);
+        });
+    });
+
+    // Filter tasks based on initial selected option
+    const initialSelected = document.querySelector('.filter-option.selected');
+    if (initialSelected) {
+        const initialFilter = initialSelected.dataset.filter;
+        filterTasks(initialFilter);
+    }
+});
+
+function filterTasks(filter) {
+    const taskBoxes = document.querySelectorAll('.box1');
+    taskBoxes.forEach(taskBox => {
+        const status = taskBox.querySelector('.pending p').textContent.trim().toLowerCase();
+        if (filter === "completed" && status === "approved") {
+            taskBox.style.display = 'block';
+        } else if (status === filter) {
+            taskBox.style.display = 'block';
+        } else {
+            taskBox.style.display = 'none';
+        }
+    });
+}
+
+
+
+
+
     // Add click event listeners to box1 elements
     const box1Elements = document.querySelectorAll('.box1');
     box1Elements.forEach(box => {
@@ -74,41 +117,6 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.error('Error approving task:', error));
     });
-
-    
-    // Filter tasks based on navigation
-    const navItems = document.querySelectorAll('.top-nav .left p');
-    navItems.forEach(navItem => {
-        navItem.addEventListener('click', function() {
-            const filter = navItem.textContent.trim().toLowerCase();
-
-            // Remove the 'selected' class from all nav items
-            navItems.forEach(item => {
-                item.classList.remove('selected');
-            });
-
-            // Add 'selected' class to the clicked nav item
-            navItem.classList.add('selected');
-
-            // Filter tasks based on the selected category
-            filterTasks(filter);
-        });
-    });
-});
-
-function filterTasks(filter) {
-    const taskBoxes = document.querySelectorAll('.box1');
-    taskBoxes.forEach(taskBox => {
-        const status = taskBox.querySelector('.pending p').textContent.trim().toLowerCase();
-        if (status === filter) {
-            taskBox.style.display = 'block';
-        } else {
-            taskBox.style.display = 'none';
-        }
-    });
-}
-
-
 // });
 
 function showTaskPopup(task) {
