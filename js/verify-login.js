@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 status.textContent = data.message;
                 if (data.message === 'Invalid token' || data.message === 'Token already used') {
                     verifyPopup.style.display = 'block';
-                    status.style.display = 'none';
                     emailSpan.textContent = getEmailFromToken(token);
+                    showOverlay();
                 }
             }
         })
@@ -58,21 +58,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
     continueBtns.forEach(btn => {
         btn.addEventListener('click', function() {
-            verifyPopup.style.display = 'none';
-            overlay.style.display = 'none';
+            hideOverlay();
+            hideVerifyPopup();
         });
     });
 
     cancelBtn.addEventListener('click', function() {
-        verifyPopup.style.display = 'none';
-        overlay.style.display = 'none';
+        hideOverlay();
+        hideVerifyPopup();
     });
 
-    // Show overlay and verify popup if needed
-    if (document.getElementById('status').textContent === 'Invalid Token' || 
-        document.getElementById('status').textContent === 'Token already used') {
-        verifyPopup.style.display = 'block';
+    function showOverlay() {
         overlay.style.display = 'block';
+    }
+
+    function hideOverlay() {
+        overlay.style.display = 'none';
+    }
+
+    function showVerifyPopup() {
+        verifyPopup.style.display = 'block';
+    }
+
+    function hideVerifyPopup() {
+        verifyPopup.style.display = 'none';
     }
 });
 
