@@ -75,6 +75,8 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.error('Error approving task:', error));
     });
 
+    
+    // Filter tasks based on navigation
     const navItems = document.querySelectorAll('.top-nav .left p');
     navItems.forEach(navItem => {
         navItem.addEventListener('click', function() {
