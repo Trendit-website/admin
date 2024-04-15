@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
-    const successRedirectUrl = 'https://admin.trendit3.com';
+    const baseUrl = 'https://api.trendit35.com/api/admin';
+    const successRedirectUrl = 'https://admin.trendit35.com';
 
     function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function getEmailFromToken(token) {
-        // Assuming the token contains the email after the word "email="
         const startIndex = token.indexOf('email=') + 'email='.length;
         const endIndex = token.indexOf('&');
         return token.substring(startIndex, endIndex);
@@ -68,10 +67,14 @@ document.addEventListener('DOMContentLoaded', function() {
         verifyPopup.style.display = 'none';
         overlay.style.display = 'none';
     });
+
+    // Show overlay and verify popup if needed
+    if (document.getElementById('status').textContent === 'Invalid Token' || 
+        document.getElementById('status').textContent === 'Token already used') {
+        verifyPopup.style.display = 'block';
+        overlay.style.display = 'block';
+    }
 });
-
-
-
 
 // document.addEventListener('DOMContentLoaded', function() {
 //             // Define the base URL for the fetch request
