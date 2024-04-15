@@ -1685,7 +1685,10 @@ gap: 8px;
     font-weight: 500;
 
 }  
-
+.filter-option.selected {
+  border-bottom: 1px solid #FF6DFB;
+    color: #FF6DFB;
+}
 .hero .top-nav #selected{
     padding: 12px 8px;
     border-bottom: 1px solid #FF6DFB;
