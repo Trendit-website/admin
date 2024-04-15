@@ -74,7 +74,40 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.error('Error approving task:', error));
     });
+
+    const navItems = document.querySelectorAll('.top-nav .left p');
+    navItems.forEach(navItem => {
+        navItem.addEventListener('click', function() {
+            const filter = navItem.textContent.trim().toLowerCase();
+
+            // Remove the 'selected' class from all nav items
+            navItems.forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // Add 'selected' class to the clicked nav item
+            navItem.classList.add('selected');
+
+            // Filter tasks based on the selected category
+            filterTasks(filter);
+        });
+    });
 });
+
+function filterTasks(filter) {
+    const taskBoxes = document.querySelectorAll('.box1');
+    taskBoxes.forEach(taskBox => {
+        const status = taskBox.querySelector('.pending p').textContent.trim().toLowerCase();
+        if (status === filter) {
+            taskBox.style.display = 'block';
+        } else {
+            taskBox.style.display = 'none';
+        }
+    });
+}
+
+
+// });
 
 function showTaskPopup(task) {
     const popup = document.querySelector('.popup');
