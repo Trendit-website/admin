@@ -37,6 +37,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Handle cancel button click
+    const cancelBtn = document.querySelector('.cancel-btn');
+    cancelBtn.addEventListener('click', function() {
+        hideOverlay();
+        hideVerifyPopup();
+    });
+
     // Function to verify token
     function verifyToken(token) {
         const verifyUrl = `${baseUrl}/verify-admin-login`;
@@ -92,8 +99,17 @@ document.addEventListener('DOMContentLoaded', function() {
         expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
         document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
     }
-});
 
+    // Function to hide overlay
+    function hideOverlay() {
+        overlay.style.display = 'none';
+    }
+
+    // Function to hide verify popup
+    function hideVerifyPopup() {
+        verifyPopup.style.display = 'none';
+    }
+});
 
 
 // document.addEventListener('DOMContentLoaded', function() {
