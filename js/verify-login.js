@@ -31,9 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 status.textContent = data.message;
                 if (data.message === 'Invalid token' || data.message === 'Token already used') {
-                    verifyPopup.style.display = 'block';
+                    showVerifyPopup(); // <-- Show the popup
                     emailSpan.textContent = getEmailFromToken(token);
-                    showOverlay();
+                    showOverlay(); // <-- Show the overlay
                 }
             }
         })
