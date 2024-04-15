@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const verifyPopup = document.querySelector('.verify-popup');
     const overlay = document.querySelector('.overlay');
     const emailSpan = document.getElementById('popupEmail');
-    const status = document.getElementById('status');
+    const popupTitle = document.getElementById('popupTitle');
+    const popupMessage = document.getElementById('popupMessage');
 
     // Show the popup when the page loads
     showPopup();
@@ -22,13 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
             emailSpan.textContent = email;
         } else {
             emailSpan.textContent = "Unknown Email";
+            popupTitle.textContent = "Invalid Token";
+            popupMessage.textContent = "This token is invalid or has been used";
         }
-    }
-
-    // Function to hide the popup
-    function hidePopup() {
-        overlay.style.display = 'none';
-        verifyPopup.style.display = 'none';
     }
 
     // Handle continue button click
@@ -57,15 +54,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 setCookie('accessToken', data.access_token, 1);
                 window.location.href = successRedirectUrl;
             } else {
-                status.textContent = data.message;
-                if (data.message === 'Invalid token' || data.message === 'Token already used') {
-                    hidePopup();
-                }
+                popupTitle.textContent = "Invalid Token";
+                popupMessage.textContent = "This token is invalid or has been used";
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            status.textContent = 'An error occurred. Please try again or contact support.';
+            popupTitle.textContent = "Error";
+            popupMessage.textContent = "An error occurred. Please try again or contact support.";
         });
     }
 
@@ -87,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function isValidToken(token) {
         // Example: check if the token is valid
         // In a real application, this would involve server-side validation
-        // For now, we'll just return true for demonstration
         return true;
     }
 
@@ -98,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
     }
 });
+
 
 
 // document.addEventListener('DOMContentLoaded', function() {
