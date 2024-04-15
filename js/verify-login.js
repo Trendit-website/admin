@@ -31,9 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 status.textContent = data.message;
                 if (data.message === 'Invalid token' || data.message === 'Token already used') {
-                    showVerifyPopup(); // <-- Show the popup
+                    showOverlay();
+                    showVerifyPopup();
                     emailSpan.textContent = getEmailFromToken(token);
-                    showOverlay(); // <-- Show the overlay
                 }
             }
         })
@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         verifyPopup.style.display = 'none';
     }
 });
+
 
 // document.addEventListener('DOMContentLoaded', function() {
 //             // Define the base URL for the fetch request
