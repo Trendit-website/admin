@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const token = getQueryParam('token');
 
-    if(token) {
+    if (token) {
         const verifyUrl = `${baseUrl}/verify-admin-login`;
 
         fetch(verifyUrl, {
@@ -47,10 +47,10 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         const email = document.getElementById('email').value;
 
-        // Assuming you have a function to send the email
-        // This is where you would send the email with the link
+        // Here you would send the email with the link
+        // For demo, let's pretend email was sent successfully
 
-        // For demo, let's pretend email was sent and show the popup
+        // Show the verify popup
         verifyEmailSpan.textContent = email;
         verifyPopup.style.display = 'flex';
     });
