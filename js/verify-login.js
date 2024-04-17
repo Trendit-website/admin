@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const baseUrl = 'https://api.trendit35.com/api/admin';
-    const successRedirectUrl = 'https://admin.trendit35.com';
+    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const successRedirectUrl = 'https://admin.trendit3.com';
 
     function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
