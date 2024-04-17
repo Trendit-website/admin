@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const successRedirectUrl = 'https://admin.trendit3.com';
 
     const verifyPopup = document.querySelector('.verify-popup');
+    const invalidPopup = document.querySelector('.invalid');
     const overlay = document.querySelector('.overlay');
     const emailSpan = document.getElementById('popupEmail');
     const popupTitle = document.getElementById('popupTitle');
@@ -22,54 +23,32 @@ document.addEventListener('DOMContentLoaded', function() {
         if (token && isValidToken(token)) {
             emailSpan.textContent = email;
         } else {
-            emailSpan.textContent = "Unknown Email";
-            popupTitle.textContent = "Invalid Token";
-            popupMessage.textContent = "This token is invalid or has been used";
+            hideVerifyPopup();
+            showInvalidPopup();
         }
     }
 
-    // Handle continue button click
-    const continueBtn = document.querySelector('.continue');
+    // Handle continue button click for Valid Token
+    const continueBtn = document.querySelector('.continue-verify');
     continueBtn.addEventListener('click', function() {
-        const token = getQueryParam('token');
-        if (token) {
-            verifyToken(token);
-        }
-    });
-
-    // Handle cancel button click
-    const cancelBtn = document.querySelector('.cancel-btn');
-    cancelBtn.addEventListener('click', function() {
         hideOverlay();
         hideVerifyPopup();
     });
 
-    // Function to verify token
-    function verifyToken(token) {
-        const verifyUrl = `${baseUrl}/verify-admin-login`;
+    // Handle continue button click for Invalid Token
+    const invalidContinueBtn = document.querySelector('.continue-invalid');
+    invalidContinueBtn.addEventListener('click', function() {
+        hideOverlay();
+        hideInvalidPopup();
+    });
 
-        fetch(verifyUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ token: token })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.access_token) {
-                setCookie('accessToken', data.access_token, 1);
-                window.location.href = successRedirectUrl;
-            } else {
-                popupTitle.textContent = "Invalid Token";
-                popupMessage.textContent = "This token is invalid or has been used";
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            popupTitle.textContent = "Error";
-            popupMessage.textContent = "An error occurred. Please try again or contact support.";
-        });
+    // Function to verify token
+    function isValidToken(token) {
+        // Dummy function for demo purposes
+        // You should implement your logic for token validation here
+        // For example, check with your server if the token is valid
+        // Return true for a valid token, false otherwise
+        return true;
     }
 
     // Function to get query parameters from the URL
@@ -86,30 +65,28 @@ document.addEventListener('DOMContentLoaded', function() {
         return token.substring(startIndex, endIndex);
     }
 
-    // Dummy function to check if token is valid (for demo purposes)
-    function isValidToken(token) {
-        // Example: check if the token is valid
-        // In a real application, this would involve server-side validation
-        return true;
-    }
-
-    // Function to set a cookie (for demo purposes)
-    function setCookie(name, value, days) {
-        const expires = new Date();
-        expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-        document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
-    }
-
     // Function to hide overlay
     function hideOverlay() {
         overlay.style.display = 'none';
     }
 
-    // Function to hide verify popup
+    // Function to show the invalid token popup
+    function showInvalidPopup() {
+        overlay.style.display = 'block';
+        invalidPopup.style.display = 'block';
+    }
+
+    // Function to hide the invalid token popup
+    function hideInvalidPopup() {
+        invalidPopup.style.display = 'none';
+    }
+
+    // Function to hide the verify popup
     function hideVerifyPopup() {
         verifyPopup.style.display = 'none';
     }
 });
+
 
 
 // document.addEventListener('DOMContentLoaded', function() {
