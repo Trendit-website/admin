@@ -2,14 +2,50 @@ document.addEventListener('DOMContentLoaded', function() {
     const baseUrl = 'https://api.trendit3.com/api/admin';
     const successRedirectUrl = 'https://admin.trendit3.com';
 
-    function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
+    const verifyPopup = document.querySelector('.verify-popup');
+    const overlay = document.querySelector('.overlay');
+    const emailSpan = document.getElementById('popupEmail');
+    const popupTitle = document.getElementById('popupTitle');
+    const popupMessage = document.getElementById('popupMessage');
+
+    // Show the popup when the page loads
+    showPopup();
+
+    // Function to show the popup
+    function showPopup() {
+        overlay.style.display = 'block';
+        verifyPopup.style.display = 'block';
+
+        const token = getQueryParam('token');
+        const email = getEmailFromToken(token);
+
+        if (token && isValidToken(token)) {
+            emailSpan.textContent = email;
+        } else {
+            emailSpan.textContent = "Unknown Email";
+            popupTitle.textContent = "Invalid Token";
+            popupMessage.textContent = "This token is invalid or has been used";
+        }
     }
 
-    const token = getQueryParam('token');
+    // Handle continue button click
+    const continueBtn = document.querySelector('.continue');
+    continueBtn.addEventListener('click', function() {
+        const token = getQueryParam('token');
+        if (token) {
+            verifyToken(token);
+        }
+    });
 
-    if (token) {
+    // Handle cancel button click
+    const cancelBtn = document.querySelector('.cancel-btn');
+    cancelBtn.addEventListener('click', function() {
+        hideOverlay();
+        hideVerifyPopup();
+    });
+
+    // Function to verify token
+    function verifyToken(token) {
         const verifyUrl = `${baseUrl}/verify-admin-login`;
 
         fetch(verifyUrl, {
@@ -21,56 +57,59 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            const statusElement = document.getElementById('status');
             if (data.access_token) {
                 setCookie('accessToken', data.access_token, 1);
                 window.location.href = successRedirectUrl;
             } else {
-                statusElement.textContent = data.message;
-                statusElement.style.display = 'block';
+                popupTitle.textContent = "Invalid Token";
+                popupMessage.textContent = "This token is invalid or has been used";
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            document.getElementById('status').textContent = 'An error occurred. Please try again or contact support.';
+            popupTitle.textContent = "Error";
+            popupMessage.textContent = "An error occurred. Please try again or contact support.";
         });
-    } else {
-        document.getElementById('status').textContent = 'No verification token found. Please check your link and try again.';
-        document.getElementById('status').style.display = 'block';
     }
 
-    const emailForm = document.getElementById('emailForm');
-    const verifyPopup = document.querySelector('.verify-popup');
-    const verifyEmailSpan = document.getElementById('verifyEmail');
+    // Function to get query parameters from the URL
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
 
-    emailForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const email = document.getElementById('email').value;
+    // Function to extract email from token (for demo purposes)
+    function getEmailFromToken(token) {
+        // Example logic to extract email from a token
+        const startIndex = token.indexOf('email=') + 'email='.length;
+        const endIndex = token.indexOf('&');
+        return token.substring(startIndex, endIndex);
+    }
 
-        // Here you would send the email with the link
-        // For demo, let's pretend email was sent successfully
+    // Dummy function to check if token is valid (for demo purposes)
+    function isValidToken(token) {
+        // Example: check if the token is valid
+        // In a real application, this would involve server-side validation
+        return true;
+    }
 
-        // Show the verify popup
-        verifyEmailSpan.textContent = email;
-        verifyPopup.style.display = 'flex';
-    });
+    // Function to set a cookie (for demo purposes)
+    function setCookie(name, value, days) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+        document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+    }
 
-    const continueButtons = document.querySelectorAll('.continue');
-    const cancelBtn = document.querySelector('.cancel-btn');
+    // Function to hide overlay
+    function hideOverlay() {
+        overlay.style.display = 'none';
+    }
 
-    continueButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            verifyPopup.style.display = 'none';
-        });
-    });
-
-    cancelBtn.addEventListener('click', function() {
+    // Function to hide verify popup
+    function hideVerifyPopup() {
         verifyPopup.style.display = 'none';
-    });
+    }
 });
-
-// Your setCookie function here, if not already defined
-
 
 
 // document.addEventListener('DOMContentLoaded', function() {
