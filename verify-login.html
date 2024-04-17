@@ -187,7 +187,33 @@
         </div>
 
 
-        <p id="status"></p>
+        <div class="input-field">
+            <h1>Welcome <br> back, Admin</h1>
+            <p id="text">Login with registered email</p>
+            <p id="status" style="display: none;"></p>
+            <form style="display: flex; flex-direction: column;" id="emailForm">
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+                <button type="submit" id="submitButton">Send login link</button>
+            </form>
+        </div>
+    
+        <div class="overlay"></div>
+    
+        <div class="verify-popup" style="display: none;">
+            <button class="cancel-btn">&#10006;</button>
+            <div class="verify">
+                <img src="./images/message.svg" alt="">
+                <h6>Verify Your Account</h6>
+                <p>A login link has be sent to email <span id="verifyEmail"></span> please check to login</p>
+                <button class="continue">Continue</button>
+            </div>
+            <div class="invalid" style="display: none;">
+                <h6>Invalid Token</h6>
+                <p>This token is invalid or has been used</p>
+                <button class="continue">Continue</button>
+            </div>
+        </div>
+       
 <!-- 
         <div class="input-field">
         <h1>Welcome <br> back, Admin</h1>
