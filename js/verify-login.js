@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const popupTitle = document.getElementById('popupTitle');
     const popupMessage = document.getElementById('popupMessage');
 
-    // Show the popup when the page loads
-    showPopup();
+    // Show the initial popup when the page loads
+    showVerifyPopup();
 
-    // Function to show the popup
-    function showPopup() {
+    // Function to show the initial popup
+    function showVerifyPopup() {
         overlay.style.display = 'block';
         verifyPopup.style.display = 'block';
 
@@ -29,25 +29,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Handle continue button click for Valid Token
-    const continueBtn = document.querySelector('.continue-verify');
-    continueBtn.addEventListener('click', function() {
+    const continueVerifyBtn = document.querySelector('.continue-verify');
+    continueVerifyBtn.addEventListener('click', function() {
         hideOverlay();
         hideVerifyPopup();
     });
 
     // Handle continue button click for Invalid Token
-    const invalidContinueBtn = document.querySelector('.continue-invalid');
-    invalidContinueBtn.addEventListener('click', function() {
+    const continueInvalidBtn = document.querySelector('.continue-invalid');
+    continueInvalidBtn.addEventListener('click', function() {
         hideOverlay();
         hideInvalidPopup();
     });
 
-    // Function to verify token
+    // Handle cancel button click
+    const cancelBtn = document.querySelector('.cancel-btn');
+    cancelBtn.addEventListener('click', function() {
+        hideOverlay();
+        hideVerifyPopup();
+        hideInvalidPopup();
+    });
+
+    // Function to verify token (dummy function for demo)
     function isValidToken(token) {
-        // Dummy function for demo purposes
-        // You should implement your logic for token validation here
-        // For example, check with your server if the token is valid
-        // Return true for a valid token, false otherwise
+        // In a real application, this would involve server-side validation
         return true;
     }
 
@@ -81,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         invalidPopup.style.display = 'none';
     }
 
-    // Function to hide the verify popup
+    // Function to hide the initial popup
     function hideVerifyPopup() {
         verifyPopup.style.display = 'none';
     }
