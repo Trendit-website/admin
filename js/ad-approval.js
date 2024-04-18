@@ -7,7 +7,6 @@
     
 //34a54bd75ca4415993cf00f7de1873ff7acb54a8
 
-
 document.addEventListener("DOMContentLoaded", function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
@@ -172,7 +171,7 @@ function closeAdPopup() {
 }
 
 function getAllAds(page=1) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const baseUrl = 'https://api.trend it3.com/api/admin';
     const accessToken = getCookie('accessToken');
     const tasksUrl = `${baseUrl}/tasks?page=${page}`;
   
@@ -271,7 +270,7 @@ async function displayAllAds(promise) {
 }
 
 function getTaskById(taskId) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const baseUrl = 'https://api.trend it3.com/api/admin';
     const accessToken = getCookie('accessToken');
     const taskUrl = `${baseUrl}/tasks/${taskId}`;
   
@@ -294,7 +293,7 @@ function getTaskById(taskId) {
 }
 
 function approveTask(taskId) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const baseUrl = 'https://api.trend it3.com/api/admin';
     const accessToken = getCookie('accessToken');
     const approveUrl = `${baseUrl}/approve-task/${taskId}`;
   
@@ -330,8 +329,7 @@ function closeApproveBox() {
 
     approveBox.style.display = "none";
     overlay2.style.display = "none";
-}
-
+}    
 
 
 
