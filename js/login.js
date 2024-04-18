@@ -20,6 +20,7 @@ document.getElementById("emailForm").addEventListener("submit", function(event) 
     if (response.ok) {
       // If response is successful, display a message to the user
       document.querySelector(".verify-popup").style.display = "block";
+      document.querySelector(".overlay").style.display = "block";
     document.querySelector(".verify-popup .verify p span").textContent = email;
   } else {
     // If response is not successful, display an error message
