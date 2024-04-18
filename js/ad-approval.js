@@ -59,6 +59,78 @@ function filterTasks(filter) {
     });
 }
 
+// Define function to fetch failed tasks
+function getFailedTasks(page = 1, pageSize = 10) {
+    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const accessToken = getCookie('accessToken');
+    const failedTasksUrl = `${baseUrl}/failed-tasks?page=${page}&pageSize=${pageSize}`;
+  
+    return fetch(failedTasksUrl, {
+        method:'GET',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch failed tasks');
+        }
+        return response.json();
+    })
+    .catch((error) => {
+        console.error('Error fetching failed tasks:', error);
+    });
+}
+
+// Define function to fetch approved tasks
+function getApprovedTasks(page = 1, pageSize = 10) {
+    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const accessToken = getCookie('accessToken');
+    const approvedTasksUrl = `${baseUrl}/approved-tasks?page=${page}&pageSize=${pageSize}`;
+  
+    return fetch(approvedTasksUrl, {
+        method:'GET',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch approved tasks');
+        }
+        return response.json();
+    })
+    .catch((error) => {
+        console.error('Error fetching approved tasks:', error);
+    });
+}
+
+// Define function to fetch pending tasks
+function getPendingTasks(page = 1, pageSize = 10) {
+    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const accessToken = getCookie('accessToken');
+    const pendingTasksUrl = `${baseUrl}/pending-tasks?page=${page}&pageSize=${pageSize}`;
+  
+    return fetch(pendingTasksUrl, {
+        method:'GET',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch pending tasks');
+        }
+        return response.json();
+    })
+    .catch((error) => {
+        console.error('Error fetching pending tasks:', error);
+    });
+}
+
 
 
 
@@ -170,10 +242,11 @@ function closeAdPopup() {
     overlay.style.display = "none";
 }
 
-function getAllAds(page=1) {
-    const baseUrl = 'https://api.trend it3.com/api/admin';
+function getAllAds(page=1, pageSize = 10) {
+    const baseUrl = 'https://api.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
-    const tasksUrl = `${baseUrl}/tasks?page=${page}`;
+    const tasksUrl = `${baseUrl}/tasks?page=${page}&pageSize=${pageSize}`;
+
   
     return fetch(tasksUrl, {
         method:'POST',
@@ -490,7 +563,7 @@ const observer = new IntersectionObserver(async (entries, observer) => {
             isLoading = true;
             try {
                 // getAllAds is asynchronous and returns a Promise
-                var data = await getAllAds(currentPage);
+                var data = await getAllAds(currentPage, 10);
                 displayAllAds(data);
                 currentPage++;
             } catch (error) {
