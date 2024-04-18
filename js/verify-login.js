@@ -47,18 +47,16 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         document.getElementById('status').textContent = 'No verification token found. Please check your link and try again.';
     }
+
+    // Event listener for the cancel button
     document.querySelector(".cancel-btn").addEventListener("click", function() {
-    document.querySelector(".verify-popup").style.display = "none"; // Hide the popup
-    document.querySelector(".overlay").style.display = "none"; // Hide overlay
+        document.querySelector(".verify-popup").style.display = "none"; // Hide the popup
+        document.querySelector(".overlay").style.display = "none"; // Hide overlay
+    });
+
+    // Event listener for the continue button
+    document.querySelector(".continue").addEventListener("click", function() {
+        document.querySelector(".verify-popup").style.display = "none"; // Hide the popup
+        document.querySelector(".overlay").style.display = "none"; // Hide overlay
+    });
 });
-
-// Event listener for the continue button
-document.querySelector(".continue").addEventListener("click", function() {
-    document.querySelector(".verify-popup").style.display = "none"; // Hide the popup
-    document.querySelector(".overlay").style.display = "none"; // Hide overlay
-});
-
-}); 
-
-// Event listener for the cancel button
-// Event listener for the cancel button
