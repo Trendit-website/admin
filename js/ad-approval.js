@@ -46,6 +46,79 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+
+function getAllFailedTasks(page = 1) {
+    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const accessToken = getCookie('accessToken');
+    const failedTasksUrl = `${baseUrl}/failed-tasks?page=${page}`;
+  
+    return fetch(failedTasksUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .catch(error => {
+        console.error('Error', error);
+    });
+}
+
+// Function to fetch all approved tasks
+function getAllApprovedTasks(page = 1) {
+    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const accessToken = getCookie('accessToken');
+    const approvedTasksUrl = `${baseUrl}/approved-tasks?page=${page}`;
+  
+    return fetch(approvedTasksUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .catch(error => {
+        console.error('Error', error);
+    });
+}
+
+// Function to fetch all pending tasks
+function getAllPendingTasks(page = 1) {
+    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const accessToken = getCookie('accessToken');
+    const pendingTasksUrl = `${baseUrl}/pending-tasks?page=${page}`;
+  
+    return fetch(pendingTasksUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .catch(error => {
+        console.error('Error', error);
+    });
+}
+
+
 function filterTasks(filter) {
     const taskBoxes = document.querySelectorAll('.box1');
     taskBoxes.forEach(taskBox => {
@@ -59,6 +132,19 @@ function filterTasks(filter) {
         }
     });
 }
+// function filterTasks(filter) {
+//     const taskBoxes = document.querySelectorAll('.box1');
+//     taskBoxes.forEach(taskBox => {
+//         const status = taskBox.querySelector('.pending p').textContent.trim().toLowerCase();
+//         if (filter === "completed" && status === "approved") {
+//             taskBox.style.display = 'block';
+//         } else if (status === filter) {
+//             taskBox.style.display = 'block';
+//         } else {
+//             taskBox.style.display = 'none';
+//         }
+//     });
+// }
 
 
 
@@ -194,24 +280,21 @@ function getAllAds(page=1) {
     });
 }
 
-async function displayAllAds(promise) {
-
+async function displayAllAds(data) {
     try {
-        const response = await promise;
-        const data = response.tasks;
+        const tasks = data.tasks;
 
-        // Check if the data array exists and is not empty
-        if (!data || data.length === 0) {
-            console.log("No ads to display.");
-            return; // Exit the function if there are no ads
+        if (!tasks || tasks.length === 0) {
+            console.log("No tasks to display.");
+            return;
         }
 
         const adsContainer = document.getElementById('earn-container');
 
-        data.forEach(task => {
+        tasks.forEach(task => {
             const adBox = document.createElement('div');
             adBox.classList.add('box1');
-            adBox.setAttribute('data-task-id', task.id); // Set task ID as attribute
+            adBox.setAttribute('data-task-id', task.id);
 
             adBox.addEventListener("click", function() {
                 console.log("clicked");
@@ -226,7 +309,7 @@ async function displayAllAds(promise) {
             platformImage.alt = task.platform;
 
             const statusParagraph = document.createElement('p');
-            statusParagraph.textContent = task.status.charAt(0).toUpperCase() + task.status.slice(1); // Capitalize first letter
+            statusParagraph.textContent = task.status.charAt(0).toUpperCase() + task.status.slice(1);
 
             statusDiv.appendChild(platformImage);
             statusDiv.appendChild(statusParagraph);
@@ -239,7 +322,7 @@ async function displayAllAds(promise) {
             }
 
             const dateSpan = document.createElement('span');
-            dateSpan.textContent = new Date(task.date_created).toLocaleString('en-US', { timeZone: 'GMT' }); // Convert to local time
+            dateSpan.textContent = new Date(task.date_created).toLocaleString('en-US', { timeZone: 'GMT' });
 
             const earningDiv = document.createElement('div');
             earningDiv.classList.add('earning');
@@ -269,6 +352,82 @@ async function displayAllAds(promise) {
         console.error('Error displaying ads:', error);
     }
 }
+
+// async function displayAllAds(promise) {
+
+//     try {
+//         const response = await promise;
+//         const data = response.tasks;
+
+//         // Check if the data array exists and is not empty
+//         if (!data || data.length === 0) {
+//             console.log("No ads to display.");
+//             return; // Exit the function if there are no ads
+//         }
+
+//         const adsContainer = document.getElementById('earn-container');
+
+//         data.forEach(task => {
+//             const adBox = document.createElement('div');
+//             adBox.classList.add('box1');
+//             adBox.setAttribute('data-task-id', task.id); // Set task ID as attribute
+
+//             adBox.addEventListener("click", function() {
+//                 console.log("clicked");
+//                 showTaskPopup(task);
+//             });
+
+//             const statusDiv = document.createElement('div');
+//             statusDiv.classList.add('pending');
+
+//             const platformImage = document.createElement('img');
+//             platformImage.src = `./images/${task.platform}.png`;
+//             platformImage.alt = task.platform;
+
+//             const statusParagraph = document.createElement('p');
+//             statusParagraph.textContent = task.status.charAt(0).toUpperCase() + task.status.slice(1); // Capitalize first letter
+
+//             statusDiv.appendChild(platformImage);
+//             statusDiv.appendChild(statusParagraph);
+
+//             const descriptionParagraph = document.createElement('p');
+//             if (task.caption) {
+//                 descriptionParagraph.textContent = task.caption;
+//             } else {
+//                 descriptionParagraph.textContent = `Like and follow ${task.platform} business pages`;
+//             }
+
+//             const dateSpan = document.createElement('span');
+//             dateSpan.textContent = new Date(task.date_created).toLocaleString('en-US', { timeZone: 'GMT' }); // Convert to local time
+
+//             const earningDiv = document.createElement('div');
+//             earningDiv.classList.add('earning');
+
+//             const earningImage = document.createElement('img');
+//             earningImage.src = "./images/wallet.png";
+//             earningImage.width = "9";
+
+//             const earningSpan = document.createElement('span');
+//             earningSpan.textContent = 'Earning:';
+
+//             const earningParagraph = document.createElement('p');
+//             earningParagraph.textContent = task.total_allocated + ' per ' + task.goal;
+
+//             earningDiv.appendChild(earningImage);
+//             earningDiv.appendChild(earningSpan);
+//             earningDiv.appendChild(earningParagraph);
+
+//             adBox.appendChild(statusDiv);
+//             adBox.appendChild(descriptionParagraph);
+//             adBox.appendChild(dateSpan);
+//             adBox.appendChild(earningDiv);
+
+//             adsContainer.appendChild(adBox);
+//         });
+//     } catch (error) {
+//         console.error('Error displaying ads:', error);
+//     }
+// }
 
 function getTaskById(taskId) {
     const baseUrl = 'https://api.trendit3.com/api/admin';
@@ -477,10 +636,11 @@ function closeApproveBox() {
 
 
 // Intersection Observer setup
+
 const options = {
     root: null,
     rootMargin: '0px',
-    threshold: 0.2 // Trigger when 50% of the target is visible
+    threshold: 0.2 // Trigger when 20% of the target is visible
 };
 
 let currentPage = 2;
@@ -491,7 +651,7 @@ const observer = new IntersectionObserver(async (entries, observer) => {
         if (entry.isIntersecting && !isLoading) {
             isLoading = true;
             try {
-                // getAllAds is asynchronous and returns a Promise
+                // Fetch additional tasks based on the current page and display them
                 var data = await getAllAds(currentPage);
                 displayAllAds(data);
                 currentPage++;
@@ -505,4 +665,34 @@ const observer = new IntersectionObserver(async (entries, observer) => {
 }, options);
 
 observer.observe(document.getElementById('load-more-trigger'));
+
+
+// const options = {
+//     root: null,
+//     rootMargin: '0px',
+//     threshold: 0.2 // Trigger when 50% of the target is visible
+// };
+
+// let currentPage = 2;
+// let isLoading = false;
+
+// const observer = new IntersectionObserver(async (entries, observer) => {
+//     entries.forEach(async entry => {
+//         if (entry.isIntersecting && !isLoading) {
+//             isLoading = true;
+//             try {
+//                 // getAllAds is asynchronous and returns a Promise
+//                 var data = await getAllAds(currentPage);
+//                 displayAllAds(data);
+//                 currentPage++;
+//             } catch (error) {
+//                 console.error('Failed to load new users:', error);
+//             } finally {
+//                 isLoading = false;
+//             }
+//         }
+//     });
+// }, options);
+
+// observer.observe(document.getElementById('load-more-trigger'));
 
