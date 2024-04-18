@@ -10,25 +10,37 @@ document.getElementById("emailForm").addEventListener("submit", function(event) 
 
   // Sending POST request to the endpoint
   fetch(verifyUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email: email })
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email: email })
   })
   .then(response => {
-    if (response.ok) {
-      // If response is successful, display a message to the user
-      document.querySelector(".verify-popup").style.display = "block";
-      document.querySelector(".overlay").style.display = "block";
-    document.querySelector(".verify-popup .verify p span").textContent = email;
-  } else {
-    // If response is not successful, display an error message
-    document.getElementById("status").textContent = "Error sending verification email. Please try again later.";
-  }
+      if (response.ok) {
+          // If response is successful, display the verification popup
+          document.querySelector(".verify-popup").style.display = "flex";
+          document.getElementById("verifyEmail").textContent = email;
+          document.querySelector(".overlay").style.display = "block"; // Show overlay
+      } else {
+          // If response is not successful, display an error message
+          document.getElementById("status").textContent = "Error sending verification email. Please try again later.";
+      }
   })
   .catch(error => {
-    console.error("Error:", error);
-    document.getElementById("status").textContent = "An unexpected error occurred. Please try again later.";
+      console.error("Error:", error);
+      document.getElementById("status").textContent = "An unexpected error occurred. Please try again later.";
   });
+});
+
+// Event listener for the cancel button
+document.querySelector(".cancel-btn").addEventListener("click", function() {
+  document.querySelector(".verify-popup").style.display = "none"; // Hide the popup
+  document.querySelector(".overlay").style.display = "none"; // Hide overlay
+});
+
+// Event listener for the continue button
+document.querySelector(".continue").addEventListener("click", function() {
+  document.querySelector(".verify-popup").style.display = "none"; // Hide the popup
+  document.querySelector(".overlay").style.display = "none";
 });
