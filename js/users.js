@@ -12,57 +12,32 @@ document.addEventListener("DOMContentLoaded", function() {
     displayAllUsers(data);
 });
 
-// Fetch user data from the API
-async function getAllUsers(page = 1) {
-    const usersUrl = `${baseUrl}/users?page=${page}`;
-  
-    try {
-        const response = await fetch(usersUrl, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch user data');
-        }
-
-        const responseData = await response.json();
-        return responseData.users;
-    } catch (error) {
-        console.error('Error fetching user data:', error);
-        return []; // Return an empty array if there's an error
-    }
-}
-
-// Display user information in the modal
-function displayUserInModal(user) {
+function displayUserInModal(user, userId) {
     // Update the user popup with the user's information
     const userName = document.getElementById('user-name');
-    const userEmail = document.getElementById('user-email');
-    const username = document.getElementById('username');
-    const gender = document.getElementById('gender');
-    const location = document.getElementById('location');
-    const phone = document.getElementById('phone');
-    const birthday = document.getElementById('birthday');
-    const profilePicture = document.getElementById('profile-picture');
+        const userEmail = document.getElementById('user-email');
+        const username = document.getElementById('username');
+        const gender = document.getElementById('gender');
+        const location = document.getElementById('location');
+        const phone = document.getElementById('phone');
+        const birthday = document.getElementById('birthday');
+        const profilePicture = document.getElementById('profile-picture');
 
-    userName.textContent = user.firstname + ' ' + user.lastname;
-    userEmail.textContent = user.email;
-    username.textContent = '@' + user.username;
-    gender.textContent = user.gender || "Not Specified";
-    location.textContent = user.country || "Not Specified";
-    phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
-    birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
-    profilePicture.src = user.profile_picture || "./images/default-profile-pic.jpg"; // Default profile picture if none provided
+        userName.textContent = user.firstname + ' ' + user.lastname;
+        userEmail.textContent = user.email;
+        username.textContent = '@' + user.username;
+        gender.textContent = user.gender || "Not Specified";
+        location.textContent = user.country || "Not Specified";
+        phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
+        birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
+        profilePicture.src = user.profile_picture || "./images/default-profile-pic.jpg"; // Default profile picture if none provided
+
 
     // Show the user popup
     const userPopup = document.querySelector('.user-popup');
     const overlay = document.querySelector(".overlay");
     userPopup.style.display = 'block';
-    overlay.style.display = 'block';
+    overlay.style.display='block';
 }
 
 // Close the user popup when "Go back" is clicked
@@ -72,114 +47,23 @@ backButton.addEventListener('click', function() {
     const overlay = document.querySelector(".overlay");
     userPopup.style.display = 'none';
     overlay.style.display = 'none';
+    
 });
 
 // Event delegation to handle click events on user name boxes
 const container = document.getElementById('users-container');
-container.addEventListener('click', async function(event) {
+container.addEventListener('click', function(event) {
     const nameBox = event.target.closest('.name-box');
     if (nameBox) {
         const userId = nameBox.dataset.userId;
-        try {
-            const user = await getUserById(userId);
-            displayUserInModal(user);
-        } catch (error) {
-            console.error("Error fetching user:", error);
+        const user = data.users.find(user => user.id === parseInt(userId, 10));
+        if (user) {
+            displayUserInModal(user, userId);
+        } else {
+            console.error("User not found.");
         }
     }
 });
-
-// Fetch user by ID from the API
-async function getUserById(userId) {
-    const userUrl = `${baseUrl}/users/${userId}`;
-  
-    try {
-        const response = await fetch(userUrl, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch user data');
-        }
-
-        const responseData = await response.json();
-        return responseData.user;
-    } catch (error) {
-        console.error('Error fetching user data:', error);
-        throw error; // Re-throw the error to be caught by the caller
-    }
-}
-
-// Initialize the application
-async function initialize() {
-    try {
-        const users = await getAllUsers();
-        displayAllUsers(users);
-    } catch (error) {
-        console.error('Error initializing application:', error);
-    }
-}
-
-// Call the initialize function to start the application
-initialize();
-
-
-// function displayUserInModal(user, userId) {
-//     // Update the user popup with the user's information
-//     const userName = document.getElementById('user-name');
-//         const userEmail = document.getElementById('user-email');
-//         const username = document.getElementById('username');
-//         const gender = document.getElementById('gender');
-//         const location = document.getElementById('location');
-//         const phone = document.getElementById('phone');
-//         const birthday = document.getElementById('birthday');
-//         const profilePicture = document.getElementById('profile-picture');
-
-//         userName.textContent = user.firstname + ' ' + user.lastname;
-//         userEmail.textContent = user.email;
-//         username.textContent = '@' + user.username;
-//         gender.textContent = user.gender || "Not Specified";
-//         location.textContent = user.country || "Not Specified";
-//         phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
-//         birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
-//         profilePicture.src = user.profile_picture || "./images/default-profile-pic.jpg"; // Default profile picture if none provided
-
-
-//     // Show the user popup
-//     const userPopup = document.querySelector('.user-popup');
-//     const overlay = document.querySelector(".overlay");
-//     userPopup.style.display = 'block';
-//     overlay.style.display='block';
-// }
-
-// Close the user popup when "Go back" is clicked
-// const backButton = document.querySelector('.user-popup .back');
-// backButton.addEventListener('click', function() {
-//     const userPopup = document.querySelector('.user-popup');
-//     const overlay = document.querySelector(".overlay");
-//     userPopup.style.display = 'none';
-//     overlay.style.display = 'none';
-    
-// });
-
-// Event delegation to handle click events on user name boxes
-// const container = document.getElementById('users-container');
-// container.addEventListener('click', function(event) {
-//     const nameBox = event.target.closest('.name-box');
-//     if (nameBox) {
-//         const userId = nameBox.dataset.userId;
-//         const user = data.users.find(user => user.id === parseInt(userId, 10));
-//         if (user) {
-//             displayUserInModal(user, userId);
-//         } else {
-//             console.error("User not found.");
-//         }
-//     }
-// });
 
 
 const baseUrl = 'https://api.trendit3.com/api/admin';
@@ -190,142 +74,142 @@ const accessToken = getCookie('accessToken');
 
 
 
-// function getAllUsers(page=1) {
+function getAllUsers(page=1) {
   
-//   // const formData = new FormData();
-//   // formData.append('item_type', 'item_type');
+  // const formData = new FormData();
+  // formData.append('item_type', 'item_type');
 
-//   // Construct the full URL for the verification request
-//   const usersUrl = `${baseUrl}/users?page=${page}`;
+  // Construct the full URL for the verification request
+  const usersUrl = `${baseUrl}/users?page=${page}`;
   
-//   return fetch(usersUrl, {
-//     method:'POST',
-//     // body: formData,
-//     headers: {
-//       'Authorization': `Bearer ${accessToken}`,
-//       'Content-Type': 'application/json'
-//     }
-//   })
-//   .then(response=> {
-//     if (!response.ok) {
-//       throw new Error('Network response was not ok');
-//     }
-//     return response.json();
-//   })
-//   .catch((error) => {
-//     console.error('Error', error);
-//   });
-// }
+  return fetch(usersUrl, {
+    method:'POST',
+    // body: formData,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response=> {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    console.error('Error', error);
+  });
+}
 
 
-// async function displayAllUsers(promise) {
+async function displayAllUsers(promise) {
 
-//     try {
+    try {
 
-//         const response = await promise;
-//         const users = response.users;
+        const response = await promise;
+        const users = response.users;
 
-//         // Check if the users array exists and is not empty
-//         if (!users || users.length === 0) {
-//             console.log("No users to display.");
-//             return; // Exit the function if there are no users
-//         }
+        // Check if the users array exists and is not empty
+        if (!users || users.length === 0) {
+            console.log("No users to display.");
+            return; // Exit the function if there are no users
+        }
 
-//         // Get the container where the user information will be displayed
-//         const container = document.getElementById('users-container');
+        // Get the container where the user information will be displayed
+        const container = document.getElementById('users-container');
 
-//         // Loop through each user in the response
-//         users.forEach(user => {
-//             // Create elements for the user information
-//             const nameBox = document.createElement('div');
-//             nameBox.classList.add('name-box');
-//             nameBox.dataset.userId = user.id; // Store user ID for easy access
+        // Loop through each user in the response
+        users.forEach(user => {
+            // Create elements for the user information
+            const nameBox = document.createElement('div');
+            nameBox.classList.add('name-box');
+            nameBox.dataset.userId = user.id; // Store user ID for easy access
 
-//             nameBox.addEventListener('click', function() {
-//                 displayUserInModal(user.id);
-//             });
+            nameBox.addEventListener('click', function() {
+                displayUserInModal(user.id);
+            });
 
-//             const nameDiv = document.createElement('div');
-//             nameDiv.classList.add('name');
+            const nameDiv = document.createElement('div');
+            nameDiv.classList.add('name');
 
-//             const userImage = document.createElement('img');
-//             userImage.src = "./images/js.svg";
-//             userImage.alt = "User Image";
+            const userImage = document.createElement('img');
+            userImage.src = "./images/js.svg";
+            userImage.alt = "User Image";
 
-//             const nameEmailDiv = document.createElement('div');
-//             nameEmailDiv.classList.add('name-email');
+            const nameEmailDiv = document.createElement('div');
+            nameEmailDiv.classList.add('name-email');
 
-//             const nameParagraph = document.createElement('p');
-//             nameParagraph.id = "highlight";
-//             nameParagraph.textContent = user.firstname + ' ' + user.lastname;
+            const nameParagraph = document.createElement('p');
+            nameParagraph.id = "highlight";
+            nameParagraph.textContent = user.firstname + ' ' + user.lastname;
 
-//             const emailParagraph = document.createElement('p');
-//             emailParagraph.textContent = user.email;
+            const emailParagraph = document.createElement('p');
+            emailParagraph.textContent = user.email;
 
-//             nameEmailDiv.appendChild(nameParagraph);
-//             nameEmailDiv.appendChild(emailParagraph);
+            nameEmailDiv.appendChild(nameParagraph);
+            nameEmailDiv.appendChild(emailParagraph);
 
-//             nameDiv.appendChild(userImage);
-//             nameDiv.appendChild(nameEmailDiv);
+            nameDiv.appendChild(userImage);
+            nameDiv.appendChild(nameEmailDiv);
 
-//             const rightDiv = document.createElement('div');
-//             rightDiv.classList.add('right');
+            const rightDiv = document.createElement('div');
+            rightDiv.classList.add('right');
 
-//             const earningDiv = document.createElement('div');
-//             earningDiv.classList.add('earning');
+            const earningDiv = document.createElement('div');
+            earningDiv.classList.add('earning');
 
-//             const earningImage = document.createElement('img');
-//             earningImage.src = "./images/wallet.png";
-//             earningImage.alt = "Earning Image";
+            const earningImage = document.createElement('img');
+            earningImage.src = "./images/wallet.png";
+            earningImage.alt = "Earning Image";
 
-//             const earningTitle = document.createElement('p');
-//             earningTitle.textContent = "Earning";
+            const earningTitle = document.createElement('p');
+            earningTitle.textContent = "Earning";
 
-//             const earningHighlight = document.createElement('p');
-//             earningHighlight.id = "highlight";
-//             earningHighlight.textContent = user.wallet.balance;
+            const earningHighlight = document.createElement('p');
+            earningHighlight.id = "highlight";
+            earningHighlight.textContent = user.wallet.balance;
 
-//             earningDiv.appendChild(earningImage);
-//             earningDiv.appendChild(earningTitle);
-//             earningDiv.appendChild(earningHighlight);
+            earningDiv.appendChild(earningImage);
+            earningDiv.appendChild(earningTitle);
+            earningDiv.appendChild(earningHighlight);
 
-//             const advertiseDiv = document.createElement('div');
-//             advertiseDiv.classList.add('advertise');
+            const advertiseDiv = document.createElement('div');
+            advertiseDiv.classList.add('advertise');
 
-//             const advertiseImage = document.createElement('img');
-//             advertiseImage.src = "./images/wallet.png";
-//             advertiseImage.alt = "Advertise Image";
+            const advertiseImage = document.createElement('img');
+            advertiseImage.src = "./images/wallet.png";
+            advertiseImage.alt = "Advertise Image";
 
-//             const advertiseTitle = document.createElement('p');
-//             advertiseTitle.textContent = "Advertise";
+            const advertiseTitle = document.createElement('p');
+            advertiseTitle.textContent = "Advertise";
 
-//             const advertiseHighlight = document.createElement('p');
-//             advertiseHighlight.id = "highlight";
-//             advertiseHighlight.textContent = "23"; // Assuming this value is constant for now
+            const advertiseHighlight = document.createElement('p');
+            advertiseHighlight.id = "highlight";
+            advertiseHighlight.textContent = "23"; // Assuming this value is constant for now
 
-//             advertiseDiv.appendChild(advertiseImage);
-//             advertiseDiv.appendChild(advertiseTitle);
-//             advertiseDiv.appendChild(advertiseHighlight);
+            advertiseDiv.appendChild(advertiseImage);
+            advertiseDiv.appendChild(advertiseTitle);
+            advertiseDiv.appendChild(advertiseHighlight);
 
-//             const dateParagraph = document.createElement('p');
-//             dateParagraph.id = "highlight";
-//             dateParagraph.textContent = new Date(user.date_joined).toDateString(); // Convert date string to Date object and format it
+            const dateParagraph = document.createElement('p');
+            dateParagraph.id = "highlight";
+            dateParagraph.textContent = new Date(user.date_joined).toDateString(); // Convert date string to Date object and format it
 
-//             rightDiv.appendChild(earningDiv);
-//             rightDiv.appendChild(advertiseDiv);
-//             rightDiv.appendChild(dateParagraph);
+            rightDiv.appendChild(earningDiv);
+            rightDiv.appendChild(advertiseDiv);
+            rightDiv.appendChild(dateParagraph);
 
-//             nameBox.appendChild(nameDiv);
-//             nameBox.appendChild(rightDiv);
+            nameBox.appendChild(nameDiv);
+            nameBox.appendChild(rightDiv);
 
-//             container.appendChild(nameBox);
-//         });
+            container.appendChild(nameBox);
+        });
 
-//     } catch (error) {
-//         console.error('Error displaying users:', error);
-//     }
+    } catch (error) {
+        console.error('Error displaying users:', error);
+    }
 
-// }
+}
 
 
 
