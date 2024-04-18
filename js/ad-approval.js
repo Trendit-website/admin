@@ -343,7 +343,7 @@ async function displayAllAds(promise) {
 }
 
 function getTaskById(taskId) {
-    const baseUrl = 'https://api.trend it3.com/api/admin';
+    const baseUrl = 'https://api.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
     const taskUrl = `${baseUrl}/tasks/${taskId}`;
   
@@ -366,7 +366,7 @@ function getTaskById(taskId) {
 }
 
 function approveTask(taskId) {
-    const baseUrl = 'https://api.trend it3.com/api/admin';
+    const baseUrl = 'https://api.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
     const approveUrl = `${baseUrl}/approve-task/${taskId}`;
   
