@@ -19,11 +19,12 @@ document.getElementById("emailForm").addEventListener("submit", function(event) 
   .then(response => {
     if (response.ok) {
       // If response is successful, display a message to the user
-      document.getElementById("status").textContent = "Verification email sent.";
-    } else {
-      // If response is not successful, display an error message
-      document.getElementById("status").textContent = "Error sending verification email. Please try again later.";
-    }
+      document.querySelector(".verify-popup").style.display = "block";
+    document.querySelector(".verify-popup .verify p span").textContent = email;
+  } else {
+    // If response is not successful, display an error message
+    document.getElementById("status").textContent = "Error sending verification email. Please try again later.";
+  }
   })
   .catch(error => {
     console.error("Error:", error);

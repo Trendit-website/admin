@@ -35,7 +35,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Redirect to the predefined URL upon successful verification
                 window.location.href = successRedirectUrl;
             } else {
-                document.getElementById('status').textContent = data.message;
+                // Display the invalid token popup
+                document.querySelector(".verify-popup").style.display = "block";
+                document.querySelector(".verify-popup .invalid").style.display = "block";
             }
         })
         .catch(error => {
