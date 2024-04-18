@@ -98,22 +98,24 @@
     }
   
     .verify-popup {
-        width: 483px;
-        height: 204px;
-        border-radius: 4px;
-        padding: 48px;
-        gap: 24px;
-        align-items: center;
-        text-align: center;
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #121212;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-    }
+    width: 483px;
+    max-width: 90%;
+    height: auto;
+    border-radius: 4px;
+    padding: 48px;
+    gap: 24px;
+    align-items: center;
+    text-align: center;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    background-color: #121212;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
       .verify-popup .cancel-btn{
         position: absolute;
         top: -10px;
