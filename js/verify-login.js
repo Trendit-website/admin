@@ -50,14 +50,14 @@ document.addEventListener('DOMContentLoaded', function() {
 }); 
 
 // Event listener for the cancel button
+// Event listener for the cancel button
 document.querySelector(".cancel-btn").addEventListener("click", function() {
     document.querySelector(".verify-popup").style.display = "none"; // Hide the popup
     document.querySelector(".overlay").style.display = "none"; // Hide overlay
-  });
-  
-  // Event listener for the continue button
-  document.querySelector(".continue").addEventListener("click", function() {
+});
+
+// Event listener for the continue button
+document.querySelector(".continue").addEventListener("click", function() {
     document.querySelector(".verify-popup").style.display = "none"; // Hide the popup
-    document.querySelector(".overlay").style.display = "none";
-  });
-  
+    document.querySelector(".overlay").style.display = "none"; // Hide overlay
+});

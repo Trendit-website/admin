@@ -149,8 +149,9 @@
     color: #b1b1b1;
     padding-bottom: 10px;
       }
-      .verify-popup .verify, .invalid{
+      .verify-popup .invalid{
         text-align: center;
+        align-items: center;
       }
       .verify img{
         width: 38px;
@@ -206,10 +207,11 @@
     <!-- Verification popup -->
     <div class="verify-popup">
         <button class="cancel-btn">&#10006;</button>
-        <!-- Invalid token popup -->
+        <div class="invalid"> 
             <h6>Invalid Token</h6>
             <p>This token is invalid or has been used.</p>
             <button class="continue">Continue</button>
+        </div>
     </div>
 </body>
 </html>
