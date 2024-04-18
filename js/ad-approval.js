@@ -270,6 +270,10 @@ async function displayAllAds(promise) {
 
     try {
         const response = await promise;
+        if (!response || !response.tasks || response.tasks.length === 0) {
+            console.log("No ads to display.");
+            return;
+        }
         const data = response.tasks;
 
         // Check if the data array exists and is not empty
