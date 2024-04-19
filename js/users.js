@@ -136,7 +136,7 @@ async function displayAllUsers(promise) {
             nameDiv.classList.add('name');
 
             const userImage = document.createElement('img');
-            userImage.src = "user.profile_picture";
+            userImage.src = user.profile_picture;
             userImage.alt = "User Image";
 
             const nameEmailDiv = document.createElement('div');
