@@ -153,6 +153,7 @@ function getPendingTasks(page = 1, pageSize = 10) {
             approveTask(taskId)
                 .then(response => {
                     console.log(response.message);
+                    window.location.href = '/approved/completed';
                     showApproveBox();
                     closeAdPopup();
                 })
@@ -381,7 +382,7 @@ function approveTask(taskId) {
             'Content-Type': 'application/json'
         }
     })
-    .then(response=> {
+    .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
