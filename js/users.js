@@ -137,6 +137,7 @@ async function displayAllUsers(promise) {
 
             const userImage = document.createElement('img');
             userImage.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
+            userImage.classList.add('user-img');
             userImage.alt = "User Image";
 
             const nameEmailDiv = document.createElement('div');
