@@ -22,45 +22,57 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    const filterOptions = document.querySelectorAll('.filter-option');
-    filterOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            const filter = option.dataset.filter;
-            // Remove 'selected' class from all options
-            filterOptions.forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            // Add 'selected' class to clicked option
-            option.classList.add('selected');
-            // Filter tasks based on the selected category
-            filterTasks(filter);
+    async function fetchTasksByFilter(filter) {
+        try {
+            let response;
+            if (filter === 'pending') {
+                response = await getPendingTasks();
+            } else if (filter === 'in review') {
+                response = await getInReviewTasks();
+            } else if (filter === 'failed') {
+                response = await getFailedTasks();
+            } else if (filter === 'completed') {
+                response = await getCompletedTasks();
+            } else if (filter === 'cancelled') {
+                response = await getCancelledTasks();
+            }
+    
+            if (response && response.tasks) {
+                displayTasks(response.tasks);
+                updateNavCounts(response.taskCounts);
+            } else {
+                console.log('No tasks found for filter:', filter);
+            }
+        } catch (error) {
+            console.error('Error fetching tasks:', error);
+        }
+    }
+    
+    // Function to update the counts in the top navigation
+    function updateNavCounts(taskCounts) {
+        document.getElementById('pending-count').textContent = taskCounts.pending || '';
+        document.getElementById('in-review-count').textContent = taskCounts.inReview || '';
+        document.getElementById('failed-count').textContent = taskCounts.failed || '';
+        document.getElementById('completed-count').textContent = taskCounts.completed || '';
+        document.getElementById('cancelled-count').textContent = taskCounts.cancelled || '';
+    }
+    
+    // Function to filter tasks based on the selected category
+    function filterTasks(filter) {
+        // Remove 'selected' class from all options
+        const filterOptions = document.querySelectorAll('.filter-option');
+        filterOptions.forEach(option => {
+            option.classList.remove('selected');
         });
-    });
-
-    // Filter tasks based on initial selected option
-    const initialSelected = document.querySelector('.filter-option.selected');
-    if (initialSelected) {
-        const initialFilter = initialSelected.dataset.filter;
-        filterTasks(initialFilter);
+        // Add 'selected' class to clicked option
+        const selectedOption = document.querySelector(`.filter-option[data-filter="${filter}"]`);
+        if (selectedOption) {
+            selectedOption.classList.add('selected');
+        }
+    
+        // Fetch tasks based on the selected filter
+        fetchTasksByFilter(filter);
     }
-
-    function updateNavCounts() {
-        const pendingCount = document.querySelectorAll('.box1[data-status="pending"]').length;
-        const inReviewCount = document.querySelectorAll('.box1[data-status="in review"]').length;
-        const failedCount = document.querySelectorAll('.box1[data-status="failed"]').length;
-        const completedCount = document.querySelectorAll('.box1[data-status="completed"]').length;
-        const cancelledCount = document.querySelectorAll('.box1[data-status="cancelled"]').length;
-
-        // Update the count for each category
-        document.querySelector('.filter-option[data-filter="pending"] span').textContent = pendingCount > 0 ? pendingCount : '';
-        document.querySelector('.filter-option[data-filter="in review"] span').textContent = inReviewCount > 0 ? inReviewCount : '';
-        document.querySelector('.filter-option[data-filter="failed"] span').textContent = failedCount > 0 ? failedCount : '';
-        document.querySelector('.filter-option[data-filter="completed"] span').textContent = completedCount > 0 ? completedCount : '';
-        document.querySelector('.filter-option[data-filter="cancelled"] span').textContent = cancelledCount > 0 ? cancelledCount : '';
-    }
-
-    // Call updateNavCounts when the page loads and after any task updates
-    updateNavCounts();
 });
 
 
@@ -197,11 +209,24 @@ function getPendingTasks(page = 1, pageSize = 10) {
 
 
 // Add click event listener to "Yes, Approve" button in the approve box
-const yesApproveButton = document.querySelector('.approve-yes');
-yesApproveButton.addEventListener('click', function() {
-    const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-    approveTask(taskId, 'approve'); // Call approveTask with action 'approve'
-});
+function handleApproveBox() {
+    const approveYesButton = document.querySelector('.approve-yes');
+    const approveCancelButton = document.querySelector('.approve-cancel');
+
+    approveYesButton.addEventListener('click', function() {
+        // Retrieve the task ID from the approve box attribute
+        const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
+        approveTask(taskId, 'approve'); // Approve the task
+    });
+
+    approveCancelButton.addEventListener('click', function() {
+        closeApproveBox(); // Close the approve box
+    });
+}
+
+// Call the functions to handle button clicks
+handleSaveButtonClick();
+handleApproveBox();
 
 // Add click event listener to "Reject" button in the approve box
 const rejectApproveButton = document.querySelector('.approve-cancel');
@@ -255,11 +280,13 @@ function showTaskPopup(task) {
     });
 
     // Add click event listener to save button in the popup
-    const saveButton = document.querySelector('.save-btn');
-    saveButton.addEventListener('click', function() {
-        const taskId = saveButton.getAttribute('data-task-id');
-        showApproveBox(taskId); // Show the approve box
-    });
+    function handleSaveButtonClick() {
+        const saveButton = document.querySelector('.save-btn');
+        saveButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default form submission behavior
+            showApproveBox();
+        });
+    }
 }
 
 
