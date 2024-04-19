@@ -31,7 +31,7 @@ function displayUserInModal(user, userId) {
         location.textContent = user.country || "Not Specified";
         phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
         birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
-        profilePicture.src = user.profile_picture || "./images/default-profile-pic.jpg"; // Default profile picture if none provided
+        profilePicture.src = user.profile_picture || "./images/profiles.svg"; // Default profile picture if none provided
 
 
     // Show the user popup
