@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var data = getAllAds();
     // Display all users and execute the callback function once done
     displayAllAds(data);
+    displayTaskCounts();
 
 
 
@@ -26,13 +27,10 @@ document.addEventListener("DOMContentLoaded", function() {
     filterOptions.forEach(option => {
         option.addEventListener('click', function() {
             const filter = option.dataset.filter;
-            // Remove 'selected' class from all options
             filterOptions.forEach(opt => {
                 opt.classList.remove('selected');
             });
-            // Add 'selected' class to clicked option
             option.classList.add('selected');
-            // Filter tasks based on the selected category
             filterTasks(filter);
         });
     });
@@ -178,16 +176,43 @@ function getPendingTasks(page = 1, pageSize = 10) {
     
 
     // Add click event listener to "Yes, Approve" button in the approve box
-    const yesApproveButton = document.querySelector('.approve-yes');
-    yesApproveButton.addEventListener('click', function() {
+    document.querySelector('.approve-yes').addEventListener('click', function() {
         const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-        approveTask(taskId)
-            .then(response => {
-                console.log(response.message);
-                closeApproveBox();
-            })
-            .catch(error => console.error('Error approving task:', error));
+        approveTask(taskId).then(response => {
+            console.log(response.message);
+            closeApproveBox();
+            // Assuming you want to refresh the task list after approving
+            getAllAds().then(displayAllAds);
+        }).catch(error => console.error('Error approving task:', error));
     });
+
+    // Event listener for cancel buttons in the popup
+    const cancelButtons = document.querySelectorAll('.cancel-btn');
+    cancelButtons.forEach(cancelBtn => {
+        cancelBtn.addEventListener('click', function() {
+            closeAdPopup();
+            closeApproveBox();
+        });
+    });
+
+
+function displayTaskCounts() {
+    const filterOptions = document.querySelectorAll('.filter-option');
+    filterOptions.forEach(option => {
+        const filter = option.dataset.filter;
+        getTaskCount(filter).then(count => updateTaskCount(option, count));
+    });
+}
+
+function updateTaskCount(option, count) {
+    const countSpan = option.querySelector('span');
+    if (count > 0) {
+        countSpan.textContent = count;
+    } else {
+        countSpan.textContent = '';
+    }
+}
+
 // });
 
 function showTaskPopup(task) {
