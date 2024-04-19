@@ -107,6 +107,8 @@ async function displayAllUsers(promise) {
     try {
 
         const response = await promise;
+        console.log('API Response:', response); // Log the API response
+
         const users = response.users;
 
         // Check if the users array exists and is not empty
