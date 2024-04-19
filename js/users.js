@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
     displayAllUsers(data);
 });
 
-function displayUserInModal(user, userId, data) {
+
+function displayUserInModal(user, userId) {
     // Update the user popup with the user's information
     const userName = document.getElementById('user-name');
         const userEmail = document.getElementById('user-email');
@@ -128,14 +129,14 @@ async function displayAllUsers(promise) {
             nameBox.dataset.userId = user.id; // Store user ID for easy access
 
             nameBox.addEventListener('click', function() {
-                displayUserInModal(user.id);
+                displayUserInModal(user, user.id);
             });
 
             const nameDiv = document.createElement('div');
             nameDiv.classList.add('name');
 
             const userImage = document.createElement('img');
-            userImage.src = "./images/js.svg";
+            userImage.src = "user.profile_picture";
             userImage.alt = "User Image";
 
             const nameEmailDiv = document.createElement('div');
