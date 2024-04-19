@@ -152,7 +152,21 @@
     <!-- JavaScript for Hamburger Menu -->
     <script src="./js/home.js"></script>
     <script src="./js/checkLogin.js"></script>
-  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all the boxes in the overview section
+        const boxes = document.querySelectorAll('.box1');
+
+        // Loop through each box
+        boxes.forEach(box => {
+            // Add click event listener to each box
+            box.addEventListener('click', function() {
+                // Scroll to the bar chart
+                document.getElementById('bar-chart').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    });
+  </script>
 
     <!-- <script src="./js/backend.js"></script> -->
     

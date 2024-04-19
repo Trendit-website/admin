@@ -22,65 +22,36 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    async function fetchTasksByFilter(filter) {
-        try {
-            let response;
-            if (filter === 'pending') {
-                response = await getPendingTasks();
-            } else if (filter === 'in review') {
-                response = await getInReviewTasks();
-            } else if (filter === 'failed') {
-                response = await getFailedTasks();
-            } else if (filter === 'completed') {
-                response = await getCompletedTasks();
-            } else if (filter === 'cancelled') {
-                response = await getCancelledTasks();
-            }
-    
-            if (response && response.tasks) {
-                displayTasks(response.tasks);
-                updateNavCounts(response.taskCounts);
-            } else {
-                console.log('No tasks found for filter:', filter);
-            }
-        } catch (error) {
-            console.error('Error fetching tasks:', error);
-        }
-    }
-    
-    // Function to update the counts in the top navigation
-    function updateNavCounts(taskCounts) {
-        document.getElementById('pending-count').textContent = taskCounts.pending || '';
-        document.getElementById('in-review-count').textContent = taskCounts.inReview || '';
-        document.getElementById('failed-count').textContent = taskCounts.failed || '';
-        document.getElementById('completed-count').textContent = taskCounts.completed || '';
-        document.getElementById('cancelled-count').textContent = taskCounts.cancelled || '';
-    }
-    
-    // Function to filter tasks based on the selected category
-    function filterTasks(filter) {
-        // Remove 'selected' class from all options
-        const filterOptions = document.querySelectorAll('.filter-option');
-        filterOptions.forEach(option => {
-            option.classList.remove('selected');
+    const filterOptions = document.querySelectorAll('.filter-option');
+    filterOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const filter = option.dataset.filter;
+            // Remove 'selected' class from all options
+            filterOptions.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            // Add 'selected' class to clicked option
+            option.classList.add('selected');
+            // Filter tasks based on the selected category
+            filterTasks(filter);
         });
-        // Add 'selected' class to clicked option
-        const selectedOption = document.querySelector(`.filter-option[data-filter="${filter}"]`);
-        if (selectedOption) {
-            selectedOption.classList.add('selected');
-        }
-    
-        // Fetch tasks based on the selected filter
-        fetchTasksByFilter(filter);
+    });
+
+    // Filter tasks based on initial selected option
+    const initialSelected = document.querySelector('.filter-option.selected');
+    if (initialSelected) {
+        const initialFilter = initialSelected.dataset.filter;
+        filterTasks(initialFilter);
     }
 });
-
 
 function filterTasks(filter) {
     const taskBoxes = document.querySelectorAll('.box1');
     taskBoxes.forEach(taskBox => {
         const status = taskBox.querySelector('.pending p').textContent.trim().toLowerCase();
-        if ((filter === "completed" && status === "approved") || status === filter) {
+        if (filter === "completed" && status === "approved") {
+            taskBox.style.display = 'block';
+        } else if (status === filter) {
             taskBox.style.display = 'block';
         } else {
             taskBox.style.display = 'none';
@@ -182,7 +153,6 @@ function getPendingTasks(page = 1, pageSize = 10) {
             approveTask(taskId)
                 .then(response => {
                     console.log(response.message);
-                    window.location.href = '/approved/completed';
                     showApproveBox();
                     closeAdPopup();
                 })
@@ -207,36 +177,21 @@ function getPendingTasks(page = 1, pageSize = 10) {
     });
     
 
-
-// Add click event listener to "Yes, Approve" button in the approve box
-function handleApproveBox() {
-    const approveYesButton = document.querySelector('.approve-yes');
-    const approveCancelButton = document.querySelector('.approve-cancel');
-
-    approveYesButton.addEventListener('click', function() {
-        // Retrieve the task ID from the approve box attribute
+    // Add click event listener to "Yes, Approve" button in the approve box
+    const yesApproveButton = document.querySelector('.approve-yes');
+    yesApproveButton.addEventListener('click', function() {
         const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-        approveTask(taskId, 'approve'); // Approve the task
+        approveTask(taskId)
+            .then(response => {
+                console.log(response.message);
+                closeApproveBox();
+            })
+            .catch(error => console.error('Error approving task:', error));
     });
-
-    approveCancelButton.addEventListener('click', function() {
-        closeApproveBox(); // Close the approve box
-    });
-}
-
-// Call the functions to handle button clicks
-handleSaveButtonClick();
-handleApproveBox();
-
-// Add click event listener to "Reject" button in the approve box
-const rejectApproveButton = document.querySelector('.approve-cancel');
-rejectApproveButton.addEventListener('click', function() {
-    const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-    approveTask(taskId, 'reject'); // Call approveTask with action 'reject'
-});
 // });
 
 function showTaskPopup(task) {
+    const popup = document.querySelector('.popup');
     const overlay = document.querySelector('.overlay');
 
     // Populate popup with task details
@@ -269,8 +224,8 @@ function showTaskPopup(task) {
         </div>
     `;
 
-    document.querySelector('.popup').innerHTML = popupContent;
-    document.querySelector('.popup').style.display = "block";
+    popup.innerHTML = popupContent;
+    popup.style.display = "block";
     overlay.style.display = "block";
 
     // Add click event listener to close button in the popup
@@ -278,17 +233,7 @@ function showTaskPopup(task) {
     closeButton.addEventListener('click', function() {
         closeAdPopup();
     });
-
-    // Add click event listener to save button in the popup
-    function handleSaveButtonClick() {
-        const saveButton = document.querySelector('.save-btn');
-        saveButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default form submission behavior
-            showApproveBox();
-        });
-    }
 }
-
 
 function closeAdPopup() {
     const popup = document.querySelector('.popup');
@@ -424,62 +369,35 @@ function getTaskById(taskId) {
     });
 }
 
-async function approveTask(taskId,action) {
+function approveTask(taskId) {
     const baseUrl = 'https://api.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
     const approveUrl = `${baseUrl}/approve-task/${taskId}`;
   
-    if (action === 'approve') {
-        approveUrl = `${baseUrl}/approve-task/${taskId}`;
-    } else if (action === 'reject') {
-        approveUrl = `${baseUrl}/reject-task/${taskId}`;
-    }
-
-    try {
-        const response = await fetch(approveUrl, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
+    return fetch(approveUrl, {
+        method:'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response=> {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-
-        const responseData = await response.json();
-
-        if (responseData.status === 'success') {
-            // Update the UI to reflect the changes
-            if (action === 'approve') {
-                // Redirect back to the pending tasks section after approval
-                const pendingNavLink = document.querySelector('.filter-option[data-filter="pending"]');
-                pendingNavLink.click(); // Trigger click event on the "Pending" navigation link
-            } else if (action === 'reject') {
-                // Redirect back to the cancelled tasks section after rejection
-                const cancelledNavLink = document.querySelector('.filter-option[data-filter="cancelled"]');
-                cancelledNavLink.click(); // Trigger click event on the "Cancelled" navigation link
-            }
-        } else {
-            console.error('Task action failed:', responseData.message);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
+        return response.json();
+    })
+    .catch((error) => {
+        console.error('Error', error);
+    });
 }
 
 function showApproveBox() {
     const approveBox = document.querySelector('.approve-box');
     const overlay2 = document.querySelector('.overlay2');
-     const popup = document.querySelector('.popup');
-    const overlay = document.querySelector('.overlay');
 
-    popup.style.display = "none";
-    overlay.style.display = "none";
     approveBox.style.display = "block";
-    overlay2.style.display = "block";   // Set task ID attribute to approve-box
-    approveBox.setAttribute('data-task-id', taskId);
+    overlay2.style.display = "block";
 }
 
 function closeApproveBox() {
