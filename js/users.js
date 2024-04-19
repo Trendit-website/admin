@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
     displayAllUsers(data);
 });
 
-function displayUserInModal(user, userId, data) {
+
+function displayUserInModal(user, userId) {
     // Update the user popup with the user's information
     const userName = document.getElementById('user-name');
         const userEmail = document.getElementById('user-email');
@@ -30,7 +31,7 @@ function displayUserInModal(user, userId, data) {
         location.textContent = user.country || "Not Specified";
         phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
         birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
-        profilePicture.src = user.profile_picture || "./images/default-profile-pic.jpg"; // Default profile picture if none provided
+        profilePicture.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
 
 
     // Show the user popup
@@ -128,14 +129,14 @@ async function displayAllUsers(promise) {
             nameBox.dataset.userId = user.id; // Store user ID for easy access
 
             nameBox.addEventListener('click', function() {
-                displayUserInModal(user.id);
+                displayUserInModal(user, user.id);
             });
 
             const nameDiv = document.createElement('div');
             nameDiv.classList.add('name');
 
             const userImage = document.createElement('img');
-            userImage.src = "./images/js.svg";
+            userImage.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
             userImage.alt = "User Image";
 
             const nameEmailDiv = document.createElement('div');
