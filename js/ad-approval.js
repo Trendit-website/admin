@@ -195,8 +195,8 @@ function getPendingTasks(page = 1, pageSize = 10) {
     });
     
 
-    // Add click event listener to "Yes, Approve" button in the approve box
-  // Update the click event listener for the "Yes, Approve" button in the approve box
+
+// Add click event listener to "Yes, Approve" button in the approve box
 const yesApproveButton = document.querySelector('.approve-yes');
 yesApproveButton.addEventListener('click', function() {
     const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
@@ -258,7 +258,7 @@ function showTaskPopup(task) {
     const saveButton = document.querySelector('.save-btn');
     saveButton.addEventListener('click', function() {
         const taskId = saveButton.getAttribute('data-task-id');
-        showApproveBox(taskId);
+        showApproveBox(taskId); // Show the approve box
     });
 }
 
@@ -424,9 +424,16 @@ async function approveTask(taskId,action) {
         const responseData = await response.json();
 
         if (responseData.status === 'success') {
-            // Redirect back to the previous page without showing the popup
-            window.location.href = '/ad-approval.html';
-
+            // Update the UI to reflect the changes
+            if (action === 'approve') {
+                // Redirect back to the pending tasks section after approval
+                const pendingNavLink = document.querySelector('.filter-option[data-filter="pending"]');
+                pendingNavLink.click(); // Trigger click event on the "Pending" navigation link
+            } else if (action === 'reject') {
+                // Redirect back to the cancelled tasks section after rejection
+                const cancelledNavLink = document.querySelector('.filter-option[data-filter="cancelled"]');
+                cancelledNavLink.click(); // Trigger click event on the "Cancelled" navigation link
+            }
         } else {
             console.error('Task action failed:', responseData.message);
         }
