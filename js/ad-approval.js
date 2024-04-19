@@ -49,9 +49,7 @@ function filterTasks(filter) {
     const taskBoxes = document.querySelectorAll('.box1');
     taskBoxes.forEach(taskBox => {
         const status = taskBox.querySelector('.pending p').textContent.trim().toLowerCase();
-        if (filter === "completed" && status === "approved") {
-            taskBox.style.display = 'block';
-        } else if (status === filter) {
+        if ((filter === "completed" && status === "approved") || status === filter) {
             taskBox.style.display = 'block';
         } else {
             taskBox.style.display = 'none';
@@ -179,16 +177,19 @@ function getPendingTasks(page = 1, pageSize = 10) {
     
 
     // Add click event listener to "Yes, Approve" button in the approve box
-    const yesApproveButton = document.querySelector('.approve-yes');
-    yesApproveButton.addEventListener('click', function() {
-        const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-        approveTask(taskId)
-            .then(response => {
-                console.log(response.message);
-                closeApproveBox();
-            })
-            .catch(error => console.error('Error approving task:', error));
-    });
+  // Update the click event listener for the "Yes, Approve" button in the approve box
+const yesApproveButton = document.querySelector('.approve-yes');
+yesApproveButton.addEventListener('click', function() {
+    const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
+    approveTask(taskId, 'approve'); // Call approveTask with action 'approve'
+});
+
+// Add click event listener to "Reject" button in the approve box
+const rejectApproveButton = document.querySelector('.approve-cancel');
+rejectApproveButton.addEventListener('click', function() {
+    const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
+    approveTask(taskId, 'reject'); // Call approveTask with action 'reject'
+});
 // });
 
 function showTaskPopup(task) {
@@ -370,27 +371,41 @@ function getTaskById(taskId) {
     });
 }
 
-function approveTask(taskId) {
+async function approveTask(taskId,action) {
     const baseUrl = 'https://api.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
     const approveUrl = `${baseUrl}/approve-task/${taskId}`;
   
-    return fetch(approveUrl, {
-        method:'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
+    if (action === 'approve') {
+        approveUrl = `${baseUrl}/approve-task/${taskId}`;
+    } else if (action === 'reject') {
+        approveUrl = `${baseUrl}/reject-task/${taskId}`;
+    }
+
+    try {
+        const response = await fetch(approveUrl, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.json();
-    })
-    .catch((error) => {
-        console.error('Error', error);
-    });
+
+        const responseData = await response.json();
+
+        if (responseData.status === 'success') {
+            // Redirect back to the previous page without showing the popup
+            window.history.back();
+        } else {
+            console.error('Task action failed:', responseData.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }
 
 function showApproveBox() {
