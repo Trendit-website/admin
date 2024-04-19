@@ -2157,6 +2157,11 @@ gap: 8px;
     justify-content: left;
     align-items: start;
    }
+   .name-box .name {
+    min-width: 45px;
+    max-width: 45px;
+    border-radius: 100px;
+   }
    .hero .wallet-container .top-boxes{
     display: flex; 
     align-items: unset;
