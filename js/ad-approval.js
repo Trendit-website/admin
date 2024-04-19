@@ -11,6 +11,13 @@ document.addEventListener("DOMContentLoaded", function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
 
+    var pendingFilterOption = document.querySelector('.filter-option[data-filter="pending"]');
+    var inReviewFilterOption = document.querySelector('.filter-option[data-filter="in review"]');
+    var failedFilterOption = document.querySelector('.filter-option[data-filter="failed"]');
+    var completedFilterOption = document.querySelector('.filter-option[data-filter="completed"]');
+    var cancelledFilterOption = document.querySelector('.filter-option[data-filter="cancelled"]');
+
+
     hamburgerMenu.addEventListener('click', function() {
         navBar.classList.toggle('active');
     });
@@ -22,12 +29,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    const filterOptions = document.querySelectorAll('.filter-option');
-    filterOptions.forEach(option => {
+    [pendingFilterOption, inReviewFilterOption, failedFilterOption, completedFilterOption, cancelledFilterOption].forEach(option => {
         option.addEventListener('click', function() {
             const filter = option.dataset.filter;
             // Remove 'selected' class from all options
-            filterOptions.forEach(opt => {
+            [pendingFilterOption, inReviewFilterOption, failedFilterOption, completedFilterOption, cancelledFilterOption].forEach(opt => {
                 opt.classList.remove('selected');
             });
             // Add 'selected' class to clicked option
@@ -57,6 +63,7 @@ function filterTasks(filter) {
             taskBox.style.display = 'none';
         }
     });
+    updateTaskCount();
 }
 
 // Define function to fetch failed tasks
@@ -131,7 +138,22 @@ function getPendingTasks(page = 1, pageSize = 10) {
     });
 }
 
+  // Function to update task count in the filter options
+  function updateTaskCount() {
+    const taskCounts = {
+        'pending': document.querySelectorAll('.box1.pending').length,
+        'in review': document.querySelectorAll('.box1.in-review').length,
+        'failed': document.querySelectorAll('.box1.failed').length,
+        'completed': document.querySelectorAll('.box1.completed').length,
+        'cancelled': document.querySelectorAll('.box1.cancelled').length
+    };
 
+    Object.entries(taskCounts).forEach(([filter, count]) => {
+        const filterOption = document.querySelector(`.filter-option[data-filter="${filter}"]`);
+        const taskCountSpan = filterOption.querySelector('span');
+        taskCountSpan.textContent = count > 0 ? count : '';
+    });
+}
 
 
 
@@ -153,10 +175,46 @@ function getPendingTasks(page = 1, pageSize = 10) {
             approveTask(taskId)
                 .then(response => {
                     console.log(response.message);
-                    showApproveBox();
+                    showApproveBox(taskId);
                     closeAdPopup();
                 })
                 .catch(error => console.error('Error approving task:', error));
+        }
+    });
+
+    // Add click event listener to reject button in the popup
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('reject-btn')) {
+            const taskId = event.target.getAttribute('data-task-id');
+            rejectTask(taskId)
+                .then(response => {
+                    console.log(response.message);
+                    // Move the rejected task to the cancelled tasks and update UI
+                    filterTasks('cancelled');
+                })
+                .catch(error => console.error('Error rejecting task:', error));
+        }
+    });
+
+    // Add click event listener to "Yes, Approve" button in the approve box
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('approve-yes')) {
+            const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
+            approveTask(taskId)
+                .then(response => {
+                    console.log(response.message);
+                    // Move the approved task to the approved tasks API
+                    filterTasks('completed');
+                    closeApproveBox();
+                })
+                .catch(error => console.error('Error approving task:', error));
+        }
+    });
+
+    // Add click event listener to "Cancel" button in the approve box
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('approve-cancel')) {
+            closeApproveBox();
         }
     });
 
@@ -178,17 +236,10 @@ function getPendingTasks(page = 1, pageSize = 10) {
     
 
     // Add click event listener to "Yes, Approve" button in the approve box
-    const yesApproveButton = document.querySelector('.approve-yes');
-    yesApproveButton.addEventListener('click', function() {
-        const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-        approveTask(taskId)
-            .then(response => {
-                console.log(response.message);
-                closeApproveBox();
-            })
-            .catch(error => console.error('Error approving task:', error));
-    });
+   
 // });
+
+
 
 function showTaskPopup(task) {
     const popup = document.querySelector('.popup');
