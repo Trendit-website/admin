@@ -43,7 +43,22 @@ document.addEventListener("DOMContentLoaded", function() {
         const initialFilter = initialSelected.dataset.filter;
         filterTasks(initialFilter);
     }
+    updateNavCounts();
 });
+
+function updateNavCounts() {
+    const pendingCount = document.querySelectorAll('.box1[data-status="pending"]').length;
+    const inReviewCount = document.querySelectorAll('.box1[data-status="in review"]').length;
+    const failedCount = document.querySelectorAll('.box1[data-status="failed"]').length;
+    const completedCount = document.querySelectorAll('.box1[data-status="completed"]').length;
+    const cancelledCount = document.querySelectorAll('.box1[data-status="cancelled"]').length;
+
+    document.querySelector('.filter-option[data-filter="pending"] span').textContent = pendingCount > 0 ? pendingCount : '';
+    document.querySelector('.filter-option[data-filter="in review"] span').textContent = inReviewCount > 0 ? inReviewCount : '';
+    document.querySelector('.filter-option[data-filter="failed"] span').textContent = failedCount > 0 ? failedCount : '';
+    document.querySelector('.filter-option[data-filter="completed"] span').textContent = completedCount > 0 ? completedCount : '';
+    document.querySelector('.filter-option[data-filter="cancelled"] span').textContent = cancelledCount > 0 ? cancelledCount : '';
+}
 
 function filterTasks(filter) {
     const taskBoxes = document.querySelectorAll('.box1');
