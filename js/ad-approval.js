@@ -178,22 +178,21 @@ function getPendingTasks(page = 1, pageSize = 10) {
 
     // Add click event listener to "Yes, Approve" button in the approve box
   // Update the click event listener for the "Yes, Approve" button in the approve box
-  const yesApproveButton = document.querySelector('.approve-yes');
-  yesApproveButton.addEventListener('click', function() {
-      const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-      approveTask(taskId, 'approve'); // Call approveTask with action 'approve'
-  });
-  
-  // Add click event listener to "Reject" button in the approve box
-  const rejectApproveButton = document.querySelector('.approve-cancel');
-  rejectApproveButton.addEventListener('click', function() {
-      const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-      approveTask(taskId, 'reject'); // Call approveTask with action 'reject'
-  });   
+const yesApproveButton = document.querySelector('.approve-yes');
+yesApproveButton.addEventListener('click', function() {
+    const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
+    approveTask(taskId, 'approve'); // Call approveTask with action 'approve'
+});
+
+// Add click event listener to "Reject" button in the approve box
+const rejectApproveButton = document.querySelector('.approve-cancel');
+rejectApproveButton.addEventListener('click', function() {
+    const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
+    approveTask(taskId, 'reject'); // Call approveTask with action 'reject'
+});
 // });
 
 function showTaskPopup(task) {
-    const popup = document.querySelector('.popup');
     const overlay = document.querySelector('.overlay');
 
     // Populate popup with task details
@@ -226,8 +225,8 @@ function showTaskPopup(task) {
         </div>
     `;
 
-    popup.innerHTML = popupContent;
-    popup.style.display = "block";
+    document.querySelector('.popup').innerHTML = popupContent;
+    document.querySelector('.popup').style.display = "block";
     overlay.style.display = "block";
 
     // Add click event listener to close button in the popup
@@ -235,7 +234,15 @@ function showTaskPopup(task) {
     closeButton.addEventListener('click', function() {
         closeAdPopup();
     });
+
+    // Add click event listener to save button in the popup
+    const saveButton = document.querySelector('.save-btn');
+    saveButton.addEventListener('click', function() {
+        const taskId = saveButton.getAttribute('data-task-id');
+        showApproveBox(taskId);
+    });
 }
+
 
 function closeAdPopup() {
     const popup = document.querySelector('.popup');
@@ -399,7 +406,8 @@ async function approveTask(taskId,action) {
 
         if (responseData.status === 'success') {
             // Redirect back to the previous page without showing the popup
-            window.location.href = '/pending';
+            window.location.href = '/ad-approval.html';
+
         } else {
             console.error('Task action failed:', responseData.message);
         }
@@ -411,9 +419,14 @@ async function approveTask(taskId,action) {
 function showApproveBox() {
     const approveBox = document.querySelector('.approve-box');
     const overlay2 = document.querySelector('.overlay2');
+     const popup = document.querySelector('.popup');
+    const overlay = document.querySelector('.overlay');
 
+    popup.style.display = "none";
+    overlay.style.display = "none";
     approveBox.style.display = "block";
-    overlay2.style.display = "block";
+    overlay2.style.display = "block";   // Set task ID attribute to approve-box
+    approveBox.setAttribute('data-task-id', taskId);
 }
 
 function closeApproveBox() {
