@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     displayAllUsers(data);
 });
 
-function displayUserInModal(user, userId) {
+function displayUserInModal(user, userId, data) {
     // Update the user popup with the user's information
     const userName = document.getElementById('user-name');
         const userEmail = document.getElementById('user-email');
@@ -58,7 +58,7 @@ container.addEventListener('click', function(event) {
         const userId = nameBox.dataset.userId;
         const user = data.users.find(user => user.id === parseInt(userId, 10));
         if (user) {
-            displayUserInModal(user, userId);
+            displayUserInModal(user, userId, data); // Pass the data variable as an argument
         } else {
             console.error("User not found.");
         }
