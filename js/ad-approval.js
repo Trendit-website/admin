@@ -169,24 +169,29 @@ function getPendingTasks(page = 1, pageSize = 10) {
     });
 
     // Add click event listeners to cancel buttons in approve box
-    const cancelApproveButtons = document.querySelectorAll('.approve-cancel');
-    cancelApproveButtons.forEach(cancelBtn => {
-        cancelBtn.addEventListener('click', function() {
-            closeApproveBox();
-        });
-    });
-    
-
-    // Add click event listener to "Yes, Approve" button in the approve box
     const yesApproveButton = document.querySelector('.approve-yes');
     yesApproveButton.addEventListener('click', function() {
         const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-        approveTask(taskId)
+        approveTask(taskId, true) // Pass true to indicate moving to accepted tasks
             .then(response => {
                 console.log(response.message);
                 closeApproveBox();
             })
             .catch(error => console.error('Error approving task:', error));
+    });
+    
+    // Event listener for cancel buttons in the approve box
+    const cancelApproveButtons = document.querySelectorAll('.approve-cancel');
+    cancelApproveButtons.forEach(cancelBtn => {
+        cancelBtn.addEventListener('click', function() {
+            const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
+            approveTask(taskId, false) // Pass false to indicate moving to rejected tasks
+                .then(response => {
+                    console.log(response.message);
+                    closeApproveBox();
+                })
+                .catch(error => console.error('Error rejecting task:', error));
+        });
     });
 // });
 
@@ -387,10 +392,54 @@ function approveTask(taskId) {
         }
         return response.json();
     })
+    .then(response => {
+        if (moveToAccepted) {
+            // Move the task to accepted tasks
+            moveTaskToAccepted(taskId);
+        } else {
+            // Move the task to rejected tasks
+            moveTaskToRejected(taskId);
+        }
+        return response;
+    })
     .catch((error) => {
         console.error('Error', error);
     });
 }
+
+
+function moveTaskToAccepted(taskId) {
+    // Make a request to fetch the task details
+    getTaskById(taskId)
+        .then(task => {
+            // Update the task status to 'approved'
+            task.status = 'approved';
+            // Refresh the UI to reflect the change
+            refreshUI();
+        })
+        .catch(error => console.error('Error moving task to accepted:', error));
+}
+
+function moveTaskToRejected(taskId) {
+    // Make a request to fetch the task details
+    getTaskById(taskId)
+        .then(task => {
+            // Update the task status to 'rejected'
+            task.status = 'rejected';
+            // Refresh the UI to reflect the change
+            refreshUI();
+        })
+        .catch(error => console.error('Error moving task to rejected:', error));
+}
+
+// Function to refresh the UI
+function refreshUI() {
+    // Re-fetch all tasks and re-render the UI
+    const data = getAllAds();
+    displayAllAds(data);
+}
+
+
 
 function showApproveBox() {
     const approveBox = document.querySelector('.approve-box');
