@@ -150,13 +150,7 @@ function getPendingTasks(page = 1, pageSize = 10) {
     document.addEventListener('click', function(event) {
         if (event.target.classList.contains('save-btn')) {
             const taskId = event.target.getAttribute('data-task-id');
-            approveTask(taskId)
-                .then(response => {
-                    console.log(response.message);
-                    showApproveBox();
-                    closeAdPopup();
-                })
-                .catch(error => console.error('Error approving task:', error));
+            openApproveBox(taskId);
         }
     });
 
@@ -168,25 +162,21 @@ function getPendingTasks(page = 1, pageSize = 10) {
         });
     });
 
-    // Add click event listeners to cancel buttons in approve box
-    const cancelApproveButtons = document.querySelectorAll('.approve-cancel');
-    cancelApproveButtons.forEach(cancelBtn => {
-        cancelBtn.addEventListener('click', function() {
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('approve-yes')) {
+            const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
+            approveTask(taskId);
             closeApproveBox();
-        });
+        }
     });
     
-
-    // Add click event listener to "Yes, Approve" button in the approve box
-    const yesApproveButton = document.querySelector('.approve-yes');
-    yesApproveButton.addEventListener('click', function() {
-        const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-        approveTask(taskId)
-            .then(response => {
-                console.log(response.message);
-                closeApproveBox();
-            })
-            .catch(error => console.error('Error approving task:', error));
+    // Event listener for Cancel button in the approve box
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('approve-cancel')) {
+            const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
+            rejectTask(taskId);
+            closeApproveBox();
+        }
     });
 // });
 
@@ -411,9 +401,9 @@ async function rejectTask(taskId) {
             throw new Error('Network response was not ok');
         }
 
-        // Move task to rejected filter in the UI
+        // Move task to cancelled filter in the UI
         const taskBox = document.querySelector(`.box1[data-task-id="${taskId}"]`);
-        taskBox.querySelector('.pending p').textContent = 'Rejected';
+        taskBox.querySelector('.pending p').textContent = 'Cancelled';
         // Remove the task from the current filter
         taskBox.style.display = 'none';
 
@@ -452,12 +442,15 @@ document.addEventListener('click', function(event) {
         closeApproveBox();
     }
 });
-function showApproveBox() {
+function openApproveBox(taskId) {
     const approveBox = document.querySelector('.approve-box');
     const overlay2 = document.querySelector('.overlay2');
 
     approveBox.style.display = "block";
     overlay2.style.display = "block";
+
+    // Set the task ID attribute for reference
+    approveBox.setAttribute('data-task-id', taskId);
 }
 
 function closeApproveBox() {
