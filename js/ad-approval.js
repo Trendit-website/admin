@@ -437,7 +437,7 @@ async function rejectTask(taskId) {
 // Event listener for canceling tasks from the approve box
 document.addEventListener('click', function(event) {
     if (event.target.classList.contains('approve-cancel')) {
-        const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
+        const taskId = event.target.getAttribute('data-task-id');
         rejectTask(taskId);
         closeApproveBox();
     }
