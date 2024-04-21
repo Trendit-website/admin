@@ -232,29 +232,70 @@ function closeAdPopup() {
     overlay.style.display = "none";
 }
 
-function getAllAds(page=1, pageSize = 10) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
-    const accessToken = getCookie('accessToken');
-    const tasksUrl = `${baseUrl}/tasks?page=${page}&pageSize=${pageSize}`;
+async function getAllAds(page = 1, pageSize = 10) {
+    try {
+        const baseUrl = 'https://api.trendit3.com/api/admin';
+        const accessToken = getCookie('accessToken');
+        const tasksUrl = `${baseUrl}/tasks?page=${page}&pageSize=${pageSize}`;
+        const failedTasksUrl = `${baseUrl}/failed-tasks?page=${page}&pageSize=${pageSize}`;
+        const approvedTasksUrl = `${baseUrl}/approved-tasks?page=${page}&pageSize=${pageSize}`;
+        const pendingTasksUrl = `${baseUrl}/pending-tasks?page=${page}&pageSize=${pageSize}`;
 
-  
-    return fetch(tasksUrl, {
-        method:'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
+        const [tasksResponse, failedTasksResponse, approvedTasksResponse, pendingTasksResponse] = await Promise.all([
+            fetch(tasksUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            }),
+            fetch(failedTasksUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            }),
+            fetch(approvedTasksUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            }),
+            fetch(pendingTasksUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+        ]);
+
+        if (!tasksResponse.ok || !failedTasksResponse.ok || !approvedTasksResponse.ok || !pendingTasksResponse.ok) {
+            throw new Error('Failed to fetch tasks');
         }
-    })
-    .then(response=> {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .catch((error) => {
-        console.error('Error', error);
-    });
+
+        const [tasksData, failedTasksData, approvedTasksData, pendingTasksData] = await Promise.all([
+            tasksResponse.json(),
+            failedTasksResponse.json(),
+            approvedTasksResponse.json(),
+            pendingTasksResponse.json()
+        ]);
+
+        return {
+            tasks: tasksData.tasks || [],
+            failedTasks: failedTasksData.tasks || [],
+            approvedTasks: approvedTasksData.tasks || [],
+            pendingTasks: pendingTasksData.tasks || []
+        };
+    } catch (error) {
+        console.error('Error fetching tasks:', error);
+        throw error; // Re-throw the error to propagate it to the caller
+    }
 }
+
+
 
 async function displayAllAds(promise) {
 
