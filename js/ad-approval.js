@@ -169,29 +169,24 @@ function getPendingTasks(page = 1, pageSize = 10) {
     });
 
     // Add click event listeners to cancel buttons in approve box
+    const cancelApproveButtons = document.querySelectorAll('.approve-cancel');
+    cancelApproveButtons.forEach(cancelBtn => {
+        cancelBtn.addEventListener('click', function() {
+            closeApproveBox();
+        });
+    });
+    
+
+    // Add click event listener to "Yes, Approve" button in the approve box
     const yesApproveButton = document.querySelector('.approve-yes');
     yesApproveButton.addEventListener('click', function() {
         const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-        approveTask(taskId, true) // Pass true to indicate moving to accepted tasks
+        approveTask(taskId)
             .then(response => {
                 console.log(response.message);
                 closeApproveBox();
             })
             .catch(error => console.error('Error approving task:', error));
-    });
-    
-    // Event listener for cancel buttons in the approve box
-    const cancelApproveButtons = document.querySelectorAll('.approve-cancel');
-    cancelApproveButtons.forEach(cancelBtn => {
-        cancelBtn.addEventListener('click', function() {
-            const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-            approveTask(taskId, false) // Pass false to indicate moving to rejected tasks
-                .then(response => {
-                    console.log(response.message);
-                    closeApproveBox();
-                })
-                .catch(error => console.error('Error rejecting task:', error));
-        });
     });
 // });
 
@@ -374,73 +369,89 @@ function getTaskById(taskId) {
     });
 }
 
-function approveTask(taskId) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
-    const accessToken = getCookie('accessToken');
-    const approveUrl = `${baseUrl}/approve-task/${taskId}`;
-  
-    return fetch(approveUrl, {
-        method:'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response=> {
+async function approveTask(taskId) {
+    try {
+        const response = await fetch(`https://api.trendit3.com/api/admin/approve-task/${taskId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${getCookie('accessToken')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.json();
-    })
-    .then(response => {
-        if (moveToAccepted) {
-            // Move the task to accepted tasks
-            moveTaskToAccepted(taskId);
-        } else {
-            // Move the task to rejected tasks
-            moveTaskToRejected(taskId);
+
+        // Move task to approved filter in the UI
+        const taskBox = document.querySelector(`.box1[data-task-id="${taskId}"]`);
+        taskBox.querySelector('.pending p').textContent = 'Approved';
+        // Remove the task from the current filter
+        taskBox.style.display = 'none';
+
+        const responseData = await response.json();
+        console.log(responseData.message);
+    } catch (error) {
+        console.error('Error approving task:', error);
+    }
+}
+
+// Implement rejectTask function
+async function rejectTask(taskId) {
+    try {
+        const response = await fetch(`https://api.trendit3.com/api/admin/reject-task/${taskId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${getCookie('accessToken')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
-        return response;
-    })
-    .catch((error) => {
-        console.error('Error', error);
-    });
+
+        // Move task to rejected filter in the UI
+        const taskBox = document.querySelector(`.box1[data-task-id="${taskId}"]`);
+        taskBox.querySelector('.pending p').textContent = 'Rejected';
+        // Remove the task from the current filter
+        taskBox.style.display = 'none';
+
+        const responseData = await response.json();
+        console.log(responseData.message);
+    } catch (error) {
+        console.error('Error rejecting task:', error);
+    }
 }
 
+// Event listener for approving tasks
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('save-btn')) {
+        const taskId = event.target.getAttribute('data-task-id');
+        approveTask(taskId);
+        // Close the popup after approval
+        closeAdPopup();
+    }
+});
 
-function moveTaskToAccepted(taskId) {
-    // Make a request to fetch the task details
-    getTaskById(taskId)
-        .then(task => {
-            // Update the task status to 'approved'
-            task.status = 'approved';
-            // Refresh the UI to reflect the change
-            refreshUI();
-        })
-        .catch(error => console.error('Error moving task to accepted:', error));
-}
+// Event listener for rejecting tasks
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('reject-btn')) {
+        const taskId = event.target.getAttribute('data-task-id');
+        rejectTask(taskId);
+        // Close the popup after rejection
+        closeAdPopup();
+    }
+});
 
-function moveTaskToRejected(taskId) {
-    // Make a request to fetch the task details
-    getTaskById(taskId)
-        .then(task => {
-            // Update the task status to 'rejected'
-            task.status = 'rejected';
-            // Refresh the UI to reflect the change
-            refreshUI();
-        })
-        .catch(error => console.error('Error moving task to rejected:', error));
-}
-
-// Function to refresh the UI
-function refreshUI() {
-    // Re-fetch all tasks and re-render the UI
-    const data = getAllAds();
-    displayAllAds(data);
-}
-
-
-
+// Event listener for canceling tasks from the approve box
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('approve-cancel')) {
+        const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
+        rejectTask(taskId);
+        closeApproveBox();
+    }
+});
 function showApproveBox() {
     const approveBox = document.querySelector('.approve-box');
     const overlay2 = document.querySelector('.overlay2');
