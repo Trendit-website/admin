@@ -146,5 +146,25 @@
     </section>
     <script src="./js/cookie.js"></script>
     <script src="./js/ad-approval.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById('search-box2');
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                const allParagraphs = document.querySelectorAll('#earn-container .box1 p');
+
+                allParagraphs.forEach(paragraph => {
+                    const textContent = paragraph.textContent.toLowerCase();
+                    const box = paragraph.closest('.box1');
+                    if (textContent.includes(searchTerm)) {
+                        box.style.display = 'block';
+                    } else {
+                        box.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

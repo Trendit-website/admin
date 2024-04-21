@@ -415,24 +415,24 @@ async function rejectTask(taskId) {
 }
 
 // Event listener for approving tasks
-document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('save-btn')) {
-        const taskId = event.target.getAttribute('data-task-id');
-        approveTask(taskId);
-        // Close the popup after approval
-        closeAdPopup();
-    }
-});
+// document.addEventListener('click', function(event) {
+//     if (event.target.classList.contains('save-btn')) {
+//         const taskId = event.target.getAttribute('data-task-id');
+//         approveTask(taskId);
+//         // Close the popup after approval
+//         closeAdPopup();
+//     }
+// });
 
-// Event listener for rejecting tasks
-document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('reject-btn')) {
-        const taskId = event.target.getAttribute('data-task-id');
-        rejectTask(taskId);
-        // Close the popup after rejection
-        closeAdPopup();
-    }
-});
+// // Event listener for rejecting tasks
+// document.addEventListener('click', function(event) {
+//     if (event.target.classList.contains('reject-btn')) {
+//         const taskId = event.target.getAttribute('data-task-id');
+//         rejectTask(taskId);
+//         // Close the popup after rejection
+//         closeAdPopup();
+//     }
+// });
 
 // Event listener for canceling tasks from the approve box
 document.addEventListener('click', function(event) {
