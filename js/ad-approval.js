@@ -20,15 +20,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Display all users and execute the callback function once done
     displayAllAds(data);
 
-    //search
-    const searchInput = document.getElementById('search-bar');
-
-    // Add event listener to search input
-    searchInput.addEventListener('input', function() {
-        const searchTerm = searchInput.value.trim().toLowerCase();
-        filterTasksBySearch(searchTerm);
-    });
-
 
 
     const filterOptions = document.querySelectorAll('.filter-option');
@@ -61,19 +52,6 @@ function filterTasks(filter) {
         if (filter === "completed" && status === "approved") {
             taskBox.style.display = 'block';
         } else if (status === filter) {
-            taskBox.style.display = 'block';
-        } else {
-            taskBox.style.display = 'none';
-        }
-    });
-}
-
-function filterTasksBySearch(searchTerm) {
-    const taskDescriptions = document.querySelectorAll('.earn-container .box1 p');
-    taskDescriptions.forEach(description => {
-        const taskDescriptionText = description.textContent.trim().toLowerCase();
-        const taskBox = description.parentElement;
-        if (taskDescriptionText.includes(searchTerm)) {
             taskBox.style.display = 'block';
         } else {
             taskBox.style.display = 'none';
@@ -259,6 +237,7 @@ function getAllAds(page=1, pageSize = 10) {
     const accessToken = getCookie('accessToken');
     const tasksUrl = `${baseUrl}/tasks?page=${page}&pageSize=${pageSize}`;
 
+  
     return fetch(tasksUrl, {
         method:'POST',
         headers: {
