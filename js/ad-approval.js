@@ -259,38 +259,22 @@ function getAllAds(page=1, pageSize = 10) {
     const accessToken = getCookie('accessToken');
     const tasksUrl = `${baseUrl}/tasks?page=${page}&pageSize=${pageSize}`;
 
-  
-    const tasksPromises = [
-        fetch(tasksUrl, {
-            method:'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch tasks');
-            }
-            return response.json();
-        }),
-        getFailedTasks(page, pageSize),
-        getApprovedTasks(page, pageSize),
-        getPendingTasks(page, pageSize)
-    ];
-
-    return Promise.all(tasksPromises)
-        .then(([tasksResponse, failedTasksResponse, approvedTasksResponse, pendingTasksResponse]) => {
-            const allTasks = {
-                tasks: tasksResponse.tasks || [],
-                failedTasks: failedTasksResponse.tasks || [],
-                approvedTasks: approvedTasksResponse.tasks || [],
-                pendingTasks: pendingTasksResponse.tasks || []
-            };
-            return allTasks;
-        })
-        .catch((error) => {
-            console.error('Error fetching tasks:', error);
-        });
+    return fetch(tasksUrl, {
+        method:'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response=> {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .catch((error) => {
+        console.error('Error', error);
+    });
 }
 
 async function displayAllAds(promise) {
