@@ -20,18 +20,17 @@ document.addEventListener("DOMContentLoaded", function() {
     // Display all users and execute the callback function once done
     displayAllAds(data);
 
+
+    const searchInput = document.getElementById('search-box2');
+
     searchInput.addEventListener('input', function() {
         const searchText = this.value.trim().toLowerCase();
-        console.log("Search Text:", searchText);
-        
         const paragraphs = document.querySelectorAll('.earn-container .box1 p');
-    
+
         paragraphs.forEach(paragraph => {
             const content = paragraph.textContent.trim().toLowerCase();
-            console.log("Paragraph Content:", content);
-            
             const box = paragraph.closest('.box1');
-    
+
             if (content.includes(searchText)) {
                 box.style.display = 'block';
             } else {
@@ -45,15 +44,6 @@ document.addEventListener("DOMContentLoaded", function() {
     filterOptions.forEach(option => {
         option.addEventListener('click', function() {
             const filter = option.dataset.filter;
-            filterTasks(filter);
-            filterOptions.forEach(opt => {
-                opt.classList.remove('selected');
-            });
-
-            // Add 'selected' class to clicked option
-            option.classList.add('selected');
-
-            // Filter tasks based on the selected category
             filterTasks(filter);
         });
     });
@@ -74,7 +64,7 @@ function filterTasks(filter) {
         const status = taskBox.querySelector('.pending p').textContent.trim().toLowerCase();
         if (filter === "completed" && status === "approved") {
             taskBox.style.display = 'block';
-        } else if (status === filter || (filter === "cancelled" && status === "rejected")) {
+        } else if (status === filter || (filter === "cancelled" && status === "declined")) {
             taskBox.style.display = 'block';
         } else {
             taskBox.style.display = 'none';
@@ -315,10 +305,7 @@ async function displayAllAds(promise) {
             platformImage.alt = task.platform;
 
             const statusParagraph = document.createElement('p');
-            console.log("Task Status:", task.status);
             statusParagraph.textContent = task.status.charAt(0).toUpperCase() + task.status.slice(1); // Capitalize first letter
-            console.log("Status Paragraph Text:", statusParagraph.textContent);
-
 
             statusDiv.appendChild(platformImage);
             statusDiv.appendChild(statusParagraph);
