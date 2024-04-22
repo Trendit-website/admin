@@ -89,6 +89,42 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+function sortTasksAlphabetically() {
+    const paragraphs = document.querySelectorAll('.earn-container .box1 p');
+    const sortedParagraphs = Array.from(paragraphs).sort((a, b) => {
+        const textA = a.textContent.trim().toLowerCase();
+        const textB = b.textContent.trim().toLowerCase();
+        return textA.localeCompare(textB);
+    });
+
+    const earnContainer = document.querySelector('.earn-container');
+
+    // Remove existing paragraphs from the container
+    while (earnContainer.firstChild) {
+        earnContainer.removeChild(earnContainer.firstChild);
+    }
+
+    // Append sorted paragraphs back to the container
+    sortedParagraphs.forEach(paragraph => {
+        const box = paragraph.closest('.box1');
+        earnContainer.appendChild(box);
+    });
+}
+
+function unsortTasks() {
+    const earnContainer = document.querySelector('.earn-container');
+
+   
+    const boxes = document.querySelectorAll('.earn-container .box1');
+
+    while (earnContainer.firstChild) {
+        earnContainer.removeChild(earnContainer.firstChild);
+    }
+
+    boxes.forEach(box => {
+        earnContainer.appendChild(box);
+    });
+}
 
 function globalSearch(query) {
     const allParagraphs = document.querySelectorAll('.box1 p');
