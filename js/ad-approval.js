@@ -43,6 +43,24 @@ document.addEventListener("DOMContentLoaded", function() {
         const initialFilter = initialSelected.dataset.filter;
         filterTasks(initialFilter);
     }
+
+    const searchInput = document.getElementById('search-box2');
+    searchInput.addEventListener('input', function() {
+        const searchText = searchInput.value.toLowerCase().trim();
+        filterTasksBySearch(searchText);
+    });
+     // Filter tasks by search text
+     function filterTasksBySearch(searchText) {
+        const taskBoxes = document.querySelectorAll('.box1');
+        taskBoxes.forEach(taskBox => {
+            const descriptionText = taskBox.querySelector('.description').textContent.toLowerCase();
+            if (descriptionText.includes(searchText)) {
+                taskBox.style.display = 'block';
+            } else {
+                taskBox.style.display = 'none';
+            }
+        });
+    }
 });
 
 function filterTasks(filter) {
@@ -128,6 +146,29 @@ function getPendingTasks(page = 1, pageSize = 10) {
     })
     .catch((error) => {
         console.error('Error fetching pending tasks:', error);
+    });
+}
+// Define function to fetch rejected/cancelled tasks
+function getRejectedOrCancelledTasks(page = 1, pageSize = 10) {
+    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const accessToken = getCookie('accessToken');
+    const rejectedOrCancelledTasksUrl = `${baseUrl}/cancelled-tasks?page=${page}&pageSize=${pageSize}`;
+  
+    return fetch(rejectedOrCancelledTasksUrl, {
+        method:'GET',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch rejected or cancelled tasks');
+        }
+        return response.json();
+    })
+    .catch((error) => {
+        console.error('Error fetching rejected or cancelled tasks:', error);
     });
 }
 
@@ -386,6 +427,10 @@ async function approveTask(taskId) {
     }
 }
 
+function getCanceledTasks(page = 1, pageSize = 10) {
+    // Use the getRejectedTasks function to fetch cancelled tasks
+    return getRejectedOrCancelledTasks(page, pageSize);
+}
 // Implement rejectTask function
 async function rejectTask(taskId) {
     try {
