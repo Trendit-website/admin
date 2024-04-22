@@ -20,17 +20,18 @@ document.addEventListener("DOMContentLoaded", function() {
     // Display all users and execute the callback function once done
     displayAllAds(data);
 
-    const searchInput = document.getElementById('search-box2');
-
     searchInput.addEventListener('input', function() {
         const searchText = this.value.trim().toLowerCase();
+        console.log("Search Text:", searchText);
+        
         const paragraphs = document.querySelectorAll('.earn-container .box1 p');
-
+    
         paragraphs.forEach(paragraph => {
             const content = paragraph.textContent.trim().toLowerCase();
+            console.log("Paragraph Content:", content);
+            
             const box = paragraph.closest('.box1');
-
-            // Check if the paragraph content includes the search text
+    
             if (content.includes(searchText)) {
                 box.style.display = 'block';
             } else {
@@ -314,7 +315,10 @@ async function displayAllAds(promise) {
             platformImage.alt = task.platform;
 
             const statusParagraph = document.createElement('p');
+            console.log("Task Status:", task.status);
             statusParagraph.textContent = task.status.charAt(0).toUpperCase() + task.status.slice(1); // Capitalize first letter
+            console.log("Status Paragraph Text:", statusParagraph.textContent);
+
 
             statusDiv.appendChild(platformImage);
             statusDiv.appendChild(statusParagraph);
