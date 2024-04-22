@@ -20,11 +20,22 @@ document.addEventListener("DOMContentLoaded", function() {
     // Display all users and execute the callback function once done
     displayAllAds(data);
 
-    const searchInput = document.getElementById('search-box2');
-    searchInput.addEventListener('input', function() {
-        const searchText = searchInput.value.trim().toLowerCase();
-        filterTasksByText(searchText);
+    const searchBox = document.getElementById('search-box2');
+    searchBox.addEventListener('input', function() {
+        const searchText = this.value.trim().toLowerCase();
+        const taskDescriptions = document.querySelectorAll('.earn-container .box1 p');
+
+        taskDescriptions.forEach(description => {
+            const text = description.textContent.trim().toLowerCase();
+            const taskBox = description.closest('.box1');
+            if (text.includes(searchText)) {
+                taskBox.style.display = 'block';
+            } else {
+                taskBox.style.display = 'none';
+            }
+        });
     });
+
 
 
     const filterOptions = document.querySelectorAll('.filter-option');
@@ -51,17 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
 });
 
-function filterTasksByText(text) {
-    const taskBoxes = document.querySelectorAll('.earn-container .box1');
-    taskBoxes.forEach(taskBox => {
-        const description = taskBox.querySelector('p').textContent.toLowerCase();
-        if (description.includes(text)) {
-            taskBox.style.display = 'block';
-        } else {
-            taskBox.style.display = 'none';
-        }
-    });
-}
+
 
 function filterTasks(filter) {
     const taskBoxes = document.querySelectorAll('.box1');
