@@ -20,22 +20,28 @@ document.addEventListener("DOMContentLoaded", function() {
     // Display all users and execute the callback function once done
     displayAllAds(data);
 
-    const searchBox = document.getElementById('search-box2');
-    searchBox.addEventListener('input', function() {
-        const searchText = this.value.trim().toLowerCase();
-        const taskDescriptions = document.querySelectorAll('.earn-container .box1 p');
+    const searchInput = document.getElementById('search-box2');
 
-        taskDescriptions.forEach(description => {
-            const text = description.textContent.trim().toLowerCase();
-            const taskBox = description.closest('.box1');
-            if (text.includes(searchText)) {
-                taskBox.style.display = 'block';
+    // Add event listener to the search input
+    searchInput.addEventListener('input', function() {
+        const searchText = this.value.trim().toLowerCase(); 
+
+
+        const paragraphs = document.querySelectorAll('.earn-container .box1 p');
+
+      
+        paragraphs.forEach(paragraph => {
+            const content = paragraph.textContent.trim().toLowerCase(); 
+            const box = paragraph.closest('.box1'); // Get the closest .box1 element
+
+        
+            if (content.includes(searchText)) {
+                box.style.display = 'block'; 
             } else {
-                taskBox.style.display = 'none';
+                box.style.display = 'none'; 
             }
         });
     });
-
 
 
     const filterOptions = document.querySelectorAll('.filter-option');
