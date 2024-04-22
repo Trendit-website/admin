@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const content = paragraph.textContent.trim().toLowerCase();
             const box = paragraph.closest('.box1');
 
+            // Check if the paragraph content includes the search text
             if (content.includes(searchText)) {
                 box.style.display = 'block';
             } else {
@@ -43,12 +44,14 @@ document.addEventListener("DOMContentLoaded", function() {
     filterOptions.forEach(option => {
         option.addEventListener('click', function() {
             const filter = option.dataset.filter;
-            // Remove 'selected' class from all options
+            filterTasks(filter);
             filterOptions.forEach(opt => {
                 opt.classList.remove('selected');
             });
+
             // Add 'selected' class to clicked option
             option.classList.add('selected');
+
             // Filter tasks based on the selected category
             filterTasks(filter);
         });
@@ -70,7 +73,7 @@ function filterTasks(filter) {
         const status = taskBox.querySelector('.pending p').textContent.trim().toLowerCase();
         if (filter === "completed" && status === "approved") {
             taskBox.style.display = 'block';
-        } else if (status === filter) {
+        } else if (status === filter || (filter === "cancelled" && status === "rejected")) {
             taskBox.style.display = 'block';
         } else {
             taskBox.style.display = 'none';
