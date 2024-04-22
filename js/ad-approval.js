@@ -22,44 +22,33 @@ document.addEventListener("DOMContentLoaded", function() {
     let isSorted = false;
     
     // Event listener for the "Sort" button
-    function sortTasks() {
-        const taskContainers = document.querySelectorAll('.earn-container .box1');
-        const sortedTasks = Array.from(taskContainers).sort((a, b) => {
-            const textA = a.querySelector('p').textContent.toLowerCase();
-            const textB = b.querySelector('p').textContent.toLowerCase();
-            return textA.localeCompare(textB);
-        });
-
-        const earnContainer = document.getElementById('earn-container');
-        earnContainer.innerHTML = '';
-        sortedTasks.forEach(task => {
-            earnContainer.appendChild(task);
-        });
-    }
-
-    // Function to unsort the tasks
-    function unsortTasks() {
-        const adsContainer = document.getElementById('earn-container');
-        getAllAds().then(data => displayAllAds(data));
-    }
-
-    // Event listener for the sort button
-    const sortButton = document.querySelector('.sort-btn');
+    const sortButton = document.querySelector('.top-nav .right p:last-child');
     sortButton.addEventListener('click', function() {
         if (isSorted) {
             unsortTasks();
             isSorted = false;
         } else {
-            sortTasks();
+            sortTasksAlphabetically();
             isSorted = true;
         }
     });
 
-
     const searchInput = document.getElementById('search-box2');
+
     searchInput.addEventListener('input', function() {
         const searchText = this.value.trim().toLowerCase();
-        globalSearch(searchText);
+        const paragraphs = document.querySelectorAll('.earn-container .box1 p');
+
+        paragraphs.forEach(paragraph => {
+            const content = paragraph.textContent.trim().toLowerCase();
+            const box = paragraph.closest('.box1');
+
+            if (content.includes(searchText)) {
+                box.style.display = 'block';
+            } else {
+                box.style.display = 'none';
+            }
+        });
     });
 
 
@@ -121,33 +110,11 @@ function unsortTasks() {
         earnContainer.removeChild(earnContainer.firstChild);
     }
 
+  
     boxes.forEach(box => {
         earnContainer.appendChild(box);
     });
 }
-
-function globalSearch(query) {
-    const allParagraphs = document.querySelectorAll('.box1 p');
-    const searchResults = [];
-
-    allParagraphs.forEach(paragraph => {
-        const content = paragraph.textContent.trim().toLowerCase();
-        if (content.includes(query)) {
-            searchResults.push(paragraph.closest('.box1'));
-        }
-    });
-
-    // Hide all boxes and display only the ones that match the search
-    const allBoxes = document.querySelectorAll('.box1');
-    allBoxes.forEach(box => {
-        box.style.display = 'none';
-    });
-
-    searchResults.forEach(result => {
-        result.style.display = 'block';
-    });
-}
-
 
 function filterTasks(filter) {
     const taskBoxes = document.querySelectorAll('.box1');
