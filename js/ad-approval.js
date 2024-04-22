@@ -19,11 +19,18 @@ document.addEventListener("DOMContentLoaded", function() {
     var data = getAllAds();
     // Display all users and execute the callback function once done
     displayAllAds(data);
+    let isSorted = false;
     
     // Event listener for the "Sort" button
     const sortButton = document.querySelector('.top-nav .right p:last-child');
     sortButton.addEventListener('click', function() {
-        sortTasksAlphabetically();
+        if (isSorted) {
+            unsortTasks();
+            isSorted = false;
+        } else {
+            sortTasksAlphabetically();
+            isSorted = true;
+        }
     });
 
     const searchInput = document.getElementById('search-box2');
@@ -89,6 +96,21 @@ function sortTasksAlphabetically() {
     // Append sorted paragraphs back to the container
     sortedParagraphs.forEach(paragraph => {
         const box = paragraph.closest('.box1');
+        earnContainer.appendChild(box);
+    });
+}
+
+function unsortTasks() {
+    const earnContainer = document.querySelector('.earn-container');
+
+   
+    const boxes = document.querySelectorAll('.earn-container .box1');
+
+    while (earnContainer.firstChild) {
+        earnContainer.removeChild(earnContainer.firstChild);
+    }
+
+    boxes.forEach(box => {
         earnContainer.appendChild(box);
     });
 }
