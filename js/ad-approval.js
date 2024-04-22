@@ -22,33 +22,44 @@ document.addEventListener("DOMContentLoaded", function() {
     let isSorted = false;
     
     // Event listener for the "Sort" button
-    const sortButton = document.querySelector('.top-nav .right p:last-child');
+    function sortTasks() {
+        const taskContainers = document.querySelectorAll('.earn-container .box1');
+        const sortedTasks = Array.from(taskContainers).sort((a, b) => {
+            const textA = a.querySelector('p').textContent.toLowerCase();
+            const textB = b.querySelector('p').textContent.toLowerCase();
+            return textA.localeCompare(textB);
+        });
+
+        const earnContainer = document.getElementById('earn-container');
+        earnContainer.innerHTML = '';
+        sortedTasks.forEach(task => {
+            earnContainer.appendChild(task);
+        });
+    }
+
+    // Function to unsort the tasks
+    function unsortTasks() {
+        const adsContainer = document.getElementById('earn-container');
+        getAllAds().then(data => displayAllAds(data));
+    }
+
+    // Event listener for the sort button
+    const sortButton = document.querySelector('.sort-btn');
     sortButton.addEventListener('click', function() {
         if (isSorted) {
             unsortTasks();
             isSorted = false;
         } else {
-            sortTasksAlphabetically();
+            sortTasks();
             isSorted = true;
         }
     });
 
-    const searchInput = document.getElementById('search-box2');
 
+    const searchInput = document.getElementById('search-box2');
     searchInput.addEventListener('input', function() {
         const searchText = this.value.trim().toLowerCase();
-        const paragraphs = document.querySelectorAll('.earn-container .box1 p');
-
-        paragraphs.forEach(paragraph => {
-            const content = paragraph.textContent.trim().toLowerCase();
-            const box = paragraph.closest('.box1');
-
-            if (content.includes(searchText)) {
-                box.style.display = 'block';
-            } else {
-                box.style.display = 'none';
-            }
-        });
+        globalSearch(searchText);
     });
 
 
@@ -78,42 +89,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-function sortTasksAlphabetically() {
-    const paragraphs = document.querySelectorAll('.earn-container .box1 p');
-    const sortedParagraphs = Array.from(paragraphs).sort((a, b) => {
-        const textA = a.textContent.trim().toLowerCase();
-        const textB = b.textContent.trim().toLowerCase();
-        return textA.localeCompare(textB);
+
+function globalSearch(query) {
+    const allParagraphs = document.querySelectorAll('.box1 p');
+    const searchResults = [];
+
+    allParagraphs.forEach(paragraph => {
+        const content = paragraph.textContent.trim().toLowerCase();
+        if (content.includes(query)) {
+            searchResults.push(paragraph.closest('.box1'));
+        }
     });
 
-    const earnContainer = document.querySelector('.earn-container');
-
-    // Remove existing paragraphs from the container
-    while (earnContainer.firstChild) {
-        earnContainer.removeChild(earnContainer.firstChild);
-    }
-
-    // Append sorted paragraphs back to the container
-    sortedParagraphs.forEach(paragraph => {
-        const box = paragraph.closest('.box1');
-        earnContainer.appendChild(box);
+    // Hide all boxes and display only the ones that match the search
+    const allBoxes = document.querySelectorAll('.box1');
+    allBoxes.forEach(box => {
+        box.style.display = 'none';
     });
-}
 
-function unsortTasks() {
-    const earnContainer = document.querySelector('.earn-container');
-
-   
-    const boxes = document.querySelectorAll('.earn-container .box1');
-
-    while (earnContainer.firstChild) {
-        earnContainer.removeChild(earnContainer.firstChild);
-    }
-
-    boxes.forEach(box => {
-        earnContainer.appendChild(box);
+    searchResults.forEach(result => {
+        result.style.display = 'block';
     });
 }
+
 
 function filterTasks(filter) {
     const taskBoxes = document.querySelectorAll('.box1');
