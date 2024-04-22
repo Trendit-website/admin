@@ -37,18 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     searchInput.addEventListener('input', function() {
         const searchText = this.value.trim().toLowerCase();
-        const paragraphs = document.querySelectorAll('.earn-container .box1 p');
-
-        paragraphs.forEach(paragraph => {
-            const content = paragraph.textContent.trim().toLowerCase();
-            const box = paragraph.closest('.box1');
-
-            if (content.includes(searchText)) {
-                box.style.display = 'block';
-            } else {
-                box.style.display = 'none';
-            }
-        });
+        searchInAdApproval(searchText);
     });
 
 
@@ -76,7 +65,20 @@ document.addEventListener("DOMContentLoaded", function() {
     
 });
 
+function searchInAdApproval(searchText) {
+    const paragraphs = document.querySelectorAll('.earn-container .box1 p');
 
+    paragraphs.forEach(paragraph => {
+        const content = paragraph.textContent.trim().toLowerCase();
+        const box = paragraph.closest('.box1');
+
+        if (content.includes(searchText)) {
+            box.style.display = 'block';
+        } else {
+            box.style.display = 'none';
+        }
+    });
+}
 
 function sortTasksAlphabetically() {
     const paragraphs = document.querySelectorAll('.earn-container .box1 p');
