@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Display all users and execute the callback function once done
     displayAllAds(data);
 
-
     const searchInput = document.getElementById('search-box2');
 
     searchInput.addEventListener('input', function() {
