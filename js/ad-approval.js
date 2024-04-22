@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Display all users and execute the callback function once done
     displayAllAds(data);
     
+    // Event listener for the "Sort" button
     const sortButton = document.querySelector('.top-nav .right p:last-child');
     sortButton.addEventListener('click', function() {
         sortTasksAlphabetically();
@@ -69,20 +70,26 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+
 function sortTasksAlphabetically() {
-    const taskBoxes = document.querySelectorAll('.box1');
-    const sortedTaskBoxes = Array.from(taskBoxes).sort((a, b) => {
-        const textA = a.querySelector('p').textContent.trim().toLowerCase();
-        const textB = b.querySelector('p').textContent.trim().toLowerCase();
+    const paragraphs = document.querySelectorAll('.earn-container .box1 p');
+    const sortedParagraphs = Array.from(paragraphs).sort((a, b) => {
+        const textA = a.textContent.trim().toLowerCase();
+        const textB = b.textContent.trim().toLowerCase();
         return textA.localeCompare(textB);
     });
 
-    const earnContainer = document.getElementById('earn-container');
-    earnContainer.innerHTML = ''; // Clear the container
+    const earnContainer = document.querySelector('.earn-container');
 
-    // Append sorted task boxes back to the container
-    sortedTaskBoxes.forEach(taskBox => {
-        earnContainer.appendChild(taskBox);
+    // Remove existing paragraphs from the container
+    while (earnContainer.firstChild) {
+        earnContainer.removeChild(earnContainer.firstChild);
+    }
+
+    // Append sorted paragraphs back to the container
+    sortedParagraphs.forEach(paragraph => {
+        const box = paragraph.closest('.box1');
+        earnContainer.appendChild(box);
     });
 }
 
