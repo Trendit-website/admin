@@ -1093,6 +1093,7 @@ section h3 {
     background: none;
     color: #b1b1b1;
     font-size: 14px;
+    outline: none;
   }
   
   .search-box img {

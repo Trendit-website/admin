@@ -19,6 +19,11 @@ document.addEventListener("DOMContentLoaded", function() {
     var data = getAllAds();
     // Display all users and execute the callback function once done
     displayAllAds(data);
+    
+    const sortButton = document.querySelector('.top-nav .right p:last-child');
+    sortButton.addEventListener('click', function() {
+        sortTasksAlphabetically();
+    });
 
     const searchInput = document.getElementById('search-box2');
 
@@ -63,6 +68,23 @@ document.addEventListener("DOMContentLoaded", function() {
     
 });
 
+
+function sortTasksAlphabetically() {
+    const taskBoxes = document.querySelectorAll('.box1');
+    const sortedTaskBoxes = Array.from(taskBoxes).sort((a, b) => {
+        const textA = a.querySelector('p').textContent.trim().toLowerCase();
+        const textB = b.querySelector('p').textContent.trim().toLowerCase();
+        return textA.localeCompare(textB);
+    });
+
+    const earnContainer = document.getElementById('earn-container');
+    earnContainer.innerHTML = ''; // Clear the container
+
+    // Append sorted task boxes back to the container
+    sortedTaskBoxes.forEach(taskBox => {
+        earnContainer.appendChild(taskBox);
+    });
+}
 
 function filterTasks(filter) {
     const taskBoxes = document.querySelectorAll('.box1');
