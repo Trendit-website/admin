@@ -43,6 +43,13 @@ document.addEventListener("DOMContentLoaded", function() {
     filterOptions.forEach(option => {
         option.addEventListener('click', function() {
             const filter = option.dataset.filter;
+            // Remove 'selected' class from all options
+            filterOptions.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            // Add 'selected' class to clicked option
+            option.classList.add('selected');
+            // Filter tasks based on the selected category
             filterTasks(filter);
         });
     });
@@ -70,6 +77,7 @@ function filterTasks(filter) {
         }
     });
 }
+
 
 // Define function to fetch failed tasks
 function getFailedTasks(page = 1, pageSize = 10) {
