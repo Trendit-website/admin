@@ -22,23 +22,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const searchInput = document.getElementById('search-box2');
 
-    // Add event listener to the search input
     searchInput.addEventListener('input', function() {
-        const searchText = this.value.trim().toLowerCase(); 
-
-
+        const searchText = this.value.trim().toLowerCase();
         const paragraphs = document.querySelectorAll('.earn-container .box1 p');
 
-      
         paragraphs.forEach(paragraph => {
-            const content = paragraph.textContent.trim().toLowerCase(); 
-            const box = paragraph.closest('.box1'); // Get the closest .box1 element
+            const content = paragraph.textContent.trim().toLowerCase();
+            const box = paragraph.closest('.box1');
 
-        
             if (content.includes(searchText)) {
-                box.style.display = 'block'; 
+                box.style.display = 'block';
             } else {
-                box.style.display = 'none'; 
+                box.style.display = 'none';
             }
         });
     });
@@ -67,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
 });
-
 
 
 function filterTasks(filter) {
