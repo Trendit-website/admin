@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var hamburgerMenu = document.querySelector('.hamburger');
-    var navBar = document.querySelector('.nav-bar');
+    // var hamburgerMenu = document.querySelector('.hamburger');
+    // var navBar = document.querySelector('.nav-bar');
 
-    hamburgerMenu.addEventListener('click', function() {
-        navBar.classList.toggle('active');
-    });
+    // hamburgerMenu.addEventListener('click', function() {
+    //     navBar.classList.toggle('active');
+    // });
 
 
-    // Function to fetch and display user data
-    var data = getAllUsers();
-    // Display all users and execute the callback function once done
-    displayAllUsers(data);
+    // // Function to fetch and display user data
+    // var data = getAllUsers();
+    // // Display all users and execute the callback function once done
+    // displayAllUsers(data);
 
     // Function to fetch and display transaction history
     var transactionData = getTransactionHistory();
