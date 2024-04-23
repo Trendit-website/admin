@@ -20,7 +20,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 const baseUrl = 'https://api.trendit3.com/api/admin';
 const accessToken = getCookie('accessToken');
-
+function getAccessToken() {
+    // Retrieve the access token from cookie
+    const accessToken = getCookie('accessToken'); // Assuming getCookie function is defined in cookie.js
+    return accessToken;
+}
 // Function to fetch user transaction history data
 async function fetchUserTransactionHistory() {
     try {
