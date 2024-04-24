@@ -55,6 +55,6 @@ async function displayTransactionHistory(accessToken) {
 
 
 window.addEventListener('load', () => {
-    const accessToken = getCookie(accessToken); // 
+    const accessToken = getCookie('accessToken'); // 
     displayTransactionHistory(accessToken);
 });
