@@ -2,13 +2,13 @@
 const baseUrl = 'https://api.trendit3.com/api/admin';
 
 // Function to fetch user transactions
-async function fetchUserTransactions() {
+async function fetchUserTransactions(accessToken) {
     try {
         // Fetch user transactions from the API
         const response = await fetch(`${baseUrl}/user_transactions`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${getCookie('accessToken')}`
+                'Authorization': `Bearer ${accessToken}`
             }
         });
         const data = await response.json();
@@ -39,12 +39,12 @@ function generateTransactionHistoryHTML(transactions) {
 }
 
 // Function to display transaction history
-async function displayTransactionHistory() {
+async function displayTransactionHistory(accessToken) {
     const transactionContainer = document.getElementById('transaction-history');
     transactionContainer.innerHTML = 'Loading...';
 
     // Fetch user transactions
-    const transactions = await fetchUserTransactions();
+    const transactions = await fetchUserTransactions(accessToken);
 
     // Generate HTML for transaction history
     const transactionHistoryHTML = generateTransactionHistoryHTML(transactions);
@@ -53,8 +53,8 @@ async function displayTransactionHistory() {
     transactionContainer.innerHTML = transactionHistoryHTML;
 }
 
-// Function to refresh transaction history on button click
-document.getElementById('refresh-btn').addEventListener('click', displayTransactionHistory);
 
-// Load transaction history on page load
-window.addEventListener('load', displayTransactionHistory);
+window.addEventListener('load', () => {
+    const accessToken = getCookie(accessToken); // 
+    displayTransactionHistory(accessToken);
+});
