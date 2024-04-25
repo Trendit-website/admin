@@ -1,6 +1,6 @@
-const baseUrl = 'https://api.trendit3.com/api/admin';
-    const accessToken = getCookie('accessToken');
 
+const baseUrl = 'https://api.trendit3.com/api/admin';
+const accessToken = getCookie('accessToken');
 
 // Function to fetch transaction data
 async function fetchTransactions(baseUrl, accessToken) {
@@ -20,21 +20,12 @@ async function fetchTransactions(baseUrl, accessToken) {
         throw error;
     }
 }
-fetchTransactions(baseUrl, accessToken)
-    .then(data => {
-        console.log('Transaction data:', data);
-        // Handle the fetched data as needed
-    })
-    .catch(error => {
-        console.error('Failed to fetch transaction data:', error);
-    });
-// Function to display wallet balance and total payouts
-async function displayWalletInfo(baseUrl, accessToken) {
+
+// Function to update wallet section with fetched data
+async function updateWalletSection(baseUrl, accessToken) {
     try {
-        // Fetch transaction data
         const transactionsData = await fetchTransactions(baseUrl, accessToken);
 
-        // Find wallet balance and total payouts from transactions data
         const walletBalance = transactionsData.transactions.reduce((acc, curr) => {
             if (curr.transaction_type === 'payment') {
                 acc += curr.amount;
@@ -47,56 +38,75 @@ async function displayWalletInfo(baseUrl, accessToken) {
         const totalPayouts = transactionsData.transactions.filter(transaction => transaction.transaction_type === 'payment')
             .reduce((acc, curr) => acc + curr.amount, 0);
 
-        // Update HTML elements with wallet balance and total payouts
-        document.getElementById('wallet-balance').textContent = `NGN ${walletBalance.toFixed(2)}`;
-        document.getElementById('total-payouts').textContent = `NGN ${totalPayouts.toFixed(2)}`;
+        document.getElementById('wallet-balance-amount').textContent = `NGN ${walletBalance.toFixed(2)}`;
+        document.getElementById('total-payouts-amount').textContent = `NGN ${totalPayouts.toFixed(2)}`;
     } catch (error) {
-        // Handle errors
+        console.error('Error updating wallet section:', error);
     }
 }
 
-// Function to display transaction history
-async function displayTransactionHistory(baseUrl, accessToken) {
+// Function to generate transaction history entries
+async function generateTransactionEntries(baseUrl, accessToken) {
     try {
-        // Fetch transaction data
         const transactionsData = await fetchTransactions(baseUrl, accessToken);
+        const transactionHistory = transactionsData.transactions;
 
-        // Get the container for transaction history
-        const transactionHistoryContainer = document.querySelector('.wallet-box');
+        const walletContainer = document.querySelector('.wallet-container');
+        walletContainer.innerHTML = '';
 
-        // Clear existing transaction history
-        transactionHistoryContainer.innerHTML = '';
+        transactionHistory.forEach(transaction => {
+            const walletBox = document.createElement('div');
+            walletBox.classList.add('wallet-box');
 
-        // Populate transaction history with fetched data
-        transactionsData.transactions.forEach(transaction => {
-            const transactionBox = document.createElement('div');
-            transactionBox.classList.add('wallet-box');
+            const leftDiv = document.createElement('div');
+            leftDiv.classList.add('left');
 
-            const transactionType = transaction.transaction_type.charAt(0).toUpperCase() + transaction.transaction_type.slice(1);
-            const transactionAmount = transaction.amount > 0 ? `+ ₦${transaction.amount.toFixed(2)}` : `- ₦${Math.abs(transaction.amount).toFixed(2)}`;
+            const arrowImage = document.createElement('img');
+            arrowImage.src = "./images/arrowleftdown.svg";
+            arrowImage.alt = "Arrow Image";
 
-            transactionBox.innerHTML = `
-                <div class="left">
-                    <img src="./images/arrowleftdown.svg" alt="">
-                    <div class="credit-date">
-                        <p id="highlight">${transactionType}</p>
-                        <p id="date">${transaction.description}</p>
-                    </div>
-                    <p>${transaction.description}</p>
-                </div>
-                <div class="right">
-                    <p id="highlight">${transactionAmount}</p>
-                </div>
-            `;
+            const creditDateDiv = document.createElement('div');
+            creditDateDiv.classList.add('credit-date');
 
-            transactionHistoryContainer.appendChild(transactionBox);
+            const creditTypeParagraph = document.createElement('p');
+            creditTypeParagraph.id = "highlight";
+            creditTypeParagraph.textContent = transaction.transaction_type;
+
+            const dateParagraph = document.createElement('p');
+            dateParagraph.id = "date";
+            dateParagraph.textContent = transaction.date;
+
+            creditDateDiv.appendChild(creditTypeParagraph);
+            creditDateDiv.appendChild(dateParagraph);
+
+            const transactionDescriptionParagraph = document.createElement('p');
+            transactionDescriptionParagraph.textContent = transaction.description;
+
+            leftDiv.appendChild(arrowImage);
+            leftDiv.appendChild(creditDateDiv);
+            leftDiv.appendChild(transactionDescriptionParagraph);
+
+            const rightDiv = document.createElement('div');
+            rightDiv.classList.add('right');
+
+            const amountParagraph = document.createElement('p');
+            amountParagraph.id = "highlight";
+            amountParagraph.textContent = transaction.amount;
+
+            rightDiv.appendChild(amountParagraph);
+
+            walletBox.appendChild(leftDiv);
+            walletBox.appendChild(rightDiv);
+
+            walletContainer.appendChild(walletBox);
         });
     } catch (error) {
-        // Handle errors
+        console.error('Error generating transaction history entries:', error);
     }
 }
 
+// Update wallet section with fetched data
+updateWalletSection(baseUrl, accessToken);
 
-
-displayWalletInfo(baseUrl, accessToken);
-displayTransactionHistory(baseUrl, accessToken);
+// Generate transaction history entries
+generateTransactionEntries(baseUrl, accessToken);
