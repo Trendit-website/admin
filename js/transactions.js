@@ -1,60 +1,95 @@
-// Define base URL for API
 const baseUrl = 'https://api.trendit3.com/api/admin';
+    const accessToken = getCookie('accessToken');
 
-// Function to fetch user transactions
-async function fetchUserTransactions(accessToken) {
+    
+// Function to fetch transaction data
+async function fetchTransactions(baseUrl, accessToken) {
     try {
-        // Fetch user transactions from the API
-        const response = await fetch(`${baseUrl}/user_transactions`, {
-            method: 'POST',
+        const url = `${baseUrl}/transactions`;
+        const response = await fetch(url, {
+            method: 'GET',
             headers: {
-                'Authorization': `Bearer ${accessToken}`
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
             }
         });
         const data = await response.json();
-        return data.transactions; // Assuming transactions are returned in an array format
+        return data;
     } catch (error) {
-        console.error('Error fetching user transactions:', error);
-        return [];
+        console.error('Error fetching transaction data:', error);
+        throw error;
     }
 }
 
-// Function to generate transaction history HTML
-function generateTransactionHistoryHTML(transactions) {
-    return transactions.map(transaction => `
-        <div class="wallet-box">
-            <div class="left">
-                <img src="./images/arrowleftdown.svg" alt="">
-                <div class="credit-date">
-                    <p id="highlight">${transaction.type}</p>
-                    <p id="date">${transaction.date}</p>
-                </div>
-                <p>${transaction.description}</p>
-            </div>
-            <div class="right">
-                <p id="highlight">${transaction.amount}</p>
-            </div>
-        </div>
-    `).join('');
+// Function to display wallet balance and total payouts
+async function displayWalletInfo(baseUrl, accessToken) {
+    try {
+        // Fetch transaction data
+        const transactionsData = await fetchTransactions(baseUrl, accessToken);
+
+        // Find wallet balance and total payouts from transactions data
+        const walletBalance = transactionsData.transactions.reduce((acc, curr) => {
+            if (curr.transaction_type === 'payment') {
+                acc += curr.amount;
+            } else {
+                acc -= curr.amount;
+            }
+            return acc;
+        }, 0);
+
+        const totalPayouts = transactionsData.transactions.filter(transaction => transaction.transaction_type === 'payment')
+            .reduce((acc, curr) => acc + curr.amount, 0);
+
+        // Update HTML elements with wallet balance and total payouts
+        document.getElementById('wallet-balance').textContent = `NGN ${walletBalance.toFixed(2)}`;
+        document.getElementById('total-payouts').textContent = `NGN ${totalPayouts.toFixed(2)}`;
+    } catch (error) {
+        // Handle errors
+    }
 }
 
 // Function to display transaction history
-async function displayTransactionHistory(accessToken) {
-    const transactionContainer = document.getElementById('transaction-history');
-    transactionContainer.innerHTML = 'Loading...';
+async function displayTransactionHistory(baseUrl, accessToken) {
+    try {
+        // Fetch transaction data
+        const transactionsData = await fetchTransactions(baseUrl, accessToken);
 
-    // Fetch user transactions
-    const transactions = await fetchUserTransactions(accessToken);
+        // Get the container for transaction history
+        const transactionHistoryContainer = document.querySelector('.wallet-box');
 
-    // Generate HTML for transaction history
-    const transactionHistoryHTML = generateTransactionHistoryHTML(transactions);
+        // Clear existing transaction history
+        transactionHistoryContainer.innerHTML = '';
 
-    // Display transaction history in the container
-    transactionContainer.innerHTML = transactionHistoryHTML;
+        // Populate transaction history with fetched data
+        transactionsData.transactions.forEach(transaction => {
+            const transactionBox = document.createElement('div');
+            transactionBox.classList.add('wallet-box');
+
+            const transactionType = transaction.transaction_type.charAt(0).toUpperCase() + transaction.transaction_type.slice(1);
+            const transactionAmount = transaction.amount > 0 ? `+ ₦${transaction.amount.toFixed(2)}` : `- ₦${Math.abs(transaction.amount).toFixed(2)}`;
+
+            transactionBox.innerHTML = `
+                <div class="left">
+                    <img src="./images/arrowleftdown.svg" alt="">
+                    <div class="credit-date">
+                        <p id="highlight">${transactionType}</p>
+                        <p id="date">${transaction.description}</p>
+                    </div>
+                    <p>${transaction.description}</p>
+                </div>
+                <div class="right">
+                    <p id="highlight">${transactionAmount}</p>
+                </div>
+            `;
+
+            transactionHistoryContainer.appendChild(transactionBox);
+        });
+    } catch (error) {
+        // Handle errors
+    }
 }
 
 
-window.addEventListener('load', () => {
-    const accessToken = getCookie('accessToken'); // 
-    displayTransactionHistory(accessToken);
-});
+
+displayWalletInfo(baseUrl, accessToken);
+displayTransactionHistory(baseUrl, accessToken);
