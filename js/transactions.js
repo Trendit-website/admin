@@ -1,13 +1,13 @@
 const baseUrl = 'https://api.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
 
-    
+
 // Function to fetch transaction data
 async function fetchTransactions(baseUrl, accessToken) {
     try {
         const url = `${baseUrl}/transactions`;
         const response = await fetch(url, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json'
@@ -20,7 +20,14 @@ async function fetchTransactions(baseUrl, accessToken) {
         throw error;
     }
 }
-
+fetchTransactions(baseUrl, accessToken)
+    .then(data => {
+        console.log('Transaction data:', data);
+        // Handle the fetched data as needed
+    })
+    .catch(error => {
+        console.error('Failed to fetch transaction data:', error);
+    });
 // Function to display wallet balance and total payouts
 async function displayWalletInfo(baseUrl, accessToken) {
     try {
