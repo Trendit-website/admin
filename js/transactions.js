@@ -173,20 +173,6 @@ async function loadMoreTransactionData() {
     }
 }
 
-
-
-// Create an intersection observer
-const historyObserver = new IntersectionObserver(loadMoreTransactionHistory, options);
-
-// Function to observe the transaction history container
-function observeTransactionHistory() {
-    const transactionHistoryContainer = document.querySelector('.transaction-history-container');
-    if (transactionHistoryContainer) {
-        historyObserver.observe(transactionHistoryContainer);
-    } else {
-        console.error('Transaction history container not found.');
-    }
-}
 async function loadMoreTransactionData() {
     try {
         // Fetch more transaction history data from the server
@@ -204,6 +190,20 @@ async function loadMoreTransactionData() {
         console.error('Failed to load more transaction history:', error);
     }
 }
+
+// Create an intersection observer
+const historyObserver = new IntersectionObserver(loadMoreTransactionHistory, options);
+
+// Function to observe the transaction history container
+function observeTransactionHistory() {
+    const transactionHistoryContainer = document.querySelector('.transaction-history-container');
+    if (transactionHistoryContainer) {
+        historyObserver.observe(transactionHistoryContainer);
+    } else {
+        console.error('Transaction history container not found.');
+    }
+}
+
 
 // Call the function to observe the transaction history container
 observeTransactionHistory();
