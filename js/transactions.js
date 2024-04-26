@@ -137,25 +137,43 @@ const options = {
 };
 
 // Function to load more transaction history when the bottom is reached
-async function loadMoreTransactionHistory(entries, observer) {
-    entries.forEach(async entry => {
-        if (entry.isIntersecting && !isLoading) {
-            isLoading = true;
-            try {
-                // Call a function to load more transaction history data
-                await loadMoreTransactionData();
-            } catch (error) {
-                console.error('Failed to load more transaction history:', error);
-            } finally {
-                isLoading = false;
+async function loadMoreTransactionData() {
+    try {
+        // Construct the URL to fetch more transaction data
+        const nextPageUrl = `${baseUrl}/transactions?page=2`; // Adjust the URL as per your API
+        
+        // Fetch the next page of transaction data
+        const response = await fetch(nextPageUrl, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
             }
+        });
+        
+        // Check if the response is successful
+        if (!response.ok) {
+            throw new Error('Failed to fetch more transaction data');
         }
-    });
-    if (transactionHistory.length === 0) {
-        // No more transaction history available
-        observer.disconnect(); // Stop observing once all history is loaded
+        
+        // Parse the response JSON
+        const newData = await response.json();
+        
+        // Extract the transaction history from the response data
+        const moreTransactionHistory = newData.transactions;
+
+        // Check if there is more data
+        if (moreTransactionHistory && moreTransactionHistory.length > 0) {
+            return moreTransactionHistory; // Return the new transaction history data
+        } else {
+            return []; // Return an empty array if there is no more data
+        }
+    } catch (error) {
+        throw error; // Propagate the error to the caller
     }
 }
+
+
 
 // Create an intersection observer
 const historyObserver = new IntersectionObserver(loadMoreTransactionHistory, options);
