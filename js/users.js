@@ -7,13 +7,34 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Function to fetch and display user data
-    var data = getAllUsers();
-    // Display all users and execute the callback function once done
-    displayAllUsers(data);
+    // var data = getAllUsers();
+    // // Display all users and execute the callback function once done
+    // displayAllUsers(data);
+
+    getAllUsers().then(data => {
+        // Display all users
+        displayAllUsers(data);
+        
+        // Event delegation to handle click events on user name boxes
+        const container = document.getElementById('users-container');
+        container.addEventListener('click', async function(event) {
+            const nameBox = event.target.closest('.name-box');
+            if (nameBox) {
+                const userId = nameBox.dataset.userId;
+                // Fetch user data when a user is clicked
+                const userData = await getUserData(userId);
+                if (userData) {
+                    displayUserInModal(userData);
+                } else {
+                    console.error("User not found.");
+                }
+            }
+        });
+    });
 });
 
 
-async function displayUserInModal(user, userId) {
+async function displayUserInModal(user) {
     try {
         // Update the user popup with the user's information
         const userName = document.getElementById('user-name');
@@ -87,6 +108,26 @@ async function displayUserInModal(user, userId) {
     }
 }
 
+
+async function getUserData(userId) {
+    const url = `${baseUrl}/users/${userId}`;
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const userData = await response.json();
+        return userData;
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        return null;
+    }
+}
 
 
 async function fetchUserTransactions(userId) {
@@ -168,32 +209,25 @@ const accessToken = getCookie('accessToken');
 
 
 
-
-function getAllUsers(page=1) {
-  
-  // const formData = new FormData();
-  // formData.append('item_type', 'item_type');
-
-  // Construct the full URL for the verification request
-  const usersUrl = `${baseUrl}/users?page=${page}`;
-  
-  return fetch(usersUrl, {
-    method:'POST',
-    // body: formData,
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
+async function getAllUsers(page=1) {
+    const usersUrl = `${baseUrl}/users?page=${page}`;
+    try {
+        const response = await fetch(usersUrl, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching all users:', error);
+        return null;
     }
-  })
-  .then(response=> {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .catch((error) => {
-    console.error('Error', error);
-  });
 }
 
 
