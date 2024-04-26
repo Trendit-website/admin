@@ -342,6 +342,9 @@ section h3 {
     margin: auto; /* Center the boxes horizontally */
     min-width: 330px;
     transition: .5s ease-in-out;
+    min-height: 133px;
+    max-height:133px ;
+    overflow-y: scroll;
 }
 .earn-container .box1:hover {
     background-color: #1E1E1E;
