@@ -2,6 +2,8 @@
 const baseUrl = 'https://api.trendit3.com/api/admin';
 const accessToken = getCookie('accessToken');
 
+
+
 // Function to fetch transaction data
 async function fetchTransactions(baseUrl, accessToken) {
     try {
@@ -112,6 +114,37 @@ updateWalletSection(baseUrl, accessToken);
 generateTransactionEntries(baseUrl, accessToken);
 
 
+let isSorted = false; // Flag to track sorting state
+
+// Function to sort transaction history entries
+function sortTransactionEntries() {
+    const walletContainer = document.querySelector('.wallet-container');
+    const transactionEntries = Array.from(walletContainer.querySelectorAll('.wallet-box'));
+    
+    transactionEntries.sort((a, b) => {
+        const textA = a.textContent.toLowerCase();
+        const textB = b.textContent.toLowerCase();
+        return textA.localeCompare(textB);
+    });
+
+    if (isSorted) {
+        transactionEntries.reverse();
+    }
+    
+    // Clear existing transaction history
+    walletContainer.innerHTML = '';
+
+    // Append sorted transaction history entries
+    transactionEntries.forEach(entry => {
+        walletContainer.appendChild(entry);
+    });
+
+    isSorted = !isSorted; // Toggle sorting state
+}
+
+// Attach event listener to the Sort button
+const sortButton = document.querySelector('.sort-button');
+sortButton.addEventListener('click', sortTransactionEntries);
 
 
 // Intersection Observer setup

@@ -1900,6 +1900,8 @@ gap: 8px;
    }
    .hero .wallet-container .box1 button{
     margin-left: 20px;
+    white-space: nowrap;
+    text-wrap: nowrap;
    }
    .wallet-container .wallet-box .left{
     gap: 12px;
