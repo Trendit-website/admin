@@ -1,4 +1,3 @@
-let data;
 document.addEventListener("DOMContentLoaded", function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
@@ -8,90 +7,39 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Function to fetch and display user data
-    data = getAllUsers();
+    var data = getAllUsers();
     // Display all users and execute the callback function once done
     displayAllUsers(data);
 });
 
+
 function displayUserInModal(user, userId) {
     // Update the user popup with the user's information
     const userName = document.getElementById('user-name');
-    const userEmail = document.getElementById('user-email');
-    const username = document.getElementById('username');
-    const gender = document.getElementById('gender');
-    const location = document.getElementById('location');
-    const phone = document.getElementById('phone');
-    const birthday = document.getElementById('birthday');
-    const profilePicture = document.getElementById('profile-picture');
+        const userEmail = document.getElementById('user-email');
+        const username = document.getElementById('username');
+        const gender = document.getElementById('gender');
+        const location = document.getElementById('location');
+        const phone = document.getElementById('phone');
+        const birthday = document.getElementById('birthday');
+        const profilePicture = document.getElementById('profile-picture');
 
-    userName.textContent = user.firstname + ' ' + user.lastname;
-    userEmail.textContent = user.email;
-    username.textContent = '@' + user.username;
-    gender.textContent = user.gender || "Not Specified";
-    location.textContent = user.country || "Not Specified";
-    phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
-    birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
-    profilePicture.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
+        userName.textContent = user.firstname + ' ' + user.lastname;
+        userEmail.textContent = user.email;
+        username.textContent = '@' + user.username;
+        gender.textContent = user.gender || "Not Specified";
+        location.textContent = user.country || "Not Specified";
+        phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
+        birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
+        profilePicture.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
 
-    // Fetch user's transaction history
-    fetchUserTransactions(userId)
-        .then(transactionHistoryResponse => {
-            const transactionHistory = transactionHistoryResponse.transactions;
 
-            // Display user's transaction history
-            const transactionHistoryContainer = document.querySelector('.user-info-transaction');
-            transactionHistoryContainer.innerHTML = ''; // Clear previous content
-
-            transactionHistory.forEach(transaction => {
-                // Create transaction history elements and append to the container
-                // Example:
-                const transactionBox = document.createElement('div');
-                transactionBox.classList.add('wallet-box');
-                // Create and append transaction details like type, description, amount, etc.
-                transactionHistoryContainer.appendChild(transactionBox);
-            });
-
-            // Fetch user's transaction metrics
-            return fetchUserTransactionMetrics(userId);
-        })
-        .then(transactionMetricsResponse => {
-            const transactionMetrics = transactionMetricsResponse.metrics;
-
-            // Display user's transaction metrics
-            const totalCredit = transactionMetrics.total_credit;
-            const totalDebit = transactionMetrics.total_debit;
-
-            // Update UI elements with transaction metrics
-            const totalCreditElement = document.querySelector('.total-earned p');
-            totalCreditElement.textContent = `Total Credit: NGN ${totalCredit.toFixed(2)}`;
-
-            const totalDebitElement = document.querySelector('.total-debit p');
-            totalDebitElement.textContent = `Total Debit: NGN ${totalDebit.toFixed(2)}`;
-
-            // Fetch user's task metrics
-            return fetchUserTaskMetrics(userId);
-        })
-        .then(taskMetricsResponse => {
-            const taskMetrics = taskMetricsResponse.metrics;
-
-            // Display user's task metrics
-            const totalTasks = taskMetrics.total_tasks;
-
-            // Update UI element with total tasks
-            const totalTasksElement = document.querySelector('.total-tasks p');
-            totalTasksElement.textContent = `Total Tasks: ${totalTasks}`;
-
-            // Show the user popup
-            const userPopup = document.querySelector('.user-popup');
-            const overlay = document.querySelector(".overlay");
-            userPopup.style.display = 'block';
-            overlay.style.display = 'block';
-        })
-        .catch(error => {
-            console.error('Error displaying user in modal:', error);
-        });
+    // Show the user popup
+    const userPopup = document.querySelector('.user-popup');
+    const overlay = document.querySelector(".overlay");
+    userPopup.style.display = 'block';
+    overlay.style.display='block';
 }
-
 
 // Close the user popup when "Go back" is clicked
 const backButton = document.querySelector('.user-popup .back');
@@ -104,7 +52,6 @@ backButton.addEventListener('click', function() {
 });
 
 // Event delegation to handle click events on user name boxes
-
 const container = document.getElementById('users-container');
 container.addEventListener('click', function(event) {
     const nameBox = event.target.closest('.name-box');
