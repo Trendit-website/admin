@@ -13,9 +13,10 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-function displayUserInModal(user, userId) {
-    // Update the user popup with the user's information
-    const userName = document.getElementById('user-name');
+async function displayUserInModal(user, userId) {
+    try {
+        // Update the user popup with the user's information
+        const userName = document.getElementById('user-name');
         const userEmail = document.getElementById('user-email');
         const username = document.getElementById('username');
         const gender = document.getElementById('gender');
@@ -33,13 +34,106 @@ function displayUserInModal(user, userId) {
         birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
         profilePicture.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
 
+        // Fetch user's transaction history
+        const transactionHistoryResponse = await fetchUserTransactions(userId);
+        const transactionHistory = transactionHistoryResponse.transactions;
 
-    // Show the user popup
-    const userPopup = document.querySelector('.user-popup');
-    const overlay = document.querySelector(".overlay");
-    userPopup.style.display = 'block';
-    overlay.style.display='block';
+        // Display user's transaction history
+        const transactionHistoryContainer = document.querySelector('.user-info-transaction');
+        transactionHistoryContainer.innerHTML = ''; // Clear previous content
+
+        transactionHistory.forEach(transaction => {
+            // Create transaction history elements and append to the container
+            // Example:
+            const transactionBox = document.createElement('div');
+            transactionBox.classList.add('wallet-box');
+            // Create and append transaction details like type, description, amount, etc.
+            transactionHistoryContainer.appendChild(transactionBox);
+        });
+
+        // Fetch user's transaction metrics
+        const transactionMetricsResponse = await fetchUserTransactionMetrics(userId);
+        const transactionMetrics = transactionMetricsResponse.metrics;
+
+        // Display user's transaction metrics
+        const totalCredit = transactionMetrics.total_credit;
+        const totalDebit = transactionMetrics.total_debit;
+
+        // Update UI elements with transaction metrics
+        const totalCreditElement = document.querySelector('.total-earned p');
+        totalCreditElement.textContent = `Total Credit: NGN ${totalCredit.toFixed(2)}`;
+
+        const totalDebitElement = document.querySelector('.total-debit p');
+        totalDebitElement.textContent = `Total Debit: NGN ${totalDebit.toFixed(2)}`;
+
+        // Fetch user's task metrics
+        const taskMetricsResponse = await fetchUserTaskMetrics(userId);
+        const taskMetrics = taskMetricsResponse.metrics;
+
+        // Display user's task metrics
+        const totalTasks = taskMetrics.total_tasks;
+
+        // Update UI element with total tasks
+        const totalTasksElement = document.querySelector('.total-tasks p');
+        totalTasksElement.textContent = `Total Tasks: ${totalTasks}`;
+
+        // Show the user popup
+        const userPopup = document.querySelector('.user-popup');
+        const overlay = document.querySelector(".overlay");
+        userPopup.style.display = 'block';
+        overlay.style.display='block';
+    } catch (error) {
+        console.error('Error displaying user in modal:', error);
+    }
 }
+
+
+
+async function fetchUserTransactions(userId) {
+    const url = `${baseUrl}/user_transactions`;
+    const requestBody = JSON.stringify({ user_id: userId });
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        },
+        body: requestBody
+    });
+    const data = await response.json();
+    return data;
+}
+
+async function fetchUserTransactionMetrics(userId) {
+    const url = `${baseUrl}/user_transaction_metrics`;
+    const requestBody = JSON.stringify({ user_id: userId });
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        },
+        body: requestBody
+    });
+    const data = await response.json();
+    return data;
+}
+
+async function fetchUserTaskMetrics(userId) {
+    const url = `${baseUrl}/user_task_metrics`;
+    const requestBody = JSON.stringify({ user_id: userId });
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        },
+        body: requestBody
+    });
+    const data = await response.json();
+    return data;
+}
+
 
 // Close the user popup when "Go back" is clicked
 const backButton = document.querySelector('.user-popup .back');
