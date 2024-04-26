@@ -346,6 +346,9 @@ section h3 {
     max-height:133px ;
     overflow-y: scroll;
 }
+.earn-container .box1::-webkit-scrollbar {
+  display: none;
+}
 .earn-container .box1:hover {
     background-color: #1E1E1E;
 

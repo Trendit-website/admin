@@ -7,174 +7,90 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Function to fetch and display user data
-    // var data = getAllUsers();
-    // // Display all users and execute the callback function once done
-    // displayAllUsers(data);
-
-    getAllUsers().then(data => {
-        // Display all users
-        displayAllUsers(data);
-        
-        // Event delegation to handle click events on user name boxes
-        const container = document.getElementById('users-container');
-        container.addEventListener('click', async function(event) {
-            const nameBox = event.target.closest('.name-box');
-            if (nameBox) {
-                const userId = nameBox.dataset.userId;
-                // Fetch user data when a user is clicked
-                const userData = await getUserData(userId);
-                if (userData) {
-                    displayUserInModal(userData);
-                } else {
-                    console.error("User not found.");
-                }
-            }
-        });
-    });
+    var data = getAllUsers();
+    // Display all users and execute the callback function once done
+    displayAllUsers(data);
 });
 
 
-async function displayUserInModal(user) {
-    try {
-        // Update the user popup with the user's information
-        const userName = document.getElementById('user-name');
-        const userEmail = document.getElementById('user-email');
-        const username = document.getElementById('username');
-        const gender = document.getElementById('gender');
-        const location = document.getElementById('location');
-        const phone = document.getElementById('phone');
-        const birthday = document.getElementById('birthday');
-        const profilePicture = document.getElementById('profile-picture');
+function displayUserInModal(user, userId) {
+    // Update the user popup with the user's information
+    const userName = document.getElementById('user-name');
+    const userEmail = document.getElementById('user-email');
+    const username = document.getElementById('username');
+    const gender = document.getElementById('gender');
+    const location = document.getElementById('location');
+    const phone = document.getElementById('phone');
+    const birthday = document.getElementById('birthday');
+    const profilePicture = document.getElementById('profile-picture');
 
-        userName.textContent = user.firstname + ' ' + user.lastname;
-        userEmail.textContent = user.email;
-        username.textContent = '@' + user.username;
-        gender.textContent = user.gender || "Not Specified";
-        location.textContent = user.country || "Not Specified";
-        phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
-        birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
-        profilePicture.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
+    userName.textContent = user.firstname + ' ' + user.lastname;
+    userEmail.textContent = user.email;
+    username.textContent = '@' + user.username;
+    gender.textContent = user.gender || "Not Specified";
+    location.textContent = user.country || "Not Specified";
+    phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
+    birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
+    profilePicture.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
 
-        // Fetch user's transaction history
-        const transactionHistoryResponse = await fetchUserTransactions(userId);
-        const transactionHistory = transactionHistoryResponse.transactions;
+    // Fetch user's transaction history
+    fetchUserTransactions(userId)
+        .then(transactionHistoryResponse => {
+            const transactionHistory = transactionHistoryResponse.transactions;
 
-        // Display user's transaction history
-        const transactionHistoryContainer = document.querySelector('.user-info-transaction');
-        transactionHistoryContainer.innerHTML = ''; // Clear previous content
+            // Display user's transaction history
+            const transactionHistoryContainer = document.querySelector('.user-info-transaction');
+            transactionHistoryContainer.innerHTML = ''; // Clear previous content
 
-        transactionHistory.forEach(transaction => {
-            // Create transaction history elements and append to the container
-            // Example:
-            const transactionBox = document.createElement('div');
-            transactionBox.classList.add('wallet-box');
-            // Create and append transaction details like type, description, amount, etc.
-            transactionHistoryContainer.appendChild(transactionBox);
+            transactionHistory.forEach(transaction => {
+                // Create transaction history elements and append to the container
+                // Example:
+                const transactionBox = document.createElement('div');
+                transactionBox.classList.add('wallet-box');
+                // Create and append transaction details like type, description, amount, etc.
+                transactionHistoryContainer.appendChild(transactionBox);
+            });
+
+            // Fetch user's transaction metrics
+            return fetchUserTransactionMetrics(userId);
+        })
+        .then(transactionMetricsResponse => {
+            const transactionMetrics = transactionMetricsResponse.metrics;
+
+            // Display user's transaction metrics
+            const totalCredit = transactionMetrics.total_credit;
+            const totalDebit = transactionMetrics.total_debit;
+
+            // Update UI elements with transaction metrics
+            const totalCreditElement = document.querySelector('.total-earned p');
+            totalCreditElement.textContent = `Total Credit: NGN ${totalCredit.toFixed(2)}`;
+
+            const totalDebitElement = document.querySelector('.total-debit p');
+            totalDebitElement.textContent = `Total Debit: NGN ${totalDebit.toFixed(2)}`;
+
+            // Fetch user's task metrics
+            return fetchUserTaskMetrics(userId);
+        })
+        .then(taskMetricsResponse => {
+            const taskMetrics = taskMetricsResponse.metrics;
+
+            // Display user's task metrics
+            const totalTasks = taskMetrics.total_tasks;
+
+            // Update UI element with total tasks
+            const totalTasksElement = document.querySelector('.total-tasks p');
+            totalTasksElement.textContent = `Total Tasks: ${totalTasks}`;
+
+            // Show the user popup
+            const userPopup = document.querySelector('.user-popup');
+            const overlay = document.querySelector(".overlay");
+            userPopup.style.display = 'block';
+            overlay.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error displaying user in modal:', error);
         });
-
-        // Fetch user's transaction metrics
-        const transactionMetricsResponse = await fetchUserTransactionMetrics(userId);
-        const transactionMetrics = transactionMetricsResponse.metrics;
-
-        // Display user's transaction metrics
-        const totalCredit = transactionMetrics.total_credit;
-        const totalDebit = transactionMetrics.total_debit;
-
-        // Update UI elements with transaction metrics
-        const totalCreditElement = document.querySelector('.total-earned p');
-        totalCreditElement.textContent = `Total Credit: NGN ${totalCredit.toFixed(2)}`;
-
-        const totalDebitElement = document.querySelector('.total-debit p');
-        totalDebitElement.textContent = `Total Debit: NGN ${totalDebit.toFixed(2)}`;
-
-        // Fetch user's task metrics
-        const taskMetricsResponse = await fetchUserTaskMetrics(userId);
-        const taskMetrics = taskMetricsResponse.metrics;
-
-        // Display user's task metrics
-        const totalTasks = taskMetrics.total_tasks;
-
-        // Update UI element with total tasks
-        const totalTasksElement = document.querySelector('.total-tasks p');
-        totalTasksElement.textContent = `Total Tasks: ${totalTasks}`;
-
-        // Show the user popup
-        const userPopup = document.querySelector('.user-popup');
-        const overlay = document.querySelector(".overlay");
-        userPopup.style.display = 'block';
-        overlay.style.display='block';
-    } catch (error) {
-        console.error('Error displaying user in modal:', error);
-    }
 }
-
-
-async function getUserData(userId) {
-    const url = `${baseUrl}/users/${userId}`;
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const userData = await response.json();
-        return userData;
-    } catch (error) {
-        console.error('Error fetching user data:', error);
-        return null;
-    }
-}
-
-
-async function fetchUserTransactions(userId) {
-    const url = `${baseUrl}/user_transactions`;
-    const requestBody = JSON.stringify({ user_id: userId });
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        },
-        body: requestBody
-    });
-    const data = await response.json();
-    return data;
-}
-
-async function fetchUserTransactionMetrics(userId) {
-    const url = `${baseUrl}/user_transaction_metrics`;
-    const requestBody = JSON.stringify({ user_id: userId });
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        },
-        body: requestBody
-    });
-    const data = await response.json();
-    return data;
-}
-
-async function fetchUserTaskMetrics(userId) {
-    const url = `${baseUrl}/user_task_metrics`;
-    const requestBody = JSON.stringify({ user_id: userId });
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        },
-        body: requestBody
-    });
-    const data = await response.json();
-    return data;
-}
-
 
 // Close the user popup when "Go back" is clicked
 const backButton = document.querySelector('.user-popup .back');
@@ -209,25 +125,32 @@ const accessToken = getCookie('accessToken');
 
 
 
-async function getAllUsers(page=1) {
-    const usersUrl = `${baseUrl}/users?page=${page}`;
-    try {
-        const response = await fetch(usersUrl, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching all users:', error);
-        return null;
+
+function getAllUsers(page=1) {
+  
+  // const formData = new FormData();
+  // formData.append('item_type', 'item_type');
+
+  // Construct the full URL for the verification request
+  const usersUrl = `${baseUrl}/users?page=${page}`;
+  
+  return fetch(usersUrl, {
+    method:'POST',
+    // body: formData,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
     }
+  })
+  .then(response=> {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    console.error('Error', error);
+  });
 }
 
 
