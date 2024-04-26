@@ -1,3 +1,4 @@
+let data;
 document.addEventListener("DOMContentLoaded", function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
@@ -7,11 +8,10 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Function to fetch and display user data
-    var data = getAllUsers();
+    data = getAllUsers();
     // Display all users and execute the callback function once done
     displayAllUsers(data);
 });
-
 
 function displayUserInModal(user, userId) {
     // Update the user popup with the user's information
@@ -92,6 +92,7 @@ function displayUserInModal(user, userId) {
         });
 }
 
+
 // Close the user popup when "Go back" is clicked
 const backButton = document.querySelector('.user-popup .back');
 backButton.addEventListener('click', function() {
@@ -103,6 +104,7 @@ backButton.addEventListener('click', function() {
 });
 
 // Event delegation to handle click events on user name boxes
+
 const container = document.getElementById('users-container');
 container.addEventListener('click', function(event) {
     const nameBox = event.target.closest('.name-box');
