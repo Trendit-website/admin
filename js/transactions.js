@@ -169,6 +169,23 @@ function observeTransactionHistory() {
         console.error('Transaction history container not found.');
     }
 }
+async function loadMoreTransactionData() {
+    try {
+        // Fetch more transaction history data from the server
+        const moreData = await fetchMoreData(); // Replace fetchMoreData with your actual function to fetch more data
+        
+        // Check if there is more data
+        if (moreData && moreData.length > 0) {
+            // Process and append the new data to the existing transaction history
+            appendMoreTransactionHistory(moreData); // Replace appendMoreTransactionHistory with your actual function to append more data
+        } else {
+            console.log('No more transaction history data available.');
+            // Optionally, you can display a message to the user indicating that there is no more data available
+        }
+    } catch (error) {
+        console.error('Failed to load more transaction history:', error);
+    }
+}
 
 // Call the function to observe the transaction history container
 observeTransactionHistory();
