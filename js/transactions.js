@@ -151,6 +151,10 @@ async function loadMoreTransactionHistory(entries, observer) {
             }
         }
     });
+    if (transactionHistory.length === 0) {
+        // No more transaction history available
+        observer.disconnect(); // Stop observing once all history is loaded
+    }
 }
 
 // Create an intersection observer
