@@ -1,8 +1,7 @@
-
 const baseUrl = 'https://api.trendit3.com/api/admin';
 const accessToken = getCookie('accessToken');
-
-
+let isLoading = false; // Flag to track loading state
+let isSorted = false; // Flag to track sorting state
 
 // Function to fetch transaction data
 async function fetchTransactions(baseUrl, accessToken) {
@@ -51,7 +50,14 @@ async function updateWalletSection(baseUrl, accessToken) {
 async function generateTransactionEntries(baseUrl, accessToken) {
     try {
         const transactionsData = await fetchTransactions(baseUrl, accessToken);
-        const transactionHistory = transactionsData.transactions;
+        let transactionHistory = transactionsData.transactions;
+
+        // Sort transaction history if needed
+        if (isSorted) {
+            transactionHistory = transactionHistory.sort((a, b) => {
+                return a.description.localeCompare(b.description);
+            });
+        }
 
         const walletContainer = document.querySelector('.wallet-container2');
         walletContainer.innerHTML = '';
@@ -113,67 +119,52 @@ updateWalletSection(baseUrl, accessToken);
 // Generate transaction history entries
 generateTransactionEntries(baseUrl, accessToken);
 
-
-let isSorted = false; // Flag to track sorting state
-
 // Function to sort transaction history entries
 function sortTransactionEntries() {
-    const walletContainer = document.querySelector('.wallet-container');
-    const transactionEntries = Array.from(walletContainer.querySelectorAll('.wallet-box'));
-    
-    transactionEntries.sort((a, b) => {
-        const textA = a.textContent.toLowerCase();
-        const textB = b.textContent.toLowerCase();
-        return textA.localeCompare(textB);
-    });
-
-    if (isSorted) {
-        transactionEntries.reverse();
-    }
-    
-    // Clear existing transaction history
-    walletContainer.innerHTML = '';
-
-    // Append sorted transaction history entries
-    transactionEntries.forEach(entry => {
-        walletContainer.appendChild(entry);
-    });
-
     isSorted = !isSorted; // Toggle sorting state
+    generateTransactionEntries(baseUrl, accessToken);
 }
 
 // Attach event listener to the Sort button
 const sortButton = document.querySelector('.sort-button');
 sortButton.addEventListener('click', sortTransactionEntries);
 
-
-// Intersection Observer setup
+// Intersection Observer setup for transaction history
 const options = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.2 // Trigger when 50% of the target is visible
+    root: null, // Use the viewport as the root
+    rootMargin: '0px', // No margin
+    threshold: 0.2 // Trigger when 20% of the target is visible
 };
 
-let currentPage = 2;
-let isLoading = false;
-
-const observer = new IntersectionObserver(async (entries, observer) => {
+// Function to load more transaction history when the bottom is reached
+async function loadMoreTransactionHistory(entries, observer) {
     entries.forEach(async entry => {
         if (entry.isIntersecting && !isLoading) {
             isLoading = true;
             try {
-                // getAllUsers is asynchronous and returns a Promise
-                var data = await getAllUsers(currentPage);
-                displayAllUsers(data);
-                currentPage++;
+                // Call a function to load more transaction history data
+                await loadMoreTransactionData();
             } catch (error) {
-                console.error('Failed to load new users:', error);
+                console.error('Failed to load more transaction history:', error);
             } finally {
                 isLoading = false;
             }
         }
     });
-}, options);
+}
 
-observer.observe(document.getElementById('load-more-trigger'));
+// Create an intersection observer
+const historyObserver = new IntersectionObserver(loadMoreTransactionHistory, options);
 
+// Function to observe the transaction history container
+function observeTransactionHistory() {
+    const transactionHistoryContainer = document.querySelector('.transaction-history-container');
+    if (transactionHistoryContainer) {
+        historyObserver.observe(transactionHistoryContainer);
+    } else {
+        console.error('Transaction history container not found.');
+    }
+}
+
+// Call the function to observe the transaction history container
+observeTransactionHistory();

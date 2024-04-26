@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Function to fetch and display user data
-    var data = getAllUsers();
+    // var data = getAllUsers();
     // Display all users and execute the callback function once done
     displayAllUsers(data, function() {
         // Callback function to execute after users have been displayed
@@ -171,17 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
   
-    // Settings Page
-    const inviteBtn = document.getElementById("inviteBtn");
-    const inviteCancelBtn = document.getElementById("invite-cancel-btn");
-  
-    inviteBtn.addEventListener("click", function() {
-      showPopup("#invite-popup");
-    });
-  
-    inviteCancelBtn.addEventListener("click", function() {
-      hidePopup("#invite-popup");
-    });
+
   
     // Users Page
     const userBoxes = document.querySelectorAll(".user-box");
