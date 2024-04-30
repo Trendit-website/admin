@@ -7,13 +7,20 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Function to fetch and display user data
-    var data = getAllUsers();
-    // Display all users and execute the callback function once done
-    displayAllUsers(data);
+    var data; // Declare data variable
+
+    getAllUsers()
+        .then(function(response) {
+            data = response; // Assign response to data variable
+            displayAllUsers(data);
+        })
+        .catch(function(error) {
+            console.error('Error fetching user data:', error);
+        });
 });
 
 
-function displayUserInModal(user, userId, data) { 
+function displayUserInModal(user, userId) { 
     // Update the user popup with the user's information
     const userName = document.getElementById('user-name');
     const userEmail = document.getElementById('user-email');
@@ -62,7 +69,7 @@ container.addEventListener('click', function(event) {
         const userId = nameBox.dataset.userId;
         const user = data.users.find(user => user.id === parseInt(userId, 10));
         if (user) {
-            displayUserInModal(user, userId, data);
+            displayUserInModal(user, userId);
         } else {
             console.error("User not found.");
         }
