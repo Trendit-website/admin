@@ -40,9 +40,8 @@ function displayUserInModal(user, userId) {
     userPopup.style.display = 'block';
     overlay.style.display='block';
 
+
 }
-
-
 
 
 // Close the user popup when "Go back" is clicked
