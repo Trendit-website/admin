@@ -13,37 +13,36 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-function displayUserInModal(user, userId,data) {
+function displayUserInModal(user, userId, data) { 
     // Update the user popup with the user's information
     const userName = document.getElementById('user-name');
-        const userEmail = document.getElementById('user-email');
-        const username = document.getElementById('username');
-        const gender = document.getElementById('gender');
-        const location = document.getElementById('location');
-        const phone = document.getElementById('phone');
-        const birthday = document.getElementById('birthday');
-        const profilePicture = document.getElementById('profile-picture');
+    const userEmail = document.getElementById('user-email');
+    const username = document.getElementById('username');
+    const gender = document.getElementById('gender');
+    const location = document.getElementById('location');
+    const phone = document.getElementById('phone');
+    const birthday = document.getElementById('birthday');
+    const profilePicture = document.getElementById('profile-picture');
 
-        userName.textContent = user.firstname + ' ' + user.lastname;
-        userEmail.textContent = user.email;
-        username.textContent = '@' + user.username;
-        gender.textContent = user.gender || "Not Specified";
-        location.textContent = user.country || "Not Specified";
-        phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
-        birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
-        profilePicture.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
+    userName.textContent = user.firstname + ' ' + user.lastname;
+    userEmail.textContent = user.email;
+    username.textContent = '@' + user.username;
+    gender.textContent = user.gender || "Not Specified";
+    location.textContent = user.country || "Not Specified";
+    phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
+    birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
+    profilePicture.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
 
 
     // Show the user popup
     const userPopup = document.querySelector('.user-popup');
     const overlay = document.querySelector(".overlay");
     userPopup.style.display = 'block';
-    overlay.style.display='block';
+    overlay.style.display = 'block';
 
-        // Fetch user transaction history
+    // Fetch user transaction history
     fetchUserTransactionHistory(userId);
 }
-
 
 // Close the user popup when "Go back" is clicked
 const backButton = document.querySelector('.user-popup .back');
@@ -52,7 +51,7 @@ backButton.addEventListener('click', function() {
     const overlay = document.querySelector(".overlay");
     userPopup.style.display = 'none';
     overlay.style.display = 'none';
-    
+
 });
 
 // Event delegation to handle click events on user name boxes
@@ -63,7 +62,7 @@ container.addEventListener('click', function(event) {
         const userId = nameBox.dataset.userId;
         const user = data.users.find(user => user.id === parseInt(userId, 10));
         if (user) {
-            displayUserInModal(user, userId, data); // Pass the data variable as an argument
+            displayUserInModal(user, userId, data);
         } else {
             console.error("User not found.");
         }
