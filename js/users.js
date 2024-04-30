@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-function displayUserInModal(user, userId) {
+function displayUserInModal(user, userId,data) {
     // Update the user popup with the user's information
     const userName = document.getElementById('user-name');
         const userEmail = document.getElementById('user-email');
