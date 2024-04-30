@@ -40,8 +40,8 @@ function displayUserInModal(user, userId) {
     userPopup.style.display = 'block';
     overlay.style.display='block';
 
-      // Fetch user wallet and transaction history
-      fetchUserWalletAndTransactions(userId);
+        // Fetch user transaction history
+    fetchUserTransactionHistory(userId);
 }
 
 
