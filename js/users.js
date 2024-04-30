@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-function displayUserInModal(user, userId) { 
+function displayUserInModal(user, userId, data) { 
     // Update the user popup with the user's information
     const userName = document.getElementById('user-name');
     const userEmail = document.getElementById('user-email');
@@ -48,7 +48,7 @@ function displayUserInModal(user, userId) {
     overlay.style.display = 'block';
 
     // Fetch user transaction history
-    fetchUserTransactionHistory(userId);
+    fetchUserTransactionHistory(userId,data);
 }
 
 // Close the user popup when "Go back" is clicked
@@ -69,7 +69,7 @@ container.addEventListener('click', function(event) {
         const userId = nameBox.dataset.userId;
         const user = data.users.find(user => user.id === parseInt(userId, 10));
         if (user) {
-            displayUserInModal(user, userId);
+            displayUserInModal(user, userId,data);
         } else {
             console.error("User not found.");
         }
@@ -82,7 +82,7 @@ const baseUrl = 'https://api.trendit3.com/api/admin';
 // get access token
 const accessToken = getCookie('accessToken');
 
-async function fetchUserTransactionHistory(userId) {
+async function fetchUserTransactionHistory(userId,data) {
     try {
         // Fetch user transaction history
         const transactionUrl = `${baseUrl}/user_transactions`;
