@@ -40,92 +40,9 @@ function displayUserInModal(user, userId) {
     userPopup.style.display = 'block';
     overlay.style.display='block';
 
-        // Fetch wallet balance and transaction history
-        fetchWalletAndTransactions(userId);
 }
 
-// Function to fetch wallet balance and transaction history
-function fetchWalletAndTransactions(userId) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
 
-    // Fetch wallet balance
-    fetch(`${baseUrl}/user_wallet?user_id=${userId}`)
-        .then(response => response.json())
-        .then(walletData => {
-            // Update wallet balance in the HTML
-            const walletBalance = document.getElementById('wallet-balance');
-            walletBalance.textContent = walletData.balance || 'N/A'; // Update with actual balance or 'N/A' if not available
-        })
-        .catch(error => console.error('Error fetching wallet balance:', error));
-
-    // Fetch transaction history
-    const transactionEndpoints = [
-        'user_transactions',
-        'user_credit_transactions',
-        'user_debit_transactions',
-        'user_payment_transactions',
-        'user_withdrawal_transactions'
-    ];
-
-    transactionEndpoints.forEach(endpoint => {
-        fetch(`${baseUrl}/${endpoint}?user_id=${userId}`)
-            .then(response => response.json())
-            .then(transactionData => {
-                // Update transaction history in the HTML
-                const historyContainer = document.getElementById(`${endpoint}-history`);
-                historyContainer.innerHTML = ''; // Clear previous content
-                if (transactionData && transactionData.length > 0) {
-                    transactionData.forEach(transaction => {
-                        const transactionBox = document.createElement('div');
-                        transactionBox.classList.add('wallet-box');
-
-                        // Create left section (transaction type, description, date)
-                        const leftDiv = document.createElement('div');
-                        leftDiv.classList.add('left');
-
-                        // Assuming transaction type and description are available in transaction data
-                        const transactionType = transaction.type || 'N/A';
-                        const transactionDescription = transaction.description || 'N/A';
-                        const transactionDate = transaction.date || 'N/A';
-
-                        const transactionTypeParagraph = document.createElement('p');
-                        transactionTypeParagraph.id = "highlight";
-                        transactionTypeParagraph.textContent = transactionType;
-
-                        const transactionDescriptionParagraph = document.createElement('p');
-                        transactionDescriptionParagraph.textContent = transactionDescription;
-
-                        const transactionDateParagraph = document.createElement('p');
-                        transactionDateParagraph.id = "date";
-                        transactionDateParagraph.textContent = transactionDate;
-
-                        leftDiv.appendChild(transactionTypeParagraph);
-                        leftDiv.appendChild(transactionDescriptionParagraph);
-                        leftDiv.appendChild(transactionDateParagraph);
-
-                        // Create right section (transaction amount)
-                        const rightDiv = document.createElement('div');
-                        rightDiv.classList.add('right');
-
-                        const transactionAmountParagraph = document.createElement('p');
-                        transactionAmountParagraph.id = "highlight";
-                        transactionAmountParagraph.textContent = transaction.amount || 'N/A';
-
-                        rightDiv.appendChild(transactionAmountParagraph);
-
-                        transactionBox.appendChild(leftDiv);
-                        transactionBox.appendChild(rightDiv);
-
-                        historyContainer.appendChild(transactionBox);
-                    });
-                } else {
-                    // If no transaction data available, display a message
-                    historyContainer.innerHTML = '<p>No transactions found.</p>';
-                }
-            })
-            .catch(error => console.error(`Error fetching ${endpoint} history:`, error));
-    });
-}
 
 
 // Close the user popup when "Go back" is clicked
