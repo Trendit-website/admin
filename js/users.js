@@ -76,17 +76,17 @@ const baseUrl = 'https://api.trendit3.com/api/admin';
 // get access token
 const accessToken = getCookie('accessToken');
 
-
 async function fetchUserTransactionHistory(userId) {
     try {
         // Fetch user transaction history
-        const transactionUrl = `${baseUrl}/user_transactions?user_id=${userId}`;
+        const transactionUrl = `${baseUrl}/user_transactions`;
         const transactionResponse = await fetch(transactionUrl, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({ user_id: userId })
         });
         if (!transactionResponse.ok) {
             throw new Error('Failed to fetch user transaction history');
