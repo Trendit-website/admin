@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-function displayUserInModal(user, userId, data) { 
+function displayUserInModal(user, userId) { 
     // Update the user popup with the user's information
     const userName = document.getElementById('user-name');
     const userEmail = document.getElementById('user-email');
@@ -40,7 +40,6 @@ function displayUserInModal(user, userId, data) {
     birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
     profilePicture.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
 
-
     // Show the user popup
     const userPopup = document.querySelector('.user-popup');
     const overlay = document.querySelector(".overlay");
@@ -48,8 +47,9 @@ function displayUserInModal(user, userId, data) {
     overlay.style.display = 'block';
 
     // Fetch user transaction history
-    fetchUserTransactionHistory(userId,data);
+    fetchUserTransactionHistory(userId, data);
 }
+
 
 // Close the user popup when "Go back" is clicked
 const backButton = document.querySelector('.user-popup .back');
@@ -114,13 +114,14 @@ function calculateWalletBalance(transactions) {
     let balance = 0;
     transactions.forEach(transaction => {
         if (transaction.type === 'credit') {
-            balance += transaction.amount;
+            balance += parseFloat(transaction.amount);
         } else if (transaction.type === 'debit') {
-            balance -= transaction.amount;
+            balance -= parseFloat(transaction.amount);
         }
     });
-    return balance.toFixed(2);
+    return balance;
 }
+
 
 // Function to update transaction history and wallet balance in the user popup
 
