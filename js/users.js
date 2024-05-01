@@ -82,7 +82,7 @@ const baseUrl = 'https://api.trendit3.com/api/admin';
 // get access token
 const accessToken = getCookie('accessToken');
 
-async function fetchUserTransactionHistory(userId,data) {
+async function fetchUserTransactionHistory(userId, data) {
     try {
         // Fetch user transaction history
         const transactionUrl = `${baseUrl}/user_transactions`;
@@ -101,9 +101,9 @@ async function fetchUserTransactionHistory(userId,data) {
 
         // Calculate wallet balance based on transaction history
         const walletBalance = calculateWalletBalance(transactionData.transactions);
-        
+
         // Update the user popup with transaction history and wallet balance
-        updateTransactionHistory(transactionData, walletBalance);
+        updateTransactionHistory(transactionData, walletBalance, data);
     } catch (error) {
         console.error('Error fetching user transaction history:', error);
     }
@@ -123,7 +123,7 @@ function calculateWalletBalance(transactions) {
 }
 
 // Function to update transaction history and wallet balance in the user popup
-function updateTransactionHistory(transactionData, walletBalance) {
+function updateTransactionHistory(transactionData, walletBalance,data) {
     // Update wallet balance
     const balanceElement = document.querySelector('.balance p');
     balanceElement.textContent = `₦${walletBalance}`;
