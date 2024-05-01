@@ -123,15 +123,17 @@ function calculateWalletBalance(transactions) {
 }
 
 // Function to update transaction history and wallet balance in the user popup
-function updateTransactionHistory(transactionData, walletBalance,data) {
-    // Update wallet balance
-    const balanceElement = document.querySelector('.balance p');
-    balanceElement.textContent = `₦${walletBalance}`;
 
-    const transactionsContainer = document.querySelector('.user-info-transaction .wallet-box');
-    transactionsContainer.innerHTML = ''; // Clear previous transaction history
+function updateTransactionHistory(transactionData, walletBalance) {
+    // Clear existing transaction history
+    const transactionContainer = document.querySelector('.user-info-transaction .wallet-box');
+    transactionContainer.innerHTML = '';
 
-    // Loop through transactions and create HTML elements
+    // Display wallet balance
+    const balanceElement = document.querySelector('.user-info-wallet .balance p');
+    balanceElement.textContent = `₦${walletBalance.toFixed(2)}`;
+
+    // Display transaction history
     transactionData.transactions.forEach(transaction => {
         const transactionBox = document.createElement('div');
         transactionBox.classList.add('wallet-box');
@@ -140,44 +142,85 @@ function updateTransactionHistory(transactionData, walletBalance,data) {
         leftDiv.classList.add('left');
 
         const arrowImage = document.createElement('img');
-        arrowImage.src = transaction.type === 'credit' ? './images/arrowleftdown.svg' : './images/arrowleftup.svg';
-        arrowImage.alt = 'Arrow';
+        arrowImage.src = "./images/arrowleftdown.svg";
+        arrowImage.alt = "Arrow Image";
         leftDiv.appendChild(arrowImage);
 
         const creditDateDiv = document.createElement('div');
         creditDateDiv.classList.add('credit-date');
-
-        const creditParagraph = document.createElement('p');
-        creditParagraph.id = 'highlight';
-        creditParagraph.textContent = transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1); // Capitalize first letter
-        const dateParagraph = document.createElement('p');
-        dateParagraph.id = 'date';
-        dateParagraph.textContent = new Date(transaction.date).toLocaleString();
-
-        creditDateDiv.appendChild(creditParagraph);
-        creditDateDiv.appendChild(dateParagraph);
+        creditDateDiv.innerHTML = `<p id="highlight">${transaction.type}</p><p id="date">${transaction.date}</p>`;
+        leftDiv.appendChild(creditDateDiv);
 
         const descriptionParagraph = document.createElement('p');
         descriptionParagraph.textContent = transaction.description;
-
-        leftDiv.appendChild(creditDateDiv);
         leftDiv.appendChild(descriptionParagraph);
 
         const rightDiv = document.createElement('div');
         rightDiv.classList.add('right');
-
-        const amountParagraph = document.createElement('p');
-        amountParagraph.id = 'highlight';
-        amountParagraph.textContent = `${transaction.type === 'credit' ? '+' : '-'} ₦${transaction.amount.toFixed(2)}`;
-
-        rightDiv.appendChild(amountParagraph);
+        rightDiv.innerHTML = `<p id="highlight">${transaction.amount}</p>`;
 
         transactionBox.appendChild(leftDiv);
         transactionBox.appendChild(rightDiv);
 
-        transactionsContainer.appendChild(transactionBox);
+        transactionContainer.appendChild(transactionBox);
     });
 }
+
+// function updateTransactionHistory(transactionData, walletBalance,data) {
+//     // Update wallet balance
+//     const balanceElement = document.querySelector('.balance p');
+//     balanceElement.textContent = `₦${walletBalance}`;
+
+//     const transactionsContainer = document.querySelector('.user-info-transaction .wallet-box');
+//     transactionsContainer.innerHTML = ''; // Clear previous transaction history
+
+//     // Loop through transactions and create HTML elements
+//     transactionData.transactions.forEach(transaction => {
+//         const transactionBox = document.createElement('div');
+//         transactionBox.classList.add('wallet-box');
+
+//         const leftDiv = document.createElement('div');
+//         leftDiv.classList.add('left');
+
+//         const arrowImage = document.createElement('img');
+//         arrowImage.src = transaction.type === 'credit' ? './images/arrowleftdown.svg' : './images/arrowleftup.svg';
+//         arrowImage.alt = 'Arrow';
+//         leftDiv.appendChild(arrowImage);
+
+//         const creditDateDiv = document.createElement('div');
+//         creditDateDiv.classList.add('credit-date');
+
+//         const creditParagraph = document.createElement('p');
+//         creditParagraph.id = 'highlight';
+//         creditParagraph.textContent = transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1); // Capitalize first letter
+//         const dateParagraph = document.createElement('p');
+//         dateParagraph.id = 'date';
+//         dateParagraph.textContent = new Date(transaction.date).toLocaleString();
+
+//         creditDateDiv.appendChild(creditParagraph);
+//         creditDateDiv.appendChild(dateParagraph);
+
+//         const descriptionParagraph = document.createElement('p');
+//         descriptionParagraph.textContent = transaction.description;
+
+//         leftDiv.appendChild(creditDateDiv);
+//         leftDiv.appendChild(descriptionParagraph);
+
+//         const rightDiv = document.createElement('div');
+//         rightDiv.classList.add('right');
+
+//         const amountParagraph = document.createElement('p');
+//         amountParagraph.id = 'highlight';
+//         amountParagraph.textContent = `${transaction.type === 'credit' ? '+' : '-'} ₦${transaction.amount.toFixed(2)}`;
+
+//         rightDiv.appendChild(amountParagraph);
+
+//         transactionBox.appendChild(leftDiv);
+//         transactionBox.appendChild(rightDiv);
+
+//         transactionsContainer.appendChild(transactionBox);
+//     });
+// }
 
 
 
