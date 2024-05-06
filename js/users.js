@@ -62,21 +62,29 @@ backButton.addEventListener('click', function() {
 });
 
 // Event delegation to handle click events on user name boxes
+// const container = document.getElementById('users-container');
+// container.addEventListener('click', function(event) {
+//     const nameBox = event.target.closest('.name-box');
+//     if (nameBox) {
+//         const userId = nameBox.dataset.userId;
+//         const user = data.users.find(user => user.id === parseInt(userId, 10));
+//         if (user) {
+//             displayUserInModal(user, userId);
+//         } else {
+//             console.error("User not found.");
+//         }
+//     }
+// });
+
 const container = document.getElementById('users-container');
 container.addEventListener('click', function(event) {
     const nameBox = event.target.closest('.name-box');
     if (nameBox) {
         const userId = nameBox.dataset.userId;
-        const user = data.users.find(user => user.id === parseInt(userId, 10));
-        if (user) {
-            displayUserInModal(user, userId);
-        } else {
-            console.error("User not found.");
-        }
+        // Instead of passing 'data', pass only the userId
+        displayUserInModal(userId);
     }
 });
-
-
 const baseUrl = 'https://api.trendit3.com/api/admin';
 
 // get access token
