@@ -89,10 +89,8 @@ const baseUrl = 'https://api.trendit3.com/api/admin';
 
 // get access token
 const accessToken = getCookie('accessToken');
-
-async function fetchUserTransactionHistory(userId) {
+async function fetchAndDisplayTransactionHistory(userId) {
     try {
-        // Fetch user transaction history
         const transactionUrl = `${baseUrl}/user_transactions`;
         const transactionResponse = await fetch(transactionUrl, {
             method: 'POST',
@@ -102,21 +100,75 @@ async function fetchUserTransactionHistory(userId) {
             },
             body: JSON.stringify({ user_id: userId })
         });
+        
         if (!transactionResponse.ok) {
             throw new Error('Failed to fetch user transaction history');
         }
+
         const transactionData = await transactionResponse.json();
-
-        // Calculate wallet balance based on transaction history
         const walletBalance = calculateWalletBalance(transactionData.transactions);
-
-        // Update the user popup with transaction history and wallet balance
         updateTransactionHistory(transactionData, walletBalance);
     } catch (error) {
         console.error('Error fetching user transaction history:', error);
     }
 }
 
+// Function to update transaction history and wallet balance in the user popup
+function updateTransactionHistory(transactionData, walletBalance) {
+    const transactionContainer = document.querySelector('.user-info-transaction .wallet-box');
+    transactionContainer.innerHTML = '';
+    
+    // Display wallet balance
+    const balanceElement = document.querySelector('.user-info-wallet .balance p');
+    balanceElement.textContent = `₦${walletBalance.toFixed(2)}`;
+
+    // Display transaction history
+    transactionData.transactions.forEach(transaction => {
+        const transactionBox = document.createElement('div');
+        transactionBox.classList.add('wallet-box');
+
+        const leftDiv = document.createElement('div');
+        leftDiv.classList.add('left');
+
+        const arrowImage = document.createElement('img');
+        arrowImage.src = transaction.type === 'credit' ? './images/arrowleftdown.svg' : './images/arrowleftup.svg';
+        arrowImage.alt = 'Arrow';
+        leftDiv.appendChild(arrowImage);
+
+        const creditDateDiv = document.createElement('div');
+        creditDateDiv.classList.add('credit-date');
+
+        const creditParagraph = document.createElement('p');
+        creditParagraph.id = 'highlight';
+        creditParagraph.textContent = transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1); // Capitalize first letter
+        const dateParagraph = document.createElement('p');
+        dateParagraph.id = 'date';
+        dateParagraph.textContent = new Date(transaction.date).toLocaleString();
+
+        creditDateDiv.appendChild(creditParagraph);
+        creditDateDiv.appendChild(dateParagraph);
+
+        const descriptionParagraph = document.createElement('p');
+        descriptionParagraph.textContent = transaction.description;
+
+        leftDiv.appendChild(creditDateDiv);
+        leftDiv.appendChild(descriptionParagraph);
+
+        const rightDiv = document.createElement('div');
+        rightDiv.classList.add('right');
+
+        const amountParagraph = document.createElement('p');
+        amountParagraph.id = 'highlight';
+        amountParagraph.textContent = `${transaction.type === 'credit' ? '+' : '-'} ₦${transaction.amount.toFixed(2)}`;
+
+        rightDiv.appendChild(amountParagraph);
+
+        transactionBox.appendChild(leftDiv);
+        transactionBox.appendChild(rightDiv);
+
+        transactionContainer.appendChild(transactionBox);
+    });
+}
 // Function to calculate wallet balance based on transaction history
 function calculateWalletBalance(transactions) {
     let balance = 0;
@@ -130,47 +182,6 @@ function calculateWalletBalance(transactions) {
     return balance;
 }
 
-// Function to update transaction history and wallet balance in the user popup
-function updateTransactionHistory(transactionData, walletBalance) {
-    // Display wallet balance
-    const balanceElement = document.querySelector('.user-info-wallet .balance p');
-    balanceElement.textContent = `₦${walletBalance.toFixed(2)}`;
-
-    // Display transaction history
-    const transactionContainer = document.querySelector('.user-info-transaction .wallet-box');
-    transactionContainer.innerHTML = '';
-
-    transactionData.transactions.forEach(transaction => {
-        const transactionBox = document.createElement('div');
-        transactionBox.classList.add('wallet-box');
-
-        const leftDiv = document.createElement('div');
-        leftDiv.classList.add('left');
-
-        const arrowImage = document.createElement('img');
-        arrowImage.src = "./images/arrowleftdown.svg";
-        arrowImage.alt = "Arrow Image";
-        leftDiv.appendChild(arrowImage);
-
-        const creditDateDiv = document.createElement('div');
-        creditDateDiv.classList.add('credit-date');
-        creditDateDiv.innerHTML = `<p id="highlight">${transaction.type}</p><p id="date">${transaction.date}</p>`;
-        leftDiv.appendChild(creditDateDiv);
-
-        const descriptionParagraph = document.createElement('p');
-        descriptionParagraph.textContent = transaction.description;
-        leftDiv.appendChild(descriptionParagraph);
-
-        const rightDiv = document.createElement('div');
-        rightDiv.classList.add('right');
-        rightDiv.innerHTML = `<p id="highlight">${transaction.amount}</p>`;
-
-        transactionBox.appendChild(leftDiv);
-        transactionBox.appendChild(rightDiv);
-
-        transactionContainer.appendChild(transactionBox);
-    });
-}
 
 
 function getAllUsers(page=1) {

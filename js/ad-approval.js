@@ -33,12 +33,21 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    const searchInput = document.getElementById('search-box2');
-
-    searchInput.addEventListener('input', function() {
-        const searchText = this.value.trim().toLowerCase();
-        searchInAdApproval(searchText);
-    });
+    function searchInAdApproval(searchText) {
+        const paragraphs = document.querySelectorAll('.earn-container .box1 p');
+    
+        paragraphs.forEach(paragraph => {
+            const content = paragraph.textContent.trim().toLowerCase();
+            const box = paragraph.closest('.box1');
+    
+            if (content.includes(searchText)) {
+                box.style.display = 'block';
+            } else {
+                box.style.display = 'none';
+            }
+        });
+    }
+    
 
 
     const filterOptions = document.querySelectorAll('.filter-option');
