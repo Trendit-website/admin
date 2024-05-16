@@ -148,6 +148,9 @@ header .icons{
   align-items: center;
   justify-content: space-between;
 }
+.hero .share-dashboard p{
+font-size: 13px;
+}
 .hero .share-dashboard .left{
   display: flex;
   align-items: center;
@@ -156,6 +159,12 @@ header .icons{
 }
 .hero .share-dashboard .left #share, #print,#export{
   gap: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.hero .share-dashboard .left #share, #print,#export img{
+ width: 15px;
 }
 .hero .share-dashboard .left #export{
   gap: 5px;
