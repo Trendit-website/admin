@@ -163,7 +163,7 @@ font-size: 13px;
   align-items: center;
   justify-content: space-between;
 }
-.hero .share-dashboard .left #share, #print,#export img{
+.hero .share-dashboard .left #share img, #print img,#export img{
  width: 15px;
 }
 .hero .share-dashboard .left #export{
