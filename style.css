@@ -142,6 +142,30 @@ header .icons{
 .hero h4:nth-child(3){
     margin-top: 30px;
 }
+
+.hero .share-dashboard{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.hero .share-dashboard .left{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+.hero .share-dashboard .left #share, #print,#export{
+  gap: 5px;
+}
+.hero .share-dashboard .left #export{
+  gap: 5px;
+  color: black;
+  background-color: #FFD0FE;
+}
+
+
+
+
 .hero .overview{
   margin: 20px 0;
   
