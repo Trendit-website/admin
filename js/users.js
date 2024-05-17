@@ -40,11 +40,21 @@ function displayUserInModal(user, userId) {
     birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
     profilePicture.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
 
-    // Show the user popup
-    const userPopup = document.querySelector('.user-popup');
-    const overlay = document.querySelector(".overlay");
-    userPopup.style.display = 'block';
-    overlay.style.display = 'block';
+    fetchAndDisplayUserMetrics(userId)
+    .then(() => {
+        // Fetch and display transaction history
+        return fetchAndDisplayUserTransactions(userId);
+    })
+    .then(() => {
+        // Show the user popup
+        const userPopup = document.querySelector('.user-popup');
+        const overlay = document.querySelector(".overlay");
+        userPopup.style.display = 'block';
+        overlay.style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Error displaying user details:', error);
+    });
 
 
 }
@@ -74,6 +84,93 @@ container.addEventListener('click', function(event) {
         }
     }
 });
+
+function fetchAndDisplayUserMetrics(userId) {
+    return Promise.all([
+        fetch(`${baseUrl}/user_task_metrics`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId })
+        }),
+        fetch(`${baseUrl}/user_transaction_metrics`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId })
+        })
+    ])
+    .then(responses => Promise.all(responses.map(response => response.json())))
+    .then(([taskMetrics, transactionMetrics]) => {
+        document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
+        document.getElementById('total-payouts').textContent = `₦${transactionMetrics.totalPayouts.toFixed(2)}`;
+        document.getElementById('total-earned-percentage').textContent = `${transactionMetrics.totalEarnedPercentage}%`;
+    })
+    .catch(error => {
+        console.error('Error fetching user metrics:', error);
+    });
+}
+
+function fetchAndDisplayUserTransactions(userId) {
+    const endpoints = [
+        '/user_transactions',
+        '/user_credit_transactions',
+        '/user_debit_transactions',
+        '/user_payment_transactions',
+        '/user_withdrawal_transactions'
+    ];
+
+    const transactionHistoryContainer = document.getElementById('transaction-history');
+    transactionHistoryContainer.innerHTML = ''; // Clear existing content
+
+    const transactionPromises = endpoints.map(endpoint =>
+        fetch(`${baseUrl}${endpoint}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId })
+        }).then(response => response.json())
+    );
+
+    return Promise.all(transactionPromises)
+        .then(transactions => {
+            transactions.forEach(transactionList => {
+                transactionList.forEach(transaction => {
+                    const transactionElement = document.createElement('div');
+                    transactionElement.classList.add('wallet-box');
+
+                    const transactionType = transaction.type || 'Transaction';
+                    const transactionDate = new Date(transaction.date).toDateString();
+                    const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
+                    const transactionDescription = transaction.description || 'No Description';
+
+                    transactionElement.innerHTML = `
+                        <div class="left">
+                            <img src="./images/arrowleftdown.svg" alt="">
+                            <div class="credit-date">
+                                <p id="highlight">${transactionType}</p>
+                                <p id="date">${transactionDate}</p>
+                            </div>
+                            <p>${transactionDescription}</p>
+                        </div>
+                        <div class="right">
+                            <p id="highlight">${transactionAmount}</p>
+                        </div>
+                    `;
+
+                    transactionHistoryContainer.appendChild(transactionElement);
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching user transactions:', error);
+        });}
 
 // const container = document.getElementById('users-container');
 // container.addEventListener('click', function(event) {
