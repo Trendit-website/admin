@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", async function() {
     // Wait for the data to be resolved before setting up the click event listeners
     displayDashboardData(dataPromise);
 
+    window.print();
+
+
     var dashboardData = await convertData(dataPromise); 
 
     // Make sure boxIds is defined somewhere in your script
@@ -362,11 +365,11 @@ function shareDashboard() {
     }
 }
 
-
 function printDashboard() {
-    // Print only the dashboard section
     var overviewSection = document.getElementById('overview');
-    var printContents = overviewSection.innerHTML;
+    var barChartSection = document.getElementById('bar-chart');
+
+    var printContents = overviewSection.innerHTML + barChartSection.innerHTML;
     var originalContents = document.body.innerHTML;
 
     document.body.innerHTML = printContents;
@@ -419,5 +422,4 @@ function exportDashboard() {
     // Convert HTML to PDF
     html2pdf().from(content).save();
 }
-
 
