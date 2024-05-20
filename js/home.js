@@ -363,43 +363,23 @@ function shareDashboard() {
 }
 
 function printDashboard() {
-    var overviewSection = document.getElementById('overview');
-    var barChartSection = document.getElementById('bar-chart');
+    // Get the content of the sections to print
+    var overview = document.querySelector('.overview').outerHTML;
+    var activities = document.querySelector('.activities').outerHTML;
 
-    // Create a container for the print content
-    var printContent = document.createElement('div');
-    printContent.appendChild(overviewSection.cloneNode(true)); // Clone overview section
-    printContent.appendChild(barChartSection.cloneNode(true)); // Clone bar chart section
+    // Create a new window
+    var printWindow = window.open('', '', 'height=600,width=800');
 
-    // Hide navigation and any other elements not needed in print
-    var allNavs = document.querySelectorAll('.nav-bar');
-    var hamburgerMenu = document.querySelector('.hamburger');
-    var footer = document.querySelector('footer');
-
-    allNavs.forEach(nav => {
-        nav.style.display = 'none';
-    });
-    hamburgerMenu.style.display = 'none';
-    footer.style.display = 'none';
-
-    var printWindow = window.open('', 'Print', 'height=600,width=800');
-
-    printWindow.document.write('<html><head><title>Dashboard Print</title>');
-    printWindow.document.write('</head><body style="font-family: Arial, sans-serif;">');
-    printWindow.document.write('<div style="width: 80%; margin: 0 auto;">');
-    printWindow.document.write(printContent.innerHTML);
-    printWindow.document.write('</div></body></html>');
+    // Write the content to the new window
+    printWindow.document.write('<html><head><title>Print Dashboard</title>');
+    printWindow.document.write('<link rel="stylesheet" href="styles.css">'); // Link to the stylesheet for consistent styling
+    printWindow.document.write('</head><body >');
+    printWindow.document.write(overview);
+    printWindow.document.write(activities);
+    printWindow.document.write('</body></html>');
 
     printWindow.document.close();
     printWindow.print();
-    printWindow.close();
-
-    // Restore original state
-    allNavs.forEach(nav => {
-        nav.style.display = '';
-    });
-    hamburgerMenu.style.display = '';
-    footer.style.display = '';
 }
 
 function exportDashboard() {
