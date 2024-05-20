@@ -12,11 +12,15 @@ document.addEventListener("DOMContentLoaded", function() {
     var navBar = document.querySelector('.nav-bar');
     var navSearchInput = document.getElementById('search-box');
     var adSearchInput = document.getElementById('search-box2');
+
+    // Handle Nav Bar Search
     navSearchInput.addEventListener('input', function() {
         var searchTerm = navSearchInput.value.toLowerCase();
         // Implement your search logic for the nav bar
         console.log('Nav Search Term:', searchTerm);
     });
+
+    // Handle Ad Approval Search
     adSearchInput.addEventListener('input', function() {
         var searchTerm = adSearchInput.value.toLowerCase();
         var adBoxes = document.querySelectorAll('.earn-container .box1');
