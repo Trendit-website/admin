@@ -366,15 +366,42 @@ function printDashboard() {
     var overviewSection = document.getElementById('overview');
     var barChartSection = document.getElementById('bar-chart');
 
-    var printContents = overviewSection.innerHTML + barChartSection.innerHTML;
-    var originalContents = document.body.innerHTML;
+    // Create a container for the print content
+    var printContent = document.createElement('div');
+    printContent.appendChild(overviewSection.cloneNode(true)); // Clone overview section
+    printContent.appendChild(barChartSection.cloneNode(true)); // Clone bar chart section
 
-    document.body.innerHTML = printContents;
+    // Hide navigation and any other elements not needed in print
+    var allNavs = document.querySelectorAll('.nav-bar');
+    var hamburgerMenu = document.querySelector('.hamburger');
+    var footer = document.querySelector('footer');
 
-    window.print();
+    allNavs.forEach(nav => {
+        nav.style.display = 'none';
+    });
+    hamburgerMenu.style.display = 'none';
+    footer.style.display = 'none';
 
-    document.body.innerHTML = originalContents;
+    var printWindow = window.open('', 'Print', 'height=600,width=800');
+
+    printWindow.document.write('<html><head><title>Dashboard Print</title>');
+    printWindow.document.write('</head><body style="font-family: Arial, sans-serif;">');
+    printWindow.document.write('<div style="width: 80%; margin: 0 auto;">');
+    printWindow.document.write(printContent.innerHTML);
+    printWindow.document.write('</div></body></html>');
+
+    printWindow.document.close();
+    printWindow.print();
+    printWindow.close();
+
+    // Restore original state
+    allNavs.forEach(nav => {
+        nav.style.display = '';
+    });
+    hamburgerMenu.style.display = '';
+    footer.style.display = '';
 }
+
 function exportDashboard() {
     // Convert data to CSV format
     const data = [
