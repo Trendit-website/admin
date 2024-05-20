@@ -362,32 +362,69 @@ function shareDashboard() {
     }
 }
 
+
 function printDashboard() {
-    window.print();
-}
+    // Hide navigation and other non-essential elements
+    var navBar = document.querySelector('.nav-bar');
+    navBar.style.display = 'none';
 
-function exportDashboard() {
-    // Convert data to CSV format
-    const data = [
-        ['Metric', 'Value'],
-        ['Total Payouts', document.getElementById('total_payouts').textContent],
-        ['Total Received Payments', document.getElementById('total_received_payments').textContent],
-        ['Total Earners', document.getElementById('total_earners').textContent],
-        ['Total Advertisers', document.getElementById('total_advertisers').textContent],
-        ['Total Approved Tasks', document.getElementById('total_approved_tasks').textContent]
-    ];
-
-    let csvContent = "data:text/csv;charset=utf-8,";
-    data.forEach(rowArray => {
-        let row = rowArray.join(",");
-        csvContent += row + "\r\n";
+    var buttons = document.querySelectorAll('.buttons');
+    buttons.forEach(button => {
+        button.style.display = 'none';
     });
 
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "dashboard_data.csv");
-    document.body.appendChild(link);
+    window.print();
 
-    link.click();
+    // Restore the navigation and buttons after printing
+    navBar.style.display = 'block';
+    buttons.forEach(button => {
+        button.style.display = 'block';
+    });
 }
+
+
+function exportDashboard() {
+    // Export functionality (generating PDF instead of CSV)
+    const overview = document.getElementById('overview').innerHTML;
+    const chart = document.getElementById('bar-chart').innerHTML;
+
+    const content = `
+        <html>
+        <head>
+            <title>Dashboard Report</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                }
+                .container {
+                    width: 80%;
+                    margin: 0 auto;
+                }
+                h1 {
+                    text-align: center;
+                    margin-bottom: 20px;
+                }
+                .section {
+                    margin-bottom: 40px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Dashboard Report</h1>
+                <div class="section" id="overview">
+                    ${overview}
+                </div>
+                <div class="section" id="bar-chart">
+                    ${chart}
+                </div>
+            </div>
+        </body>
+        </html>
+    `;
+
+    // Convert HTML to PDF
+    html2pdf().from(content).save();
+}
+
+
