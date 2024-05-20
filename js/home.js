@@ -363,23 +363,7 @@ function shareDashboard() {
 }
 
 function printDashboard() {
-    // Get the content of the sections to print
-    var overview = document.querySelector('.overview').outerHTML;
-    var activities = document.querySelector('.activities').outerHTML;
-
-    // Create a new window
-    var printWindow = window.open('', '', 'height=600,width=800');
-
-    // Write the content to the new window
-    printWindow.document.write('<html><head><title>Print Dashboard</title>');
-    printWindow.document.write('<link rel="stylesheet" href="styles.css">'); // Link to the stylesheet for consistent styling
-    printWindow.document.write('</head><body >');
-    printWindow.document.write(overview);
-    printWindow.document.write(activities);
-    printWindow.document.write('</body></html>');
-
-    printWindow.document.close();
-    printWindow.print();
+    window.print();
 }
 
 function exportDashboard() {
