@@ -10,10 +10,11 @@
 document.addEventListener("DOMContentLoaded", function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
+   
     var navSearchInput = document.getElementById('search-box');
     var adSearchInput = document.getElementById('search-box2');
 
-    // Handle Nav Bar Search
+    // Handle Nav Bar Search (extend this function based on your needs)
     navSearchInput.addEventListener('input', function() {
         var searchTerm = navSearchInput.value.toLowerCase();
         // Implement your search logic for the nav bar
@@ -28,9 +29,9 @@ document.addEventListener("DOMContentLoaded", function() {
         adBoxes.forEach(function(box) {
             var textContent = box.querySelector('p').textContent.toLowerCase();
             if (textContent.includes(searchTerm)) {
-                box.style.display = '';
+                box.style.display = 'block'; // Show the box if it matches
             } else {
-                box.style.display = 'none';
+                box.style.display = 'none'; // Hide the box if it doesn't match
             }
         });
     });
