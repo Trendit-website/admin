@@ -30,8 +30,59 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     var barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
     barChart.render();
+
+
+    document.getElementById('share').addEventListener('click', shareDashboard);
+    document.getElementById('print').addEventListener('click', printDashboard);
+    document.getElementById('export').addEventListener('click', exportDashboard);
+
+    // Dropdown functionality
+    const dropdownTrigger = document.getElementById('dropdown-trigger');
+    const dropdownMenu = document.getElementById('dropdown-menu');
+
+    dropdownTrigger.addEventListener('click', () => {
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!dropdownTrigger.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            dropdownMenu.style.display = 'none';
+        }
+    });
+
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', async (event) => {
+            const period = event.target.getAttribute('data-period');
+            dropdownTrigger.innerHTML = `${event.target.innerText} <img src="/images/arrowdown.png" alt="">`;
+            dropdownMenu.style.display = 'none';
+            await updateChart(period);
+        });
+    });
+
+    async function updateChart(period) {
+        // Fetch data for the selected period and update the chart
+        var dataPromise = getDashboardDataForPeriod(period); // Modify this function to fetch data for the selected period
+        var dashboardData = await convertData(dataPromise);
+        barChart.updateSeries([{ data: dashboardData.totalPayouts }]); // Example: update with totalPayouts data
+    }
 });
 
+// Example function to fetch data for the selected period
+async function getDashboardDataForPeriod(period) {
+    const url = `${baseUrl}/dashboard_data?period=${period}`; // Modify the API endpoint to accept period as a query parameter
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    });
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+}
 
 const boxIds = {
     selected: 0,
@@ -296,3 +347,47 @@ var barChartOptions = {
         },
     },
 };
+
+function shareDashboard() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'Dashboard Data',
+            text: 'Check out this dashboard data!',
+            url: window.location.href
+        }).then(() => {
+            console.log('Thanks for sharing!');
+        }).catch(console.error);
+    } else {
+        alert('Web Share API is not supported in your browser.');
+    }
+}
+
+function printDashboard() {
+    window.print();
+}
+
+function exportDashboard() {
+    // Convert data to CSV format
+    const data = [
+        ['Metric', 'Value'],
+        ['Total Payouts', document.getElementById('total_payouts').textContent],
+        ['Total Received Payments', document.getElementById('total_received_payments').textContent],
+        ['Total Earners', document.getElementById('total_earners').textContent],
+        ['Total Advertisers', document.getElementById('total_advertisers').textContent],
+        ['Total Approved Tasks', document.getElementById('total_approved_tasks').textContent]
+    ];
+
+    let csvContent = "data:text/csv;charset=utf-8,";
+    data.forEach(rowArray => {
+        let row = rowArray.join(",");
+        csvContent += row + "\r\n";
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "dashboard_data.csv");
+    document.body.appendChild(link);
+
+    link.click();
+}

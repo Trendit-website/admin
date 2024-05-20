@@ -73,10 +73,10 @@
             <div class="overview">
                 <div class="heading">
                    <h5>Overview</h5> 
-                    <div class="date"> 
+                    <!-- <div class="date"> 
                         <p>Period <span>This Week </span></p>
                         <img src="/images/arrowdown.png" alt="">
-                    </div>
+                    </div> -->
                 </div>
                 <div class="boxes">
                     <div class="top-boxes">
@@ -148,13 +148,16 @@
             </div>
             <div class="activities">
                 <div class="heading">
-                    <h5>Activities</h5> 
-                    <p>Period <span  id="dropdown-trigger">This Week <img src="/images/arrowdown.png" alt=""></span></p>
-                   
-                 </div> 
-                 <div id="bar-chart">
-
-                 </div>
+                    <h5>Activities</h5>
+                    <p>Period <span id="dropdown-trigger">This Week <img src="/images/arrowdown.png" alt=""></span></p>
+                    <div id="dropdown-menu" class="dropdown-menu">
+                        <p class="dropdown-item" data-period="this-week">This Week</p>
+                        <p class="dropdown-item" data-period="this-month">This Month</p>
+                        <p class="dropdown-item" data-period="last-month">Last Month</p>
+                        <p class="dropdown-item" data-period="this-year">This Year</p>
+                    </div>
+                </div>
+                <div id="bar-chart"></div>
                  
                 
             </div>
