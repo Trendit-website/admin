@@ -10,9 +10,6 @@ document.addEventListener("DOMContentLoaded", async function() {
     // Wait for the data to be resolved before setting up the click event listeners
     displayDashboardData(dataPromise);
 
-    window.print();
-
-
     var dashboardData = await convertData(dataPromise); 
 
     // Make sure boxIds is defined somewhere in your script
@@ -378,48 +375,28 @@ function printDashboard() {
 
     document.body.innerHTML = originalContents;
 }
-
 function exportDashboard() {
-    // Export functionality (generating PDF instead of CSV)
-    const overview = document.getElementById('overview').innerHTML;
-    const chart = document.getElementById('bar-chart').innerHTML;
+    // Convert data to CSV format
+    const data = [
+        ['Metric', 'Value'],
+        ['Total Payouts', document.getElementById('total_payouts').textContent],
+        ['Total Received Payments', document.getElementById('total_received_payments').textContent],
+        ['Total Earners', document.getElementById('total_earners').textContent],
+        ['Total Advertisers', document.getElementById('total_advertisers').textContent],
+        ['Total Approved Tasks', document.getElementById('total_approved_tasks').textContent]
+    ];
 
-    const content = `
-        <html>
-        <head>
-            <title>Dashboard Report</title>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                }
-                .container {
-                    width: 80%;
-                    margin: 0 auto;
-                }
-                h1 {
-                    text-align: center;
-                    margin-bottom: 20px;
-                }
-                .section {
-                    margin-bottom: 40px;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>Dashboard Report</h1>
-                <div class="section" id="overview">
-                    ${overview}
-                </div>
-                <div class="section" id="bar-chart">
-                    ${chart}
-                </div>
-            </div>
-        </body>
-        </html>
-    `;
+    let csvContent = "data:text/csv;charset=utf-8,";
+    data.forEach(rowArray => {
+        let row = rowArray.join(",");
+        csvContent += row + "\r\n";
+    });
 
-    // Convert HTML to PDF
-    html2pdf().from(content).save();
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "dashboard_data.csv");
+    document.body.appendChild(link);
+
+    link.click();
 }
-
