@@ -364,24 +364,17 @@ function shareDashboard() {
 
 
 function printDashboard() {
-    // Hide navigation and other non-essential elements
-    var navBar = document.querySelector('.nav-bar');
-    navBar.style.display = 'none';
+    // Print only the dashboard section
+    var overviewSection = document.getElementById('overview');
+    var printContents = overviewSection.innerHTML;
+    var originalContents = document.body.innerHTML;
 
-    var buttons = document.querySelectorAll('.buttons');
-    buttons.forEach(button => {
-        button.style.display = 'none';
-    });
+    document.body.innerHTML = printContents;
 
     window.print();
 
-    // Restore the navigation and buttons after printing
-    navBar.style.display = 'block';
-    buttons.forEach(button => {
-        button.style.display = 'block';
-    });
+    document.body.innerHTML = originalContents;
 }
-
 
 function exportDashboard() {
     // Export functionality (generating PDF instead of CSV)
