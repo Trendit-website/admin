@@ -26,8 +26,11 @@ document.addEventListener("DOMContentLoaded", function() {
         var searchTerm = adSearchInput.value.toLowerCase();
         var adBoxes = document.querySelectorAll('.earn-container .box1');
 
+        console.log('Search Term:', searchTerm);
+
         adBoxes.forEach(function(box) {
             var textContent = box.querySelector('p').textContent.toLowerCase();
+            console.log('Box Text Content:', textContent);
             if (textContent.includes(searchTerm)) {
                 box.style.display = 'block'; // Show the box if it matches
             } else {
