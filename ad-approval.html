@@ -16,7 +16,7 @@
                 <li><a  href="index.html">Home</a></li>
                 <li> <a href="earn-appeal.html">Earn appeal <span>3</span></a></li>
                 <li> <a id="selected" href="ad-approval.html">Ad approval<span>30+</span></a></li>
-                <li> <a href="reseller.html">Reseller<span>30+</span></a></li>
+                <!-- <li> <a href="reseller.html">Reseller<span>30+</span></a></li> -->
                 <li><a href="users.html">Users</a></li>
                 <li><a href="wallet.html">Wallet</a></li>
                 <li><a href="settings.html">Settings</a></li>
@@ -144,6 +144,32 @@
           </div>
         <div id="load-more-trigger" style="height: 20px;"></div>
     </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var searchInput = document.getElementById('search-box2');
+
+            searchInput.addEventListener('input', function() {
+                const searchText = this.value.trim().toLowerCase();
+                searchInAdApproval(searchText);
+            });
+
+            function searchInAdApproval(searchText) {
+                const paragraphs = document.querySelectorAll('.earn-container .box1 p');
+
+                paragraphs.forEach(paragraph => {
+                    const content = paragraph.textContent.trim().toLowerCase();
+                    const box = paragraph.closest('.box1');
+
+                    if (content.includes(searchText)) {
+                        box.style.display = 'block';
+                    } else {
+                        box.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+
     <script src="./js/cookie.js"></script>
     <script src="./js/ad-approval.js"></script>
    

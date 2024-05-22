@@ -11,33 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
    
-    var navSearchInput = document.getElementById('search-box');
-    var adSearchInput = document.getElementById('search-box2');
-
-    // Handle Nav Bar Search (extend this function based on your needs)
-    navSearchInput.addEventListener('input', function() {
-        var searchTerm = navSearchInput.value.toLowerCase();
-        // Implement your search logic for the nav bar
-        console.log('Nav Search Term:', searchTerm);
-    });
-
-    // Handle Ad Approval Search
-    adSearchInput.addEventListener('input', function() {
-        var searchTerm = adSearchInput.value.toLowerCase();
-        var adBoxes = document.querySelectorAll('.earn-container .box1');
-
-        console.log('Search Term:', searchTerm);
-
-        adBoxes.forEach(function(box) {
-            var textContent = box.querySelector('p').textContent.toLowerCase();
-            console.log('Box Text Content:', textContent);
-            if (textContent.includes(searchTerm)) {
-                box.style.display = 'block'; // Show the box if it matches
-            } else {
-                box.style.display = 'none'; // Hide the box if it doesn't match
-            }
-        });
-    });
+    
+    
 
     hamburgerMenu.addEventListener('click', function() {
         navBar.classList.toggle('active');
