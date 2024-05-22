@@ -1,5 +1,5 @@
-@import url('https://fonts.cdnfonts.com/css/campton');
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@200&display=swap');
 *{
     margin: 0;
     padding:0;
@@ -18,7 +18,7 @@
     --main-color:#ff6dfb;
     --second-color:#FFD0FE;
     --text-muted:#b1b1b1;
-    --font-family1: 'Campton', sans-serif;
+    --font-family1: "DM Sans", sans-serif;
     --font-family2: 'Inter', sans-serif;
 }
 html{
@@ -57,7 +57,7 @@ header ul{
 }   
 header ul a{
     color: #b1b1b1;
-    font-family: Campton;
+    font-family:"DM Sans", sans-serif ;
     font-size: 13px;
     font-weight: 700;
     line-height: 15px;
@@ -1307,7 +1307,7 @@ section h3 {
 .user-popup{
   display: flex;
   flex-direction: column;
-  font-family: 'Campton''sans-serif';
+  font-family: "DM Sans", sans-serif;
   background-color: #121212;
   color: #fff;
   display: none; 
