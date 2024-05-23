@@ -45,7 +45,13 @@
         <div class="top-boxes">
             <div id="wallet-balance" class="box1">
                 <p>Wallet Balance</p>
-                <p id="ngn">NGN <img src="./images/arrowdown.png" alt=""></p>
+                <p id="ngn">NGN <img src="./images/arrowdown.png" alt="" id="wallet-currency-toggle"></p>
+                <div class="currency-dropdown" id="wallet-currency-dropdown">
+                    <div class="currency-option" data-currency="USD">USD</div>
+                    <div class="currency-option" data-currency="EUR">EUR</div>
+                    <div class="currency-option" data-currency="GBP">GBP</div>
+                    <!-- Add more currencies as needed -->
+                </div>
                 <div class="rate">
                     <h6 id="wallet-balance-amount">N/A</h6>
                     <img src="./images/mdi_arrow-down.png" alt="">
@@ -55,11 +61,17 @@
             </div>
             <div class="box1">
                 <p>Total Payouts <span><img src="./images/support.png" alt=""></span></p>
-                <p id="ngn">NGN <img src="./images/arrowdown.png" alt=""></p>
+                <p id="ngn">NGN <img src="./images/arrowdown.png" alt="" id="payouts-currency-toggle"></p>
+                <div class="currency-dropdown" id="payouts-currency-dropdown">
+                    <div class="currency-option" data-currency="USD">USD</div>
+                    <div class="currency-option" data-currency="EUR">EUR</div>
+                    <div class="currency-option" data-currency="GBP">GBP</div>
+                    <!-- Add more currencies as needed -->
+                </div>
                 <div class="rate">
                     <h6 id="total-payouts-amount">N/A</h6>
                     <img src="./images/mdi_arrow-down.png" alt="">
-                    <span id="total-payouts-percentage">N/A</span> 
+                    <span id="total-payouts-percentage">N/A</span>
                 </div>
             </div>
         </div>

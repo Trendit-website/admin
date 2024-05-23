@@ -1,7 +1,47 @@
-const baseUrl = 'https://api.trendit35.com/api/admin';
+const baseUrl = 'https://api.trendit3.com/api/admin';
 const accessToken = getCookie('accessToken');
-let isLoading = false; // Flag to track loading state
+
+let exchangeRates = {};
+let walletBalanceNGN = 0;
+let totalPayoutsNGN = 0;
 let isSorted = false; // Flag to track sorting state
+
+// Fetch exchange rates
+async function fetchExchangeRates() {
+    try {
+        const response = await fetch('https://api.exchangerate-api.com/v4/latest/NGN');
+        exchangeRates = await response.json().rates;
+    } catch (error) {
+        console.error('Error fetching exchange rates:', error);
+    }
+}
+
+// Convert amount to selected currency
+function convertAmount(amount, currency) {
+    return amount / exchangeRates[currency];
+}
+
+// Update wallet and payouts amounts
+function updateAmounts(currency) {
+    const walletBalance = convertAmount(walletBalanceNGN, currency);
+    const totalPayouts = convertAmount(totalPayoutsNGN, currency);
+
+    document.getElementById('wallet-balance-amount').textContent = `${currency} ${walletBalance.toFixed(2)}`;
+    document.getElementById('total-payouts-amount').textContent = `${currency} ${totalPayouts.toFixed(2)}`;
+}
+
+// Calculate and update percentages
+function updatePercentages() {
+    // Example calculations
+    const previousBalance = walletBalanceNGN * 1.05; // Example previous balance
+    const previousPayouts = totalPayoutsNGN * 1.1; // Example previous payouts
+
+    const balancePercentage = ((walletBalanceNGN - previousBalance) / previousBalance) * 100;
+    const payoutsPercentage = ((totalPayoutsNGN - previousPayouts) / previousPayouts) * 100;
+
+    document.getElementById('wallet-balance-percentage').textContent = `${balancePercentage.toFixed(2)}%`;
+    document.getElementById('total-payouts-percentage').textContent = `${payoutsPercentage.toFixed(2)}%`;
+}
 
 // Function to fetch transaction data
 async function fetchTransactions(baseUrl, accessToken) {
@@ -27,7 +67,7 @@ async function updateWalletSection(baseUrl, accessToken) {
     try {
         const transactionsData = await fetchTransactions(baseUrl, accessToken);
 
-        const walletBalance = transactionsData.transactions.reduce((acc, curr) => {
+        walletBalanceNGN = transactionsData.transactions.reduce((acc, curr) => {
             if (curr.transaction_type === 'payment') {
                 acc += curr.amount;
             } else {
@@ -36,19 +76,16 @@ async function updateWalletSection(baseUrl, accessToken) {
             return acc;
         }, 0);
 
-        const totalPayouts = transactionsData.transactions.filter(transaction => transaction.transaction_type === 'payment')
+        totalPayoutsNGN = transactionsData.transactions.filter(transaction => transaction.transaction_type === 'payment')
             .reduce((acc, curr) => acc + curr.amount, 0);
 
-        document.getElementById('wallet-balance-amount').textContent = `NGN ${walletBalance.toFixed(2)}`;
-        document.getElementById('total-payouts-amount').textContent = `NGN ${totalPayouts.toFixed(2)}`;
+        document.getElementById('wallet-balance-amount').textContent = `NGN ${walletBalanceNGN.toFixed(2)}`;
+        document.getElementById('total-payouts-amount').textContent = `NGN ${totalPayoutsNGN.toFixed(2)}`;
+
+        updatePercentages();
     } catch (error) {
         console.error('Error updating wallet section:', error);
     }
-}
-
-// Function to format amount with commas and currency symbol
-function formatAmount(amount) {
-    return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(amount);
 }
 
 // Function to generate transaction history entries
@@ -75,7 +112,7 @@ async function generateTransactionEntries(baseUrl, accessToken) {
             leftDiv.classList.add('left');
 
             const arrowImage = document.createElement('img');
-            arrowImage.src = transaction.transaction_type === 'payment' ? "./images/arrowupright.svg" : "./images/arrowleftdown.svg";
+            arrowImage.src = transaction.transaction_type === 'credit' ? "./images/arrowupright.svg" : "./images/arrowleftdown.svg";
             arrowImage.alt = "Arrow Image";
 
             const creditDateDiv = document.createElement('div');
@@ -104,8 +141,7 @@ async function generateTransactionEntries(baseUrl, accessToken) {
 
             const amountParagraph = document.createElement('p');
             amountParagraph.id = "highlight";
-            const formattedAmount = formatAmount(transaction.amount);
-            amountParagraph.textContent = transaction.transaction_type === 'payment' ? `+ ${formattedAmount}` : formattedAmount;
+            amountParagraph.textContent = (transaction.transaction_type === 'credit' ? '+ ' : '- ') + `₦${transaction.amount.toLocaleString()}`;
 
             rightDiv.appendChild(amountParagraph);
 
@@ -119,11 +155,21 @@ async function generateTransactionEntries(baseUrl, accessToken) {
     }
 }
 
-// Update wallet section with fetched data
-updateWalletSection(baseUrl, accessToken);
+// Function to show or hide currency dropdown
+function toggleCurrencyDropdown(event) {
+    const dropdownId = event.target.id === 'wallet-currency-toggle' ? 'wallet-currency-dropdown' : 'payouts-currency-dropdown';
+    const dropdown = document.getElementById(dropdownId);
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
 
-// Generate transaction history entries
-generateTransactionEntries(baseUrl, accessToken);
+// Function to handle currency selection
+function handleCurrencySelection(event) {
+    const selectedCurrency = event.target.getAttribute('data-currency');
+    updateAmounts(selectedCurrency);
+    updatePercentages();
+    document.getElementById('wallet-currency-dropdown').style.display = 'none';
+    document.getElementById('payouts-currency-dropdown').style.display = 'none';
+}
 
 // Function to sort transaction history entries
 function sortTransactionEntries() {
@@ -131,7 +177,13 @@ function sortTransactionEntries() {
     generateTransactionEntries(baseUrl, accessToken);
 }
 
-// Attach event listener to the Sort button
+// Attach event listeners
+document.getElementById('wallet-currency-toggle').addEventListener('click', toggleCurrencyDropdown);
+document.getElementById('payouts-currency-toggle').addEventListener('click', toggleCurrencyDropdown);
+document.querySelectorAll('.currency-option').forEach(option => {
+    option.addEventListener('click', handleCurrencySelection);
+});
+
 const sortButton = document.querySelector('.sort-button');
 sortButton.addEventListener('click', sortTransactionEntries);
 
@@ -179,26 +231,21 @@ async function loadMoreTransactionData() {
     }
 }
 
-async function loadMoreTransactionData() {
-    try {
-        // Fetch more transaction history data from the server
-        const moreData = await fetchMoreData(); // Replace fetchMoreData with your actual function to fetch more data
-        
-        // Check if there is more data
-        if (moreData && moreData.length > 0) {
-            // Process and append the new data to the existing transaction history
-            appendMoreTransactionHistory(moreData); // Replace appendMoreTransactionHistory with your actual function to append more data
-        } else {
-            console.log('No more transaction history data available.');
-            // Optionally, you can display a message to the user indicating that there is no more data available
+async function loadMoreTransactionHistory(entries) {
+    const entry = entries[0];
+    if (entry.isIntersecting) {
+        try {
+            const moreData = await loadMoreTransactionData();
+            if (moreData.length > 0) {
+                appendMoreTransactionHistory(moreData);
+            } else {
+                console.log('No more transaction history data available.');
+            }
+        } catch (error) {
+            console.error('Failed to load more transaction history:', error);
         }
-    } catch (error) {
-        console.error('Failed to load more transaction history:', error);
     }
 }
-
-// Create an intersection observer
-const historyObserver = new IntersectionObserver(loadMoreTransactionHistory, options);
 
 // Function to observe the transaction history container
 function observeTransactionHistory() {
@@ -210,5 +257,14 @@ function observeTransactionHistory() {
     }
 }
 
+// Fetch initial data and exchange rates
+fetchExchangeRates();
+updateWalletSection(baseUrl, accessToken);
+generateTransactionEntries(baseUrl, accessToken);
+
+// Create an intersection observer
+const historyObserver = new IntersectionObserver(loadMoreTransactionHistory, options);
+
 // Call the function to observe the transaction history container
 observeTransactionHistory();
+

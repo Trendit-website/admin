@@ -1113,7 +1113,22 @@ section h3 {
     text-align: right;
   margin-top: 0;
 }
+.currency-dropdown {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 1000;
+}
 
+.currency-option {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.currency-option:hover {
+  background-color: #f1f1f1;
+}
 /* reseller */
 
 .reseller-container {
