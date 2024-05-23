@@ -1116,8 +1116,9 @@ section h3 {
 .currency-dropdown {
   display: none;
   position: absolute;
-  background-color: #fff;
+  background-color: #1a1a1a;
   border: 1px solid #ccc;
+  
   z-index: 1000;
 }
 
@@ -1318,6 +1319,22 @@ section h3 {
     gap: 24px;
 }
 
+.name-box .name .social-account {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  right: 220px;
+  
+
+}
+
+.name-box .name .social-account img {
+  width: 17px;
+}
+.name-box .name .social-account img :first-child{
+  width: 40px;
+}
 /* user popup */
 .user-popup{
   display: flex;
@@ -1619,8 +1636,153 @@ gap: 8px;
 }
 
 
+.approval-box {
+ display:none;
+  align-items: center;
+  position: fixed;
+  height: 490px;
+  border-radius: 4px;
+  padding: 48px;
+  gap: 48px;
+  background-color: #121212;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1003; /* Make sure it's above the overlay */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  width: 731px;
+  gap: 48px;
+
+}
 
 
+.approval-box img {
+ align-self: center;
+  width: 20px;
+
+}
+.approval-box h5 {
+  color: #fff;
+  font-family: var(--font-family1);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 31.25px;
+  letter-spacing: -0.06em;
+  text-align: left;
+
+
+
+}
+.approval-box .social-approve-box{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px ;
+  background-color: #080808;
+  border-radius: 8px ;
+  margin: 12px 0;
+
+
+}
+.approval-box .social-approve-box a{
+ color: #fff;
+ text-decoration: underline;
+ font-family: var(--font-family1);
+ font-size: 14px;
+ font-weight: 400;
+ line-height: 18.23px;
+ letter-spacing: -0.02em;
+ text-align: left;
+ 
+
+}
+.name-controls .buttons{
+  display: flex;
+  gap: 12px;
+  
+}
+.approval-box .buttons button{
+  background: #13BF62;
+  padding: 14px 24px;
+  border-radius: 100px;
+  border: none;
+  color: #fff;
+  outline: none;
+  cursor: pointer;
+
+}
+
+.approval-box .name-profile{
+  display: flex;
+  align-items: end;
+  gap: 10px;
+  margin: 20px 0;
+}
+.approval-box .name-profile img{
+ width: 70px;
+}
+.approval-box .name-profile .name h6{
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 27.94px;
+  letter-spacing: -0.06em;
+  color: #fff;
+
+}
+.approval-box .name-profile .name span{
+  font-size: 14px;
+  font-weight: 500;
+  color: #b1b1b1;
+
+}
+
+.approval-box .buttons button#decline-social{
+  color: red;
+  cursor: pointer;
+  background-color: #FFE9E9;
+}
+.approval-box .social-approve-box p{
+ color: #4CAF50;
+ font-family:var(--font-family1);
+ font-size: 12.83px;
+ font-weight: 700;
+ line-height: 16.7px;
+ letter-spacing: -0.06em;
+ text-align: center;
+ 
+}
+
+.social-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #212121; /* Semi-transparent dark background color */
+  z-index: 1004;
+  display: none;
+}
+.approval-box p {
+  font-size: 12px;
+  font-weight: 400;
+  color: #b1b1b1;
+}
+
+.approval-box .cancel-btn {
+  position: absolute;
+  top: -10px;
+  right: -16px;
+  background: none;
+  border: none;
+  font-size: 12px;
+  padding: 8px;
+  border-radius: 500px;
+  color: #fff;
+  background-color: #ff6dfb;
+  cursor: pointer;
+  padding: 10px;
+  width: 40px;
+}
 /* wallet */
 
 
@@ -2457,10 +2619,33 @@ gap: 8px;
    .user-popup .user-info1 .name-controls .name-profile img{
     width: 45px;
    }
+   .approval-box .social-approve-box img{
+   width: 30px;
+   }
+   .approval-box .social-approve-box h5,h6{
+    font-size: 14px;
+   }
+   .approval-box .social-approve-box{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+   }
+   .approval-box{
+    width: 345px;
+    height: max-content;
+    gap: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5px;
+    position: absolute;
+    position: fixed;
+   }
 
+   .name-box .name .social-account{
+    right: 25px;
+   }
 }
 
-@media only screen and (max-width: 500px) {
-  
-}
+
  
