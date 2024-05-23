@@ -272,7 +272,7 @@ var barChartOptions = {
             show: false
         },
     },
-    colors: ['#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#FFD0FE'],
+    colors: ['#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#FFD0FE'], // All bars black
     plotOptions: {
         bar: {
             horizontal: false,
@@ -333,6 +333,9 @@ var barChartOptions = {
                 return val.toFixed(0);
             }
         },
+    },
+    grid: {
+        show: false // Hide horizontal grid lines
     },
     tooltip: {
         enabled: true,
