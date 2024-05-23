@@ -1,4 +1,4 @@
-const baseUrl = 'https://api.trendit3.com/api/admin';
+const baseUrl = 'https://api.trendit35.com/api/admin';
 const accessToken = getCookie('accessToken');
 let isLoading = false; // Flag to track loading state
 let isSorted = false; // Flag to track sorting state
@@ -46,6 +46,11 @@ async function updateWalletSection(baseUrl, accessToken) {
     }
 }
 
+// Function to format amount with commas and currency symbol
+function formatAmount(amount) {
+    return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(amount);
+}
+
 // Function to generate transaction history entries
 async function generateTransactionEntries(baseUrl, accessToken) {
     try {
@@ -70,7 +75,7 @@ async function generateTransactionEntries(baseUrl, accessToken) {
             leftDiv.classList.add('left');
 
             const arrowImage = document.createElement('img');
-            arrowImage.src = "./images/arrowleftdown.svg";
+            arrowImage.src = transaction.transaction_type === 'payment' ? "./images/arrowupright.svg" : "./images/arrowleftdown.svg";
             arrowImage.alt = "Arrow Image";
 
             const creditDateDiv = document.createElement('div');
@@ -99,7 +104,8 @@ async function generateTransactionEntries(baseUrl, accessToken) {
 
             const amountParagraph = document.createElement('p');
             amountParagraph.id = "highlight";
-            amountParagraph.textContent = transaction.amount;
+            const formattedAmount = formatAmount(transaction.amount);
+            amountParagraph.textContent = transaction.transaction_type === 'payment' ? `+ ${formattedAmount}` : formattedAmount;
 
             rightDiv.appendChild(amountParagraph);
 
@@ -203,7 +209,6 @@ function observeTransactionHistory() {
         console.error('Transaction history container not found.');
     }
 }
-
 
 // Call the function to observe the transaction history container
 observeTransactionHistory();
