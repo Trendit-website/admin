@@ -1,4 +1,5 @@
 const baseUrl = 'https://api.trendit3.com/api/admin';
+
 const accessToken = getCookie('accessToken');
 
 let exchangeRates = {};
