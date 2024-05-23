@@ -27,15 +27,19 @@
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
             </nav>
-                <div class="icons">
-                    
-                    <input type="search" name="search" id="search-box" placeholder="Search">
-                    
-                    <img src="./images/light.png" width="20px">
-                    <img src="./images/bell.png" width="20px">
-                    <img src="./images/Rectangle 1.png" width="38px">
-                    <img src="./images/arrowdown.png" width="12px">
+            <div class="icons">
+                <input type="search" name="search" id="search-box" placeholder="Search">
+                <img src="./images/light.png" width="20px">
+                <img src="./images/bell.png" width="20px">
+                <div class="user-profile">
+                    <img src="./images/Rectangle 1.png" width="38px" id="user-profile-pic">
+                    <img src="./images/arrowdown.png" width="12px" id="dropdown-arrow">
+                    <div class="dropdown-menu" id="user-dropdown-menu">
+                        <p class="dropdown-item" id="signout">Sign Out</p>
+                    </div>
                 </div>
+            </div>
+            
                 
                 <div class="hamburger">
                 <div class="bar"></div>
@@ -84,7 +88,13 @@
                         <div id="selected" class="box1">
                            
                             <p>Wallet Balance</p>
-                            <p id="ngn">NGN <img src="./images/arrowdown.png" alt=""></p>
+                            <p class="ngn" id="currency-select">NGN <img src="./images/arrowdown.png" alt=""></p>
+                            <div id="currency-dropdown" class="dropdown-menu">
+                                <p class="dropdown-item" data-currency="NGN">NGN</p>
+                                <p class="dropdown-item" data-currency="USD">USD</p>
+                                <p class="dropdown-item" data-currency="EUR">EUR</p>
+                                <p class="dropdown-item" data-currency="GBP">GBP</p>
+                            </div>
                             <div class="rate">
                                 <h6 id="total_received_payments"></h6>
                                 <img src="./images/mdi_arrow-down.png" alt="">
@@ -157,6 +167,7 @@
                         <p class="dropdown-item" data-period="last-month">Last Month</p>
                         <p class="dropdown-item" data-period="this-year">This Year</p>
                     </div>
+                    
                 </div>
                 <div id="bar-chart"></div>
                  

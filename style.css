@@ -268,7 +268,7 @@ padding: 0 10px;
     margin-bottom: 20px;
     font-size: 9px;
 }
-.hero .boxes .box1  #ngn{
+.hero .boxes .box1  #ngn, #currency-select{
     font-size: 14px;
 }
 .hero .boxes .box1 img{
@@ -343,6 +343,12 @@ padding: 0 10px;
     
   }
 
+  .user-profile {
+    position: relative;
+    display: inline-block;
+    display: flex;
+    align-items: center;
+}
 
 
 
