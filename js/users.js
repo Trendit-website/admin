@@ -84,6 +84,85 @@ container.addEventListener('click', function(event) {
         }
     }
 });
+const accountLinkRequest = document.querySelector('p:contains(Account link request)');
+    accountLinkRequest.addEventListener('click', function() {
+        const usersContainer = document.getElementById('users-container');
+        usersContainer.innerHTML = `
+            <div class="users-container" id="users-container">
+                <div class="navigation">
+                    <p>Name <span><img src="./images/arrowupdown.png" alt=""></span> </p>
+                    <div class="right">
+                        <p>Social Media accounts<span><img src="./images/arrowupdown.png" alt=""></span></p>
+                    </div>
+                </div>
+                <div class="name-box" id="user1">
+                    <div class="name">
+                        <img src="./images/js.svg" alt="">
+                        <div class="name-email">
+                            <p id="user1-name">hola</p>
+                            <p id="user1-email">misan</p>
+                        </div>
+                        <div class="social-account ">
+                            <img style="width: 40px;" src="./images/new-green.svg" >
+                            <img src="./images/insta.png" alt="">
+                            <img style="width: 12px;"  src="./images/x2.png" alt="">
+                            <img src="./images/facebook.png" alt="">
+                            <img src="./images/twitter.png" alt="">
+                            <img src="./images/appstore.png" alt="">
+                            <img src="./images/tinyright.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="name-box" id="user2">
+                    <div class="name">
+                        <img src="./images/js.svg" alt="">
+                        <div class="name-email">
+                            <p id="user2-name">hola</p>
+                            <p id="user2-email">misan</p>
+                        </div>
+                        <div class="social-account ">
+                            <img style="width: 40px;" src="./images/new-green.svg" >
+                            <img src="./images/appstore.png" alt="">
+                            <img src="./images/tinyright.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="name-box" id="user3">
+                    <div class="name">
+                        <img src="./images/js.svg" alt="">
+                        <div class="name-email">
+                            <p id="user3-name">hola</p>
+                            <p id="user3-email">misan</p>
+                        </div>
+                        <div class="social-account ">
+                            <img style="width: 40px;" src="./images/new-green.svg" >
+                            <img src="./images/insta.png" alt="">
+                            <img src="./images/facebook.png" alt="">
+                            <img src="./images/appstore.png" alt="">
+                            <img src="./images/tinyright.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    // Event listener for "Members" click or active
+    const membersLink = document.querySelector('#selected');
+    membersLink.addEventListener('click', function() {
+        const usersContainer = document.getElementById('users-container');
+        usersContainer.innerHTML = `
+            <div class="users-container" id="users-container">
+                <div class="navigation">
+                    <p>Name <span><img src="./images/arrowupdown.png" alt=""></span> </p>
+                    <div class="right">
+                        <p>Stats <span><img src="./images/arrowupdown.png" alt=""></span> </p>
+                        <p>Last Login <span><img src="./images/arrowupdown.png" alt=""></span></p>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
 
 function fetchAndDisplayUserMetrics(userId) {
     return Promise.all([

@@ -417,66 +417,96 @@
         </div>
    </div>
 
-   <div class="social-overlay" ></div>
-   <div class="approval-box">
+   <div class="social-overlay" style="display: none;"></div>
+   <div class="approval-box" style="display: none;">
        <button class="cancel-btn">&#10006;</button>
        <div class="accounts">
-        <div class="name-profile">
-            <div class="profile-img">
-                <img id="profile-picture"  alt="Profile Picture" src="./images/Rectangle 1.png" alt="">
-            </div>
-            <div class="name">
-                <h6 id="user-name">Adewale Adedamola</h6>
-                <span id="user-email">adedamolamoses@gmail.com</span>
-            </div>
-        </div>
-         <h5>Social Accounts</h5>
-         <div class="social-approve-box">
-            <div class="social-link">
-            <img src="/images/insta.png" alt="">
-            <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
-        </div>
-            <div class="buttons">
-                <button id="approve-social">Accept</button>
-                <button id="decline-social">Decline</button>
-            </div>
-         </div>
-         <div class="social-approve-box">
-            <div class="social-link">
-            <img src="/images/x2.png" alt="">
-            <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
-        </div>
-            <p id="status">Approved</p>
-         </div>
-         <div class="social-approve-box">
-            <div class="social-link">
-            <img src="/images/facebook.png" alt="">
-            <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
-        </div>
-            <p id="status">Approved</p>
-         </div>
-         <div class="social-approve-box">
-            <div class="social-link">
-            <img src="/images/tiktok.png" alt="">
-            <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
-        </div>
-            <p id="status">Approved</p>
-         </div>
-         <div class="social-approve-box">
-            <div class="social-link">
-            <img src="/images/appstore.png" alt="">
-            <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
-        </div>
-            <p id="status">Approved</p>
-         </div>
-         
-         </div>
+           <div class="name-profile">
+               <div class="profile-img">
+                   <img id="profile-picture" alt="Profile Picture" src="./images/Rectangle 1.png" alt="">
+               </div>
+               <div class="name">
+                   <h6 id="user-name">Adewale Adedamola</h6>
+                   <span id="user-email">adedamolamoses@gmail.com</span>
+               </div>
+           </div>
+           <h5>Social Accounts</h5>
+           <div class="social-approve-box">
+               <div class="social-link">
+                   <img src="./images/insta.png" alt="">
+                   <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
+               </div>
+               <div class="buttons">
+                   <button id="approve-social">Accept</button>
+                   <button id="decline-social">Decline</button>
+               </div>
+           </div>
+           <div class="social-approve-box">
+               <div class="social-link">
+                   <img src="./images/x2.png" alt="">
+                   <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
+               </div>
+               <p class="status">Approved</p>
+           </div>
+           <div class="social-approve-box">
+               <div class="social-link">
+                   <img src="./images/facebook.png" alt="">
+                   <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
+               </div>
+               <p class="status">Approved</p>
+           </div>
+           <div class="social-approve-box">
+               <div class="social-link">
+                   <img src="./images/tiktok.png" alt="">
+                   <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
+               </div>
+               <p class="status">Approved</p>
+           </div>
+           <div class="social-approve-box">
+               <div class="social-link">
+                   <img src="./images/appstore.png" alt="">
+                   <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
+               </div>
+               <p class="status">Approved</p>
+           </div>
        </div>
-     </div>
+   </div>
+</div>
 
    
     <script src="./js/cookie.js"></script>
     <script src="./js/users.js"></script>
+    <script>
+        // JavaScript for toggle functionality
+        document.addEventListener("DOMContentLoaded", function () {
+            const socialAccounts = document.querySelector(".social-accounts");
+            const socialOverlay = document.querySelector(".social-overlay");
+            const approvalBox = document.querySelector(".approval-box");
+            const cancelBtn = document.querySelector(".cancel-btn");
+            const accountsConnected = document.querySelector("#accounts-connected");
+
+            socialAccounts.addEventListener("click", function () {
+                socialOverlay.style.display = "block";
+                approvalBox.style.display = "block";
+            });
+
+            cancelBtn.addEventListener("click", function () {
+                socialOverlay.style.display = "none";
+                approvalBox.style.display = "none";
+            });
+
+            // Event delegation to handle dynamic content
+            accountsConnected.addEventListener("click", function () {
+                socialOverlay.style.display = "block";
+                approvalBox.style.display = "block";
+            });
+
+            socialOverlay.addEventListener("click", function () {
+                socialOverlay.style.display = "none";
+                approvalBox.style.display = "none";
+            });
+        });
+    </script>
     <!-- <script src="./js/apis.js"></script> -->
     <!-- <script src="./js/backend.js"></script> -->
 </body>
