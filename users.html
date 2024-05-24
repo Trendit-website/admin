@@ -16,7 +16,7 @@
                 <li><a href="index.html">Home</a></li>
                 <li> <a href="earn-appeal.html">Earn appeal <span>3</span></a></li>
                 <li> <a href="ad-approval.html">Ad approval<span>30+</span></a></li>
-                <!-- <li> <a href="reseller.html">Reseller<span>30+</span></a></li> -->
+                <li> <a href="reseller.html">Reseller<span>30+</span></a></li>
                 <li><a  id="selected" href="users.html">Users</a></li>
                 <li><a href="wallet.html">Wallet</a></li>
                 <li><a href="settings.html">Settings</a></li>
@@ -41,149 +41,149 @@
     </header>
     <section class="hero">
         <h4>Users</h4>
-      <div class="top-nav">
-    <div class="left">
-        <p class="nav-item" id="members">Members</p>
-        <p class="nav-item" id="account-link-request">Account link request</p>
-    </div>
-    <div class="right">
-        <p class="filter-button"><img src="./images/funnel.png" alt=""> Filter </p>
-        <p class="sort-button"><img src="./images/sort.png" alt=""> Sort </p>
-    </div>
-</div>
-
-<div class="users-container" id="users-container">
-    <div class="navigation">
-        <p>Name <span><img src="./images/arrowupdown.png" alt=""></span></p>
-        <div class="right">
-            <p>Stats <span><img src="./images/arrowupdown.png" alt=""></span></p>
-            <p>Last Login <span><img src="./images/arrowupdown.png" alt=""></span></p>
-        </div>
-    </div>
-    <div class="name-box">
-        <div class="name">
-            <img src="./images/js.svg" alt="">
-            <div class="name-email">
-                <p id="user1-name">hola</p>
-                <p id="user1-email">misan</p>
+        <div class="top-nav">
+            <div class="left">
+                <p class="nav-item" id="members">Members</p>
+                <p class="nav-item" id="account-link-request">Account link request</p>
             </div>
-            <div class="social-account">
-                <img style="width: 40px;" src="./images/new-green.svg">
-                <img src="./images/insta.png" alt="">
-                <img style="width: 12px;" src="./images/x2.png" alt="">
-                <img src="./images/facebook.png" alt="">
-                <img src="./images/twitter.png" alt="">
-                <img src="./images/appstore.png" alt="">
-                <img src="./images/tinyright.png" alt="">
+            <div class="right">
+                <p class="filter-button"><img src="./images/funnel.png" alt=""> Filter </p>
+                <p class="sort-button"><img src="./images/sort.png" alt=""> Sort </p>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="users-container" id="users-container2" style="display: none;">
-    <div class="navigation">
-        <p>Name <span><img src="./images/arrowupdown.png" alt=""></span></p>
-        <div class="right">
-            <p>Social Media accounts<span><img src="./images/arrowupdown.png" alt=""></span></p>
-        </div>
-    </div>
-    <div class="name-box">
-        <div class="name">
-            <img src="./images/js.svg" alt="">
-            <div class="name-email">
-                <p id="user2-name">hola</p>
-                <p id="user2-email">misan</p>
+        
+        <div class="users-container" id="users-container">
+            <div class="navigation">
+                <p>Name <span><img src="./images/arrowupdown.png" alt=""></span></p>
+                <div class="right">
+                    <p>Stats <span><img src="./images/arrowupdown.png" alt=""></span></p>
+                    <p>Last Login <span><img src="./images/arrowupdown.png" alt=""></span></p>
+                </div>
             </div>
-            <div class="social-account">
-                <img style="width: 40px;" src="./images/new-green.svg">
-                <img src="./images/appstore.png" alt="">
-                <img src="./images/tinyright.png" alt="">
+            <div class="name-box">
+                <div class="name">
+                    <img src="./images/js.svg" alt="">
+                    <div class="name-email">
+                        <p id="user1-name">hola</p>
+                        <p id="user1-email">misan</p>
+                    </div>
+                    <div class="social-account">
+                        <img style="width: 40px;" src="./images/new-green.svg">
+                        <img src="./images/insta.png" alt="">
+                        <img style="width: 12px;" src="./images/x2.png" alt="">
+                        <img src="./images/facebook.png" alt="">
+                        <img src="./images/twitter.png" alt="">
+                        <img src="./images/appstore.png" alt="">
+                        <img src="./images/tinyright.png" alt="">
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- Load more users trigger -->
-<div id="load-more-trigger" style="height: 20px;"></div>
-
-<!-- User Info Popup -->
-<div class="user-info">
-    <!-- Popup content will be dynamically added here -->
-</div>
-
-<!-- Overlay for popup -->
-<div class="overlay" style="display: none;"></div>
-
-<!-- User Popup -->
-<div class="user-popup" style="display: none;">
-    <!-- Popup content will be dynamically added here -->
-</div>
-
-<!-- Social Overlay -->
-<div class="social-overlay" style="display: none;"></div>
-
-<!-- Approval Box -->
-<div class="approval-box" style="display: none;">
-    <!-- Approval content will be dynamically added here -->
-</div>
-
-<!-- Scripts -->
-<script src="./js/cookie.js"></script>
-<script src="./js/users.js"></script>
-<script>
-    // JavaScript for toggle functionality
-    document.addEventListener("DOMContentLoaded", function () {
-        const membersTab = document.getElementById("members");
-        const accountLinkRequestTab = document.getElementById("account-link-request");
-        const usersContainer = document.getElementById("users-container");
-        const usersContainer2 = document.getElementById("users-container2");
-        const socialAccounts = document.querySelector(".social-account");
-        const socialOverlay = document.querySelector(".social-overlay");
-        const approvalBox = document.querySelector(".approval-box");
-        const cancelBtn = document.querySelector(".cancel-btn");
-        const accountsConnected = document.querySelector("#accounts-connected");
-
-        socialAccounts.addEventListener("click", function () {
-            socialOverlay.style.display = "block";
-            approvalBox.style.display = "block";
-        });
-
-        cancelBtn.addEventListener("click", function () {
-            socialOverlay.style.display = "none";
-            approvalBox.style.display = "none";
-        });
-
-        // Event delegation to handle dynamic content
-        accountsConnected.addEventListener("click", function () {
-            socialOverlay.style.display = "block";
-            approvalBox.style.display = "block";
-        });
-
-        socialOverlay.addEventListener("click", function () {
-            socialOverlay.style.display = "none";
-            approvalBox.style.display = "none";
-        });
-
-        membersTab.classList.add("selected");
-        accountLinkRequestTab.classList.remove("selected");
-        usersContainer.style.display = "block";
-        usersContainer2.style.display = "none";
-
-        membersTab.addEventListener("click", function () {
-            membersTab.classList.add("selected");
-            accountLinkRequestTab.classList.remove("selected");
-            usersContainer.style.display = "block";
-            usersContainer2.style.display = "none";
-        });
-
-        accountLinkRequestTab.addEventListener("click", function () {
-            accountLinkRequestTab.classList.add("selected");
-            membersTab.classList.remove("selected");
-            usersContainer.style.display = "none";
-            usersContainer2.style.display = "block";
-        });
-    });
-</script>
+        
+        <div class="users-container" id="users-container2" style="display: none;">
+            <div class="navigation">
+                <p>Name <span><img src="./images/arrowupdown.png" alt=""></span></p>
+                <div class="right">
+                    <p>Social Media accounts<span><img src="./images/arrowupdown.png" alt=""></span></p>
+                </div>
+            </div>
+            <div class="name-box">
+                <div class="name">
+                    <img src="./images/js.svg" alt="">
+                    <div class="name-email">
+                        <p id="user2-name">hola</p>
+                        <p id="user2-email">misan</p>
+                    </div>
+                    <div class="social-account">
+                        <img style="width: 40px;" src="./images/new-green.svg">
+                        <img src="./images/appstore.png" alt="">
+                        <img src="./images/tinyright.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Load more users trigger -->
+        <div id="load-more-trigger" style="height: 20px;"></div>
+        
+        <!-- User Info Popup -->
+        <div class="user-info">
+            <!-- Popup content will be dynamically added here -->
+        </div>
+        
+        <!-- Overlay for popup -->
+        <div class="overlay" style="display: none;"></div>
+        
+        <!-- User Popup -->
+        <div class="user-popup" style="display: none;">
+            <!-- Popup content will be dynamically added here -->
+        </div>
+        
+        <!-- Social Overlay -->
+        <div class="social-overlay" style="display: none;"></div>
+        
+        <!-- Approval Box -->
+        <div class="approval-box" style="display: none;">
+            <!-- Approval content will be dynamically added here -->
+        </div>
+        
+        <!-- Scripts -->
+        <script src="./js/cookie.js"></script>
+        <script src="./js/users.js"></script>
+        <script>
+            // JavaScript for toggle functionality
+            document.addEventListener("DOMContentLoaded", function () {
+                const membersTab = document.getElementById("members");
+                const accountLinkRequestTab = document.getElementById("account-link-request");
+                const usersContainer = document.getElementById("users-container");
+                const usersContainer2 = document.getElementById("users-container2");
+                const socialAccounts = document.querySelector(".social-account");
+                const socialOverlay = document.querySelector(".social-overlay");
+                const approvalBox = document.querySelector(".approval-box");
+                const cancelBtn = document.querySelector(".cancel-btn");
+                const accountsConnected = document.querySelector("#accounts-connected");
+        
+                socialAccounts.addEventListener("click", function () {
+                    socialOverlay.style.display = "block";
+                    approvalBox.style.display = "block";
+                });
+        
+                cancelBtn.addEventListener("click", function () {
+                    socialOverlay.style.display = "none";
+                    approvalBox.style.display = "none";
+                });
+        
+                // Event delegation to handle dynamic content
+                accountsConnected.addEventListener("click", function () {
+                    socialOverlay.style.display = "block";
+                    approvalBox.style.display = "block";
+                });
+        
+                socialOverlay.addEventListener("click", function () {
+                    socialOverlay.style.display = "none";
+                    approvalBox.style.display = "none";
+                });
+        
+                membersTab.classList.add("selected");
+                accountLinkRequestTab.classList.remove("selected");
+                usersContainer.style.display = "block";
+                usersContainer2.style.display = "none";
+        
+                membersTab.addEventListener("click", function () {
+                    membersTab.classList.add("selected");
+                    accountLinkRequestTab.classList.remove("selected");
+                    usersContainer.style.display = "block";
+                    usersContainer2.style.display = "none";
+                });
+        
+                accountLinkRequestTab.addEventListener("click", function () {
+                    accountLinkRequestTab.classList.add("selected");
+                    membersTab.classList.remove("selected");
+                    usersContainer.style.display = "none";
+                    usersContainer2.style.display = "block";
+                });
+            });
+        </script>
     <!-- <script src="./js/apis.js"></script> -->
     <!-- <script src="./js/backend.js"></script> -->
 </body>
