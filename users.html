@@ -58,7 +58,7 @@
                 <div class="right">
                 <p>Stats <span><img src="./images/arrowupdown.png" alt=""></span> </p>
                 <p>Last Login <span><img src="./images/arrowupdown.png" alt=""></span></p>
-                
+
             </div>
         </div>
            
@@ -480,6 +480,10 @@
     <script>
         // JavaScript for toggle functionality
         document.addEventListener("DOMContentLoaded", function () {
+            const selected = document.getElementById("selected");
+            const accountLinkRequest = document.querySelector(".top-nav p:last-of-type");
+            const usersContainer = document.getElementById("users-container");
+            const usersContainer2 = document.getElementById("users-container2");
             const socialAccounts = document.querySelector(".social-accounts");
             const socialOverlay = document.querySelector(".social-overlay");
             const approvalBox = document.querySelector(".approval-box");
@@ -506,6 +510,16 @@
                 socialOverlay.style.display = "none";
                 approvalBox.style.display = "none";
             });
+            selected.addEventListener("click", function() {
+        usersContainer.style.display = "block";
+        usersContainer2.style.display = "none";
+    });
+
+    accountLinkRequest.addEventListener("click", function() {
+        usersContainer.style.display = "none";
+        usersContainer2.style.display = "block";
+    });
+       
         });
     </script>
     <!-- <script src="./js/apis.js"></script> -->
