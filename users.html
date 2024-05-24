@@ -43,8 +43,8 @@
         <h4>Users</h4>
         <div class="top-nav">
             <div class="left">
-            <p id="selected">Members</span></p>
-            <p>Account link request</p>
+            <p class="nav-item" id="members">Members</span></p>
+            <p class="nav-item" id="account-link-request" >Account link request</p>
             
         </div>
         <div class="right"style="align-self: left;" >
@@ -510,21 +510,27 @@
                 socialOverlay.style.display = "none";
                 approvalBox.style.display = "none";
             });
-            membersTab.addEventListener("click", function() {
-        membersTab.classList.add("selected");
-        accountLinkRequestTab.classList.remove("selected");
-        usersContainer.style.display = "block";
-        usersContainer2.style.display = "none";
-    });
 
-    accountLinkRequestTab.addEventListener("click", function() {
-        accountLinkRequestTab.classList.add("selected");
-        membersTab.classList.remove("selected");
-        usersContainer.style.display = "none";
-        usersContainer2.style.display = "block";
-    });
-           
-       
+
+            membersTab.classList.add("selected");
+            accountLinkRequestTab.classList.remove("selected");
+            usersContainer.style.display = "block";
+            usersContainer2.style.display = "none";
+
+            membersTab.addEventListener("click", function() {
+                membersTab.classList.add("selected");
+                accountLinkRequestTab.classList.remove("selected");
+                usersContainer.style.display = "block";
+                usersContainer2.style.display = "none";
+            });
+
+            accountLinkRequestTab.addEventListener("click", function() {
+                accountLinkRequestTab.classList.add("selected");
+                membersTab.classList.remove("selected");
+                usersContainer.style.display = "none";
+                usersContainer2.style.display = "block";
+            });
+            
         });
     </script>
     <!-- <script src="./js/apis.js"></script> -->
