@@ -39,6 +39,8 @@ function displayUserInModal(user, userId) {
     phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
     birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
     profilePicture.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
+     // Display social accounts with verification
+     displaySocialAccounts(userId, user.socialAccounts);
 
     fetchAndDisplayUserMetrics(userId)
     .then(() => {
@@ -58,6 +60,195 @@ function displayUserInModal(user, userId) {
 
 
 }
+
+function displaySocialAccounts(userId, socialAccounts) {
+    const socialAccountsContainer = document.getElementById('social-accounts');
+    socialAccountsContainer.innerHTML = ''; // Clear existing content
+
+    socialAccounts.forEach(account => {
+        const socialAccountElement = document.createElement('div');
+        socialAccountElement.classList.add('social-account');
+
+        const socialAccountImage = document.createElement('img');
+        socialAccountImage.src = `./images/${account}.png`; // Assuming account images are named appropriately
+        socialAccountImage.alt = account;
+
+        socialAccountElement.appendChild(socialAccountImage);
+        socialAccountsContainer.appendChild(socialAccountElement);
+    });
+
+    // Show the accounts-connected element
+    const accountsConnected = document.getElementById('accounts-connected');
+    accountsConnected.style.display = 'block';
+
+    // Event listener for social accounts click
+    socialAccountsContainer.addEventListener('click', function() {
+        const socialOverlay = document.querySelector('.social-overlay');
+        const approvalBox = document.querySelector('.approval-box');
+
+        socialOverlay.style.display = "block";
+        approvalBox.style.display = "block";
+
+        // Verify social accounts and update UI
+        verifySocialAccounts(userId, socialAccounts);
+    });
+}
+
+// Function to verify social accounts
+function verifySocialAccounts(userId, socialAccounts) {
+    // Simulating API call with setTimeout
+    setTimeout(() => {
+        // Simulated response from the server
+        const verifiedAccounts = socialAccounts.filter(account => account !== 'appstore');
+        displaySocialVerificationResult(userId, verifiedAccounts);
+    }, 2000); // Simulating delay of 2 seconds
+}
+
+// Function to display social verification result
+function displaySocialVerificationResult(userId, verifiedAccounts) {
+    const userBox = document.getElementById(userId);
+    if (userBox) {
+        const socialAccountImages = userBox.querySelectorAll('.social-account img');
+        socialAccountImages.forEach(img => {
+            const accountName = img.getAttribute('alt');
+            if (verifiedAccounts.includes(accountName)) {
+                img.style.border = '2px solid green';
+            } else {
+                img.style.border = '2px solid red';
+            }
+        });
+    }
+}
+// Function to fetch all social verification requests
+function getAllSocialVerificationRequests(page = 1) {
+    const url = `${baseUrl}/social_verification_requests?page=${page}`;
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error fetching social verification requests');
+        }
+        return response.json();
+    });
+}
+
+// Function to approve a social verification request
+function approveSocialVerificationRequest(userId, type, link, socialVerificationId) {
+    const url = `${baseUrl}/approve_social_verification_request`;
+    const body = JSON.stringify({ userId, type, link, socialVerificationId });
+
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        },
+        body
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error approving social verification request');
+        }
+        return response.json();
+    });
+}
+
+// Function to reject a social verification request
+function rejectSocialVerificationRequest(userId, type, link, socialVerificationId) {
+    const url = `${baseUrl}/reject_social_verification_request`;
+    const body = JSON.stringify({ userId, type, link, socialVerificationId });
+
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        },
+        body
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error rejecting social verification request');
+        }
+        return response.json();
+    });
+}
+
+// Function to display social verification requests in the approval box
+function displaySocialVerificationRequests(requests) {
+    const approvalBox = document.querySelector('.approval-box');
+    approvalBox.innerHTML = ''; // Clear existing content
+
+    requests.forEach(request => {
+        const requestElement = document.createElement('div');
+        requestElement.classList.add('request');
+
+        const userInfo = document.createElement('p');
+        userInfo.textContent = `User ID: ${request.userId}, Type: ${request.type}, Link: ${request.link}`;
+
+        const approveButton = document.createElement('button');
+        approveButton.textContent = 'Approve';
+        approveButton.addEventListener('click', function() {
+            approveRequest(request);
+        });
+
+        const rejectButton = document.createElement('button');
+        rejectButton.textContent = 'Reject';
+        rejectButton.addEventListener('click', function() {
+            rejectRequest(request);
+        });
+
+        requestElement.appendChild(userInfo);
+        requestElement.appendChild(approveButton);
+        requestElement.appendChild(rejectButton);
+
+        approvalBox.appendChild(requestElement);
+    });
+}
+
+// Function to handle the approval of a social verification request
+function approveRequest(request) {
+    approveSocialVerificationRequest(request.userId, request.type, request.link, request.id)
+        .then(response => {
+            console.log('Social verification request approved:', response);
+            // Remove the request from the UI or update its status
+        })
+        .catch(error => {
+            console.error('Error approving social verification request:', error);
+        });
+}
+
+// Function to handle the rejection of a social verification request
+function rejectRequest(request) {
+    rejectSocialVerificationRequest(request.userId, request.type, request.link, request.id)
+        .then(response => {
+            console.log('Social verification request rejected:', response);
+            // Remove the request from the UI or update its status
+        })
+        .catch(error => {
+            console.error('Error rejecting social verification request:', error);
+        });
+}
+
+// Call this function to fetch and display social verification requests
+function loadSocialVerificationRequests() {
+    getAllSocialVerificationRequests()
+        .then(response => {
+            const requests = response.data.social_verification_requests;
+            displaySocialVerificationRequests(requests);
+        })
+        .catch(error => {
+            console.error('Error fetching social verification requests:', error);
+        });
+}
+
+// Call this function initially to load social verification requests when the page loads
+loadSocialVerificationRequests();
 
 
 // Close the user popup when "Go back" is clicked
