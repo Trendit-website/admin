@@ -136,6 +136,7 @@
 
 
     <!-- user-info popup -->
+    
     <div class="overlay"></div>
     <div class="user-popup" >
         <div class="back">
@@ -473,17 +474,16 @@
    </div>
 </div>
 
-   
     <script src="./js/cookie.js"></script>
     <script src="./js/users.js"></script>
     <script>
         // JavaScript for toggle functionality
         document.addEventListener("DOMContentLoaded", function () {
-            const membersTab = document.getElementById("members");
-            const accountLinkRequestTab = document.getElementById("account-link-request");
-            const usersContainer = document.getElementById("users-container");
-            const usersContainer2 = document.getElementById("users-container2");
-            const socialAccounts = document.querySelector(".social-accounts");
+    const membersTab = document.getElementById("members");
+    const accountLinkRequestTab = document.getElementById("account-link-request");
+    const usersContainer = document.getElementById("users-container");
+    const usersContainer2 = document.getElementById("users-container2");
+    const socialAccounts = document.querySelector(".social-accounts");
 
     const socialOverlay = document.querySelector(".social-overlay");
     const approvalBox = document.querySelector(".approval-box");
@@ -504,14 +504,21 @@
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return response.json();
+            return response.text(); // Changed from response.json() to response.text() to handle and log the response
         })
-        .then(data => {
-            if (data.status === 200) {
-                renderSocialVerificationRequests(data.data.social_verification_requests);
-                approvalBox.style.display = "block";
-            } else {
-                alert("Error fetching social verification requests: " + data.message);
+        .then(text => {
+            try {
+                const data = JSON.parse(text); // Manually parsing the JSON to catch any errors
+                if (data.status === 200) {
+                    renderSocialVerificationRequests(data.data.social_verification_requests);
+                    approvalBox.style.display = "block";
+                } else {
+                    alert("Error fetching social verification requests: " + data.message);
+                }
+            } catch (error) {
+                console.error("Error parsing JSON response:", error);
+                console.error("Response text:", text); // Logging the response text to debug the issue
+                alert("Error fetching social verification requests: " + error.message);
             }
         })
         .catch(error => {
@@ -553,7 +560,7 @@
     // Function to handle approval or rejection
     function handleApproval(id, action) {
         const endpoint = action === 'approve' ? '/approve_social_verification_request' : '/reject_social_verification_request';
-        const accessToken = getCookie('accessToken');
+        const accessToken = getCookie('accessToken'); // Make sure getCookie function is defined and works properly
         fetch(endpoint, {
             method: 'POST',
             headers: {
@@ -611,27 +618,26 @@
         socialOverlay.style.display = "none";
         approvalBox.style.display = "none";
     });
+    membersTab.classList.add("selected");
+    accountLinkRequestTab.classList.remove("selected");
+    usersContainer.style.display = "block";
+    usersContainer2.style.display = "none";
 
-    
-            membersTab.classList.add("selected");
-            accountLinkRequestTab.classList.remove("selected");
-            usersContainer.style.display = "block";
-            usersContainer2.style.display = "none";
-    
-            membersTab.addEventListener("click", function() {
-                membersTab.classList.add("selected");
-                accountLinkRequestTab.classList.remove("selected");
-                usersContainer.style.display = "block";
-                usersContainer2.style.display = "none";
-            });
-    
-            accountLinkRequestTab.addEventListener("click", function() {
-                accountLinkRequestTab.classList.add("selected");
-                membersTab.classList.remove("selected");
-                usersContainer.style.display = "none";
-                usersContainer2.style.display = "block";
-            });
-        });
+    membersTab.addEventListener("click", function() {
+        membersTab.classList.add("selected");
+        accountLinkRequestTab.classList.remove("selected");
+        usersContainer.style.display = "block";
+        usersContainer2.style.display = "none";
+    });
+
+    accountLinkRequestTab.addEventListener("click", function() {
+        accountLinkRequestTab.classList.add("selected");
+        membersTab.classList.remove("selected");
+        usersContainer.style.display = "none";
+        usersContainer2.style.display = "block";
+    });
+});
+
     </script>
     
     <!-- <script src="./js/apis.js"></script> -->
