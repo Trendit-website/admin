@@ -218,7 +218,6 @@ function getAllUsers(page=1) {
 }
 
 
-
 async function displayAllUsers(promise) {
 
     try {
