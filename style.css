@@ -268,7 +268,7 @@ padding: 0 10px;
     margin-bottom: 20px;
     font-size: 9px;
 }
-.hero .boxes .box1  #ngn{
+.hero .boxes .box1  #ngn, #currency-select{
     font-size: 14px;
 }
 .hero .boxes .box1 img{
@@ -343,6 +343,12 @@ padding: 0 10px;
     
   }
 
+  .user-profile {
+    position: relative;
+    display: inline-block;
+    display: flex;
+    align-items: center;
+}
 
 
 
@@ -1262,7 +1268,14 @@ section h3 {
     align-items: center;
     gap: 135px;
 }
-
+.social-accounts #accounts-connected{
+  display: flex;
+  background-color: #121212;
+  align-items: center;
+}
+.social-accounts #accounts-connected img{
+  width: 15px;
+}
 .name-box{
     background-color: var(--bg-color);
     border-radius: 8px;
@@ -1640,7 +1653,7 @@ gap: 8px;
  display:none;
   align-items: center;
   position: fixed;
-  height: 490px;
+  
   border-radius: 4px;
   padding: 48px;
   gap: 48px;
@@ -1759,7 +1772,7 @@ gap: 8px;
   width: 100%;
   height: 100%;
   background: #212121; /* Semi-transparent dark background color */
-  z-index: 1004;
+  z-index: 1003;
   display: none;
 }
 .approval-box p {
@@ -1813,11 +1826,13 @@ gap: 8px;
 .hero  .wallet-container .box1 h6{
     font-size: 32px;
     color: #FFD0FE;
+    text-wrap: nowrap;
 }
 
 .hero .wallet-container  .box1  p{
     margin-bottom: 20px;
     font-size: 9px;
+    
 }
 .hero .wallet-container  .box1  #ngn{
     font-size: 14px;
@@ -1930,7 +1945,7 @@ gap: 8px;
   border-bottom: 1px solid #FF6DFB;
     color: #FF6DFB;
 }
-.hero .top-nav #selected{
+.hero .top-nav #selected,.selected{
     padding: 12px 8px;
     border-bottom: 1px solid #FF6DFB;
     color: #FF6DFB;

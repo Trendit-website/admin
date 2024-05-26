@@ -43,12 +43,12 @@
         <h4>Users</h4>
         <div class="top-nav">
             <div class="left">
-            <p id="selected">Members</span></p>
-            <p>Account link request</p>
+            <p class="nav-item" id="members">Members</span></p>
+            <p class="nav-item" id="account-link-request" >Account link request</p>
             
         </div>
         <div class="right"style="align-self: left;" >
-            <p ><img src="./images/funnel.png" alt=""> Filter </p>
+            <p class="filter-button"class="filter-button" ><img src="./images/funnel.png" alt=""> Filter </p>
             <p class="sort-button"><img  src="./images/sort.png" alt=""> Sort </p>
         </div>
         </div>
@@ -58,54 +58,53 @@
                 <div class="right">
                 <p>Stats <span><img src="./images/arrowupdown.png" alt=""></span> </p>
                 <p>Last Login <span><img src="./images/arrowupdown.png" alt=""></span></p>
+
             </div>
         </div>
            
           </div>
           
         </div>
-        <div class="users-container" id="users-container">
+        <div class="users-container2" id="users-container2">
             <div class="navigation">
                 <p>Name <span><img src="./images/arrowupdown.png" alt=""></span> </p>
                 <div class="right">
                 <p>Social Media accounts<span><img src="./images/arrowupdown.png" alt=""></span></p>
             </div>
         </div>
-         <div class="name-box" id="user1">
-                <div class="name" >
+        <div class="users-container">
+            <div class="name-box" id="user1">
+                <div class="name">
                     <img src="./images/js.svg" alt="">
                     <div class="name-email">
                         <p id="user1-name">hola</p>
                         <p id="user1-email">misan</p>
                     </div>
-                    <div class="social-account ">
+                    <div class="social-account">
                         <img style="width: 40px;" src="./images/new-green.svg" >
                         <img src="./images/insta.png" alt="">
-                        <img style="width: 12px;"  src="./images/x2.png" alt="">
+                        <img style="width: 12px;" src="./images/x2.png" alt="">
                         <img src="./images/facebook.png" alt="">
                         <img src="./images/twitter.png" alt="">
                         <img src="./images/appstore.png" alt="">
                         <img src="./images/tinyright.png" alt="">
                     </div>
                 </div>
-           
-          </div>
-         <div class="name-box" id="user1">
-                <div class="name" >
+            </div>
+            <div class="name-box" id="user2">
+                <div class="name">
                     <img src="./images/js.svg" alt="">
                     <div class="name-email">
-                        <p id="user1-name">hola</p>
-                        <p id="user1-email">misan</p>
+                        <p id="user2-name">hola</p>
+                        <p id="user2-email">misan</p>
                     </div>
-                    <div class="social-account ">
-                        <img style="width: 40px;" src="./images/new-green.svg" >
-                        
+                    <div class="social-account">
+                        <img style="width: 40px;" src="./images/new-green.svg">
                         <img src="./images/appstore.png" alt="">
                         <img src="./images/tinyright.png" alt="">
                     </div>
                 </div>
-           
-          </div>
+            </div>
          <div class="name-box" id="user1">
                 <div class="name" >
                     <img src="./images/js.svg" alt="">
@@ -137,6 +136,7 @@
 
 
     <!-- user-info popup -->
+    
     <div class="overlay"></div>
     <div class="user-popup" >
         <div class="back">
@@ -417,66 +417,229 @@
         </div>
    </div>
 
-   <div class="social-overlay" ></div>
-   <div class="approval-box">
+   <div class="social-overlay" style="display: none;"></div>
+   <div class="approval-box" style="display: none;">
        <button class="cancel-btn">&#10006;</button>
        <div class="accounts">
-        <div class="name-profile">
-            <div class="profile-img">
-                <img id="profile-picture"  alt="Profile Picture" src="./images/Rectangle 1.png" alt="">
-            </div>
-            <div class="name">
-                <h6 id="user-name">Adewale Adedamola</h6>
-                <span id="user-email">adedamolamoses@gmail.com</span>
-            </div>
-        </div>
-         <h5>Social Accounts</h5>
-         <div class="social-approve-box">
-            <div class="social-link">
-            <img src="/images/insta.png" alt="">
-            <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
-        </div>
-            <div class="buttons">
-                <button id="approve-social">Accept</button>
-                <button id="decline-social">Decline</button>
-            </div>
-         </div>
-         <div class="social-approve-box">
-            <div class="social-link">
-            <img src="/images/x2.png" alt="">
-            <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
-        </div>
-            <p id="status">Approved</p>
-         </div>
-         <div class="social-approve-box">
-            <div class="social-link">
-            <img src="/images/facebook.png" alt="">
-            <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
-        </div>
-            <p id="status">Approved</p>
-         </div>
-         <div class="social-approve-box">
-            <div class="social-link">
-            <img src="/images/tiktok.png" alt="">
-            <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
-        </div>
-            <p id="status">Approved</p>
-         </div>
-         <div class="social-approve-box">
-            <div class="social-link">
-            <img src="/images/appstore.png" alt="">
-            <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
-        </div>
-            <p id="status">Approved</p>
-         </div>
-         
-         </div>
+           <div class="name-profile">
+               <div class="profile-img">
+                   <img id="profile-picture" alt="Profile Picture" src="./images/Rectangle 1.png" alt="">
+               </div>
+               <div class="name">
+                   <h6 id="user-name">Adewale Adedamola</h6>
+                   <span id="user-email">adedamolamoses@gmail.com</span>
+               </div>
+           </div>
+           <h5>Social Accounts</h5>
+           <div class="social-approve-box" id="social-requests"></div>
+           <!-- <div class="social-approve-box">
+               <div class="social-link">
+                   <img src="./images/insta.png" alt="">
+                   <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
+               </div>
+               <div class="buttons">
+                   <button id="approve-social">Accept</button>
+                   <button id="decline-social">Decline</button>
+               </div>
+           </div>
+           <div class="social-approve-box">
+               <div class="social-link">
+                   <img src="./images/x2.png" alt="">
+                   <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
+               </div>
+               <p class="status">Approved</p>
+           </div>
+           <div class="social-approve-box">
+               <div class="social-link">
+                   <img src="./images/facebook.png" alt="">
+                   <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
+               </div>
+               <p class="status">Approved</p>
+           </div>
+           <div class="social-approve-box">
+               <div class="social-link">
+                   <img src="./images/tiktok.png" alt="">
+                   <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
+               </div>
+               <p class="status">Approved</p>
+           </div>
+           <div class="social-approve-box">
+               <div class="social-link">
+                   <img src="./images/appstore.png" alt="">
+                   <a href="www.instagram.com/thepeol.ng939">www.instagram.com/thepeol.ng939....</a>
+               </div>
+               <p class="status">Approved</p>
+           </div> -->
        </div>
-     </div>
+   </div>
+</div>
 
-   
     <script src="./js/cookie.js"></script>
     <script src="./js/users.js"></script>
+    <script>
+        // JavaScript for toggle functionality
+        document.addEventListener("DOMContentLoaded", function () {
+    const membersTab = document.getElementById("members");
+    const accountLinkRequestTab = document.getElementById("account-link-request");
+    const usersContainer = document.getElementById("users-container");
+    const usersContainer2 = document.getElementById("users-container2");
+    const socialAccounts = document.querySelector(".social-accounts");
+
+    const socialOverlay = document.querySelector(".social-overlay");
+    const approvalBox = document.querySelector(".approval-box");
+    const cancelBtn = document.querySelector(".cancel-btn");
+    const accountsConnected = document.querySelector("#accounts-connected");
+    const socialRequestsContainer = document.getElementById("social-requests");
+
+    // Function to fetch social verification requests
+    function fetchSocialVerificationRequests(page = 1, perPage = 20) {
+        fetch('/social_verification_requests', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ page, per_page: perPage })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text(); // Changed from response.json() to response.text() to handle and log the response
+        })
+        .then(text => {
+            try {
+                const data = JSON.parse(text); // Manually parsing the JSON to catch any errors
+                if (data.status === 200) {
+                    renderSocialVerificationRequests(data.data.social_verification_requests);
+                    approvalBox.style.display = "block";
+                } else {
+                    alert("Error fetching social verification requests: " + data.message);
+                }
+            } catch (error) {
+                console.error("Error parsing JSON response:", error);
+                console.error("Response text:", text); // Logging the response text to debug the issue
+                alert("Error fetching social verification requests: " + error.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching social verification requests:", error);
+            alert("Error fetching social verification requests: " + error.message);
+        });
+    }
+
+    // Function to render social verification requests
+    function renderSocialVerificationRequests(requests) {
+        socialRequestsContainer.innerHTML = "";
+        requests.forEach(request => {
+            const requestElement = document.createElement("div");
+            requestElement.className = "social-approve-box";
+            requestElement.innerHTML = `
+                <div class="social-link">
+                    <img src="./images/${request.type}.png" alt="">
+                    <a href="${request.link}" target="_blank">${request.link}</a>
+                </div>
+                <div class="buttons">
+                    ${request.status === "PENDING" ? `
+                        <button class="approve-social" data-id="${request.id}">Accept</button>
+                        <button class="decline-social" data-id="${request.id}">Decline</button>
+                    ` : `<p class="status">${request.status}</p>`}
+                </div>
+            `;
+            socialRequestsContainer.appendChild(requestElement);
+        });
+
+        document.querySelectorAll(".approve-social").forEach(button => {
+            button.addEventListener("click", () => handleApproval(button.dataset.id, 'approve'));
+        });
+
+        document.querySelectorAll(".decline-social").forEach(button => {
+            button.addEventListener("click", () => handleApproval(button.dataset.id, 'decline'));
+        });
+    }
+
+    // Function to handle approval or rejection
+    function handleApproval(id, action) {
+        const endpoint = action === 'approve' ? '/approve_social_verification_request' : '/reject_social_verification_request';
+        const accessToken = getCookie('accessToken'); // Make sure getCookie function is defined and works properly
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}` // Add actual token here
+            },
+            body: JSON.stringify({
+                userId: 123, // Replace with dynamic userId if necessary
+                type: "facebook", // Replace with dynamic type if necessary
+                link: "http://facebook.com/user", // Replace with dynamic link if necessary
+                socialVerificationId: id
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 200) {
+                alert(`Social verification request ${action}d successfully`);
+                fetchSocialVerificationRequests();
+            } else {
+                alert(`Error ${action}ing social verification request: ${data.message}`);
+            }
+        })
+        .catch(error => {
+            console.error(`Error ${action}ing social verification request:`, error);
+            alert(`Error ${action}ing social verification request: ${error.message}`);
+        });
+    }
+
+    // Show approval box when "Social Accounts" is clicked
+    accountsConnected.addEventListener("click", () => {
+        fetchSocialVerificationRequests();
+    });
+
+    // Hide approval box when "Cancel" button is clicked
+    cancelBtn.addEventListener("click", () => {
+        approvalBox.style.display = "none";
+    });
+
+    socialAccounts.addEventListener("click", function () {
+        socialOverlay.style.display = "block";
+        approvalBox.style.display = "block";
+    });
+
+    cancelBtn.addEventListener("click", function () {
+        socialOverlay.style.display = "none";
+        approvalBox.style.display = "none";
+    });
+
+    accountsConnected.addEventListener("click", function () {
+        socialOverlay.style.display = "block";
+        approvalBox.style.display = "block";
+    });
+
+    socialOverlay.addEventListener("click", function () {
+        socialOverlay.style.display = "none";
+        approvalBox.style.display = "none";
+    });
+    membersTab.classList.add("selected");
+    accountLinkRequestTab.classList.remove("selected");
+    usersContainer.style.display = "block";
+    usersContainer2.style.display = "none";
+
+    membersTab.addEventListener("click", function() {
+        membersTab.classList.add("selected");
+        accountLinkRequestTab.classList.remove("selected");
+        usersContainer.style.display = "block";
+        usersContainer2.style.display = "none";
+    });
+
+    accountLinkRequestTab.addEventListener("click", function() {
+        accountLinkRequestTab.classList.add("selected");
+        membersTab.classList.remove("selected");
+        usersContainer.style.display = "none";
+        usersContainer2.style.display = "block";
+    });
+});
+
+    </script>
+    
     <!-- <script src="./js/apis.js"></script> -->
     <!-- <script src="./js/backend.js"></script> -->
 </body>
