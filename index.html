@@ -27,15 +27,20 @@
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
             </nav>
-                <div class="icons">
-                    
-                    <input type="search" name="search" id="search-box" placeholder="Search">
-                    
-                    <img src="./images/light.png" width="20px">
-                    <img src="./images/bell.png" width="20px">
-                    <img src="./images/Rectangle 1.png" width="38px">
-                    <img src="./images/arrowdown.png" width="12px">
+            <div class="icons">
+                <input type="search" name="search" id="search-box" placeholder="Search">
+                <img src="./images/light.png" width="20px" id="theme-icon">
+                <img src="./images/bell.png" width="20px" id="bell-icon">
+                <img src="./images/default-user.png" width="38px" id="profile-pic">
+                <img src="./images/arrowdown.png" width="12px" id="dropdown-arrow">
+                <div class="dropdown" id="dropdown-menu2">
+                    <ul>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="settings.html">Settings</a></li>
+                        <li><a href="logout.html">Logout</a></li>
+                    </ul>
                 </div>
+            </div>
                 
                 <div class="hamburger">
                 <div class="bar"></div>
@@ -189,6 +194,7 @@
         });
     });
   </script>
+  <script src="./js/users.js"></script>
 
     <!-- <script src="./js/backend.js"></script> -->
     

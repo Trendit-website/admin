@@ -66,7 +66,43 @@ document.addEventListener("DOMContentLoaded", async function() {
         var dashboardData = await convertData(dataPromise);
         barChart.updateSeries([{ data: dashboardData.totalPayouts }]); // Example: update with totalPayouts data
     }
+
+     // Search functionality
+     const searchInput = document.getElementById('search-box');
+     searchInput.addEventListener('input', function() {
+         const searchText = searchInput.value.trim().toLowerCase();
+         performSearch(searchText);
+     });
+ 
+     function performSearch(query) {
+         // Implement search functionality here
+         console.log(`Searching for: ${query}`);
+         // Example: Filter items based on the query
+     }
+ 
+     // Bell icon click event
+     const bellIcon = document.getElementById('bell-icon');
+     bellIcon.addEventListener('click', function() {
+         // Implement bell notification functionality here
+         alert("Bell icon clicked. Show notifications.");
+     });
+ 
+     // Dropdown menu functionality
+     const dropdownArrow = document.getElementById('dropdown-arrow');
+     const dropdownMenu2 = document.getElementById('dropdown-menu2');
+     dropdownArrow.addEventListener('click', function() {
+         dropdownMenu.classList.toggle('active');
+     });
+
+
+
 });
+function setProfilePicture(data) {
+    const profilePic = document.getElementById('profile-pic');
+    const user = data.users[0]; // Assuming the first user is the logged-in user; adjust this logic as needed
+    profilePic.src = user.profile_picture || "./images/default-user.png";
+}
+
 
 // Example function to fetch data for the selected period
 async function getDashboardDataForPeriod(period) {
