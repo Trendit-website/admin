@@ -680,12 +680,15 @@ section h3 {
     min-width: 330px;
     transition: .5s ease-in-out;
 }
-
+.popup .popup-box img:first-child{
+  width: 90px;
+}
   .popup .popup-box .left{
    padding: 0 12px ;
    text-wrap: nowrap;
    z-index: 1;
    position: absolute;
+   height: fit-content;
  
 }
 
