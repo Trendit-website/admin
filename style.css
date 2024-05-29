@@ -98,7 +98,270 @@ header .icons{
     border: none;
     outline: none;
 }
+.create-task,.update-price-engagement-task,.update-price-post-advert{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 16px;
+  align-items: center;
+  
+}
+.task-name-box{
+  gap: 7px;
+  display: flex;
+  flex-direction: column;
+  width: 710px;
 
+}
+.task-name-box p{
+font-size: 12.83px;
+font-weight: 500;
+line-height: 17.52px;
+letter-spacing: -0.06em;
+color: #fff;
+
+}
+.task-name-box input::placeholder{
+  text-wrap: wrap;
+  width: 504px;
+  height: 48px;
+color: #d8d8d8;
+font-size: 12px;
+font-weight: 400;
+line-height: 16.39px;
+text-align: left;
+
+}
+
+.task-name-box span{
+  
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 13.66px;
+  letter-spacing: -0.06em;
+  color: #b1b1b1;
+  
+}
+#task-name{
+    display: flex;
+    background-color: #FFFFFF14;
+    padding: 6px 12px;
+    gap: 8px;
+    width: 100%;
+    align-items: center;
+    justify-content: left;
+    font-size: 14px;
+    color: #b1b1b1;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+}
+#task-description{
+    display: flex;
+    background-color: #FFFFFF14;
+    padding: 6px 12px;
+    gap: 8px;
+    width: 100%;
+    height:110px;
+    text-align: justify;
+    justify-content: left;
+    font-size: 14px;
+    color: #b1b1b1;
+    align-items: flex-start;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+}
+
+.create-task .buttons  {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  gap: 37px;
+    
+}
+
+.create-task .buttons button {
+  padding: 14px 24px;  
+  gap: 8px;
+  font-size: 12px;
+  min-width: 200px;
+  text-wrap: nowrap;
+  border: none;
+  font-weight: 400;
+  border-radius: 100px;  
+  color: #fff; 
+  background-color: #cb29be;
+}
+.create-task .buttons button:last-child {
+  border: 1px solid #8E60CF3B;
+  padding: 14px 24px;  
+  gap: 4px;
+  font-size: 12px;
+  font-weight:400;
+  border-radius: 100px; 
+  color: red;
+  background-color: #fff;  
+  width: 20px;
+}
+
+.update-price-engagement-task .box1 button,.update-price-post-advert .box1 button{
+border-radius: 6px;
+padding: 12px 8px;
+gap: 4px;
+color: #fff;
+background-color: #FF6DFB;
+border: none;
+text-wrap: nowrap;
+font-size: 12.83px;
+font-weight: 500;
+line-height: 17.52px;
+
+
+
+}
+
+.update-price-engagement-task p ,.update-price-post-advert .box1 p{
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  
+}
+.update-price-engagement-task span ,.update-price-post-advert .box1 span{
+  color: #d8d8d8;
+  font-size: 12.83px;
+  font-weight: 400;
+  line-height: 17.53px;
+ 
+}
+.update-price-engagement-task .earning ,.update-price-post-advert .box1 .earning{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+ 
+}
+
+
+
+.update-price-engagement-task .box1 img:first-child ,.update-price-post-advert .box1 img:first-child{
+  width: 25px;
+max-height: 25px;
+
+}
+
+.update-price-engagement-task .box1 ,.update-price-post-advert .box1{
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #000;
+  text-align: left;
+  margin: auto; 
+  min-width: 330px;
+  transition: .5s ease-in-out;
+  gap: 10px;
+
+}
+.add-email {
+    position: relative;
+    background: #FFFFFF14;
+    padding: 14px 12px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    
+}
+
+.add-email input {
+    background: none;
+    padding: 0;
+    border: none;
+    outline: none;
+    color: #8f8d8d;
+}
+
+.invite-text {
+    color: #ccc;
+    font-size: 14px;
+   right: 12px;
+   cursor: pointer;
+   position: absolute;
+}
+.update-price3{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  
+}
+.update-price3 p{
+align-self: flex-start;
+}
+.update {
+  position: relative;
+  padding: 10px 0;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  
+}
+
+.update input {
+  background: none;
+  padding: 0;
+  border: none;
+  outline: none;
+  color: #8f8d8d;
+}
+
+.edit-text {
+  color: #FFd0e8;
+  font-size: 14px;
+ right: 12px;
+ cursor: pointer;
+ position: absolute;
+}
+.update-price3 .buttons  {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  gap: 37px;
+    
+}
+
+.update-price3 .buttons button {
+  padding: 14px 24px;  
+  gap: 8px;
+  font-size: 12px;
+  min-width: 200px;
+  text-wrap: nowrap;
+  border: none;
+  font-weight: 400;
+  border-radius: 100px;  
+  color: #fff; 
+  background-color: #cb29be;
+}
+.update-price3 .buttons button:last-child {
+  border: 1px solid #8E60CF3B;
+  padding: 14px 24px;  
+  gap: 4px;
+  font-size: 12px;
+  font-weight:400;
+  border-radius: 100px; 
+  color: red;
+  background-color: #fff;  
+  width: 20px;
+}
+
+.show{
+  display: block;
+  
+}
+.hidden{
+  display: none;
+}
 /* hero */
 
 .hero{
@@ -396,7 +659,7 @@ section h3 {
     border-radius: 8px;
     background-color: #000;
     text-align: left;
-    margin: auto; /* Center the boxes horizontally */
+    margin: auto; 
     min-width: 330px;
     transition: .5s ease-in-out;
     min-height: 133px;
@@ -418,6 +681,17 @@ section h3 {
 
 }
 
+.earn-container .box1 .failed p{
+  margin: 0; /* Remove default margin */
+  padding: 8px;
+  border-radius: 4px;
+  background: rgb(211, 0, 0);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: -0.04em;
+  margin-right: 20px;
+}
 .earn-container .box1 .pending {
   display: flex;
   align-items: center;
@@ -680,7 +954,7 @@ section h3 {
     min-width: 330px;
     transition: .5s ease-in-out;
 }
-.popup .popup-box img:first-child{
+.popup .popup-box img:first-of-type{
   width: 90px;
 }
   .popup .popup-box .left{
@@ -817,8 +1091,6 @@ section h3 {
     z-index: 1003; /* Make sure it's above the overlay */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   }
-  
-  
   .approve-box img {
    align-self: center;
     width: 243px;
@@ -872,7 +1144,65 @@ section h3 {
     z-index: 1001;
     display: none;
   }
+  .overlay3 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #212121; /* Semi-transparent dark background color */
+    z-index: 1001;
+    display: none;
+  }
   
+  .final-approve {
+    display: none;
+    align-items: center;
+    position: fixed;
+    width: 483px;
+    border-radius: 4px;
+    padding: 48px;
+    gap: 48px;
+    background-color: #121212;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1003; /* Make sure it's above the overlay */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  }
+  .final-approve img {
+   align-self: center;
+    width: 243px;
+    height: 148.59px;
+  }
+  .final-approve h6 {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+
+
+  }
+  .final-approve p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #b1b1b1;
+  }
+  
+
+  
+  .final-approve button {
+    padding: 14px 24px;
+    border: none;
+    gap: 8px;
+    text-wrap: nowrap;
+    min-width: 187px;
+    outline: none;
+    border-radius: 100px;
+    background-color: #13bf62;   
+    color: #fff;
+  }
+  
+
 
   
   .approve-box .cancel-btn {
@@ -1977,7 +2307,6 @@ gap: 8px;
     font-size: 14px;
    right: 12px;
    cursor: pointer;
-   
    position: absolute;
 }
 

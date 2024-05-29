@@ -61,6 +61,20 @@ document.addEventListener("DOMContentLoaded", function() {
         const initialFilter = initialSelected.dataset.filter;
         filterTasks(initialFilter);
     }
+
+    const searchBox = document.getElementById('search-box2');
+    searchBox.addEventListener('input', function() {
+        const searchTerm = searchBox.value.toLowerCase();
+        const taskBoxes = document.querySelectorAll('.box1');
+        taskBoxes.forEach(taskBox => {
+            const description = taskBox.querySelector('p').textContent.toLowerCase();
+            if (description.includes(searchTerm)) {
+                taskBox.style.display = 'block';
+            } else {
+                taskBox.style.display = 'none';
+            }
+        });
+    });
     
 });
 
@@ -247,6 +261,8 @@ function showTaskPopup(task) {
     const taskDate = new Date(task.date_created).toLocaleString('en-US', { timeZone: 'GMT' });
     const taskDescription = task.caption ? task.caption : `Like and follow ${task.platform} business pages`;
     const taskEarning = `${task.total_allocated} per ${task.goal}`;
+    const formattedEarnings = new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(task.total_allocated);
+
 
     const popupContent = `
         <button class="cancel-btn">&#10006;</button>
