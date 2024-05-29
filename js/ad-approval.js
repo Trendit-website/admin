@@ -241,6 +241,11 @@ function getPendingTasks(page = 1, pageSize = 10) {
             closeAdPopup();
         });
     });
+    
+    const cancelButtons = document.querySelectorAll('.cancel-btn, .invite-cancel');
+    cancelButtons.forEach(button => {
+        button.addEventListener('click', closeFinalApproveBox);
+    });
 
     document.addEventListener('click', function(event) {
         if (event.target.classList.contains('approve-yes')) {
