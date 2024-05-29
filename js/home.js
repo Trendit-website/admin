@@ -405,9 +405,9 @@ function printDashboard() {
     window.print();
 }
 
-function exportDashboard() {
-    const dashboardElement = document.getElementById('dashboard'); // Assuming 'dashboard' is the ID of the dashboard element
 
+function exportDashboard() {
+    const dashboardElement = document.getElementById('dashboard');
     html2canvas(dashboardElement).then(canvas => {
         const image = canvas.toDataURL("image/png");
 
@@ -417,8 +417,8 @@ function exportDashboard() {
         document.body.appendChild(link);
 
         link.click();
-        
-        document.body.removeChild(link); // Clean up the DOM
+
+        document.body.removeChild(link);
     }).catch(error => {
         console.error('Error exporting dashboard:', error);
     });
