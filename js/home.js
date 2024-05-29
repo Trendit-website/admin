@@ -406,27 +406,20 @@ function printDashboard() {
 }
 
 function exportDashboard() {
-    // Convert data to CSV format
-    const data = [
-        ['Metric', 'Value'],
-        ['Total Payouts', document.getElementById('total_payouts').textContent],
-        ['Total Received Payments', document.getElementById('total_received_payments').textContent],
-        ['Total Earners', document.getElementById('total_earners').textContent],
-        ['Total Advertisers', document.getElementById('total_advertisers').textContent],
-        ['Total Approved Tasks', document.getElementById('total_approved_tasks').textContent]
-    ];
+    const dashboardElement = document.getElementById('dashboard'); // Assuming 'dashboard' is the ID of the dashboard element
 
-    let csvContent = "data:text/csv;charset=utf-8,";
-    data.forEach(rowArray => {
-        let row = rowArray.join(",");
-        csvContent += row + "\r\n";
+    html2canvas(dashboardElement).then(canvas => {
+        const image = canvas.toDataURL("image/png");
+
+        const link = document.createElement("a");
+        link.setAttribute("href", image);
+        link.setAttribute("download", "dashboard_image.png");
+        document.body.appendChild(link);
+
+        link.click();
+        
+        document.body.removeChild(link); // Clean up the DOM
+    }).catch(error => {
+        console.error('Error exporting dashboard:', error);
     });
-
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "dashboard_data.csv");
-    document.body.appendChild(link);
-
-    link.click();
 }
