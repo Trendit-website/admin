@@ -202,12 +202,12 @@
                 <input type="text" name="task-name" id="task-description" placeholder="Follow people and pages on selected social media account like Facebook, Instagram, TikTok, and others and earn ₦3.5 per follow the  Unlock your earning potential, By performing one task at a time">
                 <span>Enter the task description which gives  a detailed description of this task to enable user to create in this task</span>
                 </div>
-                <div class="task-name-box">
                 <p>Category</p>
-                <optgroup>
-                    <option value="Engagement task"></option>
-                    <option value="Post Advert"></option>
-                </optgroup>
+                <div class="task-name-box  category-update">
+                    <select name="category" id="category"><optgroup>
+                        <option value="Engagement task">Engagement task</option>
+                        <option value="Post Advert">Post Advert</option>
+                    </optgroup></select>
                 <span>Select which categories this task should be classified into either an  advert task or an  engagement task </span>
                 </div>
                 <div class="task-name-box">
@@ -226,7 +226,7 @@
                 </div>
             </div>
             <div class="update-price-post-advert hidden" id="update-price-post-advert">
-                <div class="top-nav">
+                <div style="margin-top: -10px;" class="top-nav">
                     <div class="left">
                         <p id="post-advert-nav" class="sub-nav-item selected">Post Advert</p>
                         <p id="engagement-task-nav" class="sub-nav-item">Engagement Task</p>
@@ -359,18 +359,15 @@
                     <p>Task Description</p>
                 <div class="update">
                     
-                <input type="text" name="task-name" id="task-name" placeholder="Follow people and pages on selected social media account like Facebook, Instagram, TikTok,
-                and others and earn ₦3.5 per follow the  Unlock your earning potential, By performing one
-                task at a time">
+                <input type="text" name="task-name" id="task-name" placeholder="Follow people and pages on selected social media account like Facebook, Instagram, TikTok, and others and earn ₦3.5 per follow the  Unlock your earning potential, By performing on task at a time">
                 <span class="edit-text" id="edit">Edit</span>
                     </div>
                     <p>Category</p>
-                <div class="update">
-                    <select name="category" id="category"></select>
-                    <optgroup>
+                <div class="update category-update">
+                    <select name="category" id="category"><optgroup>
                         <option value="Engagement task">Engagement task</option>
                         <option value="Post Advert">Post Advert</option>
-                    </optgroup>
+                    </optgroup></select>
                     <span>Select which categories this task should be classified into either an  advert task or an  engagement task </span>
                     </div>
                     <p>Earners Price</p>

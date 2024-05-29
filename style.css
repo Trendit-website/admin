@@ -221,6 +221,7 @@ line-height: 17.52px;
 
 }
 
+
 .update-price-engagement-task p ,.update-price-post-advert .box1 p{
   color: #fff;
   font-size: 14px;
@@ -307,6 +308,19 @@ align-self: flex-start;
   width: 100%;
   
 }
+.category-update {
+  position: relative;
+  padding: 10px 0;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+
+  
+}
+.category-update span{
+  align-self: start;
+  
+}
 
 .update input {
   background: none;
@@ -354,13 +368,36 @@ align-self: flex-start;
   background-color: #fff;  
   width: 20px;
 }
+.update-price3 #category {
+ width: 100%;
+ background-color: #212121;
+  padding: 5px ;
+  border: none;
+  outline: none;
+  color: #8f8d8d;
+}
+.create-task #category {
+ width: 100%;
+ background-color: #212121;
+  padding: 5px ;
+  border: none;
+  outline: none;
+  color: #8f8d8d;
+}
+
+
 
 .show{
-  display: block;
-  
+  display: flex;
+  flex-direction: column;
 }
+
 .hidden{
   display: none;
+}
+.icons #profile-pic{
+  width: 25px;
+  max-width: 25px;
 }
 /* hero */
 
