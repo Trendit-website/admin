@@ -64,18 +64,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const searchBox = document.getElementById('search-box2');
     searchBox.addEventListener('input', function() {
-        const searchTerm = searchBox.value.toLowerCase();
-        const taskBoxes = document.querySelectorAll('.box1');
+        const query = searchBox.value.toLowerCase().trim();
+        searchTasks(query);
+    });
+
+    function searchTasks(query) {
+        const taskBoxes = document.querySelectorAll('.earn-container .box1');
         taskBoxes.forEach(taskBox => {
-            const description = taskBox.querySelector('p').textContent.toLowerCase();
-            if (description.includes(searchTerm)) {
-                taskBox.style.display = 'block';
-            } else {
-                taskBox.style.display = 'none';
+            const secondParagraph = taskBox.querySelectorAll('p')[1];
+            if (secondParagraph) {
+                const textContent = secondParagraph.textContent.toLowerCase();
+                if (textContent.includes(query)) {
+                    taskBox.style.display = 'block';
+                } else {
+                    taskBox.style.display = 'none';
+                }
             }
         });
-    });
-    
+    }
 
 });
 
