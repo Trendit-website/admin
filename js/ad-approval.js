@@ -239,8 +239,14 @@ function getPendingTasks(page = 1, pageSize = 10) {
     document.addEventListener('click', function(event) {
         if (event.target.classList.contains('approve-yes')) {
             const taskId = document.querySelector('.approve-box').getAttribute('data-task-id');
-            approveTask(taskId);
-            closeApproveBox();
+            showFinalApproveBox(); // Show final-approve box immediately
+            approveTask(taskId).then(() => {
+                closeApproveBox();
+            }).catch(error => {
+                console.error('Error approving task:', error);
+                // Optionally, you can hide the final-approve box if there is an error
+                closeFinalApproveBox();
+            });
         }
     });
     
@@ -252,6 +258,7 @@ function getPendingTasks(page = 1, pageSize = 10) {
             closeApproveBox();
         }
     });
+
 
 
 function showTaskPopup(task) {
@@ -457,7 +464,7 @@ async function approveTask(taskId) {
 
         const responseData = await response.json();
         console.log(responseData.message);
-        showFinalApproveBox();
+        
     } catch (error) {
         console.error('Error approving task:', error);
     }
@@ -499,7 +506,7 @@ document.addEventListener('click', function(event) {
         closeApproveBox();
     }
 });
-document.getElementById('invite-cancel-btn').addEventListener('click', closeFinalApproveBox);
+document.querySelector('.cancel-btn').addEventListener('click', closeFinalApproveBox);
 document.querySelector('.invite-cancel').addEventListener('click', closeFinalApproveBox);
 
 
