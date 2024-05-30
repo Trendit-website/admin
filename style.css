@@ -208,11 +208,12 @@ text-align: left;
 .update-price-engagement-task .box1 button,.update-price-post-advert .box1 button{
 border-radius: 6px;
 padding: 12px 8px;
+text-wrap: nowrap;
+white-space: nowrap;
 gap: 4px;
 color: #fff;
 background-color: #FF6DFB;
 border: none;
-text-wrap: nowrap;
 font-size: 12.83px;
 font-weight: 500;
 line-height: 17.52px;
@@ -222,7 +223,7 @@ line-height: 17.52px;
 }
 
 
-.update-price-engagement-task p ,.update-price-post-advert .box1 p{
+.update-price-engagement-task .box1 p ,.update-price-post-advert .box1 p{
   color: #fff;
   font-size: 14px;
   font-weight: 700;
@@ -3043,6 +3044,24 @@ gap: 8px;
 
    .name-box .name .social-account{
     right: 25px;
+   }
+   .task-name-box{
+    width: 100%;
+   }
+   .create-task .buttons,.update-price3 .buttons{
+    gap: 10px;
+   }
+   .create-task .buttons button,.update-price3 .buttons button{
+    min-width: 150px;
+   }
+   .update-price-engagement-task .box1, .update-price-post-advert .box1{
+    display: flex;
+    flex-direction: column;
+    align-items:  flex-start;
+   }
+   .update-price-engagement-task .box1 button, .update-price-post-advert .box1 button{
+    max-width: 100%;
+    padding: 10px 0;
    }
 }
 
