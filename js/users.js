@@ -332,6 +332,195 @@ async function displayAllUsers(promise) {
 
 
 
+// Helper function to make API requests
+async function makeApiRequest(endpoint, method, body = null) {
+    const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+    };
+
+    const options = {
+        method,
+        headers
+    };
+
+    if (body) {
+        options.body = JSON.stringify(body);
+    }
+
+    const response = await fetch(`${baseUrl}${endpoint}`, options);
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+}
+
+// Function to get all social verification requests
+async function getAllSocialVerificationRequests(page = 1, perPage = 20) {
+    const endpoint = `/social_verification_requests`;
+    const body = {
+        page,
+        per_page: perPage
+    };
+
+    try {
+        const data = await makeApiRequest(endpoint, 'POST', body);
+
+        if (data.status === 200) {
+            const requests = data.data.social_verification_requests;
+            const container = document.getElementById('users-container2');
+            container.innerHTML = ''; // Clear previous content
+
+            requests.forEach(request => {
+                const requestDiv = document.createElement('div');
+                requestDiv.className = 'name-box';
+                requestDiv.innerHTML = `
+                    <div class="name">
+                        <img src="./images/js.svg" alt="">
+                        <div class="name-email">
+                            <p id="user-name">${request.userId}</p>
+                            <p id="user-email">${request.type}</p>
+                        </div>
+                        <div class="social-account">
+                            <img src="${request.link}" alt="${request.type}">
+                        </div>
+                        <button onclick="approveSocialVerificationRequest(${request.id})">Approve</button>
+                        <button onclick="rejectSocialVerificationRequest(${request.id})">Reject</button>
+                    </div>
+                `;
+                container.appendChild(requestDiv);
+            });
+
+            // Add pagination controls
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = `
+                <button onclick="getAllSocialVerificationRequests(${page - 1})" ${page === 1 ? 'disabled' : ''}>Previous</button>
+                <span>Page ${page} of ${data.data.pages}</span>
+                <button onclick="getAllSocialVerificationRequests(${page + 1})" ${page === data.data.pages ? 'disabled' : ''}>Next</button>
+            `;
+        } else {
+            console.error('Error fetching social verification requests:', data.message);
+        }
+    } catch (error) {
+        console.error('Error fetching social verification requests:', error);
+    }
+}
+
+// Function to approve a social verification request
+async function approveSocialVerificationRequest(requestId) {
+    const endpoint = `/approve_social_verification_request`;
+    const body = {
+        socialVerificationId: requestId
+    };
+
+    try {
+        const data = await makeApiRequest(endpoint, 'POST', body);
+
+        if (data.status === 200) {
+            alert('Social verification request approved successfully');
+            getAllSocialVerificationRequests(); // Refresh the list
+        } else {
+            console.error('Error approving verification request:', data.message);
+        }
+    } catch (error) {
+        console.error('Error approving verification request:', error);
+    }
+}
+
+// Function to reject a social verification request
+async function rejectSocialVerificationRequest(requestId) {
+    const endpoint = `/reject_social_verification_request`;
+    const body = {
+        socialVerificationId: requestId
+    };
+
+    try {
+        const data = await makeApiRequest(endpoint, 'POST', body);
+
+        if (data.status === 200) {
+            alert('Social verification request rejected successfully');
+            getAllSocialVerificationRequests(); // Refresh the list
+        } else {
+            console.error('Error rejecting verification request:', data.message);
+        }
+    } catch (error) {
+        console.error('Error rejecting verification request:', error);
+    }
+}
+
+// Initialize by fetching all social verification requests
+document.addEventListener('DOMContentLoaded', () => {
+    getAllSocialVerificationRequests();
+});
+
+// Unit Tests (using Jest)
+describe('API Functions', () => {
+    test('makeApiRequest - successful request', async () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({ status: 200 })
+            })
+        );
+        const data = await makeApiRequest('/test', 'GET');
+        expect(data.status).toBe(200);
+    });
+
+    test('makeApiRequest - network error', async () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                ok: false
+            })
+        );
+        await expect(makeApiRequest('/test', 'GET')).rejects.toThrow('Network response was not ok');
+    });
+
+    test('getAllSocialVerificationRequests - successful fetch', async () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({
+                    status: 200,
+                    data: {
+                        social_verification_requests: [],
+                        pages: 1
+                    }
+                })
+            })
+        );
+        await getAllSocialVerificationRequests();
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    test('approveSocialVerificationRequest - successful approval', async () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({ status: 200 })
+            })
+        );
+        await approveSocialVerificationRequest(1);
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    test('rejectSocialVerificationRequest - successful rejection', async () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({ status: 200 })
+            })
+        );
+        await rejectSocialVerificationRequest(1);
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+});
+
+// Add pagination controls in HTML
+document.body.innerHTML += `
+    <div id="pagination" class="pagination-controls"></div>
+`;
+
+
 
 
 
