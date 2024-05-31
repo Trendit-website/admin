@@ -97,11 +97,11 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 
 });
-function setProfilePicture(data) {
-    const profilePic = document.getElementById('profile-pic');
-    const user = data.users[0]; // Assuming the first user is the logged-in user; adjust this logic as needed
-    profilePic.src = user.profile_picture || "./images/default-user.png";
-}
+// function setProfilePicture(data) {
+//     const profilePic = document.getElementById('profile-pic');
+//     const user = data.users[0]; // Assuming the first user is the logged-in user; adjust this logic as needed
+//     profilePic.src = user.profile_picture || "./images/default-user.png";
+// }
 
 
 // Example function to fetch data for the selected period
@@ -406,20 +406,20 @@ function printDashboard() {
 }
 
 
-function exportDashboard() {
-    const dashboardElement = document.getElementById('dashboard');
-    html2canvas(dashboardElement).then(canvas => {
-        const image = canvas.toDataURL("image/png");
+// function exportDashboard() {
+//     const dashboardElement = document.getElementById('dashboard');
+//     html2canvas(dashboardElement).then(canvas => {
+//         const image = canvas.toDataURL("image/png");
 
-        const link = document.createElement("a");
-        link.setAttribute("href", image);
-        link.setAttribute("download", "dashboard_image.png");
-        document.body.appendChild(link);
+//         const link = document.createElement("a");
+//         link.setAttribute("href", image);
+//         link.setAttribute("download", "dashboard_image.png");
+//         document.body.appendChild(link);
 
-        link.click();
+//         link.click();
 
-        document.body.removeChild(link);
-    }).catch(error => {
-        console.error('Error exporting dashboard:', error);
-    });
-}
+//         document.body.removeChild(link);
+//     }).catch(error => {
+//         console.error('Error exporting dashboard:', error);
+//     });
+// }
