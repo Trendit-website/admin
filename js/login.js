@@ -35,25 +35,14 @@ document.addEventListener('DOMContentLoaded', function() {
                   }
 
                   verifyPopup.style.display = "flex";
-                  verifyEmail.textContent = email; // This line may be causing the error
+                  verifyEmail.textContent = email;
                   overlay.style.display = "block";
               } else {
-                  const statusMessage = document.getElementById("status");
-                  if (!statusMessage) {
-                      console.error('Element with ID "status" not found');
-                  } else {
-                      statusMessage.textContent = "Error sending verification email. Please try again later.";
-                  }
+                  console.error("Error sending verification email. Please try again later.");
               }
           })
           .catch(error => {
               console.error("Error:", error);
-              const statusMessage = document.getElementById("status");
-              if (!statusMessage) {
-                  console.error('Element with ID "status" not found');
-              } else {
-                  statusMessage.textContent = "An unexpected error occurred. Please try again later.";
-              }
           });
       });
 
