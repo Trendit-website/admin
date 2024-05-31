@@ -1,46 +1,102 @@
-document.getElementById("emailForm").addEventListener("submit", function(event) {
-  event.preventDefault(); // Prevent default form submission
+document.addEventListener('DOMContentLoaded', function() {
+  const emailForm = document.getElementById("emailForm");
+  if (!emailForm) {
+      console.error('Element with ID "emailForm" not found');
+  } else {
+      emailForm.addEventListener("submit", function(event) {
+          event.preventDefault();
 
-  // Define the base URL for the fetch request
-  const baseUrl = 'https://api.trendit3.com/api/admin';
+          const baseUrl = 'https://api.trendit3.com/api/admin';
+          const emailInput = document.getElementById("email");
+          if (!emailInput) {
+              console.error('Element with ID "email" not found');
+              return;
+          }
 
-  var email = document.getElementById("email").value;
-  // Construct the full URL for the verification request
-  const verifyUrl = `${baseUrl}/admin-login`;
+          const email = emailInput.value;
+          const verifyUrl = `${baseUrl}/admin-login`;
 
-  // Sending POST request to the endpoint
-  fetch(verifyUrl, {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email: email })
-  })
-  .then(response => {
-      if (response.ok) {
-          // If response is successful, display the verification popup
-          document.querySelector(".verify-popup").style.display = "flex";
-          document.getElementById("verifyEmail").textContent = email;
-          document.querySelector(".overlay").style.display = "block"; // Show overlay
+          fetch(verifyUrl, {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ email: email })
+          })
+          .then(response => {
+              if (response.ok) {
+                  const verifyPopup = document.querySelector(".verify-popup");
+                  const verifyEmail = document.getElementById("verifyEmail");
+                  const overlay = document.querySelector(".overlay");
+
+                  if (!verifyPopup) {
+                      console.error('Element with class "verify-popup" not found');
+                      return;
+                  }
+                  if (!verifyEmail) {
+                      console.error('Element with ID "verifyEmail" not found');
+                      return;
+                  }
+                  if (!overlay) {
+                      console.error('Element with class "overlay" not found');
+                      return;
+                  }
+
+                  verifyPopup.style.display = "flex";
+                  verifyEmail.textContent = email;
+                  overlay.style.display = "block";
+              } else {
+                  console.error("Error sending verification email. Please try again later.");
+              }
+          })
+          .catch(error => {
+              console.error("Error:", error);
+          });
+      });
+
+      const cancelButton = document.querySelector(".cancel-btn");
+      const continueButton = document.querySelector(".continue");
+
+      if (!cancelButton) {
+          console.error('Cancel button with class "cancel-btn" not found');
       } else {
-          // If response is not successful, display an error message
-          document.getElementById("status").textContent = "Error sending verification email. Please try again later.";
+          cancelButton.addEventListener("click", function() {
+              const verifyPopup = document.querySelector(".verify-popup");
+              const overlay = document.querySelector(".overlay");
+
+              if (!verifyPopup) {
+                  console.error('Element with class "verify-popup" not found');
+                  return;
+              }
+              if (!overlay) {
+                  console.error('Element with class "overlay" not found');
+                  return;
+              }
+
+              verifyPopup.style.display = "none";
+              overlay.style.display = "none";
+          });
       }
-  })
-  .catch(error => {
-      console.error("Error:", error);
-      document.getElementById("status").textContent = "An unexpected error occurred. Please try again later.";
-  });
-});
 
-// Event listener for the cancel button
-document.querySelector(".cancel-btn").addEventListener("click", function() {
-  document.querySelector(".verify-popup").style.display = "none"; // Hide the popup
-  document.querySelector(".overlay").style.display = "none"; // Hide overlay
-});
+      if (!continueButton) {
+          console.error('Continue button with class "continue" not found');
+      } else {
+          continueButton.addEventListener("click", function() {
+              const verifyPopup = document.querySelector(".verify-popup");
+              const overlay = document.querySelector(".overlay");
 
-// Event listener for the continue button
-document.querySelector(".continue").addEventListener("click", function() {
-  document.querySelector(".verify-popup").style.display = "none"; // Hide the popup
-  document.querySelector(".overlay").style.display = "none";
+              if (!verifyPopup) {
+                  console.error('Element with class "verify-popup" not found');
+                  return;
+              }
+              if (!overlay) {
+                  console.error('Element with class "overlay" not found');
+                  return;
+              }
+
+              verifyPopup.style.display = "none";
+              overlay.style.display = "none";
+          });
+      }
+  }
 });
