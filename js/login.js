@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
       emailForm.addEventListener("submit", function(event) {
           event.preventDefault();
 
-          const baseUrl = 'https://api.trendit35.com/api/admin';
+          const baseUrl = 'https://api.trendit3.com/api/admin';
           const emailInput = document.getElementById("email");
           if (!emailInput) {
               console.error('Element with ID "email" not found');
