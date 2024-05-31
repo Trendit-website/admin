@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
       emailForm.addEventListener("submit", function(event) {
           event.preventDefault();
 
-          const baseUrl = 'https://api.trendit3.com/api/admin';
+          const baseUrl = 'https://api.trendit35.com/api/admin';
           const emailInput = document.getElementById("email");
           if (!emailInput) {
               console.error('Element with ID "email" not found');
@@ -24,7 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
               body: JSON.stringify({ email: email })
           })
           .then(response => {
-              if (response.ok) {
+              console.log('Response status:', response.status); // Log response status
+              return response.json().then(data => ({status: response.status, body: data})); // Log response body
+          })
+          .then(({status, body}) => {
+              if (status >= 200 && status < 300) {
                   const verifyPopup = document.querySelector(".verify-popup");
                   const verifyEmail = document.getElementById("verifyEmail");
                   const overlay = document.querySelector(".overlay");
@@ -46,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   verifyEmail.textContent = email;
                   overlay.style.display = "block";
               } else {
-                  console.error("Error sending verification email. Please try again later.");
+                  console.error("Error sending verification email. Please try again later.", body);
               }
           })
           .catch(error => {
