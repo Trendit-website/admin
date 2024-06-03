@@ -852,6 +852,19 @@ section h3 {
     margin-left: 120px;
       
 }
+#message-box, #error-box {
+  display: none;
+  padding: 10px;
+  margin: 10px 0;
+}
+#message-box {
+  background-color: #d4edda;
+  color: #155724;
+}
+#error-box {
+  background-color: #f8d7da;
+  color: #721c24;
+}
   .popup .popup-box2 .buttons button {
     border: 1px solid #8E60CF3B;
     padding: 5px 30px;  
