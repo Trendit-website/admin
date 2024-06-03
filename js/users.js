@@ -18,7 +18,9 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error('Error fetching user data:', error);
         });
 
-    // Fetch all social verification requests
+
+
+       // Fetch all social verification requests
     fetchSocialVerificationRequests();
 
     // Event delegation to handle click events on user name boxes
@@ -40,16 +42,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     });
-
-    // Close the user popup when "Go back" is clicked
-    const backButton = document.querySelector('.user-popup .back');
-    backButton.addEventListener('click', function() {
-        const userPopup = document.querySelector('.user-popup');
-        const overlay = document.querySelector(".overlay");
-        userPopup.style.display = 'none';
-        overlay.style.display = 'none';
-    });
-
 });
 
 
@@ -84,6 +76,52 @@ function displayUserInModal(user, userId) {
         console.error('Error displaying user details:', error);
     });
 }
+
+
+// Close the user popup when "Go back" is clicked
+const backButton = document.querySelector('.user-popup .back');
+backButton.addEventListener('click', function() {
+    const userPopup = document.querySelector('.user-popup');
+    const overlay = document.querySelector(".overlay");
+    userPopup.style.display = 'none';
+    overlay.style.display = 'none';
+
+});
+
+// Event delegation to handle click events on user name boxes
+
+// container.addEventListener('click', function(event) {
+//     const nameBox = event.target.closest('.name-box');
+//     if (nameBox) {
+//         const userId = nameBox.dataset.userId;
+//         const user = data.users.find(user => user.id === parseInt(userId, 10));
+//         if (user) {
+//             displayUserInModal(user, userId);
+//         } else {
+//             console.error("User not found.");
+//         }
+//     }
+// }); 
+// const container = document.getElementById('users-container');
+// container.addEventListener('click', function(event) {
+//     const nameBox = event.target.closest('.name-box');
+//     if (nameBox) {
+//         const userId = nameBox.dataset.userId;
+//         // Ensure `data` is defined before accessing `data.users`
+//         if (data && data.users) {
+//             const user = data.users.find(user => user.id === parseInt(userId, 10));
+//             if (user) {
+//                 displayUserInModal(user, userId);
+//             } else {
+//                 console.error("User not found.");
+//             }
+//         } else {
+//             console.error("No user data available.");
+//         }
+//     }
+// });
+
+
 
 function fetchAndDisplayUserMetrics(userId) {
     return Promise.all([
@@ -186,29 +224,58 @@ function fetchAndDisplayUserTransactions(userId) {
         });
 }
 
-function getAllUsers(page = 1) {
-    const usersUrl = `${baseUrl}/users?page=${page}`;
 
-    return fetch(usersUrl, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .catch((error) => {
-        console.error('Error', error);
-    });
+// const container = document.getElementById('users-container');
+// container.addEventListener('click', function(event) {
+//     const nameBox = event.target.closest('.name-box');
+//     if (nameBox) {
+//         const userId = nameBox.dataset.userId;
+//         // Instead of passing 'data', pass only the userId
+//         displayUserInModal(userId);
+//     }
+// });
+
+const baseUrl = 'https://api.trendit3.com/api/admin';
+
+// get access token
+const accessToken = getCookie('accessToken');
+
+
+
+
+
+function getAllUsers(page=1) {
+  
+  // const formData = new FormData();
+  // formData.append('item_type', 'item_type');
+
+  // Construct the full URL for the verification request
+  const usersUrl = `${baseUrl}/users?page=${page}`;
+  
+  return fetch(usersUrl, {
+    method:'POST',
+    // body: formData,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response=> {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    console.error('Error', error);
+  });
 }
 
+
 async function displayAllUsers(promise) {
+
     try {
+
         const response = await promise;
         console.log('API Response:', response); // Log the API response
 
@@ -220,12 +287,15 @@ async function displayAllUsers(promise) {
             return; // Exit the function if there are no users
         }
 
+        // Get the container where the user information will be displayed
         const container = document.getElementById('users-container');
 
+        // Loop through each user in the response
         users.forEach(user => {
+            // Create elements for the user information
             const nameBox = document.createElement('div');
             nameBox.classList.add('name-box');
-            nameBox.dataset.userId = user.id;
+            nameBox.dataset.userId = user.id; // Store user ID for easy access
 
             nameBox.addEventListener('click', function() {
                 displayUserInModal(user, user.id);
@@ -235,7 +305,7 @@ async function displayAllUsers(promise) {
             nameDiv.classList.add('name');
 
             const userImage = document.createElement('img');
-            userImage.src = user.profile_picture || "./images/default-user.png";
+            userImage.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
             userImage.classList.add('user-img');
             userImage.alt = "User Image";
 
@@ -251,6 +321,9 @@ async function displayAllUsers(promise) {
 
             nameEmailDiv.appendChild(nameParagraph);
             nameEmailDiv.appendChild(emailParagraph);
+
+            nameDiv.appendChild(userImage);
+            nameDiv.appendChild(nameEmailDiv);
 
             const rightDiv = document.createElement('div');
             rightDiv.classList.add('right');
@@ -285,7 +358,7 @@ async function displayAllUsers(promise) {
 
             const advertiseHighlight = document.createElement('p');
             advertiseHighlight.id = "highlight";
-            advertiseHighlight.textContent = "0";
+            advertiseHighlight.textContent = "0"; // Assuming this value is constant for now
 
             advertiseDiv.appendChild(advertiseImage);
             advertiseDiv.appendChild(advertiseTitle);
@@ -293,7 +366,7 @@ async function displayAllUsers(promise) {
 
             const dateParagraph = document.createElement('p');
             dateParagraph.id = "highlight";
-            dateParagraph.textContent = new Date(user.date_joined).toDateString();
+            dateParagraph.textContent = new Date(user.date_joined).toDateString(); // Convert date string to Date object and format it
 
             rightDiv.appendChild(earningDiv);
             rightDiv.appendChild(advertiseDiv);
@@ -308,7 +381,11 @@ async function displayAllUsers(promise) {
     } catch (error) {
         console.error('Error displaying users:', error);
     }
+
 }
+
+
+
 
 async function fetchSocialVerificationRequests(page = 1, perPage = 20) {
     try {
@@ -330,13 +407,14 @@ async function fetchSocialVerificationRequests(page = 1, perPage = 20) {
             throw new Error('Empty response');
         }
 
-        const data = JSON.parse(text);
+        const data = JSON.parse(text); // Parse the JSON response
         displaySocialVerificationRequests(data.data.social_verification_requests);
         displaySocialAccounts(data.data.social_verification_requests);
     } catch (error) {
         console.error('Error fetching social verification requests:', error);
     }
 }
+
 
 async function approveSocialVerificationRequest(userId, type, link, socialVerificationId) {
     try {
@@ -356,7 +434,7 @@ async function approveSocialVerificationRequest(userId, type, link, socialVerifi
             }
             const data = JSON.parse(text);
             displayMessage(data.message);
-            fetchAllSocialVerificationRequests();
+            fetchAllSocialVerificationRequests(); // Refresh the list
         } else {
             throw new Error('Error approving social verification request');
         }
@@ -383,7 +461,7 @@ async function rejectSocialVerificationRequest(userId, type, link, socialVerific
             }
             const data = JSON.parse(text);
             displayMessage(data.message);
-            fetchAllSocialVerificationRequests();
+            fetchAllSocialVerificationRequests(); // Refresh the list
         } else {
             throw new Error('Error rejecting social verification request');
         }
@@ -445,9 +523,6 @@ function rejectRequest(userId, type, link, id) {
     rejectSocialVerificationRequest(userId, type, link, id);
 }
 
-const baseUrl = 'https://api.trendit3.com/api/admin';
-
-const accessToken = getCookie('accessToken');
 
 
 
