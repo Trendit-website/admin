@@ -20,8 +20,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-        fetchAllSocialVerificationRequests();
-    getAllUsers().then(response => displayAllUsers(response)).catch(error => console.error('Error displaying users:', error));
+       // Fetch all social verification requests
+    fetchAllSocialVerificationRequests();
+
+    // Event delegation to handle click events on user name boxes
+    const container = document.getElementById('users-container');
+    container.addEventListener('click', function(event) {
+        const nameBox = event.target.closest('.name-box');
+        if (nameBox) {
+            const userId = nameBox.dataset.userId;
+            // Ensure `data` is defined before accessing `data.users`
+            if (data && data.users) {
+                const user = data.users.find(user => user.id === parseInt(userId, 10));
+                if (user) {
+                    displayUserInModal(user, userId);
+                } else {
+                    console.error("User not found.");
+                }
+            } else {
+                console.error("No user data available.");
+            }
+        }
+    });
 });
 
 
@@ -82,24 +102,24 @@ backButton.addEventListener('click', function() {
 //         }
 //     }
 // }); 
-const container = document.getElementById('users-container');
-container.addEventListener('click', function(event) {
-    const nameBox = event.target.closest('.name-box');
-    if (nameBox) {
-        const userId = nameBox.dataset.userId;
-        // Ensure `data` is defined before accessing `data.users`
-        if (data && data.users) {
-            const user = data.users.find(user => user.id === parseInt(userId, 10));
-            if (user) {
-                displayUserInModal(user, userId);
-            } else {
-                console.error("User not found.");
-            }
-        } else {
-            console.error("No user data available.");
-        }
-    }
-});
+// const container = document.getElementById('users-container');
+// container.addEventListener('click', function(event) {
+//     const nameBox = event.target.closest('.name-box');
+//     if (nameBox) {
+//         const userId = nameBox.dataset.userId;
+//         // Ensure `data` is defined before accessing `data.users`
+//         if (data && data.users) {
+//             const user = data.users.find(user => user.id === parseInt(userId, 10));
+//             if (user) {
+//                 displayUserInModal(user, userId);
+//             } else {
+//                 console.error("User not found.");
+//             }
+//         } else {
+//             console.error("No user data available.");
+//         }
+//     }
+// });
 
 
 
@@ -387,7 +407,7 @@ async function fetchSocialVerificationRequests(page = 1, perPage = 20) {
             throw new Error('Empty response');
         }
 
-        const data = JSON.parse(text);
+        const data = JSON.parse(text); // Parse the JSON response
         displaySocialVerificationRequests(data.data.social_verification_requests);
         displaySocialAccounts(data.data.social_verification_requests);
     } catch (error) {
