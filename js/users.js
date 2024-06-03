@@ -69,7 +69,7 @@ backButton.addEventListener('click', function() {
 });
 
 // Event delegation to handle click events on user name boxes
-// const container = document.getElementById('users-container');
+ const container = document.getElementById('users-container');
 // container.addEventListener('click', function(event) {
 //     const nameBox = event.target.closest('.name-box');
 //     if (nameBox) {
