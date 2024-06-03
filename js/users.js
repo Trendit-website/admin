@@ -10,8 +10,14 @@ document.addEventListener("DOMContentLoaded", function() {
     var data; // Declare data variable
 
     getAllUsers()
-    .then(response => displayAllUsers(response))
-    .catch(error => console.error('Error displaying users:', error));
+        .then(function(response) {
+            data = response; // Assign response to data variable
+            displayAllUsers(data);
+        })
+        .catch(function(error) {
+            console.error('Error fetching user data:', error);
+        });
+
 
 
         fetchAllSocialVerificationRequests();
