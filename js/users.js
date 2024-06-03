@@ -347,6 +347,7 @@ async function fetchAllSocialVerificationRequests(page = 1, perPage = 20) {
         if (response.ok) {
             const data = await response.json();
             displaySocialVerificationRequests(data.data.social_verification_requests);
+            displaySocialAccounts(data.data.social_verification_requests);
         } else {
             throw new Error('Error fetching social verification requests');
         }
@@ -424,6 +425,18 @@ function displaySocialVerificationRequests(requests) {
     });
 }
 
+// Display social accounts
+function displaySocialAccounts(accounts) {
+    const container = document.getElementById('accounts-connected');
+    container.innerHTML = ''; // Clear the container
+    accounts.forEach(account => {
+        const accountIcon = document.createElement('img');
+        accountIcon.src = `./images/${account.type}.png`;
+        accountIcon.alt = account.type;
+        container.appendChild(accountIcon);
+    });
+}
+
 // Display message
 function displayMessage(message) {
     const messageBox = document.getElementById('message-box');
@@ -452,9 +465,6 @@ function rejectRequest(userId, type, link, id) {
 
 // Initial fetch
 fetchAllSocialVerificationRequests();
-
-
-
 
 
 
