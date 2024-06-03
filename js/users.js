@@ -217,51 +217,33 @@ const accessToken = getCookie('accessToken');
 
 
 
-// function getAllUsers(page=1) {
+function getAllUsers(page=1) {
   
-//   // const formData = new FormData();
-//   // formData.append('item_type', 'item_type');
+  // const formData = new FormData();
+  // formData.append('item_type', 'item_type');
 
-//   // Construct the full URL for the verification request
-//   const usersUrl = `${baseUrl}/users?page=${page}`;
+  // Construct the full URL for the verification request
+  const usersUrl = `${baseUrl}/users?page=${page}`;
   
-//   return fetch(usersUrl, {
-//     method:'POST',
-//     // body: formData,
-//     headers: {
-//       'Authorization': `Bearer ${accessToken}`,
-//       'Content-Type': 'application/json'
-//     }
-//   })
-//   .then(response=> {
-//     if (!response.ok) {
-//       throw new Error('Network response was not ok');
-//     }
-//     return response.json();
-//   })
-//   .catch((error) => {
-//     console.error('Error', error);
-//   });
-// }
-async function getAllUsers(page = 1) {
-    const usersUrl = `${baseUrl}/users?page=${page}`;
-    try {
-        const response = await fetch(usersUrl, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data; // Make sure the data returned is correct
-    } catch (error) {
-        console.error('Error', error);
-        throw error; // Rethrow the error so it's caught in your error handling
+  return fetch(usersUrl, {
+    method:'POST',
+    // body: formData,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
     }
+  })
+  .then(response=> {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    console.error('Error', error);
+  });
 }
+
 
 async function displayAllUsers(promise) {
 
