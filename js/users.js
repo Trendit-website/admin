@@ -69,7 +69,7 @@ backButton.addEventListener('click', function() {
 });
 
 // Event delegation to handle click events on user name boxes
- const container = document.getElementById('users-container');
+
 // container.addEventListener('click', function(event) {
 //     const nameBox = event.target.closest('.name-box');
 //     if (nameBox) {
@@ -81,7 +81,8 @@ backButton.addEventListener('click', function() {
 //             console.error("User not found.");
 //         }
 //     }
-// });
+// }); 
+const container = document.getElementById('users-container');
 container.addEventListener('click', function(event) {
     const nameBox = event.target.closest('.name-box');
     if (nameBox) {
@@ -366,7 +367,7 @@ async function displayAllUsers(promise) {
 
 
 
-async function fetchAllSocialVerificationRequests(page = 1, perPage = 20) {
+async function fetchSocialVerificationRequests(page = 1, perPage = 20) {
     try {
         const response = await fetch(`${baseUrl}/social_verification_requests`, {
             method: 'POST',
@@ -377,21 +378,23 @@ async function fetchAllSocialVerificationRequests(page = 1, perPage = 20) {
             body: JSON.stringify({ page, per_page: perPage })
         });
 
-        if (response.ok) {
-            const text = await response.text();
-            if (!text) {
-                throw new Error('Empty response');
-            }
-            const data = JSON.parse(text);
-            displaySocialVerificationRequests(data.data.social_verification_requests);
-            displaySocialAccounts(data.data.social_verification_requests);
-        } else {
-            throw new Error('Error fetching social verification requests');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+
+        const text = await response.text();
+        if (!text) {
+            throw new Error('Empty response');
+        }
+
+        const data = JSON.parse(text);
+        displaySocialVerificationRequests(data.data.social_verification_requests);
+        displaySocialAccounts(data.data.social_verification_requests);
     } catch (error) {
-        displayError(error.message);
+        console.error('Error fetching social verification requests:', error);
     }
 }
+
 
 async function approveSocialVerificationRequest(userId, type, link, socialVerificationId) {
     try {
