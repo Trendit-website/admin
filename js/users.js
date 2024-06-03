@@ -146,18 +146,23 @@ function fetchAndDisplayUserMetrics(userId) {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.text(); // Read response as text
+        return response.text();
     })))
-    .then(texts => texts.map(text => text ? JSON.parse(text) : {})) // Parse each text response to JSON if not empty
+    .then(texts => texts.map(text => text ? JSON.parse(text) : {}))
     .then(([taskMetrics, transactionMetrics]) => {
-        document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
-        document.getElementById('total-payouts').textContent = `₦${transactionMetrics.totalPayouts.toFixed(2)}`;
-        document.getElementById('total-earned-percentage').textContent = `${transactionMetrics.totalEarnedPercentage}%`;
+        if (transactionMetrics) {
+            document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
+            document.getElementById('total-payouts').textContent = `₦${transactionMetrics.totalPayouts.toFixed(2)}`;
+            document.getElementById('total-earned-percentage').textContent = `${transactionMetrics.totalEarnedPercentage}%`;
+        } else {
+            throw new Error('Transaction metrics are undefined');
+        }
     })
     .catch(error => {
         console.error('Error fetching user metrics:', error);
     });
 }
+
 
 function fetchAndDisplayUserTransactions(userId) {
     const endpoints = [
@@ -169,7 +174,7 @@ function fetchAndDisplayUserTransactions(userId) {
     ];
 
     const transactionHistoryContainer = document.getElementById('transaction-history');
-    transactionHistoryContainer.innerHTML = ''; // Clear existing content
+    transactionHistoryContainer.innerHTML = '';
 
     const transactionPromises = endpoints.map(endpoint =>
         fetch(`${baseUrl}${endpoint}`, {
@@ -184,9 +189,9 @@ function fetchAndDisplayUserTransactions(userId) {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.text(); // Read response as text
+            return response.text();
         })
-        .then(text => text ? JSON.parse(text) : []) // Parse text response to JSON if not empty
+        .then(text => text ? JSON.parse(text) : [])
     );
 
     return Promise.all(transactionPromises)
@@ -197,21 +202,19 @@ function fetchAndDisplayUserTransactions(userId) {
                     transactionElement.classList.add('wallet-box');
 
                     const transactionType = transaction.type || 'Transaction';
-                    const transactionDate = new Date(transaction.date).toDateString();
-                    const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
-                    const transactionDescription = transaction.description || 'No Description';
+                    const transactionDate = new Date(transaction.date).toDateString() || 'Unknown Date';
+                    const transactionAmount = transaction.amount ? `₦${transaction.amount.toFixed(2)}` : 'Unknown Amount';
+                    const transactionStatus = transaction.status || 'Unknown Status';
 
                     transactionElement.innerHTML = `
-                        <div class="left">
-                            <img src="./images/arrowleftdown.svg" alt="">
-                            <div class="credit-date">
-                                <p id="highlight">${transactionType}</p>
-                                <p id="date">${transactionDate}</p>
-                            </div>
-                            <p>${transactionDescription}</p>
+                        <img src="./images/wallet.png" alt="Transaction Image">
+                        <div>
+                            <p id="highlight">${transactionType}</p>
+                            <p>${transactionDate}</p>
                         </div>
-                        <div class="right">
+                        <div>
                             <p id="highlight">${transactionAmount}</p>
+                            <p>${transactionStatus}</p>
                         </div>
                     `;
 
@@ -264,125 +267,244 @@ function getAllUsers(page=1) {
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    return response.json();
-  })
-  .catch((error) => {
-    console.error('Error', error);
-  });
+    return response.text();
+    })
+    .then(text => {
+        if (!text) {
+            throw new Error('Empty response');
+        }
+        return JSON.parse(text);
+    })
+    .catch((error) => {
+        console.error('Error', error);
+    });
 }
-
+//     return response.json();
+//   })
+//   .catch((error) => {
+//     console.error('Error', error);
+//   });
+// }
 
 async function displayAllUsers(promise) {
-
     try {
-
         const response = await promise;
-        console.log('API Response:', response); // Log the API response
+        console.log('API Response:', response);
 
-        const users = response.users;
+        if (response && response.users) {
+            const users = response.users;
 
-        // Check if the users array exists and is not empty
-        if (!users || users.length === 0) {
-            console.log("No users to display.");
-            return; // Exit the function if there are no users
-        }
+            if (!users.length) {
+                console.log("No users to display.");
+                return;
+            }
 
-        // Get the container where the user information will be displayed
-        const container = document.getElementById('users-container');
+            const container = document.getElementById('users-container');
 
-        // Loop through each user in the response
-        users.forEach(user => {
-            // Create elements for the user information
-            const nameBox = document.createElement('div');
-            nameBox.classList.add('name-box');
-            nameBox.dataset.userId = user.id; // Store user ID for easy access
+            users.forEach(user => {
+                const nameBox = document.createElement('div');
+                nameBox.classList.add('name-box');
+                nameBox.dataset.userId = user.id;
 
-            nameBox.addEventListener('click', function() {
-                displayUserInModal(user, user.id);
+                nameBox.addEventListener('click', function() {
+                    displayUserInModal(user, user.id);
+                });
+
+                const nameDiv = document.createElement('div');
+                nameDiv.classList.add('name');
+
+                const userImage = document.createElement('img');
+                userImage.src = user.profile_picture || "./images/default-user.png";
+                userImage.classList.add('user-img');
+                userImage.alt = "User Image";
+
+                const nameEmailDiv = document.createElement('div');
+                nameEmailDiv.classList.add('name-email');
+
+                const nameParagraph = document.createElement('p');
+                nameParagraph.id = "highlight";
+                nameParagraph.textContent = user.firstname + ' ' + user.lastname;
+
+                const emailParagraph = document.createElement('p');
+                emailParagraph.textContent = user.email;
+
+                nameEmailDiv.appendChild(nameParagraph);
+                nameEmailDiv.appendChild(emailParagraph);
+
+                nameDiv.appendChild(userImage);
+                nameDiv.appendChild(nameEmailDiv);
+
+                const rightDiv = document.createElement('div');
+                rightDiv.classList.add('right');
+
+                const earningDiv = document.createElement('div');
+                earningDiv.classList.add('earning');
+
+                const earningImage = document.createElement('img');
+                earningImage.src = "./images/wallet.png";
+                earningImage.alt = "Earning Image";
+
+                const earningTitle = document.createElement('p');
+                earningTitle.textContent = "Earning";
+
+                const earningHighlight = document.createElement('p');
+                earningHighlight.id = "highlight";
+                earningHighlight.textContent = user.wallet.balance;
+
+                earningDiv.appendChild(earningImage);
+                earningDiv.appendChild(earningTitle);
+                earningDiv.appendChild(earningHighlight);
+
+                const advertiseDiv = document.createElement('div');
+                advertiseDiv.classList.add('advertise');
+
+                const advertiseImage = document.createElement('img');
+                advertiseImage.src = "./images/wallet.png";
+                advertiseImage.alt = "Advertise Image";
+
+                const advertiseTitle = document.createElement('p');
+                advertiseTitle.textContent = "Advertise";
+
+                const advertiseHighlight = document.createElement('p');
+                advertiseHighlight.id = "highlight";
+                advertiseHighlight.textContent = "0";
+
+                advertiseDiv.appendChild(advertiseImage);
+                advertiseDiv.appendChild(advertiseTitle);
+                advertiseDiv.appendChild(advertiseHighlight);
+
+                const dateParagraph = document.createElement('p');
+                dateParagraph.id = "highlight";
+                dateParagraph.textContent = new Date(user.date_joined).toDateString();
+
+                rightDiv.appendChild(earningDiv);
+                rightDiv.appendChild(advertiseDiv);
+                rightDiv.appendChild(dateParagraph);
+
+                nameBox.appendChild(nameDiv);
+                nameBox.appendChild(rightDiv);
+
+                container.appendChild(nameBox);
             });
-
-            const nameDiv = document.createElement('div');
-            nameDiv.classList.add('name');
-
-            const userImage = document.createElement('img');
-            userImage.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
-            userImage.classList.add('user-img');
-            userImage.alt = "User Image";
-
-            const nameEmailDiv = document.createElement('div');
-            nameEmailDiv.classList.add('name-email');
-
-            const nameParagraph = document.createElement('p');
-            nameParagraph.id = "highlight";
-            nameParagraph.textContent = user.firstname + ' ' + user.lastname;
-
-            const emailParagraph = document.createElement('p');
-            emailParagraph.textContent = user.email;
-
-            nameEmailDiv.appendChild(nameParagraph);
-            nameEmailDiv.appendChild(emailParagraph);
-
-            nameDiv.appendChild(userImage);
-            nameDiv.appendChild(nameEmailDiv);
-
-            const rightDiv = document.createElement('div');
-            rightDiv.classList.add('right');
-
-            const earningDiv = document.createElement('div');
-            earningDiv.classList.add('earning');
-
-            const earningImage = document.createElement('img');
-            earningImage.src = "./images/wallet.png";
-            earningImage.alt = "Earning Image";
-
-            const earningTitle = document.createElement('p');
-            earningTitle.textContent = "Earning";
-
-            const earningHighlight = document.createElement('p');
-            earningHighlight.id = "highlight";
-            earningHighlight.textContent = user.wallet.balance;
-
-            earningDiv.appendChild(earningImage);
-            earningDiv.appendChild(earningTitle);
-            earningDiv.appendChild(earningHighlight);
-
-            const advertiseDiv = document.createElement('div');
-            advertiseDiv.classList.add('advertise');
-
-            const advertiseImage = document.createElement('img');
-            advertiseImage.src = "./images/wallet.png";
-            advertiseImage.alt = "Advertise Image";
-
-            const advertiseTitle = document.createElement('p');
-            advertiseTitle.textContent = "Advertise";
-
-            const advertiseHighlight = document.createElement('p');
-            advertiseHighlight.id = "highlight";
-            advertiseHighlight.textContent = "0"; // Assuming this value is constant for now
-
-            advertiseDiv.appendChild(advertiseImage);
-            advertiseDiv.appendChild(advertiseTitle);
-            advertiseDiv.appendChild(advertiseHighlight);
-
-            const dateParagraph = document.createElement('p');
-            dateParagraph.id = "highlight";
-            dateParagraph.textContent = new Date(user.date_joined).toDateString(); // Convert date string to Date object and format it
-
-            rightDiv.appendChild(earningDiv);
-            rightDiv.appendChild(advertiseDiv);
-            rightDiv.appendChild(dateParagraph);
-
-            nameBox.appendChild(nameDiv);
-            nameBox.appendChild(rightDiv);
-
-            container.appendChild(nameBox);
-        });
-
+        } else {
+            throw new Error('Users data is undefined');
+        }
     } catch (error) {
         console.error('Error displaying users:', error);
     }
-
 }
+
+// async function displayAllUsers(promise) {
+
+//     try {
+
+//         const response = await promise;
+//         console.log('API Response:', response); // Log the API response
+
+//         const users = response.users;
+
+//         // Check if the users array exists and is not empty
+//         if (!users || users.length === 0) {
+//             console.log("No users to display.");
+//             return; // Exit the function if there are no users
+//         }
+
+//         // Get the container where the user information will be displayed
+//         const container = document.getElementById('users-container');
+
+//         // Loop through each user in the response
+//         users.forEach(user => {
+//             // Create elements for the user information
+//             const nameBox = document.createElement('div');
+//             nameBox.classList.add('name-box');
+//             nameBox.dataset.userId = user.id; // Store user ID for easy access
+
+//             nameBox.addEventListener('click', function() {
+//                 displayUserInModal(user, user.id);
+//             });
+
+//             const nameDiv = document.createElement('div');
+//             nameDiv.classList.add('name');
+
+//             const userImage = document.createElement('img');
+//             userImage.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
+//             userImage.classList.add('user-img');
+//             userImage.alt = "User Image";
+
+//             const nameEmailDiv = document.createElement('div');
+//             nameEmailDiv.classList.add('name-email');
+
+//             const nameParagraph = document.createElement('p');
+//             nameParagraph.id = "highlight";
+//             nameParagraph.textContent = user.firstname + ' ' + user.lastname;
+
+//             const emailParagraph = document.createElement('p');
+//             emailParagraph.textContent = user.email;
+
+//             nameEmailDiv.appendChild(nameParagraph);
+//             nameEmailDiv.appendChild(emailParagraph);
+
+//             nameDiv.appendChild(userImage);
+//             nameDiv.appendChild(nameEmailDiv);
+
+//             const rightDiv = document.createElement('div');
+//             rightDiv.classList.add('right');
+
+//             const earningDiv = document.createElement('div');
+//             earningDiv.classList.add('earning');
+
+//             const earningImage = document.createElement('img');
+//             earningImage.src = "./images/wallet.png";
+//             earningImage.alt = "Earning Image";
+
+//             const earningTitle = document.createElement('p');
+//             earningTitle.textContent = "Earning";
+
+//             const earningHighlight = document.createElement('p');
+//             earningHighlight.id = "highlight";
+//             earningHighlight.textContent = user.wallet.balance;
+
+//             earningDiv.appendChild(earningImage);
+//             earningDiv.appendChild(earningTitle);
+//             earningDiv.appendChild(earningHighlight);
+
+//             const advertiseDiv = document.createElement('div');
+//             advertiseDiv.classList.add('advertise');
+
+//             const advertiseImage = document.createElement('img');
+//             advertiseImage.src = "./images/wallet.png";
+//             advertiseImage.alt = "Advertise Image";
+
+//             const advertiseTitle = document.createElement('p');
+//             advertiseTitle.textContent = "Advertise";
+
+//             const advertiseHighlight = document.createElement('p');
+//             advertiseHighlight.id = "highlight";
+//             advertiseHighlight.textContent = "0"; // Assuming this value is constant for now
+
+//             advertiseDiv.appendChild(advertiseImage);
+//             advertiseDiv.appendChild(advertiseTitle);
+//             advertiseDiv.appendChild(advertiseHighlight);
+
+//             const dateParagraph = document.createElement('p');
+//             dateParagraph.id = "highlight";
+//             dateParagraph.textContent = new Date(user.date_joined).toDateString(); // Convert date string to Date object and format it
+
+//             rightDiv.appendChild(earningDiv);
+//             rightDiv.appendChild(advertiseDiv);
+//             rightDiv.appendChild(dateParagraph);
+
+//             nameBox.appendChild(nameDiv);
+//             nameBox.appendChild(rightDiv);
+
+//             container.appendChild(nameBox);
+//         });
+
+//     } catch (error) {
+//         console.error('Error displaying users:', error);
+//     }
+
+// }
 
 
 
@@ -408,12 +530,18 @@ async function fetchSocialVerificationRequests(page = 1, perPage = 20) {
         }
 
         const data = JSON.parse(text); // Parse the JSON response
-        displaySocialVerificationRequests(data.data.social_verification_requests);
-        displaySocialAccounts(data.data.social_verification_requests);
+        
+        if (data.data && data.data.social_verification_requests) {
+            displaySocialVerificationRequests(data.data.social_verification_requests);
+            displaySocialAccounts(data.data.social_verification_requests);
+        } else {
+            throw new Error('social_verification_requests is undefined');
+        }
     } catch (error) {
         console.error('Error fetching social verification requests:', error);
     }
 }
+
 
 
 async function approveSocialVerificationRequest(userId, type, link, socialVerificationId) {
