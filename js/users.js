@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
        // Fetch all social verification requests
-    fetchAllSocialVerificationRequests();
+    fetchSocialVerificationRequests();
 
     // Event delegation to handle click events on user name boxes
     const container = document.getElementById('users-container');
