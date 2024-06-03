@@ -19,12 +19,11 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         fetchAllSocialVerificationRequests();
-        getAllUsers().then(response => displayAllUsers(response)).catch(error => console.error('Error displaying users:', error));
+    getAllUsers().then(response => displayAllUsers(response)).catch(error => console.error('Error displaying users:', error));
 });
 
 
-function displayUserInModal(user, userId) { 
-    // Update the user popup with the user's information
+function displayUserInModal(user, userId) {
     const userName = document.getElementById('user-name');
     const userEmail = document.getElementById('user-email');
     const username = document.getElementById('username');
@@ -41,15 +40,11 @@ function displayUserInModal(user, userId) {
     location.textContent = user.country || "Not Specified";
     phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
     birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
-    profilePicture.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
+    profilePicture.src = user.profile_picture || "./images/default-user.png";
 
     fetchAndDisplayUserMetrics(userId)
+    .then(() => fetchAndDisplayUserTransactions(userId))
     .then(() => {
-        // Fetch and display transaction history
-        return fetchAndDisplayUserTransactions(userId);
-    })
-    .then(() => {
-        // Show the user popup
         const userPopup = document.querySelector('.user-popup');
         const overlay = document.querySelector(".overlay");
         userPopup.style.display = 'block';
@@ -58,8 +53,6 @@ function displayUserInModal(user, userId) {
     .catch(error => {
         console.error('Error displaying user details:', error);
     });
-
-
 }
 
 
@@ -324,7 +317,7 @@ async function displayAllUsers(promise) {
 
             const advertiseHighlight = document.createElement('p');
             advertiseHighlight.id = "highlight";
-            advertiseHighlight.textContent = "23"; // Assuming this value is constant for now
+            advertiseHighlight.textContent = "0"; // Assuming this value is constant for now
 
             advertiseDiv.appendChild(advertiseImage);
             advertiseDiv.appendChild(advertiseTitle);
@@ -352,8 +345,7 @@ async function displayAllUsers(promise) {
 
 
 
-// Fetch all social verification requests
-// Fetch all social verification requests
+
 async function fetchAllSocialVerificationRequests(page = 1, perPage = 20) {
     try {
         const response = await fetch(`${baseUrl}/social_verification_requests`, {
@@ -366,7 +358,11 @@ async function fetchAllSocialVerificationRequests(page = 1, perPage = 20) {
         });
 
         if (response.ok) {
-            const data = await response.json();
+            const text = await response.text();
+            if (!text) {
+                throw new Error('Empty response');
+            }
+            const data = JSON.parse(text);
             displaySocialVerificationRequests(data.data.social_verification_requests);
             displaySocialAccounts(data.data.social_verification_requests);
         } else {
@@ -377,7 +373,6 @@ async function fetchAllSocialVerificationRequests(page = 1, perPage = 20) {
     }
 }
 
-// Approve social verification request
 async function approveSocialVerificationRequest(userId, type, link, socialVerificationId) {
     try {
         const response = await fetch(`${baseUrl}/approve_social_verification_request`, {
@@ -390,7 +385,11 @@ async function approveSocialVerificationRequest(userId, type, link, socialVerifi
         });
 
         if (response.ok) {
-            const data = await response.json();
+            const text = await response.text();
+            if (!text) {
+                throw new Error('Empty response');
+            }
+            const data = JSON.parse(text);
             displayMessage(data.message);
             fetchAllSocialVerificationRequests(); // Refresh the list
         } else {
@@ -401,7 +400,6 @@ async function approveSocialVerificationRequest(userId, type, link, socialVerifi
     }
 }
 
-// Reject social verification request
 async function rejectSocialVerificationRequest(userId, type, link, socialVerificationId) {
     try {
         const response = await fetch(`${baseUrl}/reject_social_verification_request`, {
@@ -414,7 +412,11 @@ async function rejectSocialVerificationRequest(userId, type, link, socialVerific
         });
 
         if (response.ok) {
-            const data = await response.json();
+            const text = await response.text();
+            if (!text) {
+                throw new Error('Empty response');
+            }
+            const data = JSON.parse(text);
             displayMessage(data.message);
             fetchAllSocialVerificationRequests(); // Refresh the list
         } else {
@@ -425,7 +427,6 @@ async function rejectSocialVerificationRequest(userId, type, link, socialVerific
     }
 }
 
-// Display social verification requests
 function displaySocialVerificationRequests(requests) {
     const container = document.getElementById('social-requests');
     container.innerHTML = ''; // Clear the container
@@ -446,7 +447,6 @@ function displaySocialVerificationRequests(requests) {
     });
 }
 
-// Display social accounts
 function displaySocialAccounts(accounts) {
     const container = document.getElementById('accounts-connected');
     container.innerHTML = ''; // Clear the container
@@ -458,7 +458,6 @@ function displaySocialAccounts(accounts) {
     });
 }
 
-// Display message
 function displayMessage(message) {
     const messageBox = document.getElementById('message-box');
     messageBox.innerText = message;
@@ -466,7 +465,6 @@ function displayMessage(message) {
     setTimeout(() => { messageBox.style.display = 'none'; }, 3000);
 }
 
-// Display error
 function displayError(error) {
     const errorBox = document.getElementById('error-box');
     errorBox.innerText = error;
@@ -474,17 +472,15 @@ function displayError(error) {
     setTimeout(() => { errorBox.style.display = 'none'; }, 3000);
 }
 
-// Approve request button handler
 function approveRequest(userId, type, link, id) {
     approveSocialVerificationRequest(userId, type, link, id);
 }
 
-// Reject request button handler
 function rejectRequest(userId, type, link, id) {
     rejectSocialVerificationRequest(userId, type, link, id);
 }
 
-// Initial fetch
+
 
 
 // Intersection Observer setup
