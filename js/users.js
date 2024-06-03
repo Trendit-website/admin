@@ -17,6 +17,9 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(function(error) {
             console.error('Error fetching user data:', error);
         });
+
+        fetchAllSocialVerificationRequests();
+        getAllUsers().then(response => displayAllUsers(response)).catch(error => console.error('Error displaying users:', error));
 });
 
 
@@ -85,6 +88,7 @@ container.addEventListener('click', function(event) {
     }
 });
 
+
 function fetchAndDisplayUserMetrics(userId) {
     return Promise.all([
         fetch(`${baseUrl}/user_task_metrics`, {
@@ -104,7 +108,13 @@ function fetchAndDisplayUserMetrics(userId) {
             body: JSON.stringify({ userId })
         })
     ])
-    .then(responses => Promise.all(responses.map(response => response.json())))
+    .then(responses => Promise.all(responses.map(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text(); // Read response as text
+    })))
+    .then(texts => texts.map(text => text ? JSON.parse(text) : {})) // Parse each text response to JSON if not empty
     .then(([taskMetrics, transactionMetrics]) => {
         document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
         document.getElementById('total-payouts').textContent = `₦${transactionMetrics.totalPayouts.toFixed(2)}`;
@@ -135,7 +145,14 @@ function fetchAndDisplayUserTransactions(userId) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ userId })
-        }).then(response => response.json())
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text(); // Read response as text
+        })
+        .then(text => text ? JSON.parse(text) : []) // Parse text response to JSON if not empty
     );
 
     return Promise.all(transactionPromises)
@@ -170,7 +187,9 @@ function fetchAndDisplayUserTransactions(userId) {
         })
         .catch(error => {
             console.error('Error fetching user transactions:', error);
-        });}
+        });
+}
+
 
 // const container = document.getElementById('users-container');
 // container.addEventListener('click', function(event) {
@@ -181,6 +200,7 @@ function fetchAndDisplayUserTransactions(userId) {
 //         displayUserInModal(userId);
 //     }
 // });
+
 const baseUrl = 'https://api.trendit3.com/api/admin';
 
 // get access token
@@ -333,6 +353,7 @@ async function displayAllUsers(promise) {
 
 
 // Fetch all social verification requests
+// Fetch all social verification requests
 async function fetchAllSocialVerificationRequests(page = 1, perPage = 20) {
     try {
         const response = await fetch(`${baseUrl}/social_verification_requests`, {
@@ -464,8 +485,6 @@ function rejectRequest(userId, type, link, id) {
 }
 
 // Initial fetch
-fetchAllSocialVerificationRequests();
-
 
 
 // Intersection Observer setup
