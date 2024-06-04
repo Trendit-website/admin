@@ -86,6 +86,25 @@
             // Add code here to navigate to the home page or dashboard
             window.location.href = 'index.html';
         });
+
+        function inviteAdmin(email) {
+            // Perform AJAX request to invite admin
+            $.ajax({
+                url: '/create_junior_admin',
+                type: 'POST',
+                dataType: 'json',
+                data: { email: email },
+                success: function(response) {
+                    // Show overlay and approval message
+                    $('.overlay2').fadeIn();
+                    $('.approve-box').fadeIn();
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error(xhr.responseText);
+                }
+            });
+        }
         
     });
 </script>

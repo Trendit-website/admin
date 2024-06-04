@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
        // Fetch all social verification requests
-       fetchSocialVerificationRequests()
+       fetchSocialVerificationRequests(userId)
        .then(displaySocialVerificationRequests)
        .catch(function(error) {
            console.error('Error fetching social verification requests:', error);
@@ -68,17 +68,17 @@ function displayUserInModal(user, userId) {
     birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
     profilePicture.src = user.profile_picture || "./images/default-user.png";
 
-    fetchAndDisplayUserMetrics(userId)
-        .then(() => fetchAndDisplayUserTransactions(userId))
-        .then(() => {
-            const userPopup = document.querySelector('.user-popup');
-            const overlay = document.querySelector(".overlay");
-            userPopup.style.display = 'block';
-            overlay.style.display = 'block';
-        })
-        .catch(error => {
-            console.error('Error displaying user details:', error);
-        });
+    fetchAndDisplayUserDetails(userId)
+    .then(() => fetchAndDisplayUserTransactions(userId))
+    .then(() => {
+        const userPopup = document.querySelector('.user-popup');
+        const overlay = document.querySelector(".overlay");
+        userPopup.style.display = 'block';
+        overlay.style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Error displaying user details:', error);
+    });
 }
 
 
@@ -127,7 +127,7 @@ backButton.addEventListener('click', function() {
 
 
 
-function fetchAndDisplayUserMetrics(userId) {
+function fetchAndDisplayUserDetails(userId) {
     return Promise.all([
         fetch(`${baseUrl}/user_task_metrics`, {
             method: 'POST',
@@ -150,27 +150,25 @@ function fetchAndDisplayUserMetrics(userId) {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.text();
+        return response.json();
     })))
-    .then(texts => texts.map(text => text ? JSON.parse(text) : {}))
     .then(([taskMetrics, transactionMetrics]) => {
-        if (transactionMetrics) {
-            document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
-            document.getElementById('total-payouts').textContent = `₦${transactionMetrics.totalPayouts.toFixed(2)}`;
-            document.getElementById('total-earned-percentage').textContent = `${transactionMetrics.totalEarnedPercentage}%`;
-        } else {
-            throw new Error('Transaction metrics are undefined');
-        }
+        document.getElementById('total-earned').textContent = `₦${taskMetrics.totalEarned.toFixed(2)}`;
+        document.getElementById('total-advertised').textContent = `₦${taskMetrics.totalAdvertised.toFixed(2)}`;
+        document.getElementById('total-commissioned').textContent = `₦${taskMetrics.totalCommissioned.toFixed(2)}`;
+        document.getElementById('date-joined').textContent = new Date(taskMetrics.dateJoined).toDateString();
+
+        document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
+        document.getElementById('total-credit').textContent = `₦${transactionMetrics.totalCredit.toFixed(2)}`;
+        document.getElementById('total-debit').textContent = `₦${transactionMetrics.totalDebit.toFixed(2)}`;
     })
     .catch(error => {
-        console.error('Error fetching user metrics:', error);
+        console.error('Error fetching user details:', error);
     });
 }
 
-
 function fetchAndDisplayUserTransactions(userId) {
     const endpoints = [
-        '/user_transactions',
         '/user_credit_transactions',
         '/user_debit_transactions',
         '/user_payment_transactions',
@@ -231,6 +229,7 @@ function fetchAndDisplayUserTransactions(userId) {
             console.error('Error fetching user transactions:', error);
         });
 }
+
 
 
 // const container = document.getElementById('users-container');
