@@ -21,7 +21,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
        // Fetch all social verification requests
-    fetchSocialVerificationRequests();
+       fetchSocialVerificationRequests()
+       .then(displaySocialVerificationRequests)
+       .catch(function(error) {
+           console.error('Error fetching social verification requests:', error);
+       });
 
     // Event delegation to handle click events on user name boxes
     const container = document.getElementById('users-container');
@@ -65,16 +69,16 @@ function displayUserInModal(user, userId) {
     profilePicture.src = user.profile_picture || "./images/default-user.png";
 
     fetchAndDisplayUserMetrics(userId)
-    .then(() => fetchAndDisplayUserTransactions(userId))
-    .then(() => {
-        const userPopup = document.querySelector('.user-popup');
-        const overlay = document.querySelector(".overlay");
-        userPopup.style.display = 'block';
-        overlay.style.display = 'block';
-    })
-    .catch(error => {
-        console.error('Error displaying user details:', error);
-    });
+        .then(() => fetchAndDisplayUserTransactions(userId))
+        .then(() => {
+            const userPopup = document.querySelector('.user-popup');
+            const overlay = document.querySelector(".overlay");
+            userPopup.style.display = 'block';
+            overlay.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error displaying user details:', error);
+        });
 }
 
 
@@ -174,7 +178,7 @@ function fetchAndDisplayUserTransactions(userId) {
     ];
 
     const transactionHistoryContainer = document.getElementById('transaction-history');
-    transactionHistoryContainer.innerHTML = '';
+    transactionHistoryContainer.innerHTML = ''; // Clear existing content
 
     const transactionPromises = endpoints.map(endpoint =>
         fetch(`${baseUrl}${endpoint}`, {
@@ -189,9 +193,8 @@ function fetchAndDisplayUserTransactions(userId) {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.text();
+            return response.json();
         })
-        .then(text => text ? JSON.parse(text) : [])
     );
 
     return Promise.all(transactionPromises)
@@ -202,19 +205,21 @@ function fetchAndDisplayUserTransactions(userId) {
                     transactionElement.classList.add('wallet-box');
 
                     const transactionType = transaction.type || 'Transaction';
-                    const transactionDate = new Date(transaction.date).toDateString() || 'Unknown Date';
-                    const transactionAmount = transaction.amount ? `₦${transaction.amount.toFixed(2)}` : 'Unknown Amount';
-                    const transactionStatus = transaction.status || 'Unknown Status';
+                    const transactionDate = new Date(transaction.date).toDateString();
+                    const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
+                    const transactionDescription = transaction.description || 'No Description';
 
                     transactionElement.innerHTML = `
-                        <img src="./images/wallet.png" alt="Transaction Image">
-                        <div>
-                            <p id="highlight">${transactionType}</p>
-                            <p>${transactionDate}</p>
+                        <div class="left">
+                            <img src="./images/arrowleftdown.svg" alt="">
+                            <div class="credit-date">
+                                <p id="highlight">${transactionType}</p>
+                                <p id="date">${transactionDate}</p>
+                            </div>
+                            <p>${transactionDescription}</p>
                         </div>
-                        <div>
+                        <div class="right">
                             <p id="highlight">${transactionAmount}</p>
-                            <p>${transactionStatus}</p>
                         </div>
                     `;
 
@@ -248,32 +253,20 @@ const accessToken = getCookie('accessToken');
 
 
 function getAllUsers(page=1) {
-  
-  // const formData = new FormData();
-  // formData.append('item_type', 'item_type');
+    const usersUrl = `${baseUrl}/users?page=${page}`;
 
-  // Construct the full URL for the verification request
-  const usersUrl = `${baseUrl}/users?page=${page}`;
-  
-  return fetch(usersUrl, {
-    method:'POST',
-    // body: formData,
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(response=> {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.text();
-    })
-    .then(text => {
-        if (!text) {
-            throw new Error('Empty response');
+    return fetch(usersUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
         }
-        return JSON.parse(text);
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
     })
     .catch((error) => {
         console.error('Error', error);
