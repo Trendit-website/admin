@@ -263,6 +263,7 @@ const accessToken = getCookie('accessToken');
 
 
 
+
 function getAllUsers(page=1) {
     const baseUrl = 'https://api.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
@@ -279,18 +280,21 @@ function getAllUsers(page=1) {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.json();
+        return response.text(); 
+    })
+    .then(text => {
+        try {
+            return JSON.parse(text); // Manually parsing the JSON to catch any errors
+        } catch (error) {
+            console.error("Error parsing JSON response:", error);
+            console.error("Response text:", text); // Logging the response text to debug the issue
+            throw new Error("Failed to parse JSON response");
+        }
     })
     .catch((error) => {
         console.error('Error', error);
     });
 }
-//     return response.json();
-//   })
-//   .catch((error) => {
-//     console.error('Error', error);
-//   });
-// }
 
 async function displayAllUsers(response) {
     try {
