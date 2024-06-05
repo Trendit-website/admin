@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     document.getElementById('share').addEventListener('click', shareDashboard);
     document.getElementById('print').addEventListener('click', printDashboard);
-    document.getElementById('export').addEventListener('click', exportDashboard);
+    document.getElementById('export').addEventListener('click', exportDashboardAsPhoto);
 
     // Dropdown functionality
     const dropdownTrigger = document.getElementById('dropdown-trigger');
@@ -402,17 +402,35 @@ function printDashboard() {
     window.print();
 }
 
-function exportDashboard() {
-    const dashboardElement = document.getElementById('dashboard-container'); // Replace with your dashboard container ID
-    html2canvas(dashboardElement, {
-        scale: 2 // Increase scale to get higher resolution
-    }).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const img = new Image();
-        img.src = imgData;
-        const link = document.createElement('a');
-        link.href = imgData;
-        link.download = 'dashboard.png';
-        link.click();
+// Function to export the dashboard as a photo
+function exportDashboardAsPhoto() {
+    // Create a canvas element to render the chart as an image
+    const chartContainer = document.getElementById('bar-chart');
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    const chart = ApexCharts.instances[0]; // Assuming the chart is the first instance
+
+    // Set canvas dimensions to chart dimensions
+    canvas.width = chartContainer.offsetWidth;
+    canvas.height = chartContainer.offsetHeight;
+
+    // Render the chart onto the canvas
+    chart && chart.chart && chart.chart.render && chart.chart.render({
+        ctx: context,
+        width: canvas.width,
+        height: canvas.height
+    });
+
+    // Convert canvas to image and export
+    canvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'dashboard.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     });
 }
+
