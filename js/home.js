@@ -34,37 +34,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     document.getElementById('share').addEventListener('click', shareDashboard);
     document.getElementById('print').addEventListener('click', printDashboard);
-    document.getElementById('export').addEventListener('click', exportDashboardAsPhoto);
-
-    async function exportDashboardAsPhoto() {
-        try {
-            // Clone the entire document
-            const contentToCapture = document.documentElement.cloneNode(true);
-
-            // Remove the navbar from the cloned content
-            const navbar = contentToCapture.querySelector('.nav-bar');
-            if (navbar) {
-                navbar.remove();
-            }
-
-            // Capture the content
-            const canvas = await html2canvas(contentToCapture);
-
-            // Convert canvas to image and export
-            canvas.toBlob(function (blob) {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'dashboard_screenshot.png';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            });
-        } catch (error) {
-            console.error('Error exporting dashboard as photo:', error);
-        }
-    }
+    document.getElementById('export').addEventListener('click', exportDashboard);
 
     // Dropdown functionality
     const dropdownTrigger = document.getElementById('dropdown-trigger');
@@ -436,5 +406,20 @@ function printDashboard() {
 }
 
 
+// function exportDashboard() {
+//     const dashboardElement = document.getElementById('dashboard');
+//     html2canvas(dashboardElement).then(canvas => {
+//         const image = canvas.toDataURL("image/png");
 
+//         const link = document.createElement("a");
+//         link.setAttribute("href", image);
+//         link.setAttribute("download", "dashboard_image.png");
+//         document.body.appendChild(link);
 
+//         link.click();
+
+//         document.body.removeChild(link);
+//     }).catch(error => {
+//         console.error('Error exporting dashboard:', error);
+//     });
+// }

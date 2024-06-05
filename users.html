@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="users-container" id="social-requests">
-            <!-- <div class="name-box" id="user1">
+             <div class="name-box" id="user1">
                 <div class="name">
                     <img src="./images/js.svg" alt="">
                     <div class="name-email">
@@ -123,7 +123,8 @@
                     </div>
                 </div>
            
-          </div> -->
+          </div>
+          
           <div id="message-box"></div>
         <div id="error-box"></div>
           
@@ -186,12 +187,12 @@
                 <div class="social-accounts">
                     <span>Social Accounts</span>
                     <p id="accounts-connected">
-                        <!-- <img src="./images/insta.png" alt="">
+                         <img src="./images/insta.png" alt="">
                         <img src="./images/x2.png" alt="">
                         <img src="./images/appstore.png" alt="">
                         <img src="./images/facebook.png" alt="">
                         <img src="./images/twitter.png" alt="">
-                         <span> +6 others</span> ></p> -->
+                         <span> +6 others</span> ></p> 
 
                 </div>
             </div>
@@ -200,7 +201,7 @@
 
             <div class="date">
                 
-                <p><img src="./images/calendar.png" alt=""> Jan 1 - Jan 27, 2023</p>
+                <p id="date-joined"><img src="./images/calendar.png" alt=""> Jan 1 - Jan 27, 2023</p>
                 <div class="left">
                     <p><img src="./images/download.png" alt="">Export</p>
                     <div class="period">
@@ -222,7 +223,7 @@
                         <span id="total-earned-percentage">533%</span>
                 </div>
                 </div>
-                <div class="total-earned">
+                <div  id="total-commissioned"  class="total-earned">
                     <p>Total Earned <img src="./images/info.png" alt=""></p>
                     <div class="rate">
                         <h6 id="total-payouts">N 30,008.25</h6>
@@ -230,14 +231,14 @@
                         <span>533%</span>
                 </div>
                 </div>
-                <div class="total-earned">
+                <div id="total-advertised" class="total-earned">
                     <p>Total Earned</p>
                     <div class="rate">
                         <h6>0.00</h6>
                         
                 </div>
                 </div>
-                <div class="total-earned">
+                <div id="total-credit" class="total-earned">
                     <p>Total Earned</p>
                     <div class="rate">
                         <h6 id="total-payouts">N 30,008.25</h6>
@@ -272,7 +273,7 @@
                 </div>
                 <p>Amount</p>
               </div>
-              <div id="transaction-history"></div>
+              <div class="transaction-history" id="transaction-history"></div>
           <div class="wallet-box">
             
             <div class="left">
@@ -434,11 +435,18 @@
             </div>
         </div>
         <h5>Social Accounts</h5>
-        <div id="social-requests"></div>
+        <section class="approval-section">
+            <div id="social-requests" class="social-requests">
+                <!-- Social verification requests will be appended here by JavaScript -->
+            </div>
+            <div id="accounts-connected" class="accounts-connected">
+                <!-- Social accounts will be appended here by JavaScript -->
+            </div>
+        </section>
     </div>
 </div>
-<div id="message-box"></div>
-<div id="error-box"></div>
+<div id="message-box" class="message-box"></div>
+<div id="error-box" class="error-box"></div>
 </div>
 
     <script src="./js/cookie.js"></script>

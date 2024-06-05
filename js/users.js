@@ -21,11 +21,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
        // Fetch all social verification requests
-       fetchSocialVerificationRequests(userId)
-       .then(displaySocialVerificationRequests)
-       .catch(function(error) {
-           console.error('Error fetching social verification requests:', error);
-       });
+       fetchSocialVerificationRequests()
+        .then(displaySocialVerificationRequests)
+        .catch(function (error) {
+            console.error('Error fetching social verification requests:', error);
+        });
 
     // Event delegation to handle click events on user name boxes
     const container = document.getElementById('users-container');
@@ -127,6 +127,7 @@ backButton.addEventListener('click', function() {
 
 
 
+
 function fetchAndDisplayUserDetails(userId) {
     return Promise.all([
         fetch(`${baseUrl}/user_task_metrics`, {
@@ -146,25 +147,25 @@ function fetchAndDisplayUserDetails(userId) {
             body: JSON.stringify({ userId })
         })
     ])
-    .then(responses => Promise.all(responses.map(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })))
-    .then(([taskMetrics, transactionMetrics]) => {
-        document.getElementById('total-earned').textContent = `₦${taskMetrics.totalEarned.toFixed(2)}`;
-        document.getElementById('total-advertised').textContent = `₦${taskMetrics.totalAdvertised.toFixed(2)}`;
-        document.getElementById('total-commissioned').textContent = `₦${taskMetrics.totalCommissioned.toFixed(2)}`;
-        document.getElementById('date-joined').textContent = new Date(taskMetrics.dateJoined).toDateString();
+        .then(responses => Promise.all(responses.map(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })))
+        .then(([taskMetrics, transactionMetrics]) => {
+            document.getElementById('total-earned').textContent = `₦${taskMetrics.totalEarned.toFixed(2)}`;
+            document.getElementById('total-advertised').textContent = `₦${taskMetrics.totalAdvertised.toFixed(2)}`;
+            document.getElementById('total-commissioned').textContent = `₦${taskMetrics.totalCommissioned.toFixed(2)}`;
+            document.getElementById('date-joined').textContent = new Date(taskMetrics.dateJoined).toDateString();
 
-        document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
-        document.getElementById('total-credit').textContent = `₦${transactionMetrics.totalCredit.toFixed(2)}`;
-        document.getElementById('total-debit').textContent = `₦${transactionMetrics.totalDebit.toFixed(2)}`;
-    })
-    .catch(error => {
-        console.error('Error fetching user details:', error);
-    });
+            document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
+            document.getElementById('total-credit').textContent = `₦${transactionMetrics.totalCredit.toFixed(2)}`;
+            document.getElementById('total-debit').textContent = `₦${transactionMetrics.totalDebit.toFixed(2)}`;
+        })
+        .catch(error => {
+            console.error('Error fetching user details:', error);
+        });
 }
 
 function fetchAndDisplayUserTransactions(userId) {
@@ -521,8 +522,8 @@ async function fetchSocialVerificationRequests(page = 1, perPage = 20) {
             throw new Error('Empty response');
         }
 
-        const data = JSON.parse(text); // Parse the JSON response
-        
+        const data = JSON.parse(text);
+
         if (data.data && data.data.social_verification_requests) {
             displaySocialVerificationRequests(data.data.social_verification_requests);
             displaySocialAccounts(data.data.social_verification_requests);
@@ -533,8 +534,6 @@ async function fetchSocialVerificationRequests(page = 1, perPage = 20) {
         console.error('Error fetching social verification requests:', error);
     }
 }
-
-
 
 async function approveSocialVerificationRequest(userId, type, link, socialVerificationId) {
     try {
@@ -554,7 +553,7 @@ async function approveSocialVerificationRequest(userId, type, link, socialVerifi
             }
             const data = JSON.parse(text);
             displayMessage(data.message);
-            fetchAllSocialVerificationRequests(); // Refresh the list
+            fetchSocialVerificationRequests(); // Refresh the list
         } else {
             throw new Error('Error approving social verification request');
         }
@@ -581,7 +580,7 @@ async function rejectSocialVerificationRequest(userId, type, link, socialVerific
             }
             const data = JSON.parse(text);
             displayMessage(data.message);
-            fetchAllSocialVerificationRequests(); // Refresh the list
+            fetchSocialVerificationRequests(); // Refresh the list
         } else {
             throw new Error('Error rejecting social verification request');
         }
@@ -642,7 +641,6 @@ function approveRequest(userId, type, link, id) {
 function rejectRequest(userId, type, link, id) {
     rejectSocialVerificationRequest(userId, type, link, id);
 }
-
 
 
 
