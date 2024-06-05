@@ -1,4 +1,3 @@
-var barChart;
 document.addEventListener("DOMContentLoaded", async function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
@@ -14,31 +13,28 @@ document.addEventListener("DOMContentLoaded", async function() {
     var dashboardData = await convertData(dataPromise); 
 
     // Make sure boxIds is defined somewhere in your script
-       // Set up click event listeners for boxes
-       Object.keys(boxIds).forEach(boxId => {
+    Object.keys(boxIds).forEach(boxId => {
         const box = document.getElementById(boxId);
-        box.addEventListener('click', async () => {
-            const apiKey = boxIds[boxId];
-            if (!dashboardData[apiKey]) {
+        box.addEventListener('click', () => {
+            if (!dashboardData[boxId]) {
                 console.warn(`No data available for boxId: ${boxId}`);
                 return;
             }
-            const categories = await getChartIndices(dataPromise);
-            const data = Object.values(dashboardData[apiKey]);
+            const categories = getChartIndices(dataPromise);
+            const data = Object.values(dashboardData[boxId]);
             if (categories && data) {
-                barChart.updateSeries([{ data: data }]);
+                barChart.updateSeries([{data: data}]);
             }
         });
     });
 
-    var barChart;
-    barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
-    await barChart.render();
+    var barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
+    barChart.render();
 
 
     document.getElementById('share').addEventListener('click', shareDashboard);
     document.getElementById('print').addEventListener('click', printDashboard);
-    document.getElementById('export').addEventListener('click', exportDashboardAsPhoto);
+    document.getElementById('export').addEventListener('click', exportDashboard);
 
     // Dropdown functionality
     const dropdownTrigger = document.getElementById('dropdown-trigger');
@@ -53,6 +49,26 @@ document.addEventListener("DOMContentLoaded", async function() {
             dropdownMenu.style.display = 'none';
         }
     });
+    const contentToCapture = document.body.cloneNode(true);
+    const navbar = contentToCapture.querySelector('.nav-bar');
+    navbar.remove();
+
+    // Use html2canvas to capture the content
+    html2canvas(contentToCapture).then(canvas => {
+        // Convert canvas to image and export
+        canvas.toBlob(function(blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'page_screenshot.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    }).catch(error => {
+        console.error('Error exporting page as photo:', error);
+    });
 
     const dropdownItems = document.querySelectorAll('.dropdown-item');
     dropdownItems.forEach(item => {
@@ -60,52 +76,36 @@ document.addEventListener("DOMContentLoaded", async function() {
             const period = event.target.getAttribute('data-period');
             dropdownTrigger.innerHTML = `${event.target.innerText} <img src="/images/arrowdown.png" alt="">`;
             dropdownMenu.style.display = 'none';
-
-            // Update the chart for the selected period
-            await updateChart(period, dashboardData[selectedBoxId]);
+            await updateChart(period);
         });
     });
+
     async function updateChart(period) {
-        try {
-            // Fetch data for the selected period and update the chart
-            const dataPromise = getDashboardDataForPeriod(period);
-            const dashboardData = await convertData(dataPromise);
-            
-            // Get the categories (month names)
-            const categories = await getChartIndices(dataPromise);
-    
-            // Update the bar chart with the selected period data
-            barChart.updateOptions({
-                xaxis: {
-                    categories: categories
-                }
-            });
-    
-            // Update the series data based on the selected period
-            const seriesData = {
-                data: Object.values(dashboardData.payment_activities_per_month || {})
-            };
-    
-            barChart.updateSeries([seriesData]);
-    
-        } catch (error) {
-            console.error('Error updating chart:', error);
-        }
+        // Fetch data for the selected period and update the chart
+        var dataPromise = getDashboardDataForPeriod(period); // Modify this function to fetch data for the selected period
+        var dashboardData = await convertData(dataPromise);
+        barChart.updateSeries([{ data: dashboardData.totalPayouts }]); // Example: update with totalPayouts data
     }
 
      // Search functionality
      const searchInput = document.getElementById('search-box');
-    searchInput.addEventListener('input', function() {
-        const searchText = searchInput.value.trim().toLowerCase();
-        performSearch(searchText);
-    });
-
-    // Set up click event listener for bell icon
-    const bellIcon = document.getElementById('bell-icon');
-    bellIcon.addEventListener('click', function() {
-        // Implement bell notification functionality here
-        alert("Bell icon clicked. Show notifications.");
-    });
+     searchInput.addEventListener('input', function() {
+         const searchText = searchInput.value.trim().toLowerCase();
+         performSearch(searchText);
+     });
+ 
+     function performSearch(query) {
+         // Implement search functionality here
+         console.log(`Searching for: ${query}`);
+         // Example: Filter items based on the query
+     }
+ 
+     // Bell icon click event
+     const bellIcon = document.getElementById('bell-icon');
+     bellIcon.addEventListener('click', function() {
+         // Implement bell notification functionality here
+         alert("Bell icon clicked. Show notifications.");
+     });
  
      // Dropdown menu functionality
      const dropdownArrow = document.getElementById('dropdown-arrow');
@@ -117,7 +117,14 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 
 });
+// function setProfilePicture(data) {
+//     const profilePic = document.getElementById('profile-pic');
+//     const user = data.users[0]; // Assuming the first user is the logged-in user; adjust this logic as needed
+//     profilePic.src = user.profile_picture || "./images/default-user.png";
+// }
 
+
+// Example function to fetch data for the selected period
 async function getDashboardDataForPeriod(period) {
     const url = `${baseUrl}/dashboard_data?period=${period}`; // Modify the API endpoint to accept period as a query parameter
     const response = await fetch(url, {
@@ -134,12 +141,14 @@ async function getDashboardDataForPeriod(period) {
 }
 
 const boxIds = {
-    totalPayouts: 'payouts_per_month',
-    noOfEarners: 'payment_activities_per_month',
-    noOfAdvertisers: 'payouts_per_month',
-    noOfApprovedAds: 'recieved_payments_per_month',
-    noOfAffiliateResell: '', // Replace with actual API key
+    selected: 0,
+    totalPayouts: 1,
+    noOfEarners: 2,
+    noOfAdvertisers: 3,
+    noOfApprovedAds: 4,
+    noOfAffiliateResell: 5,
 };
+
 
 const baseUrl = 'https://api.trendit3.com/api/admin';
 
@@ -199,15 +208,16 @@ async function convertData(promise) {
         if (!data) { // Check if data is null or undefined
             console.error('Received no data');
             return {
-                'payouts_per_month': [],
-                'payment_activities_per_month': [],
-                'recieved_payments_per_month': []
+                'noOfEarners': [],
+                'noOfAdvertisers': [],
+                'noOfApprovedAds': []
             };
         }
         var boxData = {
-            'payouts_per_month': fillMissingMonths(data.payouts_per_month || {}),
-            'payment_activities_per_month': fillMissingMonths(data.payment_activities_per_month || {}),
-            'recieved_payments_per_month': fillMissingMonths(data.recieved_payments_per_month || {})
+            'totalPayouts':Object.values(data.payouts_per_month || {}),
+            'noOfEarners': Object.values(data.payment_activities_per_month || {}),
+            'noOfAdvertisers': Object.values(data.payouts_per_month || {}),
+            'noOfApprovedAds': Object.values(data.recieved_payments_per_month || {})
         };
         console.log(boxData);
         return boxData;
@@ -215,6 +225,7 @@ async function convertData(promise) {
         console.error('Error converting data:', error);
     }
 }
+
 
 function fillMissingMonths(data) {
     const currentYear = new Date().getFullYear();
@@ -240,42 +251,53 @@ function fillMissingMonths(data) {
 
 
 async function displayDashboardData(promise) {
+
     try {
+
         const response = await promise;
         const totalPayouts = response.total_payouts;
-        const totalReceivedPayments = response.total_received_payments;
-        const totalEarners = response.total_earners;
-        const totalAdvertisers = response.total_advertisers;
-        const totalApprovedTasks = response.total_approved_tasks;
+        const totalReceivedPayments = response.total_received_payments
+        const receivedPaymentsPerMonth = response.recieved_payments_per_month
+        const payoutsPerMonth = response.payouts_per_month
+        const paymentActivitiesPerMonth = response.payment_activities_per_month
+        const totalEarners = response.total_earners
+        const totalAdvertisers = response.total_advertisers
+        const totalApprovedTasks = response.total_approved_tasks
 
-        // Check if the response exists and is not empty
-        if (!response || Object.keys(response).length === 0) {
+
+        // Check if the respose array exists and is not empty
+        if (!response || response.length === 0) {
             console.log("No data to display.");
             return; // Exit the function if there is no data
         }
 
         // Get the container where the user information will be displayed
-        var totalPayoutsElement = document.getElementById('total_payouts');
-        var totalReceivedPaymentsElement = document.getElementById('total_received_payments');
-        var totalAdvertisersElement = document.getElementById('total_advertisers');
-        var totalEarnersElement = document.getElementById('total_earners');
-        var totalApprovedTasksElement = document.getElementById('total_approved_tasks');
+        var total_payouts = document.getElementById('total_payouts');
+        var total_received_payments = document.getElementById('total_received_payments');
+        var total_advertisers = document.getElementById('total_advertisers');
+        var total_earners = document.getElementById('total_earners');
+        var total_approved_tasks = document.getElementById('total_approved_tasks');
 
-        totalPayoutsElement.textContent = `₦${totalPayouts.toLocaleString()}`;
-        totalReceivedPaymentsElement.textContent = `₦${totalReceivedPayments.toLocaleString()}`;
-        totalEarnersElement.textContent = `${totalEarners.toLocaleString()}`;
-        totalAdvertisersElement.textContent = `${totalAdvertisers.toLocaleString()}`;
-        totalApprovedTasksElement.textContent = `${totalApprovedTasks.toLocaleString()}`;
 
-        console.log(response);
+        total_payouts.textContent = `₦${totalPayouts.toLocaleString()}`;
+        total_received_payments.textContent =  `₦${totalReceivedPayments.toLocaleString()}`;
+        total_earners.textContent = `${totalEarners.toLocaleString()}`;
+        total_advertisers.textContent = `${totalAdvertisers.toLocaleString()}`;
+        total_approved_tasks.textContent = `${totalApprovedTasks.toLocaleString()}`;
+
+        console.log(response)
+
         
     } catch (error) {
         console.error('Error displaying data:', error);
     }
+
 }
 
 
-
+function generateRandomData() {
+    return Array.from({ length: 12 }, () => Math.floor(Math.random() * 200));
+}
 
 
 function getLast12Months() {
@@ -297,7 +319,7 @@ function getLast12Months() {
 
 var barChartOptions = {
     series: [{
-        data: []
+        data: generateRandomData()
     }],
     chart: {
         type: 'bar',
@@ -306,7 +328,7 @@ var barChartOptions = {
             show: false
         },
     },
-    colors: ['#FFD0FE'], // All bars black
+    colors: ['#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#FFD0FE'], // All bars black
     plotOptions: {
         bar: {
             horizontal: false,
@@ -323,14 +345,14 @@ var barChartOptions = {
         style: {
             fontSize: '12px',
             fontWeight: '100',
-            colors: ['#fff']
+            colors: ['#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#000']
         }
     },
     legend: {
         show: false
     },
     xaxis: {
-        categories: [], // Will be updated dynamically
+        categories: getLast12Months(),
         labels: {
             style: {
                 colors: '#b1b1b1',
@@ -385,7 +407,6 @@ var barChartOptions = {
     },
 };
 
-
 function shareDashboard() {
     if (navigator.share) {
         navigator.share({
@@ -405,52 +426,6 @@ function printDashboard() {
 }
 
 
-// Function to export the dashboard as a photo
-async function exportDashboardAsPhoto() {
-    try {
-        // Get the chart container and the chart instance
-        const chartContainer = document.getElementById('bar-chart');
-        const chartInstance = barChart;
 
-        // Check if the chart instance exists and is fully initialized
-        if (!chartInstance || !chartInstance.chart) {
-            console.error('Chart instance not found or not initialized');
-            return;
-        }
-
-        // Ensure the chart is fully rendered before continuing
-        await chartInstance.rendered();
-
-        // Create a canvas element to render the chart as an image
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-
-        // Set canvas dimensions to chart dimensions
-        canvas.width = chartContainer.offsetWidth;
-        canvas.height = chartContainer.offsetHeight;
-
-        // Render the chart onto the canvas
-        chartInstance.chart.render({
-            ctx: context,
-            width: canvas.width,
-            height: canvas.height
-        });
-
-        // Convert canvas to image and export
-        canvas.toBlob(function(blob) {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'dashboard.png';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
-
-    } catch (error) {
-        console.error('Error exporting dashboard as photo:', error);
-    }
-}
 
 
