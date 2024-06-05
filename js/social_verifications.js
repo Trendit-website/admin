@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to fetch social verification requests
     function fetchSocialVerificationRequests(page = 1, perPage = 20) {
-        const accessToken = getCookie('accessToken'); // Ensure getCookie function is defined
+        const baseUrl = 'https://api.trendit3.com/api/admin';
+        const accessToken = getCookie('accessToken');
         fetch(`${baseUrl}/social_verification_requests`, {
             method: 'POST',
             headers: {
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (data.status === 200) {
                 renderSocialVerificationRequests(data.data.social_verification_requests);
                 approvalBox.style.display = "block";
+                socialOverlay.style.display = "block";
             } else {
                 alert("Error fetching social verification requests: " + data.message);
             }
@@ -68,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to handle approval or rejection
     function handleApproval(id, action) {
+        const baseUrl = 'https://api.trendit3.com/api/admin';
         const endpoint = action === 'approve' ? '/approve_social_verification_request' : '/reject_social_verification_request';
         const accessToken = getCookie('accessToken');
         fetch(`${baseUrl}${endpoint}`, {
@@ -114,3 +117,9 @@ document.addEventListener("DOMContentLoaded", function () {
         socialOverlay.style.display = "none";
     });
 });
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}

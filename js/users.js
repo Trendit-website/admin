@@ -1,12 +1,9 @@
-document.addEventListener("DOMContentLoaded", function() {
-    var hamburgerMenu = document.querySelector('.hamburger');
-    var navBar = document.querySelector('.nav-bar');
+document.addEventListener("DOMContentLoaded", function () {
+    const membersTab = document.getElementById("members");
+    const accountLinkRequestTab = document.getElementById("account-link-request");
+    const usersContainer = document.getElementById("users-container");
+    const usersContainer2 = document.getElementById("users-container2");
 
-    hamburgerMenu.addEventListener('click', function() {
-        navBar.classList.toggle('active');
-    });
-
-    // Function to fetch and display user data
     var data; // Declare data variable
 
     getAllUsers()
@@ -58,8 +55,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-
 function getAllUsers(page = 1) {
+    const baseUrl = 'https://api.trendit3.com/api/admin';
     const usersUrl = `${baseUrl}/users?page=${page}`;
     const accessToken = getCookie('accessToken');
 
@@ -217,54 +214,8 @@ function displayUserInModal(user, userId) {
         });
 }
 
-// Close the user popup when "Go back" is clicked
-const backButton = document.querySelector('.user-popup .back');
-backButton.addEventListener('click', function() {
-    const userPopup = document.querySelector('.user-popup');
-    const overlay = document.querySelector(".overlay");
-    userPopup.style.display = 'none';
-    overlay.style.display = 'none';
-
-});
-
-// Event delegation to handle click events on user name boxes
-
-// container.addEventListener('click', function(event) {
-//     const nameBox = event.target.closest('.name-box');
-//     if (nameBox) {
-//         const userId = nameBox.dataset.userId;
-//         const user = data.users.find(user => user.id === parseInt(userId, 10));
-//         if (user) {
-//             displayUserInModal(user, userId);
-//         } else {
-//             console.error("User not found.");
-//         }
-//     }
-// }); 
-// const container = document.getElementById('users-container');
-// container.addEventListener('click', function(event) {
-//     const nameBox = event.target.closest('.name-box');
-//     if (nameBox) {
-//         const userId = nameBox.dataset.userId;
-//         // Ensure `data` is defined before accessing `data.users`
-//         if (data && data.users) {
-//             const user = data.users.find(user => user.id === parseInt(userId, 10));
-//             if (user) {
-//                 displayUserInModal(user, userId);
-//             } else {
-//                 console.error("User not found.");
-//             }
-//         } else {
-//             console.error("No user data available.");
-//         }
-//     }
-// });
-
-
-
-
-
 function fetchAndDisplayUserDetails(userId) {
+    const baseUrl = 'https://api.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
     return Promise.all([
         fetch(`${baseUrl}/user_task_metrics`, {
@@ -306,19 +257,13 @@ function fetchAndDisplayUserDetails(userId) {
 }
 
 function fetchAndDisplayUserTransactions(userId) {
+    const baseUrl = 'https://api.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
-    const endpoints = [
-        '/user_credit_transactions',
-        '/user_debit_transactions',
-        '/user_payment_transactions',
-        '/user_withdrawal_transactions'
-    ];
-
     const transactionHistoryContainer = document.getElementById('transaction-history');
     transactionHistoryContainer.innerHTML = ''; // Clear existing content
 
-    const transactionPromises = endpoints.map(endpoint =>
-        fetch(`${baseUrl}${endpoint}`, {
+    const fetchTransactions = (endpoint) => {
+        return fetch(`${baseUrl}${endpoint}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -326,42 +271,47 @@ function fetchAndDisplayUserTransactions(userId) {
             },
             body: JSON.stringify({ userId })
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-    );
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        });
+    };
 
-    return Promise.all(transactionPromises)
+    const endpoints = [
+        '/user_credit_transactions',
+        '/user_debit_transactions',
+        '/user_payment_transactions',
+        '/user_withdrawal_transactions'
+    ];
+
+    Promise.all(endpoints.map(fetchTransactions))
         .then(transactions => {
-            transactions.forEach(transactionList => {
-                transactionList.forEach(transaction => {
-                    const transactionElement = document.createElement('div');
-                    transactionElement.classList.add('wallet-box');
+            transactions.flat().forEach(transaction => {
+                const transactionElement = document.createElement('div');
+                transactionElement.classList.add('wallet-box');
 
-                    const transactionType = transaction.type || 'Transaction';
-                    const transactionDate = new Date(transaction.date).toDateString();
-                    const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
-                    const transactionDescription = transaction.description || 'No Description';
+                const transactionType = transaction.type || 'Transaction';
+                const transactionDate = new Date(transaction.date).toDateString();
+                const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
+                const transactionDescription = transaction.description || 'No Description';
 
-                    transactionElement.innerHTML = `
-                        <div class="left">
-                            <img src="./images/arrowleftdown.svg" alt="">
-                            <div class="credit-date">
-                                <p id="highlight">${transactionType}</p>
-                                <p id="date">${transactionDate}</p>
-                            </div>
-                            <p>${transactionDescription}</p>
+                transactionElement.innerHTML = `
+                    <div class="left">
+                        <img src="./images/arrowleftdown.svg" alt="">
+                        <div class="credit-date">
+                            <p id="highlight">${transactionType}</p>
+                            <p id="date">${transactionDate}</p>
                         </div>
-                        <div class="right">
-                            <p id="highlight">${transactionAmount}</p>
-                        </div>
-                    `;
+                        <p>${transactionDescription}</p>
+                    </div>
+                    <div class="right">
+                        <p id="highlight">${transactionAmount}</p>
+                    </div>
+                `;
 
-                    transactionHistoryContainer.appendChild(transactionElement);
-                });
+                transactionHistoryContainer.appendChild(transactionElement);
             });
         })
         .catch(error => {
@@ -369,30 +319,14 @@ function fetchAndDisplayUserTransactions(userId) {
         });
 }
 
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
 
 
-// const container = document.getElementById('users-container');
-// container.addEventListener('click', function(event) {
-//     const nameBox = event.target.closest('.name-box');
-//     if (nameBox) {
-//         const userId = nameBox.dataset.userId;
-//         // Instead of passing 'data', pass only the userId
-//         displayUserInModal(userId);
-//     }
-// });
-
-const baseUrl = 'https://api.trendit3.com/api/admin';
-
-// get access token
-const accessToken = getCookie('accessToken');
-
-
-
-
-
-
-
-
+// Intersection Observer setup
 const options = {
     root: null,
     rootMargin: '0px',
