@@ -133,6 +133,47 @@ backButton.addEventListener('click', function() {
 
 
 
+// function fetchAndDisplayUserDetails(userId) {
+//     const baseUrl = 'https://api.trendit3.com/api/admin';
+//     const accessToken = getCookie('accessToken');
+//     return Promise.all([
+//         fetch(`${baseUrl}/user_task_metrics`, {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${accessToken}`,
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({ userId })
+//         }),
+//         fetch(`${baseUrl}/user_transaction_metrics`, {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${accessToken}`,
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({ userId })
+//         })
+//     ])
+//     .then(responses => Promise.all(responses.map(response => {
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok');
+//         }
+//         return response.json();
+//     })))
+//     .then(([taskMetrics, transactionMetrics]) => {
+//         document.getElementById('total-earned').textContent = `₦${taskMetrics.totalEarned.toFixed(2)}`;
+//         document.getElementById('total-advertised').textContent = `₦${taskMetrics.totalAdvertised.toFixed(2)}`;
+//         document.getElementById('total-commissioned').textContent = `₦${taskMetrics.totalCommissioned.toFixed(2)}`;
+//         document.getElementById('date-joined').textContent = new Date(taskMetrics.dateJoined).toDateString();
+
+//         document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
+//         document.getElementById('total-credit').textContent = `₦${transactionMetrics.totalCredit.toFixed(2)}`;
+//         document.getElementById('total-debit').textContent = `₦${transactionMetrics.totalDebit.toFixed(2)}`;
+//     })
+//     .catch(error => {
+//         console.error('Error fetching user details:', error);
+//     });
+// }
 function fetchAndDisplayUserDetails(userId) {
     const baseUrl = 'https://api.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
@@ -143,103 +184,112 @@ function fetchAndDisplayUserDetails(userId) {
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ userId })
-        }),
-        fetch(`${baseUrl}/user_transaction_metrics`, {
+            body: JSON.stringify({ userId: userId.replace('user', '') })
+        }).then(response => response.json()),
+        fetch(`${baseUrl}/user_tasks`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ userId })
-        })
+            body: JSON.stringify({ userId: userId.replace('user', '') })
+        }).then(response => response.json())
     ])
-    .then(responses => Promise.all(responses.map(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })))
-    .then(([taskMetrics, transactionMetrics]) => {
-        document.getElementById('total-earned').textContent = `₦${taskMetrics.totalEarned.toFixed(2)}`;
-        document.getElementById('total-advertised').textContent = `₦${taskMetrics.totalAdvertised.toFixed(2)}`;
-        document.getElementById('total-commissioned').textContent = `₦${taskMetrics.totalCommissioned.toFixed(2)}`;
-        document.getElementById('date-joined').textContent = new Date(taskMetrics.dateJoined).toDateString();
-
-        document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
-        document.getElementById('total-credit').textContent = `₦${transactionMetrics.totalCredit.toFixed(2)}`;
-        document.getElementById('total-debit').textContent = `₦${transactionMetrics.totalDebit.toFixed(2)}`;
+    .then(([taskMetrics, userTasks]) => {
+        displayUserTasks(taskMetrics, userTasks);
     })
     .catch(error => {
         console.error('Error fetching user details:', error);
+        throw error;
     });
 }
 
 function fetchAndDisplayUserTransactions(userId) {
     const baseUrl = 'https://api.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
-    const endpoints = [
-        `/user_credit_transactions/${userId}`,
-        `/user_debit_transactions/${userId}`,
-        `/user_payment_transactions/${userId}`,
-        `/user_withdrawal_transactions/${userId}`
-    ];
-
-    const transactionHistoryContainer = document.getElementById('transaction-history');
-    transactionHistoryContainer.innerHTML = ''; // Clear existing content
-
-    const transactionPromises = endpoints.map(endpoint =>
-        fetch(`${baseUrl}${endpoint}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-    );
-
-    return Promise.all(transactionPromises)
-        .then(transactions => {
-            transactions.forEach(transactionList => {
-                if (transactionList.transactions && Array.isArray(transactionList.transactions)) {
-                    transactionList.transactions.forEach(transaction => {
-                        const transactionElement = document.createElement('div');
-                        transactionElement.classList.add('wallet-box');
-
-                        const transactionType = transaction.type || 'Transaction';
-                        const transactionDate = new Date(transaction.date).toDateString();
-                        const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
-                        const transactionDescription = transaction.description || 'No Description';
-
-                        transactionElement.innerHTML = `
-                            <div class="left">
-                                <img src="./images/arrowleftdown.svg" alt="">
-                                <div class="credit-date">
-                                    <p id="highlight">${transactionType}</p>
-                                    <p id="date">${transactionDate}</p>
-                                </div>
-                                <p>${transactionDescription}</p>
-                            </div>
-                            <div class="right">
-                                <p id="highlight">${transactionAmount}</p>
-                            </div>
-                        `;
-
-                        transactionHistoryContainer.appendChild(transactionElement);
-                    });
-                }
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching user transactions:', error);
-        });
+    return fetch(`${baseUrl}/user_transactions`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId: userId.replace('user', '') })
+    })
+    .then(response => response.json())
+    .then(transactions => {
+        displayUserTransactions(transactions);
+    })
+    .catch(error => {
+        console.error('Error fetching user transactions:', error);
+        throw error;
+    });
 }
+
+// function fetchAndDisplayUserTransactions(userId) {
+//     const baseUrl = 'https://api.trendit3.com/api/admin';
+//     const accessToken = getCookie('accessToken');
+//     const endpoints = [
+//         `/user_credit_transactions/${userId}`,
+//         `/user_debit_transactions/${userId}`,
+//         `/user_payment_transactions/${userId}`,
+//         `/user_withdrawal_transactions/${userId}`
+//     ];
+
+//     const transactionHistoryContainer = document.getElementById('transaction-history');
+//     transactionHistoryContainer.innerHTML = ''; // Clear existing content
+
+//     const transactionPromises = endpoints.map(endpoint =>
+//         fetch(`${baseUrl}${endpoint}`, {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${accessToken}`,
+//                 'Content-Type': 'application/json'
+//             }
+//         })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Network response was not ok');
+//             }
+//             return response.json();
+//         })
+//     );
+
+//     return Promise.all(transactionPromises)
+//         .then(transactions => {
+//             transactions.forEach(transactionList => {
+//                 if (transactionList.transactions && Array.isArray(transactionList.transactions)) {
+//                     transactionList.transactions.forEach(transaction => {
+//                         const transactionElement = document.createElement('div');
+//                         transactionElement.classList.add('wallet-box');
+
+//                         const transactionType = transaction.type || 'Transaction';
+//                         const transactionDate = new Date(transaction.date).toDateString();
+//                         const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
+//                         const transactionDescription = transaction.description || 'No Description';
+
+//                         transactionElement.innerHTML = `
+//                             <div class="left">
+//                                 <img src="./images/arrowleftdown.svg" alt="">
+//                                 <div class="credit-date">
+//                                     <p id="highlight">${transactionType}</p>
+//                                     <p id="date">${transactionDate}</p>
+//                                 </div>
+//                                 <p>${transactionDescription}</p>
+//                             </div>
+//                             <div class="right">
+//                                 <p id="highlight">${transactionAmount}</p>
+//                             </div>
+//                         `;
+
+//                         transactionHistoryContainer.appendChild(transactionElement);
+//                     });
+//                 }
+//             });
+//         })
+//         .catch(error => {
+//             console.error('Error fetching user transactions:', error);
+//         });
+// }
 
 
 
