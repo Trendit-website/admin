@@ -13,17 +13,19 @@ document.addEventListener("DOMContentLoaded", async function() {
     var dashboardData = await convertData(dataPromise); 
 
     // Make sure boxIds is defined somewhere in your script
-    Object.keys(boxIds).forEach(boxId => {
+       // Set up click event listeners for boxes
+       Object.keys(boxIds).forEach(boxId => {
         const box = document.getElementById(boxId);
-        box.addEventListener('click', () => {
-            if (!dashboardData[boxId]) {
+        box.addEventListener('click', async () => {
+            const apiKey = boxIds[boxId];
+            if (!dashboardData[apiKey]) {
                 console.warn(`No data available for boxId: ${boxId}`);
                 return;
             }
-            const categories = getChartIndices(dataPromise);
-            const data = Object.values(dashboardData[boxId]);
+            const categories = await getChartIndices(dataPromise);
+            const data = Object.values(dashboardData[apiKey]);
             if (categories && data) {
-                barChart.updateSeries([{data: data}]);
+                barChart.updateSeries([{ data: data }]);
             }
         });
     });
@@ -39,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     // Dropdown functionality
     const dropdownTrigger = document.getElementById('dropdown-trigger');
     const dropdownMenu = document.getElementById('dropdown-menu');
-
+    
     dropdownTrigger.addEventListener('click', () => {
         dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
     });
@@ -59,7 +61,6 @@ document.addEventListener("DOMContentLoaded", async function() {
             await updateChart(period);
         });
     });
-
     async function updateChart(period) {
         // Fetch data for the selected period and update the chart
         var dataPromise = getDashboardDataForPeriod(period); // Modify this function to fetch data for the selected period
@@ -69,23 +70,17 @@ document.addEventListener("DOMContentLoaded", async function() {
 
      // Search functionality
      const searchInput = document.getElementById('search-box');
-     searchInput.addEventListener('input', function() {
-         const searchText = searchInput.value.trim().toLowerCase();
-         performSearch(searchText);
-     });
- 
-     function performSearch(query) {
-         // Implement search functionality here
-         console.log(`Searching for: ${query}`);
-         // Example: Filter items based on the query
-     }
- 
-     // Bell icon click event
-     const bellIcon = document.getElementById('bell-icon');
-     bellIcon.addEventListener('click', function() {
-         // Implement bell notification functionality here
-         alert("Bell icon clicked. Show notifications.");
-     });
+    searchInput.addEventListener('input', function() {
+        const searchText = searchInput.value.trim().toLowerCase();
+        performSearch(searchText);
+    });
+
+    // Set up click event listener for bell icon
+    const bellIcon = document.getElementById('bell-icon');
+    bellIcon.addEventListener('click', function() {
+        // Implement bell notification functionality here
+        alert("Bell icon clicked. Show notifications.");
+    });
  
      // Dropdown menu functionality
      const dropdownArrow = document.getElementById('dropdown-arrow');
@@ -121,14 +116,12 @@ async function getDashboardDataForPeriod(period) {
 }
 
 const boxIds = {
-    selected: 0,
-    totalPayouts: 1,
-    noOfEarners: 2,
-    noOfAdvertisers: 3,
-    noOfApprovedAds: 4,
-    noOfAffiliateResell: 5,
+    totalPayouts: 'payouts_per_month',
+    noOfEarners: 'payment_activities_per_month',
+    noOfAdvertisers: 'payouts_per_month',
+    noOfApprovedAds: 'recieved_payments_per_month',
+    noOfAffiliateResell: '', // Replace with actual API key
 };
-
 
 const baseUrl = 'https://api.trendit3.com/api/admin';
 
@@ -188,16 +181,15 @@ async function convertData(promise) {
         if (!data) { // Check if data is null or undefined
             console.error('Received no data');
             return {
-                'noOfEarners': [],
-                'noOfAdvertisers': [],
-                'noOfApprovedAds': []
+                'payouts_per_month': [],
+                'payment_activities_per_month': [],
+                'recieved_payments_per_month': []
             };
         }
         var boxData = {
-            'totalPayouts':Object.values(data.payouts_per_month || {}),
-            'noOfEarners': Object.values(data.payment_activities_per_month || {}),
-            'noOfAdvertisers': Object.values(data.payouts_per_month || {}),
-            'noOfApprovedAds': Object.values(data.recieved_payments_per_month || {})
+            'payouts_per_month': fillMissingMonths(data.payouts_per_month || {}),
+            'payment_activities_per_month': fillMissingMonths(data.payment_activities_per_month || {}),
+            'recieved_payments_per_month': fillMissingMonths(data.recieved_payments_per_month || {})
         };
         console.log(boxData);
         return boxData;
@@ -205,7 +197,6 @@ async function convertData(promise) {
         console.error('Error converting data:', error);
     }
 }
-
 
 function fillMissingMonths(data) {
     const currentYear = new Date().getFullYear();
@@ -231,53 +222,42 @@ function fillMissingMonths(data) {
 
 
 async function displayDashboardData(promise) {
-
     try {
-
         const response = await promise;
         const totalPayouts = response.total_payouts;
-        const totalReceivedPayments = response.total_received_payments
-        const receivedPaymentsPerMonth = response.recieved_payments_per_month
-        const payoutsPerMonth = response.payouts_per_month
-        const paymentActivitiesPerMonth = response.payment_activities_per_month
-        const totalEarners = response.total_earners
-        const totalAdvertisers = response.total_advertisers
-        const totalApprovedTasks = response.total_approved_tasks
+        const totalReceivedPayments = response.total_received_payments;
+        const totalEarners = response.total_earners;
+        const totalAdvertisers = response.total_advertisers;
+        const totalApprovedTasks = response.total_approved_tasks;
 
-
-        // Check if the respose array exists and is not empty
-        if (!response || response.length === 0) {
+        // Check if the response exists and is not empty
+        if (!response || Object.keys(response).length === 0) {
             console.log("No data to display.");
             return; // Exit the function if there is no data
         }
 
         // Get the container where the user information will be displayed
-        var total_payouts = document.getElementById('total_payouts');
-        var total_received_payments = document.getElementById('total_received_payments');
-        var total_advertisers = document.getElementById('total_advertisers');
-        var total_earners = document.getElementById('total_earners');
-        var total_approved_tasks = document.getElementById('total_approved_tasks');
+        var totalPayoutsElement = document.getElementById('total_payouts');
+        var totalReceivedPaymentsElement = document.getElementById('total_received_payments');
+        var totalAdvertisersElement = document.getElementById('total_advertisers');
+        var totalEarnersElement = document.getElementById('total_earners');
+        var totalApprovedTasksElement = document.getElementById('total_approved_tasks');
 
+        totalPayoutsElement.textContent = `₦${totalPayouts.toLocaleString()}`;
+        totalReceivedPaymentsElement.textContent = `₦${totalReceivedPayments.toLocaleString()}`;
+        totalEarnersElement.textContent = `${totalEarners.toLocaleString()}`;
+        totalAdvertisersElement.textContent = `${totalAdvertisers.toLocaleString()}`;
+        totalApprovedTasksElement.textContent = `${totalApprovedTasks.toLocaleString()}`;
 
-        total_payouts.textContent = `₦${totalPayouts.toLocaleString()}`;
-        total_received_payments.textContent =  `₦${totalReceivedPayments.toLocaleString()}`;
-        total_earners.textContent = `${totalEarners.toLocaleString()}`;
-        total_advertisers.textContent = `${totalAdvertisers.toLocaleString()}`;
-        total_approved_tasks.textContent = `${totalApprovedTasks.toLocaleString()}`;
-
-        console.log(response)
-
+        console.log(response);
         
     } catch (error) {
         console.error('Error displaying data:', error);
     }
-
 }
 
 
-function generateRandomData() {
-    return Array.from({ length: 12 }, () => Math.floor(Math.random() * 200));
-}
+
 
 
 function getLast12Months() {
@@ -405,21 +385,17 @@ function printDashboard() {
     window.print();
 }
 
-
-// function exportDashboard() {
-//     const dashboardElement = document.getElementById('dashboard');
-//     html2canvas(dashboardElement).then(canvas => {
-//         const image = canvas.toDataURL("image/png");
-
-//         const link = document.createElement("a");
-//         link.setAttribute("href", image);
-//         link.setAttribute("download", "dashboard_image.png");
-//         document.body.appendChild(link);
-
-//         link.click();
-
-//         document.body.removeChild(link);
-//     }).catch(error => {
-//         console.error('Error exporting dashboard:', error);
-//     });
-// }
+function exportDashboard() {
+    const dashboardElement = document.getElementById('dashboard-container'); // Replace with your dashboard container ID
+    html2canvas(dashboardElement, {
+        scale: 2 // Increase scale to get higher resolution
+    }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const img = new Image();
+        img.src = imgData;
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = 'dashboard.png';
+        link.click();
+    });
+}
