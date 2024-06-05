@@ -1,3 +1,4 @@
+var barChart;
 document.addEventListener("DOMContentLoaded", async function() {
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
@@ -30,8 +31,9 @@ document.addEventListener("DOMContentLoaded", async function() {
         });
     });
 
-    var barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
-    barChart.render();
+    var barChart;
+    barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
+    await barChart.render();
 
 
     document.getElementById('share').addEventListener('click', shareDashboard);
@@ -130,7 +132,7 @@ async function getDashboardDataForPeriod(period) {
     }
     return response.json();
 }
-var barChart;
+
 const boxIds = {
     totalPayouts: 'payouts_per_month',
     noOfEarners: 'payment_activities_per_month',
