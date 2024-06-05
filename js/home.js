@@ -130,7 +130,7 @@ async function getDashboardDataForPeriod(period) {
     }
     return response.json();
 }
-
+var barChart;
 const boxIds = {
     totalPayouts: 'payouts_per_month',
     noOfEarners: 'payment_activities_per_month',
@@ -401,6 +401,7 @@ function shareDashboard() {
 function printDashboard() {
     window.print();
 }
+
 
 // Function to export the dashboard as a photo
 async function exportDashboardAsPhoto() {
