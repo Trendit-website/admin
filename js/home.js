@@ -405,21 +405,29 @@ function printDashboard() {
 // Function to export the dashboard as a photo
 async function exportDashboardAsPhoto() {
     try {
-        // Create a canvas element to render the chart as an image
+        // Get the chart container and the chart instance
         const chartContainer = document.getElementById('bar-chart');
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        const chart = ApexCharts.instances[0];
+        const chartInstance = barChart;
+
+        // Check if the chart instance exists and is fully initialized
+        if (!chartInstance || !chartInstance.chart) {
+            console.error('Chart instance not found or not initialized');
+            return;
+        }
 
         // Ensure the chart is fully rendered before continuing
-        await chart.rendered();
+        await chartInstance.rendered();
+
+        // Create a canvas element to render the chart as an image
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
 
         // Set canvas dimensions to chart dimensions
         canvas.width = chartContainer.offsetWidth;
         canvas.height = chartContainer.offsetHeight;
 
         // Render the chart onto the canvas
-        chart.chart.render({
+        chartInstance.chart.render({
             ctx: context,
             width: canvas.width,
             height: canvas.height
