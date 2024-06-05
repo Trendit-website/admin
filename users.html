@@ -43,40 +43,106 @@
         <h4>Users</h4>
         <div class="top-nav">
             <div class="left">
-                <p class="nav-item" id="members">Members</p>
-                <p class="nav-item" id="account-link-request">Account link request</p>
-            </div>
-            <div class="right" style="align-self: left;">
-                <p class="filter-button"><img src="./images/funnel.png" alt=""> Filter</p>
-                <p class="sort-button"><img src="./images/sort.png" alt=""> Sort</p>
-            </div>
+            <p class="nav-item" id="members">Members</span></p>
+            <p class="nav-item" id="account-link-request" >Account link request</p>
+            
+        </div>
+        <div class="right"style="align-self: left;" >
+            <p class="filter-button"class="filter-button" ><img src="./images/funnel.png" alt=""> Filter </p>
+            <p class="sort-button"><img  src="./images/sort.png" alt=""> Sort </p>
+        </div>
         </div>
         <div class="users-container" id="users-container">
             <div class="navigation">
-                <p>Name <span><img src="./images/arrowupdown.png" alt=""></span></p>
+                <p>Name <span><img src="./images/arrowupdown.png" alt=""></span> </p>
                 <div class="right">
-                    <p>Stats <span><img src="./images/arrowupdown.png" alt=""></span></p>
-                    <p>Last Login <span><img src="./images/arrowupdown.png" alt=""></span></p>
-                </div>
+                <p>Stats <span><img src="./images/arrowupdown.png" alt=""></span> </p>
+                <p>Last Login <span><img src="./images/arrowupdown.png" alt=""></span></p>
+
             </div>
+        </div>
+           
+          </div>
+          
         </div>
         <div class="users-container2" id="users-container2">
             <div class="navigation">
-                <p>Name <span><img src="./images/arrowupdown.png" alt=""></span></p>
+                <p>Name <span><img src="./images/arrowupdown.png" alt=""></span> </p>
                 <div class="right">
-                    <p>Social Media accounts<span><img src="./images/arrowupdown.png" alt=""></span></p>
+                <p>Social Media accounts<span><img src="./images/arrowupdown.png" alt=""></span></p>
+            </div>
+        </div>
+        <div class="users-container" id="social-requests">
+             <div class="name-box" id="user1">
+                <div class="name">
+                    <img src="./images/js.svg" alt="">
+                    <div class="name-email">
+                        <p id="user1-name">hola</p>
+                        <p id="user1-email">misan</p>
+                    </div>
+                    <div class="social-account">
+                        <img style="width: 40px;" src="./images/new-green.svg" >
+                        <img src="./images/insta.png" alt="">
+                        <img style="width: 12px;" src="./images/x2.png" alt="">
+                        <img src="./images/facebook.png" alt="">
+                        <img src="./images/twitter.png" alt="">
+                        <img src="./images/appstore.png" alt="">
+                        <img src="./images/tinyright.png" alt="">
+                    </div>
                 </div>
             </div>
-            <div class="users-container" id="social-requests"></div>
+            <div class="name-box" id="user2">
+                <div class="name">
+                    <img src="./images/js.svg" alt="">
+                    <div class="name-email">
+                        <p id="user2-name">hola</p>
+                        <p id="user2-email">misan</p>
+                    </div>
+                    <div class="social-account">
+                        <img style="width: 40px;" src="./images/new-green.svg">
+                        <img src="./images/appstore.png" alt="">
+                        <img src="./images/tinyright.png" alt="">
+                    </div>
+                </div>
+            </div>
+         <div class="name-box" id="user1">
+                <div class="name" >
+                    <img src="./images/js.svg" alt="">
+                    <div class="name-email">
+                        <p id="user1-name">hola</p>
+                        <p id="user1-email">misan</p>
+                    </div>
+                    <div class="social-account ">
+                        <img style="width: 40px;" src="./images/new-green.svg" >
+                        <img src="./images/insta.png" alt="">
+                     
+                        <img src="./images/facebook.png" alt="">
+                        
+                        <img src="./images/appstore.png" alt="">
+                        <img src="./images/tinyright.png" alt="">
+                    </div>
+                </div>
+           
+          </div>
+          
+          <div id="message-box"></div>
+        <div id="error-box"></div>
+          
         </div>
+        </div> 
         <div id="load-more-trigger" style="height: 20px;"></div>
     </section>
-    
-    <div class="user-info"></div>
+    <div class="user-info">
+        
+    </div>
 
-    <!-- User info popup -->
-    <div class="overlay" style="display: none;"></div>
-    <div class="user-popup" style="display: none;">
+
+
+
+    <!-- user-info popup -->
+    
+    <div class="overlay"></div>
+    <div class="user-popup" >
         <div class="back">
             <img src="./images/left.png" width="15px">
             <p>Go back</p>
@@ -85,7 +151,7 @@
             <div class="name-controls">
                 <div class="name-profile">
                     <div class="profile-img">
-                        <img id="profile-picture" alt="Profile Picture" src="./images/default-user.png">
+                        <img id="profile-picture"  alt="Profile Picture" src="./images/Rectangle 1.png" alt="">
                     </div>
                     <div class="name">
                         <h6 id="user-name">Adewale Adedamola</h6>
@@ -121,18 +187,20 @@
                 <div class="social-accounts">
                     <span>Social Accounts</span>
                     <p id="accounts-connected">
-                        <img src="./images/insta.png" alt="">
+                         <img src="./images/insta.png" alt="">
                         <img src="./images/x2.png" alt="">
                         <img src="./images/appstore.png" alt="">
                         <img src="./images/facebook.png" alt="">
                         <img src="./images/twitter.png" alt="">
-                        <span> +6 others</span>
-                    </p>
+                         <span> +6 others</span> ></p> 
+
                 </div>
             </div>
         </div>
         <div class="user-info-wallet">
+
             <div class="date">
+                
                 <p id="date-joined"><img src="./images/calendar.png" alt=""> Jan 1 - Jan 27, 2023</p>
                 <div class="left">
                     <p><img src="./images/download.png" alt="">Export</p>
@@ -150,84 +218,404 @@
                 <div class="total-earned">
                     <p>Total Earned</p>
                     <div class="rate">
-                        <h6 id="total-payouts">₦30,008.25</h6>
+                        <h6 id="total-payouts">N 30,008.25</h6>
                         <img src="./images/mdi_arrow-down.png" alt="">
                         <span id="total-earned-percentage">533%</span>
-                    </div>
                 </div>
-                <div id="total-commissioned" class="total-earned">
-                    <p>Total Commissioned <img src="./images/info.png" alt=""></p>
+                </div>
+                <div  id="total-commissioned"  class="total-earned">
+                    <p>Total Commisioned <img src="./images/info.png" alt=""></p>
                     <div class="rate">
-                        <h6 id="total-payouts">₦30,008.25</h6>
+                        <h6 id="total-payouts">N 30,008.25</h6>
                         <img src="./images/mdi_arrow-down.png" alt="">
                         <span>533%</span>
-                    </div>
+                </div>
                 </div>
                 <div id="total-advertised" class="total-earned">
-                    <p>Total Advertised</p>
+                    <p>Total A</p>
                     <div class="rate">
-                        <h6>₦0.00</h6>
-                    </div>
+                        <h6>0.00</h6>
+                        
+                </div>
                 </div>
                 <div id="total-credit" class="total-earned">
-                    <p>Total Credit</p>
+                    <p>Total Earned</p>
                     <div class="rate">
-                        <h6 id="total-payouts">₦30,008.25</h6>
+                        <h6 id="total-payouts">N 30,008.25</h6>
                         <img src="./images/mdi_arrow-up.png" alt="">
                         <span id="total-earned-percentage" style="color: green;">533%</span>
-                    </div>
+                </div>
+
                 </div>
             </div>
+    
+    
         </div>
+
         <div class="user-info-transaction">
             <h4>Transaction History</h4>
             <div class="top-nav">
                 <div class="left">
-                    <p id="selected">All</p>
-                    <p>Earners</p>
-                    <p>Orders</p>
-                </div>
-                <div class="right" style="align-self: center;">
-                    <p><img src="./images/funnel.png" alt=""> Filter</p>
-                    <p><img src="./images/sort.png" alt=""> Sort</p>
-                </div>
+                <p id="selected">All</span></p>
+                <p>Earners</p>
+                <p>Orders</p>
             </div>
+            <div class="right"style="align-self: center;" >
+                <p ><img src="./images/funnel.png" alt=""> Filter </p>
+                <p ><img src="./images/sort.png" alt=""> Sort </p>
+            </div>
+            </div>
+
             <div class="navigation">
                 <div class="left">
-                    <p>Type</p>
-                    <p>Description</p>
+                <p>Type</p>
+                <p>Description</p>
                 </div>
                 <p>Amount</p>
+              </div>
+              <div class="transaction-history" id="transaction-history"></div>
+          <div class="wallet-box">
+            
+            <div class="left">
+                <img src="./images/arrowleftdown.svg" alt="">
+                <div class="credit-date">
+                <p id="highlight">Credit</p>
+                <p id="date">Nov 13th 2023 9:21pm</p>
+                </div>
+                <p>Payment for New Social Task Order (Get Real People to Follow Your Page on Social Media)</p>
             </div>
-            <div class="transaction-history" id="transaction-history"></div>
-        </div>
-    </div>
+            <div class="right">
+                 <p id="highlight">+ ₦3,675</p>
+            </div>
 
-    <div class="social-overlay" style="display: none;"></div>
-    <div class="approval-box" style="display: none;">
-        <button class="cancel-btn">&#10006;</button>
-        <div class="accounts">
-            <div class="name-profile">
-                <div class="profile-img">
-                    <img id="profile-picture" alt="Profile Picture" src="./images/Rectangle 1.png">
+            
+          </div>
+          <div class="wallet-box">
+            
+            <div class="left">
+                <img src="./images/arrowleftdown.svg" alt="">
+                <div class="credit-date">
+                <p id="highlight">Credit</p>
+                <p id="date">Nov 13th 2023 9:21pm</p>
                 </div>
-                <div class="name">
-                    <h6 id="user-name">Adewale Adedamola</h6>
-                    <span id="user-email">adedamolamoses@gmail.com</span>
-                </div>
+                <p>Payment for New Social Task Order (Get Real People to Follow Your Page on Social Media)</p>
             </div>
-            <h5>Social Accounts</h5>
-            <div id="social-requests" class="social-requests"></div>
-            <div id="accounts-connected" class="accounts-connected"></div>
+            <div class="right">
+                 <p id="highlight">+ ₦3,675</p>
+            </div>
+
+            
+          </div>
+          <div class="wallet-box">
+            
+            <div class="left">
+                <img src="./images/arrowleftdown.svg" alt="">
+                <div class="credit-date">
+                <p id="highlight">Credit</p>
+                <p id="date">Nov 13th 2023 9:21pm</p>
+                </div>
+                <p>Payment for New Social Task Order (Get Real People to Follow Your Page on Social Media)</p>
+            </div>
+            <div class="right">
+                 <p id="highlight">+ ₦3,675</p>
+            </div>
+
+            
+          </div>
+          <div class="wallet-box">
+            
+            <div class="left">
+                <img src="./images/arrowleftdown.svg" alt="">
+                <div class="credit-date">
+                <p id="highlight">Credit</p>
+                <p id="date">Nov 13th 2023 9:21pm</p>
+                </div>
+                <p>Payment for New Social Task Order (Get Real People to Follow Your Page on Social Media)</p>
+            </div>
+            <div class="right">
+                 <p id="highlight">+ ₦3,675</p>
+            </div>
+
+            
+          </div>
+          <div class="wallet-box">
+            
+            <div class="left">
+                <img src="./images/arrowleftdown.svg" alt="">
+                <div class="credit-date">
+                <p id="highlight">Credit</p>
+                <p id="date">Nov 13th 2023 9:21pm</p>
+                </div>
+                <p>Payment for New Social Task Order (Get Real People to Follow Your Page on Social Media)</p>
+            </div>
+            <div class="right">
+                 <p id="highlight">+ ₦3,675</p>
+            </div>
+
+            
+          </div>
+          <div class="wallet-box">
+            
+            <div class="left">
+                <img src="./images/arrowleftdown.svg" alt="">
+                <div class="credit-date">
+                <p id="highlight">Credit</p>
+                <p id="date">Nov 13th 2023 9:21pm</p>
+                </div>
+                <p>Payment for New Social Task Order (Get Real People to Follow Your Page on Social Media)</p>
+            </div>
+            <div class="right">
+                 <p id="highlight">+ ₦3,675</p>
+            </div>
+
+            
+          </div>
+          <div class="wallet-box">
+            
+            <div class="left">
+                <img src="./images/arrowleftdown.svg" alt="">
+                <div class="credit-date">
+                <p id="highlight">Credit</p>
+                <p id="date">Nov 13th 2023 9:21pm</p>
+                </div>
+                <p>Payment for New Social Task Order (Get Real People to Follow Your Page on Social Media)</p>
+            </div>
+            <div class="right">
+                 <p id="highlight">+ ₦3,675</p>
+            </div>
+
+            
+          </div>
+          <div class="wallet-box">
+            
+            <div class="left">
+                <img src="./images/arrowleftdown.svg" alt="">
+                <div class="credit-date">
+                <p id="highlight">Credit</p>
+                <p id="date">Nov 13th 2023 9:21pm</p>
+                </div>
+                <p>Payment for New Social Task Order (Get Real People to Follow Your Page on Social Media)</p>
+            </div>
+            <div class="right">
+                 <p id="highlight">+ ₦3,675</p>
+            </div>
+
+            
+          </div>
+          <div class="wallet-box">
+            
+            <div class="left">
+                <img src="./images/arrowleftdown.svg" alt="">
+                <div class="credit-date">
+                <p id="highlight">Credit</p>
+                <p id="date">Nov 13th 2023 9:21pm</p>
+                </div>
+                <p>Payment for New Social Task Order (Get Real People to Follow Your Page on Social Media)</p>
+            </div>
+            <div class="right">
+                 <p id="highlight">+ ₦3,675</p>
+            </div>
+
+            
+          </div>
         </div>
+   </div>
+
+   <div class="social-overlay" style="display: none;"></div>
+   <div class="approval-box" style="display: none;">
+    <button class="cancel-btn">&#10006;</button>
+    <div class="accounts">
+        <div class="name-profile">
+            <div class="profile-img">
+                <img id="profile-picture" alt="Profile Picture" src="./images/Rectangle 1.png">
+            </div>
+            <div class="name">
+                <h6 id="user-name">Adewale Adedamola</h6>
+                <span id="user-email">adedamolamoses@gmail.com</span>
+            </div>
+        </div>
+        <h5>Social Accounts</h5>
+        <section class="approval-section">
+            <div id="social-requests" class="social-requests">
+                <!-- Social verification requests will be appended here by JavaScript -->
+            </div>
+            <div id="accounts-connected" class="accounts-connected">
+                <!-- Social accounts will be appended here by JavaScript -->
+            </div>
+        </section>
     </div>
-    <div id="message-box" class="message-box"></div>
-    <div id="error-box" class="error-box"></div>
+</div>
+<div id="message-box" class="message-box"></div>
+<div id="error-box" class="error-box"></div>
+</div>
 
     <script src="./js/cookie.js"></script>
     <script src="./js/users.js"></script>
-    <script src="./js/social_verifications.js"></script>
-    <script src="./js/checkLogin.js"></script>
+    <script src="./js/checkLogin.js"></script> 
+    <script>
+        // JavaScript for toggle functionality
+        document.addEventListener("DOMContentLoaded", function () {
+    const membersTab = document.getElementById("members");
+    const accountLinkRequestTab = document.getElementById("account-link-request");
+    const usersContainer = document.getElementById("users-container");
+    const usersContainer2 = document.getElementById("users-container2");
+    const socialAccounts = document.querySelector(".social-accounts");
+
+    const socialOverlay = document.querySelector(".social-overlay");
+    const approvalBox = document.querySelector(".approval-box");
+    const cancelBtn = document.querySelector(".cancel-btn");
+    const accountsConnected = document.querySelector("#accounts-connected");
+    const socialRequestsContainer = document.getElementById("social-requests");
+
+    // Function to fetch social verification requests
+    function fetchSocialVerificationRequests(page = 1, perPage = 20) {
+        fetch('/social_verification_requests', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ page, per_page: perPage })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text(); // Changed from response.json() to response.text() to handle and log the response
+        })
+        .then(text => {
+            try {
+                const data = JSON.parse(text); // Manually parsing the JSON to catch any errors
+                if (data.status === 200) {
+                    renderSocialVerificationRequests(data.data.social_verification_requests);
+                    approvalBox.style.display = "block";
+                } else {
+                    alert("Error fetching social verification requests: " + data.message);
+                }
+            } catch (error) {
+                console.error("Error parsing JSON response:", error);
+                console.error("Response text:", text); // Logging the response text to debug the issue
+                alert("Error fetching social verification requests: " + error.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching social verification requests:", error);
+            alert("Error fetching social verification requests: " + error.message);
+        });
+    }
+
+    // Function to render social verification requests
+    function renderSocialVerificationRequests(requests) {
+        socialRequestsContainer.innerHTML = "";
+        requests.forEach(request => {
+            const requestElement = document.createElement("div");
+            requestElement.className = "social-approve-box";
+            requestElement.innerHTML = `
+                <div class="social-link">
+                    <img src="./images/${request.type}.png" alt="">
+                    <a href="${request.link}" target="_blank">${request.link}</a>
+                </div>
+                <div class="buttons">
+                    ${request.status === "PENDING" ? `
+                        <button class="approve-social" data-id="${request.id}">Accept</button>
+                        <button class="decline-social" data-id="${request.id}">Decline</button>
+                    ` : `<p class="status">${request.status}</p>`}
+                </div>
+            `;
+            socialRequestsContainer.appendChild(requestElement);
+        });
+
+        document.querySelectorAll(".approve-social").forEach(button => {
+            button.addEventListener("click", () => handleApproval(button.dataset.id, 'approve'));
+        });
+
+        document.querySelectorAll(".decline-social").forEach(button => {
+            button.addEventListener("click", () => handleApproval(button.dataset.id, 'decline'));
+        });
+    }
+
+    // Function to handle approval or rejection
+    function handleApproval(id, action) {
+        const endpoint = action === 'approve' ? '/approve_social_verification_request' : '/reject_social_verification_request';
+        const accessToken = getCookie('accessToken'); // Make sure getCookie function is defined and works properly
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}` // Add actual token here
+            },
+            body: JSON.stringify({
+                userId: 123, // Replace with dynamic userId if necessary
+                type: "facebook", // Replace with dynamic type if necessary
+                link: "http://facebook.com/user", // Replace with dynamic link if necessary
+                socialVerificationId: id
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 200) {
+                alert(`Social verification request ${action}d successfully`);
+                fetchSocialVerificationRequests();
+            } else {
+                alert(`Error ${action}ing social verification request: ${data.message}`);
+            }
+        })
+        .catch(error => {
+            console.error(`Error ${action}ing social verification request:`, error);
+            alert(`Error ${action}ing social verification request: ${error.message}`);
+        });
+    }
+
+    // Show approval box when "Social Accounts" is clicked
+    accountsConnected.addEventListener("click", () => {
+        fetchSocialVerificationRequests();
+    });
+
+    // Hide approval box when "Cancel" button is clicked
+    cancelBtn.addEventListener("click", () => {
+        approvalBox.style.display = "none";
+    });
+
+    socialAccounts.addEventListener("click", function () {
+        socialOverlay.style.display = "block";
+        approvalBox.style.display = "block";
+    });
+
+    cancelBtn.addEventListener("click", function () {
+        socialOverlay.style.display = "none";
+        approvalBox.style.display = "none";
+    });
+
+    accountsConnected.addEventListener("click", function () {
+        socialOverlay.style.display = "block";
+        approvalBox.style.display = "block";
+    });
+
+    socialOverlay.addEventListener("click", function () {
+        socialOverlay.style.display = "none";
+        approvalBox.style.display = "none";
+    });
+    membersTab.classList.add("selected");
+    accountLinkRequestTab.classList.remove("selected");
+    usersContainer.style.display = "block";
+    usersContainer2.style.display = "none";
+
+    membersTab.addEventListener("click", function() {
+        membersTab.classList.add("selected");
+        accountLinkRequestTab.classList.remove("selected");
+        usersContainer.style.display = "block";
+        usersContainer2.style.display = "none";
+    });
+
+    accountLinkRequestTab.addEventListener("click", function() {
+        accountLinkRequestTab.classList.add("selected");
+        membersTab.classList.remove("selected");
+        usersContainer.style.display = "none";
+        usersContainer2.style.display = "block";
+    });
+});
+
+    </script>
+    
     <!-- <script src="./js/apis.js"></script> -->
     <!-- <script src="./js/backend.js"></script> -->
 </body>
