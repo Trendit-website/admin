@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     // Dropdown functionality
     const dropdownTrigger = document.getElementById('dropdown-trigger');
     const dropdownMenu = document.getElementById('dropdown-menu');
-    
+
     dropdownTrigger.addEventListener('click', () => {
         dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
     });
@@ -58,7 +58,9 @@ document.addEventListener("DOMContentLoaded", async function() {
             const period = event.target.getAttribute('data-period');
             dropdownTrigger.innerHTML = `${event.target.innerText} <img src="/images/arrowdown.png" alt="">`;
             dropdownMenu.style.display = 'none';
-            await updateChart(period);
+
+            // Update the chart for the selected period
+            await updateChart(period, dashboardData[selectedBoxId]);
         });
     });
     async function updateChart(period) {
