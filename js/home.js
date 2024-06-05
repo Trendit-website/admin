@@ -62,10 +62,31 @@ document.addEventListener("DOMContentLoaded", async function() {
         });
     });
     async function updateChart(period) {
-        // Fetch data for the selected period and update the chart
-        var dataPromise = getDashboardDataForPeriod(period); // Modify this function to fetch data for the selected period
-        var dashboardData = await convertData(dataPromise);
-        barChart.updateSeries([{ data: dashboardData.totalPayouts }]); // Example: update with totalPayouts data
+        try {
+            // Fetch data for the selected period and update the chart
+            const dataPromise = getDashboardDataForPeriod(period);
+            const dashboardData = await convertData(dataPromise);
+            
+            // Get the categories (month names)
+            const categories = await getChartIndices(dataPromise);
+    
+            // Update the bar chart with the selected period data
+            barChart.updateOptions({
+                xaxis: {
+                    categories: categories
+                }
+            });
+    
+            // Update the series data based on the selected period
+            const seriesData = {
+                data: Object.values(dashboardData.payment_activities_per_month || {})
+            };
+    
+            barChart.updateSeries([seriesData]);
+    
+        } catch (error) {
+            console.error('Error updating chart:', error);
+        }
     }
 
      // Search functionality
