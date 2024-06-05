@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
         })
         .then(data => {
-            if (data.status === 200) {
-                renderSocialVerificationRequests(data.data.social_verification_requests);
+            if (data.status_code === 200) {
+                renderSocialVerificationRequests(data.social_verification_requests);
                 approvalBox.style.display = "block";
                 socialOverlay.style.display = "block";
             } else {
@@ -47,12 +47,12 @@ document.addEventListener("DOMContentLoaded", function () {
             requestElement.innerHTML = `
                 <div class="social-link">
                     <img src="./images/${request.type}.png" alt="">
-                    <a href="${request.link}" target="_blank">${request.link}</a>
+                    <a href="${request.body}" target="_blank">${request.body}</a>
                 </div>
                 <div class="buttons">
-                    ${request.status === "PENDING" ? `
-                        <button class="approve-social" data-id="${request.id}">Accept</button>
-                        <button class="decline-social" data-id="${request.id}">Decline</button>
+                    ${request.status === "pending" ? `
+                        <button class="approve-social" data-id="${request.id}" data-type="${request.type}" data-link="${request.body}" data-user-id="${request.sender_id}">Accept</button>
+                        <button class="decline-social" data-id="${request.id}" data-type="${request.type}" data-link="${request.body}" data-user-id="${request.sender_id}">Decline</button>
                     ` : `<p class="status">${request.status}</p>`}
                 </div>
             `;
@@ -60,16 +60,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         document.querySelectorAll(".approve-social").forEach(button => {
-            button.addEventListener("click", () => handleApproval(button.dataset.id, 'approve'));
+            button.addEventListener("click", () => handleApproval(button.dataset.id, button.dataset.userId, button.dataset.type, button.dataset.link, 'approve'));
         });
 
         document.querySelectorAll(".decline-social").forEach(button => {
-            button.addEventListener("click", () => handleApproval(button.dataset.id, 'decline'));
+            button.addEventListener("click", () => handleApproval(button.dataset.id, button.dataset.userId, button.dataset.type, button.dataset.link, 'decline'));
         });
     }
 
     // Function to handle approval or rejection
-    function handleApproval(id, action) {
+    function handleApproval(id, userId, type, link, action) {
         const baseUrl = 'https://api.trendit3.com/api/admin';
         const endpoint = action === 'approve' ? '/approve_social_verification_request' : '/reject_social_verification_request';
         const accessToken = getCookie('accessToken');
@@ -80,15 +80,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
-                userId: 123, // Replace with dynamic userId if necessary
-                type: "facebook", // Replace with dynamic type if necessary
-                link: "http://facebook.com/user", // Replace with dynamic link if necessary
+                userId: userId,
+                type: type,
+                link: link,
                 socialVerificationId: id
             })
         })
         .then(response => response.json())
         .then(data => {
-            if (data.status === 200) {
+            if (data.status_code === 200) {
                 alert(`Social verification request ${action}d successfully`);
                 fetchSocialVerificationRequests();
             } else {
@@ -118,8 +118,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-}
+
+
