@@ -34,7 +34,37 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     document.getElementById('share').addEventListener('click', shareDashboard);
     document.getElementById('print').addEventListener('click', printDashboard);
-    document.getElementById('export').addEventListener('click', exportDashboard);
+    document.getElementById('export').addEventListener('click', exportDashboardAsPhoto);
+
+    async function exportDashboardAsPhoto() {
+        try {
+            // Clone the entire document
+            const contentToCapture = document.documentElement.cloneNode(true);
+
+            // Remove the navbar from the cloned content
+            const navbar = contentToCapture.querySelector('.nav-bar');
+            if (navbar) {
+                navbar.remove();
+            }
+
+            // Capture the content
+            const canvas = await html2canvas(contentToCapture);
+
+            // Convert canvas to image and export
+            canvas.toBlob(function (blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'dashboard_screenshot.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        } catch (error) {
+            console.error('Error exporting dashboard as photo:', error);
+        }
+    }
 
     // Dropdown functionality
     const dropdownTrigger = document.getElementById('dropdown-trigger');
@@ -48,26 +78,6 @@ document.addEventListener("DOMContentLoaded", async function() {
         if (!dropdownTrigger.contains(event.target) && !dropdownMenu.contains(event.target)) {
             dropdownMenu.style.display = 'none';
         }
-    });
-    const contentToCapture = document.body.cloneNode(true);
-    const navbar = contentToCapture.querySelector('.nav-bar');
-    navbar.remove();
-
-    // Use html2canvas to capture the content
-    html2canvas(contentToCapture).then(canvas => {
-        // Convert canvas to image and export
-        canvas.toBlob(function(blob) {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'page_screenshot.png';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
-    }).catch(error => {
-        console.error('Error exporting page as photo:', error);
     });
 
     const dropdownItems = document.querySelectorAll('.dropdown-item');
@@ -424,7 +434,6 @@ function shareDashboard() {
 function printDashboard() {
     window.print();
 }
-
 
 
 
