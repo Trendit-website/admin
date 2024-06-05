@@ -403,34 +403,43 @@ function printDashboard() {
 }
 
 // Function to export the dashboard as a photo
-function exportDashboardAsPhoto() {
-    // Create a canvas element to render the chart as an image
-    const chartContainer = document.getElementById('bar-chart');
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    const chart = ApexCharts.instances[0]; // Assuming the chart is the first instance
+async function exportDashboardAsPhoto() {
+    try {
+        // Create a canvas element to render the chart as an image
+        const chartContainer = document.getElementById('bar-chart');
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const chart = ApexCharts.instances[0];
 
-    // Set canvas dimensions to chart dimensions
-    canvas.width = chartContainer.offsetWidth;
-    canvas.height = chartContainer.offsetHeight;
+        // Ensure the chart is fully rendered before continuing
+        await chart.rendered();
 
-    // Render the chart onto the canvas
-    chart && chart.chart && chart.chart.render && chart.chart.render({
-        ctx: context,
-        width: canvas.width,
-        height: canvas.height
-    });
+        // Set canvas dimensions to chart dimensions
+        canvas.width = chartContainer.offsetWidth;
+        canvas.height = chartContainer.offsetHeight;
 
-    // Convert canvas to image and export
-    canvas.toBlob(function(blob) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'dashboard.png';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    });
+        // Render the chart onto the canvas
+        chart.chart.render({
+            ctx: context,
+            width: canvas.width,
+            height: canvas.height
+        });
+
+        // Convert canvas to image and export
+        canvas.toBlob(function(blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'dashboard.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+    } catch (error) {
+        console.error('Error exporting dashboard as photo:', error);
+    }
 }
+
 
