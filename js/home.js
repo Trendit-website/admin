@@ -113,14 +113,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 
 });
-// function setProfilePicture(data) {
-//     const profilePic = document.getElementById('profile-pic');
-//     const user = data.users[0]; // Assuming the first user is the logged-in user; adjust this logic as needed
-//     profilePic.src = user.profile_picture || "./images/default-user.png";
-// }
 
-
-// Example function to fetch data for the selected period
 async function getDashboardDataForPeriod(period) {
     const url = `${baseUrl}/dashboard_data?period=${period}`; // Modify the API endpoint to accept period as a query parameter
     const response = await fetch(url, {
@@ -300,7 +293,7 @@ function getLast12Months() {
 
 var barChartOptions = {
     series: [{
-        data: generateRandomData()
+        data: []
     }],
     chart: {
         type: 'bar',
@@ -309,7 +302,7 @@ var barChartOptions = {
             show: false
         },
     },
-    colors: ['#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#000', '#FFD0FE'], // All bars black
+    colors: ['#FFD0FE'], // All bars black
     plotOptions: {
         bar: {
             horizontal: false,
@@ -326,14 +319,14 @@ var barChartOptions = {
         style: {
             fontSize: '12px',
             fontWeight: '100',
-            colors: ['#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#000']
+            colors: ['#fff']
         }
     },
     legend: {
         show: false
     },
     xaxis: {
-        categories: getLast12Months(),
+        categories: [], // Will be updated dynamically
         labels: {
             style: {
                 colors: '#b1b1b1',
@@ -387,6 +380,7 @@ var barChartOptions = {
         },
     },
 };
+
 
 function shareDashboard() {
     if (navigator.share) {
