@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+
 function displayUserInModal(user, userId) {
     const userName = document.getElementById('user-name');
     const userEmail = document.getElementById('user-email');
@@ -62,13 +63,16 @@ function displayUserInModal(user, userId) {
 
     // Clear previous social accounts
     socialAccounts.innerHTML = '';
+
     // Add social media icons dynamically based on the user's data
-    user.social_accounts.forEach(account => {
-        const socialIcon = document.createElement('img');
-        socialIcon.src = `./images/${account.type}.png`;
-        socialIcon.alt = account.type;
-        socialAccounts.appendChild(socialIcon);
-    });
+    if (user.social_accounts && Array.isArray(user.social_accounts)) {
+        user.social_accounts.forEach(account => {
+            const socialIcon = document.createElement('img');
+            socialIcon.src = `./images/${account.type}.png`;
+            socialIcon.alt = account.type;
+            socialAccounts.appendChild(socialIcon);
+        });
+    }
 
     fetchAndDisplayUserDetails(userId)
     .then(() => fetchAndDisplayUserTransactions(userId))
@@ -203,7 +207,7 @@ function fetchAndDisplayUserTransactions(userId) {
     return Promise.all(transactionPromises)
         .then(transactions => {
             transactions.forEach(transactionList => {
-                if (transactionList.transactions) {
+                if (transactionList.transactions && Array.isArray(transactionList.transactions)) {
                     transactionList.transactions.forEach(transaction => {
                         const transactionElement = document.createElement('div');
                         transactionElement.classList.add('wallet-box');
