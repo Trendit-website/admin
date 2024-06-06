@@ -141,7 +141,7 @@ function filterTasks(filter) {
 
 // Define function to fetch failed tasks
 function getFailedTasks(page = 1, pageSize = 10) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const baseUrl = 'https://api-staging.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
     const failedTasksUrl = `${baseUrl}/failed-tasks?page=${page}&pageSize=${pageSize}`;
   
@@ -165,7 +165,7 @@ function getFailedTasks(page = 1, pageSize = 10) {
 
 // Define function to fetch approved tasks
 function getApprovedTasks(page = 1, pageSize = 10) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const baseUrl = 'https://api-staging.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
     const approvedTasksUrl = `${baseUrl}/approved-tasks?page=${page}&pageSize=${pageSize}`;
   
@@ -189,7 +189,7 @@ function getApprovedTasks(page = 1, pageSize = 10) {
 
 // Define function to fetch pending tasks
 function getPendingTasks(page = 1, pageSize = 10) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const baseUrl = 'https://api-staging.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
     const pendingTasksUrl = `${baseUrl}/pending-tasks?page=${page}&pageSize=${pageSize}`;
   
@@ -327,7 +327,7 @@ function closeAdPopup() {
 }
 
 function getAllAds(page=1, pageSize = 10) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const baseUrl = 'https://api-staging.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
     const tasksUrl = `${baseUrl}/tasks?page=${page}&pageSize=${pageSize}`;
 
@@ -431,7 +431,7 @@ async function displayAllAds(promise) {
 }
 
 function getTaskById(taskId) {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const baseUrl = 'https://api-staging.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');
     const taskUrl = `${baseUrl}/tasks/${taskId}`;
   
@@ -455,7 +455,7 @@ function getTaskById(taskId) {
 
 async function approveTask(taskId) {
     try {
-        const response = await fetch(`https://api.trendit3.com/api/admin/approve-task/${taskId}`, {
+        const response = await fetch(`https://api-staging.trendit3.com/api/admin/approve-task/${taskId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${getCookie('accessToken')}`,
@@ -484,7 +484,7 @@ async function approveTask(taskId) {
 // Implement rejectTask function
 async function rejectTask(taskId) {
     try {
-        const response = await fetch(`https://api.trendit3.com/api/admin/reject-task/${taskId}`, {
+        const response = await fetch(`https://api-staging.trendit3.com/api/admin/reject-task/${taskId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${getCookie('accessToken')}`,
@@ -588,7 +588,7 @@ function closeApproveBox() {
 
 // function getAllAds(page=1) {
 
-//     const baseUrl = 'https://api.trendit3.com/api/admin';
+//     const baseUrl = 'https://api-staging.trendit3.com/api/admin';
 
 //     // get access token
 //     const accessToken = getCookie('accessToken');

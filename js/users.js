@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const baseUrl = 'https://api-staging.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');  // Ensure this function is defined somewhere in your script
     const usersContainer = document.getElementById('social-requests');
     const approvalBox = document.querySelector('.approval-box');
@@ -501,7 +501,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 //         }
 //     });
 // });
-// const baseUrl = 'https://api.trendit3.com/api/admin';
+// const baseUrl = 'https://api-staging.trendit3.com/api/admin';
 
 // // get access token
 // const accessToken = getCookie('accessToken');

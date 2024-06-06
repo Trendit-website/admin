@@ -1,4 +1,4 @@
-const baseUrl = 'https://api.trendit3.com/api/admin';
+const baseUrl = 'https://api-staging.trendit3.com/api/admin';
 
 const accessToken = getCookie('accessToken');
 

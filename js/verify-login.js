@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Define the base URL for the fetch request
-    const baseUrl = 'https://api.trendit3.com/api/admin';
+    const baseUrl = 'https://api-staging.trendit3.com/api/admin';
     // Define the URL to redirect to upon successful verification
     const successRedirectUrl = 'https://admin.trendit3.com';
 

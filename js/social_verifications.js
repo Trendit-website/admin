@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to fetch social verification requests
     function fetchSocialVerificationRequests(page = 1, perPage = 20) {
-        const baseUrl = 'https://api.trendit3.com/api/admin';
+        const baseUrl = 'https://api-staging.trendit3.com/api/admin';
         const accessToken = getCookie('accessToken');
         fetch(`${baseUrl}/social_verification_requests`, {
             method: 'POST',
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to handle approval or rejection
     function handleApproval(id, userId, type, link, action) {
-        const baseUrl = 'https://api.trendit3.com/api/admin';
+        const baseUrl = 'https://api-staging.trendit3.com/api/admin';
         const endpoint = action === 'approve' ? '/approve_social_verification_request' : '/reject_social_verification_request';
         const accessToken = getCookie('accessToken');
         fetch(`${baseUrl}${endpoint}`, {
