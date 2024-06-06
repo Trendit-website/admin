@@ -6,6 +6,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const approveBtn = document.getElementById('approve-social');
     const declineBtn = document.getElementById('decline-social');
     const usersListContainer = document.getElementById('users-container'); // Renamed to usersListContainer
+    var hamburgerMenu = document.querySelector('.hamburger');
+    var navBar = document.querySelector('.nav-bar');
+    
+
+    hamburgerMenu.addEventListener('click', function() {
+        navBar.classList.toggle('active');
+    });
 
     let userData;
 
