@@ -83,37 +83,44 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function showApprovalBox(user, request) {
-        document.getElementById('user-name').textContent = `${user.firstname} ${user.lastname}`;
-        document.getElementById('user-email').textContent = user.email;
-        document.getElementById('profile-picture').src = user.profile_picture || './images/default-user.png';
-
+        const userNameElem = document.getElementById('user-name');
+        const userEmailElem = document.getElementById('user-email');
+        const profilePictureElem = document.getElementById('profile-picture');
         const socialLink = approvalBox.querySelector('.social-link a');
-        socialLink.href = request.body;
-        socialLink.textContent = request.body;
-
         const socialIcon = approvalBox.querySelector('.social-link img');
-        socialIcon.src = `./images/${request.type}.png`;
-
         const statusElement = approvalBox.querySelector('.status');
         const buttonsElement = approvalBox.querySelector('.buttons');
 
-        if (request.status === 'approved') {
-            statusElement.textContent = 'Approved';
-            statusElement.style.color = 'green';
-            buttonsElement.style.display = 'none';
-        } else if (request.status === 'rejected') {
-            statusElement.textContent = 'Rejected';
-            statusElement.style.color = 'red';
-            buttonsElement.style.display = 'none';
+        if (userNameElem && userEmailElem && profilePictureElem && socialLink && socialIcon && statusElement && buttonsElement) {
+            userNameElem.textContent = `${user.firstname} ${user.lastname}`;
+            userEmailElem.textContent = user.email;
+            profilePictureElem.src = user.profile_picture || './images/default-user.png';
+
+            socialLink.href = request.body;
+            socialLink.textContent = request.body;
+
+            socialIcon.src = `./images/${request.type}.png`;
+
+            if (request.status === 'approved') {
+                statusElement.textContent = 'Approved';
+                statusElement.style.color = 'green';
+                buttonsElement.style.display = 'none';
+            } else if (request.status === 'rejected') {
+                statusElement.textContent = 'Rejected';
+                statusElement.style.color = 'red';
+                buttonsElement.style.display = 'none';
+            } else {
+                statusElement.textContent = '';
+                buttonsElement.style.display = 'block';
+            }
+
+            approvalBox.style.display = 'block';
+
+            approveBtn.onclick = () => handleRequestApproval(request, true);
+            declineBtn.onclick = () => handleRequestApproval(request, false);
         } else {
-            statusElement.textContent = '';
-            buttonsElement.style.display = 'block';
+            console.error('One or more elements not found in the DOM');
         }
-
-        approvalBox.style.display = 'block';
-
-        approveBtn.onclick = () => handleRequestApproval(request, true);
-        declineBtn.onclick = () => handleRequestApproval(request, false);
     }
 
     function handleRequestApproval(request, isApproved) {
