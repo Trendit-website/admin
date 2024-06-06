@@ -852,16 +852,12 @@ section h3 {
     margin-left: 120px;
       
 }
-.name-box .name img{
+.name-box .name img:first-of-type{
   min-width: 30px;
   max-width: 30px;
   border-radius: 100px;
 }
-.name-box .name .user-img{
-  min-width: 30px;
-  max-width: 30px;
-  border-radius: 100px;
-}
+
 #message-box, #error-box {
   display: none;
   padding: 10px;
