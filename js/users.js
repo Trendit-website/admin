@@ -494,147 +494,147 @@ async function displayAllUsers(promise) {
 
 
 
-async function fetchSocialVerificationRequests(page = 1, perPage = 20) {
-    try {
-        const response = await fetch(`${baseUrl}/social_verification_requests`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-            },
-            body: JSON.stringify({ page, per_page: perPage })
-        });
+// async function fetchSocialVerificationRequests(page = 1, perPage = 20) {
+//     try {
+//         const response = await fetch(`${baseUrl}/social_verification_requests`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${accessToken}`
+//             },
+//             body: JSON.stringify({ page, per_page: perPage })
+//         });
 
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok');
+//         }
 
-        const text = await response.text();
-        if (!text) {
-            throw new Error('Empty response');
-        }
+//         const text = await response.text();
+//         if (!text) {
+//             throw new Error('Empty response');
+//         }
 
-        const data = JSON.parse(text); // Parse the JSON response
+//         const data = JSON.parse(text); // Parse the JSON response
         
-        if (data.data && data.data.social_verification_requests) {
-            displaySocialVerificationRequests(data.data.social_verification_requests);
-            displaySocialAccounts(data.data.social_verification_requests);
-        } else {
-            throw new Error('social_verification_requests is undefined');
-        }
-    } catch (error) {
-        console.error('Error fetching social verification requests:', error);
-    }
-}
+//         if (data.data && data.data.social_verification_requests) {
+//             displaySocialVerificationRequests(data.data.social_verification_requests);
+//             displaySocialAccounts(data.data.social_verification_requests);
+//         } else {
+//             throw new Error('social_verification_requests is undefined');
+//         }
+//     } catch (error) {
+//         console.error('Error fetching social verification requests:', error);
+//     }
+// }
 
 
 
-async function approveSocialVerificationRequest(userId, type, link, socialVerificationId) {
-    try {
-        const response = await fetch(`${baseUrl}/approve_social_verification_request`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-            },
-            body: JSON.stringify({ userId, type, link, socialVerificationId })
-        });
+// async function approveSocialVerificationRequest(userId, type, link, socialVerificationId) {
+//     try {
+//         const response = await fetch(`${baseUrl}/approve_social_verification_request`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${accessToken}`
+//             },
+//             body: JSON.stringify({ userId, type, link, socialVerificationId })
+//         });
 
-        if (response.ok) {
-            const text = await response.text();
-            if (!text) {
-                throw new Error('Empty response');
-            }
-            const data = JSON.parse(text);
-            displayMessage(data.message);
-            fetchAllSocialVerificationRequests(); // Refresh the list
-        } else {
-            throw new Error('Error approving social verification request');
-        }
-    } catch (error) {
-        displayError(error.message);
-    }
-}
+//         if (response.ok) {
+//             const text = await response.text();
+//             if (!text) {
+//                 throw new Error('Empty response');
+//             }
+//             const data = JSON.parse(text);
+//             displayMessage(data.message);
+//             fetchAllSocialVerificationRequests(); // Refresh the list
+//         } else {
+//             throw new Error('Error approving social verification request');
+//         }
+//     } catch (error) {
+//         displayError(error.message);
+//     }
+// }
 
-async function rejectSocialVerificationRequest(userId, type, link, socialVerificationId) {
-    try {
-        const response = await fetch(`${baseUrl}/reject_social_verification_request`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-            },
-            body: JSON.stringify({ userId, type, link, socialVerificationId })
-        });
+// async function rejectSocialVerificationRequest(userId, type, link, socialVerificationId) {
+//     try {
+//         const response = await fetch(`${baseUrl}/reject_social_verification_request`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${accessToken}`
+//             },
+//             body: JSON.stringify({ userId, type, link, socialVerificationId })
+//         });
 
-        if (response.ok) {
-            const text = await response.text();
-            if (!text) {
-                throw new Error('Empty response');
-            }
-            const data = JSON.parse(text);
-            displayMessage(data.message);
-            fetchAllSocialVerificationRequests(); // Refresh the list
-        } else {
-            throw new Error('Error rejecting social verification request');
-        }
-    } catch (error) {
-        displayError(error.message);
-    }
-}
+//         if (response.ok) {
+//             const text = await response.text();
+//             if (!text) {
+//                 throw new Error('Empty response');
+//             }
+//             const data = JSON.parse(text);
+//             displayMessage(data.message);
+//             fetchAllSocialVerificationRequests(); // Refresh the list
+//         } else {
+//             throw new Error('Error rejecting social verification request');
+//         }
+//     } catch (error) {
+//         displayError(error.message);
+//     }
+// }
 
-function displaySocialVerificationRequests(requests) {
-    const container = document.getElementById('social-requests');
-    container.innerHTML = ''; // Clear the container
-    requests.forEach(request => {
-        const requestBox = document.createElement('div');
-        requestBox.className = 'social-approve-box';
-        requestBox.innerHTML = `
-            <div class="social-link">
-                <img src="./images/${request.type}.png" alt="">
-                <a href="${request.link}" target="_blank">${request.link}</a>
-            </div>
-            <div class="buttons">
-                <button onclick="approveRequest(${request.userId}, '${request.type}', '${request.link}', ${request.id})">Accept</button>
-                <button onclick="rejectRequest(${request.userId}, '${request.type}', '${request.link}', ${request.id})">Decline</button>
-            </div>
-        `;
-        container.appendChild(requestBox);
-    });
-}
+// function displaySocialVerificationRequests(requests) {
+//     const container = document.getElementById('social-requests');
+//     container.innerHTML = ''; // Clear the container
+//     requests.forEach(request => {
+//         const requestBox = document.createElement('div');
+//         requestBox.className = 'social-approve-box';
+//         requestBox.innerHTML = `
+//             <div class="social-link">
+//                 <img src="./images/${request.type}.png" alt="">
+//                 <a href="${request.link}" target="_blank">${request.link}</a>
+//             </div>
+//             <div class="buttons">
+//                 <button onclick="approveRequest(${request.userId}, '${request.type}', '${request.link}', ${request.id})">Accept</button>
+//                 <button onclick="rejectRequest(${request.userId}, '${request.type}', '${request.link}', ${request.id})">Decline</button>
+//             </div>
+//         `;
+//         container.appendChild(requestBox);
+//     });
+// }
 
-function displaySocialAccounts(accounts) {
-    const container = document.getElementById('accounts-connected');
-    container.innerHTML = ''; // Clear the container
-    accounts.forEach(account => {
-        const accountIcon = document.createElement('img');
-        accountIcon.src = `./images/${account.type}.png`;
-        accountIcon.alt = account.type;
-        container.appendChild(accountIcon);
-    });
-}
+// function displaySocialAccounts(accounts) {
+//     const container = document.getElementById('accounts-connected');
+//     container.innerHTML = ''; // Clear the container
+//     accounts.forEach(account => {
+//         const accountIcon = document.createElement('img');
+//         accountIcon.src = `./images/${account.type}.png`;
+//         accountIcon.alt = account.type;
+//         container.appendChild(accountIcon);
+//     });
+// }
 
-function displayMessage(message) {
-    const messageBox = document.getElementById('message-box');
-    messageBox.innerText = message;
-    messageBox.style.display = 'block';
-    setTimeout(() => { messageBox.style.display = 'none'; }, 3000);
-}
+// function displayMessage(message) {
+//     const messageBox = document.getElementById('message-box');
+//     messageBox.innerText = message;
+//     messageBox.style.display = 'block';
+//     setTimeout(() => { messageBox.style.display = 'none'; }, 3000);
+// }
 
-function displayError(error) {
-    const errorBox = document.getElementById('error-box');
-    errorBox.innerText = error;
-    errorBox.style.display = 'block';
-    setTimeout(() => { errorBox.style.display = 'none'; }, 3000);
-}
+// function displayError(error) {
+//     const errorBox = document.getElementById('error-box');
+//     errorBox.innerText = error;
+//     errorBox.style.display = 'block';
+//     setTimeout(() => { errorBox.style.display = 'none'; }, 3000);
+// }
 
-function approveRequest(userId, type, link, id) {
-    approveSocialVerificationRequest(userId, type, link, id);
-}
+// function approveRequest(userId, type, link, id) {
+//     approveSocialVerificationRequest(userId, type, link, id);
+// }
 
-function rejectRequest(userId, type, link, id) {
-    rejectSocialVerificationRequest(userId, type, link, id);
-}
+// function rejectRequest(userId, type, link, id) {
+//     rejectSocialVerificationRequest(userId, type, link, id);
+// }
 
 
 
