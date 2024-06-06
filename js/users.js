@@ -109,14 +109,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetchRequests();
 
     // Function to fetch and display user data
-    let data; // Declare data variable
+    let userData; // Declare data variable
 
     getAllUsers()
-        .then(function(response) {
-            data = response; // Assign response to data variable
-            displayAllUsers(data);
+        .then(response => {
+            userData = response; // Assign response to userData variable
+            displayAllUsers(userData); // Pass userData to displayAllUsers function
         })
-        .catch(function(error) {
+        .catch(error => {
             console.error('Error fetching user data:', error);
         });
 
@@ -125,9 +125,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const nameBox = event.target.closest('.name-box');
         if (nameBox) {
             const userId = nameBox.dataset.userId;
-            // Ensure `data` is defined before accessing `data.users`
-            if (data && data.users) {
-                const user = data.users.find(user => user.id === parseInt(userId, 10));
+            // Ensure `userData` is defined before accessing `userData.users`
+            if (userData && userData.users) {
+                const user = userData.users.find(user => user.id === parseInt(userId, 10));
                 if (user) {
                     displayUserInModal(user, userId);
                 } else {
@@ -249,21 +249,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         );
 
         return Promise.all(transactionPromises)
-            .then(transactions => {
-                transactions.forEach(transactionList => {
-                    transactionList.forEach(transaction => {
+            .then(responses => {
+                responses.forEach(response => {
+                    response.transactions.forEach(transaction => {
                         const transactionElement = document.createElement('div');
-                        transactionElement.classList.add('wallet-box');
+                        transactionElement.classList.add('transaction');
 
-                        const transactionType = transaction.type || 'Transaction';
-                        const transactionDate = new Date(transaction.date).toDateString();
-                        const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
+                        const transactionType = endpointToTransactionType(transaction.endpoint);
+                        const transactionDate = new Date(transaction.date).toLocaleDateString();
                         const transactionDescription = transaction.description || 'No Description';
+                        const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
 
                         transactionElement.innerHTML = `
                             <div class="left">
-                                <img src="./images/arrowleftdown.svg" alt="">
-                                <div class="credit-date">
+                                <div class="type-date">
                                     <p id="highlight">${transactionType}</p>
                                     <p id="date">${transactionDate}</p>
                                 </div>
@@ -301,123 +300,128 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
         .catch(error => {
             console.error('Error', error);
+            throw error; // Re-throw the error to propagate it down the chain
         });
     }
 
-    function displayAllUsers(promise) {
+    function displayAllUsers(data) {
         try {
-            promise.then(response => {
-                const users = response.users;
+            const users = data.users;
 
-                // Check if the users array exists and is not empty
-                if (!users || users.length === 0) {
-                    console.log("No users to display.");
-                    return; // Exit the function if there are no users
-                }
+            // Check if the users array exists and is not empty
+            if (!users || users.length === 0) {
+                console.log("No users to display.");
+                return; // Exit the function if there are no users
+            }
 
-                // Get the container where the user information will be displayed
-                const container = document.getElementById('users-container');
+            // Get the container where the user information will be displayed
+            const container = document.getElementById('users-container');
 
-                // Loop through each user in the response
-                users.forEach(user => {
-                    // Create elements for the user information
-                    const nameBox = document.createElement('div');
-                    nameBox.classList.add('name-box');
-                    nameBox.dataset.userId = user.id; // Store user ID for easy access
+            // Loop through each user in the response
+            users.forEach(user => {
+                // Create elements for the user information
+                const nameBox = document.createElement('div');
+                nameBox.classList.add('name-box');
+                nameBox.dataset.userId = user.id; // Store user ID for easy access
 
-                    nameBox.addEventListener('click', function() {
-                        displayUserInModal(user, user.id);
-                    });
-
-                    const nameDiv = document.createElement('div');
-                    nameDiv.classList.add('name');
-
-                    const userImage = document.createElement('img');
-                    userImage.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
-                    userImage.classList.add('user-img');
-                    userImage.alt = "User Image";
-
-                    const nameEmailDiv = document.createElement('div');
-                    nameEmailDiv.classList.add('name-email');
-
-                    const nameParagraph = document.createElement('p');
-                    nameParagraph.id = "highlight";
-                    nameParagraph.textContent = user.firstname + ' ' + user.lastname;
-
-                    const emailParagraph = document.createElement('p');
-                    emailParagraph.textContent = user.email;
-
-                    nameEmailDiv.appendChild(nameParagraph);
-                    nameEmailDiv.appendChild(emailParagraph);
-
-                    nameDiv.appendChild(userImage);
-                    nameDiv.appendChild(nameEmailDiv);
-
-                    const rightDiv = document.createElement('div');
-                    rightDiv.classList.add('right');
-
-                    const earningDiv = document.createElement('div');
-                    earningDiv.classList.add('earning');
-
-                    const earningImage = document.createElement('img');
-                    earningImage.src = "./images/wallet.png";
-                    earningImage.alt = "Earning Image";
-
-                    const earningTitle = document.createElement('p');
-                    earningTitle.textContent = "Earning";
-
-                    const earningHighlight = document.createElement('p');
-                    earningHighlight.id = "highlight";
-                    earningHighlight.textContent = user.wallet.balance;
-
-                    earningDiv.appendChild(earningImage);
-                    earningDiv.appendChild(earningTitle);
-                    earningDiv.appendChild(earningHighlight);
-
-                    const advertiseDiv = document.createElement('div');
-                    advertiseDiv.classList.add('advertise');
-
-                    const advertiseImage = document.createElement('img');
-                    advertiseImage.src = "./images/wallet.png";
-                    advertiseImage.alt = "Advertise Image";
-
-                    const advertiseTitle = document.createElement('p');
-                    advertiseTitle.textContent = "Advertise";
-
-                    const advertiseHighlight = document.createElement('p');
-                    advertiseHighlight.id = "highlight";
-                    advertiseHighlight.textContent = "0"; // Assuming this value is constant for now
-
-                    advertiseDiv.appendChild(advertiseImage);
-                    advertiseDiv.appendChild(advertiseTitle);
-                    advertiseDiv.appendChild(advertiseHighlight);
-
-                    const dateParagraph = document.createElement('p');
-                    dateParagraph.id = "highlight";
-                    dateParagraph.textContent = new Date(user.date_joined).toDateString(); // Convert date string to Date object and format it
-
-                    rightDiv.appendChild(earningDiv);
-                    rightDiv.appendChild(advertiseDiv);
-                    rightDiv.appendChild(dateParagraph);
-
-                    nameBox.appendChild(nameDiv);
-                    nameBox.appendChild(rightDiv);
-
-                    container.appendChild(nameBox);
+                nameBox.addEventListener('click', function() {
+                    displayUserInModal(user, user.id);
                 });
 
+                const nameDiv = document.createElement('div');
+                nameDiv.classList.add('name');
+
+                const userImage = document.createElement('img');
+                userImage.src = user.profile_picture || "./images/default-user.png"; // Default profile picture if none provided
+                userImage.classList.add('user-img');
+                userImage.alt = "User Image";
+
+                const nameEmailDiv = document.createElement('div');
+                nameEmailDiv.classList.add('name-email');
+
+                const nameParagraph = document.createElement('p');
+                nameParagraph.id = "highlight";
+                nameParagraph.textContent = user.firstname + ' ' + user.lastname;
+
+                const emailParagraph = document.createElement('p');
+                emailParagraph.textContent = user.email;
+
+                nameEmailDiv.appendChild(nameParagraph);
+                nameEmailDiv.appendChild(emailParagraph);
+
+                nameDiv.appendChild(userImage);
+                nameDiv.appendChild(nameEmailDiv);
+
+                const rightDiv = document.createElement('div');
+                rightDiv.classList.add('right');
+
+                const earningDiv = document.createElement('div');
+                earningDiv.classList.add('earning');
+
+                const earningImage = document.createElement('img');
+                earningImage.src = "./images/wallet.png";
+                earningImage.alt = "Earning Image";
+
+                const earningTitle = document.createElement('p');
+                earningTitle.textContent = "Earning";
+
+                const earningHighlight = document.createElement('p');
+                earningHighlight.id = "highlight";
+                earningHighlight.textContent = user.wallet.balance;
+
+                earningDiv.appendChild(earningImage);
+                earningDiv.appendChild(earningTitle);
+                earningDiv.appendChild(earningHighlight);
+
+                const advertiseDiv = document.createElement('div');
+                advertiseDiv.classList.add('advertise');
+
+                const advertiseImage = document.createElement('img');
+                advertiseImage.src = "./images/wallet.png";
+                advertiseImage.alt = "Advertise Image";
+
+                const advertiseTitle = document.createElement('p');
+                advertiseTitle.textContent = "Advertise";
+
+                const advertiseHighlight = document.createElement('p');
+                advertiseHighlight.id = "highlight";
+                advertiseHighlight.textContent = "0"; // Assuming this value is constant for now
+
+                advertiseDiv.appendChild(advertiseImage);
+                advertiseDiv.appendChild(advertiseTitle);
+                advertiseDiv.appendChild(advertiseHighlight);
+
+                const dateParagraph = document.createElement('p');
+                dateParagraph.id = "highlight";
+                dateParagraph.textContent = new Date(user.date_joined).toDateString(); // Convert date string to Date object and format it
+
+                rightDiv.appendChild(earningDiv);
+                rightDiv.appendChild(advertiseDiv);
+                rightDiv.appendChild(dateParagraph);
+
+                nameBox.appendChild(nameDiv);
+                nameBox.appendChild(rightDiv);
+
+                container.appendChild(nameBox);
             });
+
         } catch (error) {
             console.error('Error displaying users:', error);
         }
     }
 
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
 });
 
 
 // document.addEventListener("DOMContentLoaded", function() {
 //     var hamburgerMenu = document.querySelector('.hamburger');
 //     var navBar = document.querySelector('.nav-bar');
+    
 
 //     hamburgerMenu.addEventListener('click', function() {
 //         navBar.classList.toggle('active');
@@ -457,7 +461,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 //         }
 //     });
 // });
+// const baseUrl = 'https://api.trendit3.com/api/admin';
 
+// // get access token
+// const accessToken = getCookie('accessToken');
 
 // function displayUserInModal(user, userId) {
 //     const userName = document.getElementById('user-name');
@@ -492,7 +499,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 // }
 
 
-// // Close the user popup when "Go back" is clicked
+// Close the user popup when "Go back" is clicked
 // const backButton = document.querySelector('.user-popup .back');
 // backButton.addEventListener('click', function() {
 //     const userPopup = document.querySelector('.user-popup');
@@ -652,10 +659,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 //     }
 // });
 
-// const baseUrl = 'https://api.trendit3.com/api/admin';
 
-// // get access token
-// const accessToken = getCookie('accessToken');
 
 
 
