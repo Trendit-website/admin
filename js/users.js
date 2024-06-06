@@ -83,23 +83,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function showApprovalBox(user, request) {
-        // Find elements within the approvalBox
-        const userNameElem = approvalBox.querySelector('#user-name');
-        const userEmailElem = approvalBox.querySelector('#user-email');
-        const profilePictureElem = approvalBox.querySelector('#profile-picture');
+        const userNameElem = document.getElementById('user-name');
+        const userEmailElem = document.getElementById('user-email');
+        const profilePictureElem = document.getElementById('profile-picture');
         const socialLink = approvalBox.querySelector('.social-link a');
         const socialIcon = approvalBox.querySelector('.social-link img');
         const statusElement = approvalBox.querySelector('.status');
         const buttonsElement = approvalBox.querySelector('.buttons');
-
-        // Log to see if the elements are found
-        console.log('userNameElem:', userNameElem);
-        console.log('userEmailElem:', userEmailElem);
-        console.log('profilePictureElem:', profilePictureElem);
-        console.log('socialLink:', socialLink);
-        console.log('socialIcon:', socialIcon);
-        console.log('statusElement:', statusElement);
-        console.log('buttonsElement:', buttonsElement);
 
         if (userNameElem && userEmailElem && profilePictureElem && socialLink && socialIcon && statusElement && buttonsElement) {
             userNameElem.textContent = `${user.firstname} ${user.lastname}`;
