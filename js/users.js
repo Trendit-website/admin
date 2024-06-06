@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const declineBtn = document.getElementById('decline-social');
     const usersListContainer = document.getElementById('users-container'); // Renamed to usersListContainer
 
+    let userData;
+
     async function fetchRequests() {
         try {
             const response = await fetch(`${baseUrl}/social_verification_requests`, {
@@ -28,38 +30,88 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    function getAllUsers(page = 1) {
+        const usersUrl = `${baseUrl}/users?page=${page}`;
+
+        return fetch(usersUrl, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('Error', error);
+            throw error; // Re-throw the error to propagate it down the chain
+        });
+    }
     function populateUserRequests(requests) {
         usersContainer.innerHTML = '';
         requests.forEach(request => {
             const userBox = document.createElement('div');
             userBox.classList.add('name-box');
-            userBox.dataset.userId = request.sender_id; // Store user ID for easy access
+            userBox.dataset.userId = request.sender_id;
 
-            userBox.innerHTML = `
-                <div class="name">
-                    <img src="./images/js.svg" alt="">
-                    <div class="name-email">
-                        <p id="user-name">${request.sender_id}</p>
-                        <p id="user-email">${request.type}</p>
+            const user = userData.users.find(user => user.id === parseInt(request.sender_id, 10));
+            if (user) {
+                userBox.innerHTML = `
+                    <div class="name">
+                        <img src="${user.profile_picture || './images/default-user.png'}" alt="">
+                        <div class="name-email">
+                            <p id="user-name">${user.firstname} ${user.lastname}</p>
+                            <p id="user-email">${user.email}</p>
+                        </div>
+                        <div class="social-account">
+                            <img style="width: 40px;" src="./images/new-green.svg">
+                            <img src="./images/${request.type}.png" alt="">
+                            <img src="./images/tinyright.png" alt="">
+                        </div>
                     </div>
-                    <div class="social-account">
-                        <img style="width: 40px;" src="./images/new-green.svg">
-                        <img src="./images/${request.type}.png" alt="">
-                        <img src="./images/tinyright.png" alt="">
-                    </div>
-                </div>
-            `;
-            userBox.addEventListener('click', () => {
-                showApprovalBox(request);
-            });
-            usersContainer.appendChild(userBox);
+                `;
+                userBox.addEventListener('click', () => {
+                    showApprovalBox(user, request);
+                });
+                usersContainer.appendChild(userBox);
+            }
         });
     }
 
-    function showApprovalBox(request) {
-        document.getElementById('user-name').textContent = request.sender_id;
-        document.getElementById('user-email').textContent = request.type;
+    function showApprovalBox(user, request) {
+        document.getElementById('user-name').textContent = `${user.firstname} ${user.lastname}`;
+        document.getElementById('user-email').textContent = user.email;
+        document.getElementById('profile-picture').src = user.profile_picture || './images/default-user.png';
+
+        const socialLink = approvalBox.querySelector('.social-link a');
+        socialLink.href = request.body;
+        socialLink.textContent = request.body;
+
+        const socialIcon = approvalBox.querySelector('.social-link img');
+        socialIcon.src = `./images/${request.type}.png`;
+
+        const statusElement = approvalBox.querySelector('.status');
+        const buttonsElement = approvalBox.querySelector('.buttons');
+
+        if (request.status === 'approved') {
+            statusElement.textContent = 'Approved';
+            statusElement.style.color = 'green';
+            buttonsElement.style.display = 'none';
+        } else if (request.status === 'rejected') {
+            statusElement.textContent = 'Rejected';
+            statusElement.style.color = 'red';
+            buttonsElement.style.display = 'none';
+        } else {
+            statusElement.textContent = '';
+            buttonsElement.style.display = 'block';
+        }
+
         approvalBox.style.display = 'block';
+
         approveBtn.onclick = () => handleRequestApproval(request, true);
         declineBtn.onclick = () => handleRequestApproval(request, false);
     }
@@ -97,7 +149,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     function updateRequestStatus(request) {
         const userBox = document.querySelector(`.name-box[data-user-id="${request.sender_id}"]`);
         if (userBox) {
-            userBox.querySelector('.status').textContent = request.status;
+            const statusElement = userBox.querySelector('.status');
+            if (request.status === 'approved') {
+                statusElement.textContent = 'Approved';
+                statusElement.style.color = 'green';
+            } else if (request.status === 'rejected') {
+                statusElement.textContent = 'Rejected';
+                statusElement.style.color = 'red';
+            }
         }
     }
 
@@ -109,7 +168,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetchRequests();
 
     // Function to fetch and display user data
-    let userData; // Declare data variable
 
     getAllUsers()
         .then(response => {
@@ -282,27 +340,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
     }
 
-    function getAllUsers(page = 1) {
-        const usersUrl = `${baseUrl}/users?page=${page}`;
-
-        return fetch(usersUrl, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .catch(error => {
-            console.error('Error', error);
-            throw error; // Re-throw the error to propagate it down the chain
-        });
-    }
+    
 
     function displayAllUsers(data) {
         try {
