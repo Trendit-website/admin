@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const approvalBox = document.querySelector('.approval-box');
     const approveBtn = document.getElementById('approve-social');
     const declineBtn = document.getElementById('decline-social');
-    const usersListContainer = document.getElementById('users-container'); // Renamed to usersListContainer
+    const usersListContainer = document.getElementById('users-container');
+    const socialAccountsContainer = document.getElementById('social-accounts'); // Container for social accounts
+
 
     async function fetchRequests() {
         try {
@@ -39,13 +41,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="name">
                     <img src="./images/js.svg" alt="">
                     <div class="name-email">
-                        <p id="user-name">${request.sender_id}</p>
-                        <p id="user-email">${request.type}</p>
-                    </div>
-                    <div class="social-account">
-                        <img style="width: 40px;" src="./images/new-green.svg">
-                        <img src="./images/${request.type}.png" alt="">
-                        <img src="./images/tinyright.png" alt="">
+                        <p class="user-name">${request.sender_id}</p>
+                        <p class="user-email">${request.type}</p>
                     </div>
                 </div>
             `;
@@ -57,11 +54,77 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function showApprovalBox(request) {
-        document.getElementById('user-name').textContent = request.sender_id;
-        document.getElementById('user-email').textContent = request.type;
+        const profilePicture = document.getElementById('profile-picture');
+        const userName = document.getElementById('user-name');
+        const userEmail = document.getElementById('user-email');
+
+        // Set user details
+        userName.textContent = request.sender_id;
+        userEmail.textContent = request.type;
+        profilePicture.src = request.profile_picture || "./images/default-profile.png";
+
+        // Clear previous social accounts
+        socialAccountsContainer.innerHTML = '';
+
+        // Populate social accounts
+        request.social_accounts.forEach(account => {
+            const socialAccountBox = document.createElement('div');
+            socialAccountBox.classList.add('social-approve-box');
+
+            const socialLink = document.createElement('div');
+            socialLink.classList.add('social-link');
+
+            const socialImage = document.createElement('img');
+            socialImage.src = `./images/${account.type}.png`;
+            socialImage.alt = account.type;
+
+            const socialAnchor = document.createElement('a');
+            socialAnchor.href = account.link;
+            socialAnchor.textContent = account.link.length > 25 ? `${account.link.slice(0, 25)}...` : account.link;
+
+            socialLink.appendChild(socialImage);
+            socialLink.appendChild(socialAnchor);
+
+            socialAccountBox.appendChild(socialLink);
+
+            if (account.status === 'approved') {
+                const statusParagraph = document.createElement('p');
+                statusParagraph.classList.add('status');
+                statusParagraph.textContent = 'Approved';
+                socialAccountBox.appendChild(statusParagraph);
+            } else if (account.status === 'rejected') {
+                const statusParagraph = document.createElement('p');
+                statusParagraph.classList.add('status');
+                statusParagraph.textContent = 'Rejected';
+                statusParagraph.style.color = 'red';
+                socialAccountBox.appendChild(statusParagraph);
+            } else {
+                const buttonsDiv = document.createElement('div');
+                buttonsDiv.classList.add('buttons');
+
+                const approveButton = document.createElement('button');
+                approveButton.id = 'approve-social';
+                approveButton.textContent = 'Accept';
+
+                const declineButton = document.createElement('button');
+                declineButton.id = 'decline-social';
+                declineButton.textContent = 'Decline';
+
+                buttonsDiv.appendChild(approveButton);
+                buttonsDiv.appendChild(declineButton);
+
+                socialAccountBox.appendChild(buttonsDiv);
+            }
+
+            socialAccountsContainer.appendChild(socialAccountBox);
+        });
+
+        // Show the approval box
         approvalBox.style.display = 'block';
-        approveBtn.onclick = () => handleRequestApproval(request, true);
-        declineBtn.onclick = () => handleRequestApproval(request, false);
+
+        // Add event listeners to approve and decline buttons
+        approveBtn.addEventListener('click', () => handleRequestApproval(request, true));
+        declineBtn.addEventListener('click', () => handleRequestApproval(request, false));
     }
 
     function handleRequestApproval(request, isApproved) {
