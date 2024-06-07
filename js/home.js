@@ -20,11 +20,8 @@ document.addEventListener("DOMContentLoaded", async function() {
                 console.warn(`No data available for boxId: ${boxId}`);
                 return;
             }
-            const categories = getChartIndices(dataPromise);
             const data = Object.values(dashboardData[boxId]);
-            if (categories && data) {
-                barChart.updateSeries([{data: data}]);
-            }
+            updateBarChart(data);
         });
     });
 
@@ -32,9 +29,11 @@ document.addEventListener("DOMContentLoaded", async function() {
     barChart.render();
 
 
+
     document.getElementById('share').addEventListener('click', shareDashboard);
     document.getElementById('print').addEventListener('click', printDashboard);
     document.getElementById('export').addEventListener('click', exportDashboard);
+
 
     // Dropdown functionality
     const dropdownTrigger = document.getElementById('dropdown-trigger');
@@ -61,10 +60,9 @@ document.addEventListener("DOMContentLoaded", async function() {
     });
 
     async function updateChart(period) {
-        // Fetch data for the selected period and update the chart
-        var dataPromise = getDashboardDataForPeriod(period); // Modify this function to fetch data for the selected period
+        var dataPromise = getDashboardDataForPeriod(period);
         var dashboardData = await convertData(dataPromise);
-        barChart.updateSeries([{ data: dashboardData.totalPayouts }]); // Example: update with totalPayouts data
+        barChart.updateSeries([{ data: dashboardData.totalPayouts }]);
     }
 
      // Search functionality
@@ -93,6 +91,20 @@ document.addEventListener("DOMContentLoaded", async function() {
      dropdownArrow.addEventListener('click', function() {
          dropdownMenu.classList.toggle('active');
      });
+     function updateBarChart(data) {
+        barChart.updateSeries([{ data: data }]);
+    }
+
+    function exportDashboard() {
+        barChart.dataURI().then(({ imgURI, svgURI }) => {
+            const link = document.createElement("a");
+            link.href = imgURI;
+            link.download = "bar_chart.png";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
 
 
 
@@ -105,20 +117,20 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 
 // Example function to fetch data for the selected period
-async function getDashboardDataForPeriod(period) {
-    const url = `${baseUrl}/dashboard_data?period=${period}`; // Modify the API endpoint to accept period as a query parameter
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        }
-    });
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    return response.json();
-}
+// async function getDashboardDataForPeriod(period) {
+//     const url = `${baseUrl}/dashboard_data?period=${period}`; // Modify the API endpoint to accept period as a query parameter
+//     const response = await fetch(url, {
+//         method: 'POST',
+//         headers: {
+//             'Authorization': `Bearer ${accessToken}`,
+//             'Content-Type': 'application/json'
+//         }
+//     });
+//     if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//     }
+//     return response.json();
+// }
 
 const boxIds = {
     selected: 0,
@@ -169,23 +181,20 @@ function getDashboardData() {
 async function getChartIndices(promise) {
     try {
         const data = await promise;
-        if (!data) { // Check if data is null or undefined
+        if (!data) {
             console.error('Received no data');
             return ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT', 'OCT', 'NOV', 'DEC'];
         }
-        var indices = Object.keys(data.payment_activities_per_month || {});
-        console.log(indices);
-        return indices;
+        return Object.keys(data.payment_activities_per_month || {});
     } catch (error) {
         console.error('Error converting data:', error);
     }
 }
 
-
 async function convertData(promise) {
     try {
         const data = await promise;
-        if (!data) { // Check if data is null or undefined
+        if (!data) {
             console.error('Received no data');
             return {
                 'noOfEarners': [],
@@ -193,18 +202,39 @@ async function convertData(promise) {
                 'noOfApprovedAds': []
             };
         }
-        var boxData = {
-            'totalPayouts':Object.values(data.payouts_per_month || {}),
+        return {
+            'totalPayouts': Object.values(data.payouts_per_month || {}),
             'noOfEarners': Object.values(data.payment_activities_per_month || {}),
             'noOfAdvertisers': Object.values(data.payouts_per_month || {}),
             'noOfApprovedAds': Object.values(data.recieved_payments_per_month || {})
         };
-        console.log(boxData);
-        return boxData;
     } catch (error) {
         console.error('Error converting data:', error);
     }
 }
+// async function convertData(promise) {
+//     try {
+//         const data = await promise;
+//         if (!data) { // Check if data is null or undefined
+//             console.error('Received no data');
+//             return {
+//                 'noOfEarners': [],
+//                 'noOfAdvertisers': [],
+//                 'noOfApprovedAds': []
+//             };
+//         }
+//         var boxData = {
+//             'totalPayouts':Object.values(data.payouts_per_month || {}),
+//             'noOfEarners': Object.values(data.payment_activities_per_month || {}),
+//             'noOfAdvertisers': Object.values(data.payouts_per_month || {}),
+//             'noOfApprovedAds': Object.values(data.recieved_payments_per_month || {})
+//         };
+//         console.log(boxData);
+//         return boxData;
+//     } catch (error) {
+//         console.error('Error converting data:', error);
+//     }
+// }
 
 
 function fillMissingMonths(data) {
@@ -230,49 +260,73 @@ function fillMissingMonths(data) {
 }
 
 
-async function displayDashboardData(promise) {
-
-    try {
-
-        const response = await promise;
-        const totalPayouts = response.total_payouts;
-        const totalReceivedPayments = response.total_received_payments
-        const receivedPaymentsPerMonth = response.recieved_payments_per_month
-        const payoutsPerMonth = response.payouts_per_month
-        const paymentActivitiesPerMonth = response.payment_activities_per_month
-        const totalEarners = response.total_earners
-        const totalAdvertisers = response.total_advertisers
-        const totalApprovedTasks = response.total_approved_tasks
-
-
-        // Check if the respose array exists and is not empty
+function displayDashboardData(promise) {
+    promise.then(response => {
         if (!response || response.length === 0) {
             console.log("No data to display.");
-            return; // Exit the function if there is no data
+            return;
         }
 
-        // Get the container where the user information will be displayed
-        var total_payouts = document.getElementById('total_payouts');
-        var total_received_payments = document.getElementById('total_received_payments');
-        var total_advertisers = document.getElementById('total_advertisers');
-        var total_earners = document.getElementById('total_earners');
-        var total_approved_tasks = document.getElementById('total_approved_tasks');
+        const total_payouts = document.getElementById('total_payouts');
+        const total_received_payments = document.getElementById('total_received_payments');
+        const total_advertisers = document.getElementById('total_advertisers');
+        const total_earners = document.getElementById('total_earners');
+        const total_approved_tasks = document.getElementById('total_approved_tasks');
+
+        total_payouts.textContent = `₦${response.total_payouts.toLocaleString()}`;
+        total_received_payments.textContent =  `₦${response.total_received_payments.toLocaleString()}`;
+        total_earners.textContent = `${response.total_earners.toLocaleString()}`;
+        total_advertisers.textContent = `${response.total_advertisers.toLocaleString()}`;
+        total_approved_tasks.textContent = `${response.total_approved_tasks.toLocaleString()}`;
+
+        console.log(response);
+    }).catch(error => {
+        console.error('Error displaying data:', error);
+    });
+}
+// async function displayDashboardData(promise) {
+
+//     try {
+
+//         const response = await promise;
+//         const totalPayouts = response.total_payouts;
+//         const totalReceivedPayments = response.total_received_payments
+//         const receivedPaymentsPerMonth = response.recieved_payments_per_month
+//         const payoutsPerMonth = response.payouts_per_month
+//         const paymentActivitiesPerMonth = response.payment_activities_per_month
+//         const totalEarners = response.total_earners
+//         const totalAdvertisers = response.total_advertisers
+//         const totalApprovedTasks = response.total_approved_tasks
 
 
-        total_payouts.textContent = `₦${totalPayouts.toLocaleString()}`;
-        total_received_payments.textContent =  `₦${totalReceivedPayments.toLocaleString()}`;
-        total_earners.textContent = `${totalEarners.toLocaleString()}`;
-        total_advertisers.textContent = `${totalAdvertisers.toLocaleString()}`;
-        total_approved_tasks.textContent = `${totalApprovedTasks.toLocaleString()}`;
+//         // Check if the respose array exists and is not empty
+//         if (!response || response.length === 0) {
+//             console.log("No data to display.");
+//             return; // Exit the function if there is no data
+//         }
 
-        console.log(response)
+//         // Get the container where the user information will be displayed
+//         var total_payouts = document.getElementById('total_payouts');
+//         var total_received_payments = document.getElementById('total_received_payments');
+//         var total_advertisers = document.getElementById('total_advertisers');
+//         var total_earners = document.getElementById('total_earners');
+//         var total_approved_tasks = document.getElementById('total_approved_tasks');
+
+
+//         total_payouts.textContent = `₦${totalPayouts.toLocaleString()}`;
+//         total_received_payments.textContent =  `₦${totalReceivedPayments.toLocaleString()}`;
+//         total_earners.textContent = `${totalEarners.toLocaleString()}`;
+//         total_advertisers.textContent = `${totalAdvertisers.toLocaleString()}`;
+//         total_approved_tasks.textContent = `${totalApprovedTasks.toLocaleString()}`;
+
+//         console.log(response)
 
         
-    } catch (error) {
-        console.error('Error displaying data:', error);
-    }
+//     } catch (error) {
+//         console.error('Error displaying data:', error);
+//     }
 
-}
+// }
 
 
 function generateRandomData() {
