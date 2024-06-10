@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const usersListContainer = document.getElementById('users-container'); // Renamed to usersListContainer
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
-    
 
     hamburgerMenu.addEventListener('click', function() {
         navBar.classList.toggle('active');
@@ -58,6 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             throw error; // Re-throw the error to propagate it down the chain
         });
     }
+
     function populateUserRequests(requests) {
         usersContainer.innerHTML = '';
         requests.forEach(request => {
@@ -182,7 +182,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetchRequests();
 
     // Function to fetch and display user data
-
     getAllUsers()
         .then(response => {
             userData = response; // Assign response to userData variable
@@ -230,7 +229,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
         profilePicture.src = user.profile_picture || "./images/default-user.png";
 
-        
         fetchAndDisplayUserDetails(userId)
             .then(() => fetchAndDisplayUserTransactions(userId))
             .then(() => {
@@ -323,12 +321,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         return Promise.all(transactionPromises)
             .then(responses => {
-                responses.forEach(response => {
+                responses.forEach((response, index) => {
                     response.transactions.forEach(transaction => {
                         const transactionElement = document.createElement('div');
                         transactionElement.classList.add('transaction');
 
-                        const transactionType = endpointToTransactionType(endpoint);
+                        const transactionType = endpointToTransactionType(endpoints[index]);
                         const transactionDate = new Date(transaction.date).toLocaleDateString();
                         const transactionDescription = transaction.description || 'No Description';
                         const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
@@ -364,7 +362,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             default: return 'Unknown';
         }
     }
-    
 
     function displayAllUsers(data) {
         try {
@@ -471,8 +468,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Error displaying users:', error);
         }
     }
-
 });
+
 
 
 // document.addEventListener("DOMContentLoaded", function() {
