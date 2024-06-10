@@ -350,9 +350,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                         transactionImgSrc = './images/arrowdown.svg';
                 }
     
-                const transactionDate = new Date(transaction.date).toLocaleString();
+                const transactionDate = new Date(transaction.created_at).toLocaleString();
                 const transactionDescription = transaction.description || 'No Description';
-                const transactionAmount = typeof transaction.amount === 'number' ? `₦${transaction.amount.toFixed(2)}` : '₦0.00';
+                const transactionAmount = `₦${parseFloat(transaction.amount).toFixed(2)}`;
     
                 transactionElement.innerHTML = `
                     <div class="left">
