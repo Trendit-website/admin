@@ -242,6 +242,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         const phone = document.getElementById('phone');
         const birthday = document.getElementById('birthday');
         const profilePicture = document.getElementById('profile-picture');
+        const balance = document.getElementById('wallet-balance');
+        const totalEarned = document.getElementById('total-earned');
+        const totalEarnedPercentage = document.getElementById('total-earned-percentage');
+        const totalCommissionedAmount = document.getElementById('total-commissioned-amount');
+        const totalCommissionedPercentage = document.getElementById('total-commissioned-percentage');
+        const totalDebit = document.getElementById('total-debit');
+        const totalCreditAmount = document.getElementById('total-credit-amount');
+        const totalCreditPercentage = document.getElementById('total-credit-percentage');
+        
 
         userName.textContent = user.firstname + ' ' + user.lastname;
         userEmail.textContent = user.email;
@@ -252,10 +261,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
         profilePicture.src = user.profile_picture || "./images/default-user.png";
 
-        console.log("Fetching balance for user ID:", userId); // Add log here
-        fetchUserBalance(userId)
+
+        fetchUserBalance(user.id)
             .then(userBalance => {
-                console.log("Fetched balance for user ID:", userId, userBalance); // Add log here
                 balance.textContent = userBalance;
             })
             .catch(error => {
@@ -263,19 +271,28 @@ document.addEventListener('DOMContentLoaded', async () => {
                 balance.textContent = 'Error fetching balance';
             });
 
-        const modal = document.getElementById('userModal');
-        modal.style.display = 'block';
+        // Fetch and update other user data
+        fetchUserData(user.id)
+            .then(([creditData, paymentData, withdrawalData, debitData]) => {
+                // Update total earned
+                totalEarned.textContent = paymentData.total_earned;
+                totalEarnedPercentage.textContent = paymentData.total_earned_percentage;
 
-        const span = document.getElementsByClassName('close')[0];
-        span.onclick = function () {
-            modal.style.display = 'none';
-        };
-        window.onclick = function (event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        };
-        
+                // Update total commissioned
+                totalCommissionedAmount.textContent = paymentData.total_commissioned;
+                totalCommissionedPercentage.textContent = paymentData.total_commissioned_percentage;
+
+                // Update total debit
+                totalDebit.textContent = debitData.total_debit;
+
+                // Update total credit
+                totalCreditAmount.textContent = creditData.total_credit;
+                totalCreditPercentage.textContent = creditData.total_credit_percentage;
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+            });
+
         fetchAndDisplayUserDetails(userId)
             .then(() => fetchAndDisplayUserTransactions(userId))
             .then(() => {
@@ -289,37 +306,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
     }
 
-    async function fetchUserBalance(userId) {
-        try {
-            const response = await fetch(`${baseUrl}/user_balance/${userId}`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ user_id: userId })
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to fetch balance for user ID: ${userId}`);
-            }
-
-            const balanceData = await response.json();
-            console.log("Balance data received for user ID:", userId, balanceData); // Add log here
-
-            if (balanceData.status_code === 200) {
-                return balanceData.user_balance;
-            } else {
-                throw new Error(balanceData.message);
-            }
-        } catch (error) {
-            console.error('Error fetching user balance:', error);
-            return 'Error fetching balance';
-        }
-    }
-
-    
-    
     // Close the user popup when "Go back" is clicked
     const backButton = document.querySelector('.user-popup .back');
     backButton.addEventListener('click', function() {
@@ -328,6 +314,102 @@ document.addEventListener('DOMContentLoaded', async () => {
         userPopup.style.display = 'none';
         overlay.style.display = 'none';
     });
+
+    function fetchUserBalance(userId) {
+        return fetch(`${baseUrl}/user_balance/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch balance for user ID: ${userId}`);
+            }
+            return response.json();
+        })
+        .then(balanceData => {
+            if (balanceData.status_code === 200) {
+                return balanceData.user_balance;
+            } else {
+                throw new Error(balanceData.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching user balance:', error);
+            return 'Error fetching balance';
+        });
+    }
+
+    function fetchUserData(userId) {
+        return Promise.all([
+            fetchUserCreditTransactions(userId),
+            fetchUserPaymentTransactions(userId),
+            fetchUserWithdrawalTransactions(userId),
+            fetchUserDebitTransactions(userId)
+        ]);
+    }
+
+    function fetchUserCreditTransactions(userId) {
+        return fetch(`${baseUrl}/user_credit_transactions/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Error fetching credit transactions:', error);
+            return null;
+        });
+    }
+
+    function fetchUserPaymentTransactions(userId) {
+        return fetch(`${baseUrl}/user_payment_transactions/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Error fetching payment transactions:', error);
+            return null;
+        });
+    }
+
+    function fetchUserWithdrawalTransactions(userId) {
+        return fetch(`${baseUrl}/user_withdrawal_transactions/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Error fetching withdrawal transactions:', error);
+            return null;
+        });
+    }
+
+    function fetchUserDebitTransactions(userId) {
+        return fetch(`${baseUrl}/user_debit_transactions/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Error fetching debit transactions:', error);
+            return null;
+        });
+    }
 
     async function fetchAndDisplayUserDetails(userId) {
         try {
