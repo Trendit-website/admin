@@ -300,6 +300,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function fetchAndDisplayUserTransactions(userId) {
         const endpoints = [
+            `/user_transactions/${userId}`,
             `/user_credit_transactions/${userId}`,
             `/user_debit_transactions/${userId}`,
             `/user_payment_transactions/${userId}`,
@@ -335,30 +336,35 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const transactionElement = document.createElement('div');
                     transactionElement.classList.add('wallet-box');
     
-                    const transactionType = endpointToTransactionType(endpoints[index]);
+                    let transactionType;
+                    let transactionImgSrc;
+    
+                    if (endpoints[index] === `/user_transactions/${userId}`) {
+                        transactionType = 'General';
+                        transactionImgSrc = './images/arrowdown.svg';
+                    } else {
+                        transactionType = endpointToTransactionType(endpoints[index]);
+                        switch (transactionType) {
+                            case 'Credit':
+                                transactionImgSrc = './images/arrowupdown.png';
+                                break;
+                            case 'Debit':
+                                transactionImgSrc = './images/arrowleftdown.svg';
+                                break;
+                            case 'Payment':
+                                transactionImgSrc = './images/arrowupright.svg';
+                                break;
+                            case 'Withdrawal':
+                                transactionImgSrc = './images/arrowleftup.svg';
+                                break;
+                            default:
+                                transactionImgSrc = './images/arrowdown.svg';
+                        }
+                    }
+    
                     const transactionDate = new Date(transaction.date).toLocaleString();
                     const transactionDescription = transaction.description || 'No Description';
-    
-                    // Ensure transaction.amount is a number before calling toFixed
                     const transactionAmount = typeof transaction.amount === 'number' ? `₦${transaction.amount.toFixed(2)}` : '₦0.00';
-
-                    let transactionImgSrc;
-                    switch (transactionType) {
-                        case 'Credit':
-                            transactionImgSrc = './images/arrowupdown.png';
-                            break;
-                        case 'Debit':
-                            transactionImgSrc = './images/arrowleftdown.svg';
-                            break;
-                        case 'Payment':
-                            transactionImgSrc = './images/arrowupright.svg';
-                            break;
-                        case 'Withdrawal':
-                            transactionImgSrc = './images/arrowleftup.svg';
-                            break;
-                        default:
-                            transactionImgSrc = './images/arrowdown.svg';
-                    }
     
                     transactionElement.innerHTML = `
                         <div class="left">
