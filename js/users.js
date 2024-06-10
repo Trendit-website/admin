@@ -253,6 +253,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         profilePicture.src = user.profile_picture || "./images/default-user.png";
 
         fetchUserBalance(userId);
+        
         fetchAndDisplayUserDetails(userId)
             .then(() => fetchAndDisplayUserTransactions(userId))
             .then(() => {
@@ -276,7 +277,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const data = await response.json();
             if (data.status_code === 200) {
                 const walletBalanceElement = document.getElementById('wallet-balance');
-                walletBalanceElement.textContent = `Wallet Balance: ${data.balance}`;
+                walletBalanceElement.textContent = `₦${data.balance.toFixed(2)}`;
             } else {
                 showError(data.message);
             }
@@ -284,7 +285,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             showError('Error fetching user balance');
         }
     }
-
+    
+    
     // Close the user popup when "Go back" is clicked
     const backButton = document.querySelector('.user-popup .back');
     backButton.addEventListener('click', function() {
