@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
             const data = await response.json();
             if (data.status_code === 200) {
+                console.log("Fetched social verification requests: ", data.social_verification_requests);
                 populateUserRequests(data.social_verification_requests);
             } else {
                 showError(data.message);
@@ -184,6 +185,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Function to fetch and display user data
     getAllUsers()
         .then(response => {
+            console.log("Fetched users: ", response);
             userData = response; // Assign response to userData variable
             displayAllUsers(userData); // Pass userData to displayAllUsers function
         })
@@ -254,7 +256,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function fetchAndDisplayUserDetails(userId) {
         try {
             const [taskMetricsResponse, transactionMetricsResponse] = await Promise.all([
-                fetch(`${baseUrl}/user_task_metrics`, {
+                fetch(`${baseUrl}/user_task_metrics/${userId}`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -262,7 +264,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     },
                     body: JSON.stringify({ userId })
                 }),
-                fetch(`${baseUrl}/user_transaction_metrics`, {
+                fetch(`${baseUrl}/user_transaction_metrics/${userId}`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -279,13 +281,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             const taskMetrics = await taskMetricsResponse.json();
             const transactionMetrics = await transactionMetricsResponse.json();
 
+            console.log("Fetched task metrics: ", taskMetrics);
+            console.log("Fetched transaction metrics: ", transactionMetrics);
+
             document.getElementById('total-earned').textContent = `₦${taskMetrics.totalEarned.toFixed(2)}`;
             document.getElementById('total-advertised').textContent = `₦${taskMetrics.totalAdvertised.toFixed(2)}`;
-            document.getElementById('total-commissioned').textContent = `₦${taskMetrics.totalCommissioned.toFixed(2)}`;
+            document.getElementById('total-commissioned-amount').textContent = `₦${taskMetrics.totalCommissioned.toFixed(2)}`;
             document.getElementById('date-joined').textContent = new Date(taskMetrics.dateJoined).toDateString();
 
             document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
-            document.getElementById('total-credit').textContent = `₦${transactionMetrics.totalCredit.toFixed(2)}`;
+            document.getElementById('total-credit-amount').textContent = `₦${transactionMetrics.totalCredit.toFixed(2)}`;
             document.getElementById('total-debit').textContent = `₦${transactionMetrics.totalDebit.toFixed(2)}`;
 
         } catch (error) {
@@ -295,10 +300,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function fetchAndDisplayUserTransactions(userId) {
         const endpoints = [
-            '/user_credit_transactions',
-            '/user_debit_transactions',
-            '/user_payment_transactions',
-            '/user_withdrawal_transactions'
+            `/user_credit_transactions/${userId}`,
+            `/user_debit_transactions/${userId}`,
+            `/user_payment_transactions/${userId}`,
+            `/user_withdrawal_transactions/${userId}`
         ];
 
         const transactionHistoryContainer = document.getElementById('transaction-history');
@@ -325,6 +330,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const responses = await Promise.all(transactionPromises);
 
             responses.forEach((response, index) => {
+                console.log(`Fetched ${endpoints[index]} transactions: `, response.transactions);
                 response.transactions.forEach(transaction => {
                     const transactionElement = document.createElement('div');
                     transactionElement.classList.add('transaction');
@@ -357,13 +363,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function endpointToTransactionType(endpoint) {
-        switch (endpoint) {
-            case '/user_credit_transactions': return 'Credit';
-            case '/user_debit_transactions': return 'Debit';
-            case '/user_payment_transactions': return 'Payment';
-            case '/user_withdrawal_transactions': return 'Withdrawal';
-            default: return 'Unknown';
-        }
+        if (endpoint.includes('/user_credit_transactions')) return 'Credit';
+        if (endpoint.includes('/user_debit_transactions')) return 'Debit';
+        if (endpoint.includes('/user_payment_transactions')) return 'Payment';
+        if (endpoint.includes('/user_withdrawal_transactions')) return 'Withdrawal';
+        return 'Unknown';
     }
 
     function displayAllUsers(data) {
@@ -472,6 +476,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 });
+
 
 
 
