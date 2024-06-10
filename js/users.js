@@ -299,89 +299,76 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function fetchAndDisplayUserTransactions(userId) {
-        const endpoints = [
-            `/user_transactions/${userId}`,
-            `/user_credit_transactions/${userId}`,
-            `/user_debit_transactions/${userId}`,
-            `/user_payment_transactions/${userId}`,
-            `/user_withdrawal_transactions/${userId}`
-        ];
-    
+        const endpoint = `/user_transactions/${userId}`;
+        
         const transactionHistoryContainer = document.getElementById('transaction-history');
         transactionHistoryContainer.innerHTML = ''; // Clear existing content
     
         try {
-            const transactionPromises = endpoints.map(endpoint =>
-                fetch(`${baseUrl}${endpoint}`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ userId })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-            );
+            const response = await fetch(`${baseUrl}${endpoint}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId })
+            });
     
-            const responses = await Promise.all(transactionPromises);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
     
-            responses.forEach((response, index) => {
-                console.log(`Fetched ${endpoints[index]} transactions: `, response.transactions);
-                response.transactions.forEach(transaction => {
-                    const transactionElement = document.createElement('div');
-                    transactionElement.classList.add('wallet-box');
+            const data = await response.json();
+            console.log(`Fetched ${endpoint} transactions: `, data.transactions);
     
-                    let transactionType;
-                    let transactionImgSrc;
+            data.transactions.forEach(transaction => {
+                const transactionElement = document.createElement('div');
+                transactionElement.classList.add('wallet-box');
     
-                    if (endpoints[index] === `/user_transactions/${userId}`) {
-                        transactionType = 'General';
+                let transactionType;
+                let transactionImgSrc;
+    
+                switch (transaction.transaction_type) {
+                    case 'credit':
+                        transactionType = 'Credit';
+                        transactionImgSrc = './images/arrowupdown.png';
+                        break;
+                    case 'debit':
+                        transactionType = 'Debit';
+                        transactionImgSrc = './images/arrowleftdown.svg';
+                        break;
+                    case 'payment':
+                        transactionType = 'Payment';
+                        transactionImgSrc = './images/arrowupright.svg';
+                        break;
+                    case 'withdrawal':
+                        transactionType = 'Withdrawal';
+                        transactionImgSrc = './images/arrowleftup.svg';
+                        break;
+                    default:
+                        transactionType = 'Unknown';
                         transactionImgSrc = './images/arrowdown.svg';
-                    } else {
-                        transactionType = endpointToTransactionType(endpoints[index]);
-                        switch (transactionType) {
-                            case 'Credit':
-                                transactionImgSrc = './images/arrowupdown.png';
-                                break;
-                            case 'Debit':
-                                transactionImgSrc = './images/arrowleftdown.svg';
-                                break;
-                            case 'Payment':
-                                transactionImgSrc = './images/arrowupright.svg';
-                                break;
-                            case 'Withdrawal':
-                                transactionImgSrc = './images/arrowleftup.svg';
-                                break;
-                            default:
-                                transactionImgSrc = './images/arrowdown.svg';
-                        }
-                    }
+                }
     
-                    const transactionDate = new Date(transaction.date).toLocaleString();
-                    const transactionDescription = transaction.description || 'No Description';
-                    const transactionAmount = typeof transaction.amount === 'number' ? `₦${transaction.amount.toFixed(2)}` : '₦0.00';
+                const transactionDate = new Date(transaction.date).toLocaleString();
+                const transactionDescription = transaction.description || 'No Description';
+                const transactionAmount = typeof transaction.amount === 'number' ? `₦${transaction.amount.toFixed(2)}` : '₦0.00';
     
-                    transactionElement.innerHTML = `
-                        <div class="left">
-                            <img src="${transactionImgSrc}" alt="">
-                            <div class="credit-date">
-                                <p id="highlight">${transactionType}</p>
-                                <p id="date">${transactionDate}</p>
-                            </div>
-                            <p>${transactionDescription}</p>
+                transactionElement.innerHTML = `
+                    <div class="left">
+                        <img src="${transactionImgSrc}" alt="">
+                        <div class="credit-date">
+                            <p id="highlight">${transactionType}</p>
+                            <p id="date">${transactionDate}</p>
                         </div>
-                        <div class="right">
-                            <p id="highlight">${transactionAmount}</p>
-                        </div>
-                    `;
+                        <p>${transactionDescription}</p>
+                    </div>
+                    <div class="right">
+                        <p id="highlight">${transactionAmount}</p>
+                    </div>
+                `;
     
-                    transactionHistoryContainer.appendChild(transactionElement);
-                });
+                transactionHistoryContainer.appendChild(transactionElement);
             });
     
         } catch (error) {
@@ -389,13 +376,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function endpointToTransactionType(endpoint) {
-        if (endpoint.includes('/user_credit_transactions')) return 'Credit';
-        if (endpoint.includes('/user_debit_transactions')) return 'Debit';
-        if (endpoint.includes('/user_payment_transactions')) return 'Payment';
-        if (endpoint.includes('/user_withdrawal_transactions')) return 'Withdrawal';
-        return 'Unknown';
-    }
+    // function endpointToTransactionType(endpoint) {
+    //     if (endpoint.includes('/user_credit_transactions')) return 'Credit';
+    //     if (endpoint.includes('/user_debit_transactions')) return 'Debit';
+    //     if (endpoint.includes('/user_payment_transactions')) return 'Payment';
+    //     if (endpoint.includes('/user_withdrawal_transactions')) return 'Withdrawal';
+    //     return 'Unknown';
+    // }
 
     function displayAllUsers(data) {
         try {
