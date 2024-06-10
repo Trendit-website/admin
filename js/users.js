@@ -333,18 +333,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log(`Fetched ${endpoints[index]} transactions: `, response.transactions);
                 response.transactions.forEach(transaction => {
                     const transactionElement = document.createElement('div');
-                    transactionElement.classList.add('transaction');
+                    transactionElement.classList.add('wallet-box', 'transaction');
     
                     const transactionType = endpointToTransactionType(endpoints[index]);
-                    const transactionDate = new Date(transaction.date).toLocaleDateString();
+                    const transactionDate = new Date(transaction.date).toLocaleString(); // Adjust date formatting as needed
                     const transactionDescription = transaction.description || 'No Description';
-                    
-                    // Ensure transaction.amount is a number before calling toFixed
-                    const transactionAmount = typeof transaction.amount === 'number' ? `₦${transaction.amount.toFixed(2)}` : '₦0.00';
+                    const transactionAmount = `+ ₦${transaction.amount.toFixed(2)}`;
     
                     transactionElement.innerHTML = `
                         <div class="left">
-                            <div class="type-date">
+                            <img src="./images/${transactionType === 'Credit' ? 'arrowleftdown' : 'arrowrightup'}.svg" alt="">
+                            <div class="credit-date">
                                 <p id="highlight">${transactionType}</p>
                                 <p id="date">${transactionDate}</p>
                             </div>
@@ -361,9 +360,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     
         } catch (error) {
             console.error('Error fetching user transactions:', error);
+            showError('Error fetching user transactions');
         }
     }
-
+    
     function endpointToTransactionType(endpoint) {
         if (endpoint.includes('/user_credit_transactions')) return 'Credit';
         if (endpoint.includes('/user_debit_transactions')) return 'Debit';
