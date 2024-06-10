@@ -72,12 +72,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="name">
                         <img src="${user.profile_picture || './images/default-user.png'}" alt="">
                         <div class="name-email">
-                            <p id="user-name">${user.firstname} ${user.lastname}</p>
-                            <p id="user-email">${user.email}</p>
+                            <p class="user-name">${user.firstname} ${user.lastname}</p>
+                            <p class="user-email">${user.email}</p>
                         </div>
                         <div class="social-account">
                             <img style="width: 40px;" src="./images/new-green.svg">
-                            <img src="./images/${request.type}.png" alt="">
+                            ${generateSocialIcons(request)}
                             <img src="./images/tinyright.png" alt="">
                         </div>
                     </div>
@@ -88,6 +88,27 @@ document.addEventListener('DOMContentLoaded', async () => {
                 usersContainer.appendChild(userBox);
             }
         });
+    }
+
+    function generateSocialIcons(request) {
+        let iconsHTML = '';
+        switch (request.type) {
+            case 'insta':
+                iconsHTML += `<img src="./images/insta.png" alt="">`;
+                break;
+            case 'facebook':
+                iconsHTML += `<img src="./images/facebook.png" alt="">`;
+                break;
+            case 'twitter':
+                iconsHTML += `<img src="./images/twitter.png" alt="">`;
+                break;
+            case 'appstore':
+                iconsHTML += `<img src="./images/appstore.png" alt="">`;
+                break;
+            default:
+                break;
+        }
+        return iconsHTML;
     }
 
     function showApprovalBox(user, request) {
