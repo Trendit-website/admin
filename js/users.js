@@ -230,6 +230,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
         profilePicture.src = user.profile_picture || "./images/default-user.png";
 
+        
         fetchAndDisplayUserDetails(userId)
             .then(() => fetchAndDisplayUserTransactions(userId))
             .then(() => {
@@ -327,7 +328,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         const transactionElement = document.createElement('div');
                         transactionElement.classList.add('transaction');
 
-                        const transactionType = endpointToTransactionType(transaction.endpoint);
+                        const transactionType = endpointToTransactionType(endpoint);
                         const transactionDate = new Date(transaction.date).toLocaleDateString();
                         const transactionDescription = transaction.description || 'No Description';
                         const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
@@ -354,6 +355,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
     }
 
+    function endpointToTransactionType(endpoint) {
+        switch (endpoint) {
+            case '/user_credit_transactions': return 'Credit';
+            case '/user_debit_transactions': return 'Debit';
+            case '/user_payment_transactions': return 'Payment';
+            case '/user_withdrawal_transactions': return 'Withdrawal';
+            default: return 'Unknown';
+        }
+    }
     
 
     function displayAllUsers(data) {
