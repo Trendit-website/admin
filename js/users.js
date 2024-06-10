@@ -305,10 +305,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             `/user_payment_transactions/${userId}`,
             `/user_withdrawal_transactions/${userId}`
         ];
-
+    
         const transactionHistoryContainer = document.getElementById('transaction-history');
         transactionHistoryContainer.innerHTML = ''; // Clear existing content
-
+    
         try {
             const transactionPromises = endpoints.map(endpoint =>
                 fetch(`${baseUrl}${endpoint}`, {
@@ -326,20 +326,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                     return response.json();
                 })
             );
-
+    
             const responses = await Promise.all(transactionPromises);
-
+    
             responses.forEach((response, index) => {
                 console.log(`Fetched ${endpoints[index]} transactions: `, response.transactions);
                 response.transactions.forEach(transaction => {
                     const transactionElement = document.createElement('div');
                     transactionElement.classList.add('transaction');
-
+    
                     const transactionType = endpointToTransactionType(endpoints[index]);
                     const transactionDate = new Date(transaction.date).toLocaleDateString();
                     const transactionDescription = transaction.description || 'No Description';
-                    const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
-
+                    
+                    // Ensure transaction.amount is a number before calling toFixed
+                    const transactionAmount = typeof transaction.amount === 'number' ? `₦${transaction.amount.toFixed(2)}` : '₦0.00';
+    
                     transactionElement.innerHTML = `
                         <div class="left">
                             <div class="type-date">
@@ -352,11 +354,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <p id="highlight">${transactionAmount}</p>
                         </div>
                     `;
-
+    
                     transactionHistoryContainer.appendChild(transactionElement);
                 });
             });
-
+    
         } catch (error) {
             console.error('Error fetching user transactions:', error);
         }
