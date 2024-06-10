@@ -1734,7 +1734,7 @@ section h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 24px;
+    gap: 10px;
 }
 
 .name-box .name .social-account {
