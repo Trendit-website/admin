@@ -340,11 +340,29 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const transactionDescription = transaction.description || 'No Description';
     
                     // Ensure transaction.amount is a number before calling toFixed
-                    const transactionAmount = typeof transaction.amount === 'number' ? `+ ₦${transaction.amount.toFixed(2)}` : '+ ₦0.00';
+                    const transactionAmount = typeof transaction.amount === 'number' ? `₦${transaction.amount.toFixed(2)}` : '₦0.00';
+
+                    let transactionImgSrc;
+                    switch (transactionType) {
+                        case 'Credit':
+                            transactionImgSrc = './images/arrowupdown.png';
+                            break;
+                        case 'Debit':
+                            transactionImgSrc = './images/arrowleftdown.svg';
+                            break;
+                        case 'Payment':
+                            transactionImgSrc = './images/arrowupright.svg';
+                            break;
+                        case 'Withdrawal':
+                            transactionImgSrc = './images/arrowleftup.svg';
+                            break;
+                        default:
+                            transactionImgSrc = './images/arrowdown.svg';
+                    }
     
                     transactionElement.innerHTML = `
                         <div class="left">
-                            <img src="./images/${transactionType === 'Credit' ? 'arrowleftdown.svg' : 'arrowleftup.svg'}" alt="">
+                            <img src="${transactionImgSrc}" alt="">
                             <div class="credit-date">
                                 <p id="highlight">${transactionType}</p>
                                 <p id="date">${transactionDate}</p>
