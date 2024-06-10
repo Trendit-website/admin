@@ -252,7 +252,29 @@ document.addEventListener('DOMContentLoaded', async () => {
         birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
         profilePicture.src = user.profile_picture || "./images/default-user.png";
 
-        fetchUserBalance(userId);
+        console.log("Fetching balance for user ID:", userId); // Add log here
+        fetchUserBalance(userId)
+            .then(userBalance => {
+                console.log("Fetched balance for user ID:", userId, userBalance); // Add log here
+                balance.textContent = userBalance;
+            })
+            .catch(error => {
+                console.error('Error fetching user balance:', error);
+                balance.textContent = 'Error fetching balance';
+            });
+
+        const modal = document.getElementById('userModal');
+        modal.style.display = 'block';
+
+        const span = document.getElementsByClassName('close')[0];
+        span.onclick = function () {
+            modal.style.display = 'none';
+        };
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
         
         fetchAndDisplayUserDetails(userId)
             .then(() => fetchAndDisplayUserTransactions(userId))
@@ -270,21 +292,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function fetchUserBalance(userId) {
         try {
             const response = await fetch(`${baseUrl}/user_balance/${userId}`, {
+                method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_id: userId })
             });
-            const data = await response.json();
-            if (data.status_code === 200) {
-                const walletBalanceElement = document.getElementById('wallet-balance');
-                walletBalanceElement.textContent = `₦${data.balance.toFixed(2)}`;
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch balance for user ID: ${userId}`);
+            }
+
+            const balanceData = await response.json();
+            console.log("Balance data received for user ID:", userId, balanceData); // Add log here
+
+            if (balanceData.status_code === 200) {
+                return balanceData.user_balance;
             } else {
-                showError(data.message);
+                throw new Error(balanceData.message);
             }
         } catch (error) {
-            showError('Error fetching user balance');
+            console.error('Error fetching user balance:', error);
+            return 'Error fetching balance';
         }
     }
+
     
     
     // Close the user popup when "Go back" is clicked
