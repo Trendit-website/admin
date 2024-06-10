@@ -5,7 +5,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const approvalBox = document.querySelector('.approval-box');
     const approveBtn = document.getElementById('approve-social');
     const declineBtn = document.getElementById('decline-social');
-    const usersListContainer = document.getElementById('users-container'); // Renamed to usersListContainer
+    const usersListContainer = document.getElementById('users-container');
+    const walletBalance = document.getElementById('wallet-balance');
+    const totalEarnedElem = document.getElementById('total-earned');
+    const totalEarnedPercentageElem = document.getElementById('total-earned-percentage');
+    const totalCommissionedAmountElem = document.getElementById('total-commissioned-amount');
+    const totalCommissionedPercentageElem = document.getElementById('total-commissioned-percentage');
+    const totalDebitElem = document.getElementById('total-debit');
+    const totalCreditAmountElem = document.getElementById('total-credit-amount');
+    const totalCreditPercentageElem = document.getElementById('total-credit-percentage');
+
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
 
@@ -195,6 +204,71 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     }
+    async function fetchWalletBalance(userId) {
+        try {
+            const response = await fetch(`${baseUrl}/user_balance/${userId}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data.wallet_balance; // Assuming the JSON returned has a wallet_balance property
+        } catch (error) {
+            console.error('Error fetching wallet balance:', error);
+            throw error;
+        }
+    }
+    
+    async function fetchUserFinancialData(userId) {
+        try {
+            const creditResponse = await fetch(`${baseUrl}/user_credit_transactions/${userId}`, {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+            const debitResponse = await fetch(`${baseUrl}/user_debit_transactions/${userId}`, {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+            const paymentResponse = await fetch(`${baseUrl}/user_payment_transactions/${userId}`, {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+            const withdrawalResponse = await fetch(`${baseUrl}/user_withdrawal_transactions/${userId}`, {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+    
+            const [creditData, debitData, paymentData, withdrawalData, walletBalance] = await Promise.all([
+                creditResponse.json(),
+                debitResponse.json(),
+                paymentResponse.json(),
+                withdrawalResponse.json(),
+                fetchWalletBalance(userId)
+            ]);
+    
+            if (creditData.status_code === 200 && debitData.status_code === 200 && paymentData.status_code === 200 && withdrawalData.status_code === 200) {
+                updateFinancialData(creditData, debitData, paymentData, withdrawalData, walletBalance);
+            } else {
+                showError('Error fetching financial data');
+            }
+        } catch (error) {
+            showError('Error fetching financial data');
+        }
+    }
+    
+
+    function updateFinancialData(creditData, debitData, paymentData, withdrawalData, walletBalance) {
+        walletBalanceElem.textContent = `₦${walletBalance}`;
+        totalEarnedElem.textContent = `₦${paymentData.total_earned}`;
+        totalEarnedPercentageElem.textContent = `${paymentData.earned_percentage}%`;
+        totalCommissionedAmountElem.textContent = `₦${paymentData.total_commissioned}`;
+        totalCommissionedPercentageElem.textContent = `${paymentData.commissioned_percentage}%`;
+        totalDebitElem.textContent = `₦${debitData.total_debit}`;
+        totalCreditAmountElem.textContent = `₦${creditData.total_credit}`;
+        totalCreditPercentageElem.textContent = `${creditData.credit_percentage}%`;
+        totalCreditPercentageElem.style.color = creditData.credit_percentage > 0 ? 'green' : 'red';
+    }
+    
+    fetchUserFinancialData(userId);
 
     function showError(message) {
         const errorBox = document.getElementById('error-box');
@@ -504,6 +578,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 nameBox.appendChild(rightDiv);
 
                 container.appendChild(nameBox);
+                
             });
 
         } catch (error) {
