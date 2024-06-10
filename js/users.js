@@ -252,6 +252,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
         profilePicture.src = user.profile_picture || "./images/default-user.png";
 
+        fetchUserBalance(userId);
         fetchAndDisplayUserDetails(userId)
             .then(() => fetchAndDisplayUserTransactions(userId))
             .then(() => {
@@ -263,6 +264,25 @@ document.addEventListener('DOMContentLoaded', async () => {
             .catch(error => {
                 console.error('Error displaying user details:', error);
             });
+    }
+
+    async function fetchUserBalance(userId) {
+        try {
+            const response = await fetch(`${baseUrl}/user_balance/${userId}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            const data = await response.json();
+            if (data.status_code === 200) {
+                const walletBalanceElement = document.getElementById('wallet-balance');
+                walletBalanceElement.textContent = `Wallet Balance: ${data.balance}`;
+            } else {
+                showError(data.message);
+            }
+        } catch (error) {
+            showError('Error fetching user balance');
+        }
     }
 
     // Close the user popup when "Go back" is clicked
