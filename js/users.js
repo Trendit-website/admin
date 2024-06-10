@@ -251,32 +251,34 @@ document.addEventListener('DOMContentLoaded', async () => {
         overlay.style.display = 'none';
     });
 
-    function fetchAndDisplayUserDetails(userId) {
-        return Promise.all([
-            fetch(`${baseUrl}/user_task_metrics`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ userId })
-            }),
-            fetch(`${baseUrl}/user_transaction_metrics`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ userId })
-            })
-        ])
-        .then(responses => Promise.all(responses.map(response => {
-            if (!response.ok) {
+    async function fetchAndDisplayUserDetails(userId) {
+        try {
+            const [taskMetricsResponse, transactionMetricsResponse] = await Promise.all([
+                fetch(`${baseUrl}/user_task_metrics`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId })
+                }),
+                fetch(`${baseUrl}/user_transaction_metrics`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId })
+                })
+            ]);
+
+            if (!taskMetricsResponse.ok || !transactionMetricsResponse.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.json();
-        })))
-        .then(([taskMetrics, transactionMetrics]) => {
+
+            const taskMetrics = await taskMetricsResponse.json();
+            const transactionMetrics = await transactionMetricsResponse.json();
+
             document.getElementById('total-earned').textContent = `₦${taskMetrics.totalEarned.toFixed(2)}`;
             document.getElementById('total-advertised').textContent = `₦${taskMetrics.totalAdvertised.toFixed(2)}`;
             document.getElementById('total-commissioned').textContent = `₦${taskMetrics.totalCommissioned.toFixed(2)}`;
@@ -285,13 +287,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
             document.getElementById('total-credit').textContent = `₦${transactionMetrics.totalCredit.toFixed(2)}`;
             document.getElementById('total-debit').textContent = `₦${transactionMetrics.totalDebit.toFixed(2)}`;
-        })
-        .catch(error => {
+
+        } catch (error) {
             console.error('Error fetching user details:', error);
-        });
+        }
     }
 
-    function fetchAndDisplayUserTransactions(userId) {
+    async function fetchAndDisplayUserTransactions(userId) {
         const endpoints = [
             '/user_credit_transactions',
             '/user_debit_transactions',
@@ -302,55 +304,56 @@ document.addEventListener('DOMContentLoaded', async () => {
         const transactionHistoryContainer = document.getElementById('transaction-history');
         transactionHistoryContainer.innerHTML = ''; // Clear existing content
 
-        const transactionPromises = endpoints.map(endpoint =>
-            fetch(`${baseUrl}${endpoint}`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ userId })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-        );
+        try {
+            const transactionPromises = endpoints.map(endpoint =>
+                fetch(`${baseUrl}${endpoint}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+            );
 
-        return Promise.all(transactionPromises)
-            .then(responses => {
-                responses.forEach((response, index) => {
-                    response.transactions.forEach(transaction => {
-                        const transactionElement = document.createElement('div');
-                        transactionElement.classList.add('transaction');
+            const responses = await Promise.all(transactionPromises);
 
-                        const transactionType = endpointToTransactionType(endpoints[index]);
-                        const transactionDate = new Date(transaction.date).toLocaleDateString();
-                        const transactionDescription = transaction.description || 'No Description';
-                        const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
+            responses.forEach((response, index) => {
+                response.transactions.forEach(transaction => {
+                    const transactionElement = document.createElement('div');
+                    transactionElement.classList.add('transaction');
 
-                        transactionElement.innerHTML = `
-                            <div class="left">
-                                <div class="type-date">
-                                    <p id="highlight">${transactionType}</p>
-                                    <p id="date">${transactionDate}</p>
-                                </div>
-                                <p>${transactionDescription}</p>
+                    const transactionType = endpointToTransactionType(endpoints[index]);
+                    const transactionDate = new Date(transaction.date).toLocaleDateString();
+                    const transactionDescription = transaction.description || 'No Description';
+                    const transactionAmount = `₦${transaction.amount.toFixed(2)}`;
+
+                    transactionElement.innerHTML = `
+                        <div class="left">
+                            <div class="type-date">
+                                <p id="highlight">${transactionType}</p>
+                                <p id="date">${transactionDate}</p>
                             </div>
-                            <div class="right">
-                                <p id="highlight">${transactionAmount}</p>
-                            </div>
-                        `;
+                            <p>${transactionDescription}</p>
+                        </div>
+                        <div class="right">
+                            <p id="highlight">${transactionAmount}</p>
+                        </div>
+                    `;
 
-                        transactionHistoryContainer.appendChild(transactionElement);
-                    });
+                    transactionHistoryContainer.appendChild(transactionElement);
                 });
-            })
-            .catch(error => {
-                console.error('Error fetching user transactions:', error);
             });
+
+        } catch (error) {
+            console.error('Error fetching user transactions:', error);
+        }
     }
 
     function endpointToTransactionType(endpoint) {
