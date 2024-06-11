@@ -7,13 +7,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     const declineBtn = document.getElementById('decline-social');
     const usersContainer2 = document.getElementById('users-container2');
     const membersTab = document.getElementById("members");
+    const accountLinkRequestTab = document.getElementById("account-link-request");
+    const socialRequestsContainer = document.getElementById("social-requests");
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
 
-    const accountLinkRequestTab = document.getElementById("account-link-request");
-    const socialRequestsContainer = document.getElementById("social-requests");
+    hamburgerMenu.addEventListener('click', function() {
+        navBar.classList.toggle('active');
+    });
 
-    // Hide approval box when "Cancel" button is clicked
     document.querySelector(".cancel-btn").addEventListener("click", () => {
         approvalBox.style.display = "none";
     });
@@ -53,10 +55,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         usersContainer2.style.display = "block";
     });
 
-    
-    hamburgerMenu.addEventListener('click', function() {
-        navBar.classList.toggle('active');
-    });
 
     let userData;
 
@@ -80,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) {
             showError('Error fetching requests');
         }
-    }    
+    }
 
     function getAllUsers(page = 1) {
         const usersUrl = `${baseUrl}/users?page=${page}`;
@@ -135,7 +133,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
-    
 
     function generateSocialIcons(request) {
         let iconsHTML = '';
@@ -156,7 +153,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 break;
         }
         return iconsHTML;
-    }    
+    }
 
     function showApprovalBox(user, request) {
         const userNameElem = document.getElementById('user-name');
@@ -199,6 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // Function to handle request approval
     function handleRequestApproval(request, isApproved) {
         const endpoint = isApproved ? '/approve_social_verification_request' : '/reject_social_verification_request';
         fetch(`${baseUrl}${endpoint}`, {
@@ -229,6 +227,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // Function to update request status
     function updateRequestStatus(request) {
         const userBox = document.querySelector(`.name-box[data-user-id="${request.sender_id}"]`);
         if (userBox) {
@@ -248,7 +247,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         errorBox.textContent = message;
     }
 
-    
+    fetchRequests();
 
     // Function to fetch and display user data
     getAllUsers()
@@ -262,7 +261,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
     // Event delegation to handle click events on user name boxes
-    usersListContainer.addEventListener('click', function(event) {
+    usersContainer.addEventListener('click', function(event) {
         const nameBox = event.target.closest('.name-box');
         if (nameBox) {
             const userId = nameBox.dataset.userId;
@@ -558,7 +557,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    fetchRequests();
 const options = {
     root: null,
     rootMargin: '0px',
