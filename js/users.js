@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const membersTab = document.getElementById("members");
     const accountLinkRequestTab = document.getElementById("account-link-request");
     const socialRequestsContainer = document.getElementById("social-requests");
+    let userData = {};
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
 
@@ -56,7 +57,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
 
-    let userData;
 
     async function fetchRequests() {
         try {
@@ -71,7 +71,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             const data = await response.json();
             if (data.status_code === 200) {
                 console.log("Fetched social verification requests: ", data.social_verification_requests);
-                populateUserRequests(data.social_verification_requests);
+                // Call getAllUsers to populate userData
+                getAllUsers()
+                    .then(response => {
+                        userData = response; // Assign response to userData variable
+                        populateUserRequests(data.social_verification_requests);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching user data:', error);
+                    });
             } else {
                 showError(data.message);
             }
@@ -79,7 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             showError('Error fetching requests');
         }
     }
-
+    
     function getAllUsers(page = 1) {
         const usersUrl = `${baseUrl}/users?page=${page}`;
 
@@ -103,14 +111,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function populateUserRequests(requests) {
-        try {
-            socialRequestsContainer.innerHTML = ''; // Clear existing content
+        socialRequestsContainer.innerHTML = ''; // Clear existing content
     
-            requests.forEach(request => {
-                const userBox = document.createElement('div');
-                userBox.classList.add('name-box');
-                userBox.dataset.userId = request.sender_id;
+        requests.forEach(request => {
+            const userBox = document.createElement('div');
+            userBox.classList.add('name-box');
+            userBox.dataset.userId = request.sender_id;
     
+            // Ensure userData and userData.users are available
+            if (userData && userData.users) {
                 const user = userData.users.find(user => user.id === parseInt(request.sender_id, 10));
                 if (user) {
                     userBox.innerHTML = `
@@ -132,12 +141,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     });
                     socialRequestsContainer.appendChild(userBox);
                 }
-            });
-        } catch (error) {
-            console.error('Error populating user requests:', error);
-            showError('Error populating user requests. Please try again later.');
-        }
+            }
+        });
     }
+    
     
 
     function generateSocialIcons(request) {
