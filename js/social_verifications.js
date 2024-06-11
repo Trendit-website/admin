@@ -71,6 +71,12 @@ function populateSocialVerificationRequests(requests, users) {
                         <img src="./images/tinyright.png" alt="">
                     </div>
                 </div>
+                <div class="request-info">
+                    <p><strong>Request ID:</strong> ${request.id}</p>
+                    <p><strong>Type:</strong> ${request.type}</p>
+                    <p><strong>Body:</strong> ${request.body}</p>
+                    <p><strong>Status:</strong> ${request.status}</p>
+                </div>
             `;
             userBox.addEventListener('click', () => {
                 showApprovalBox(user, request);
