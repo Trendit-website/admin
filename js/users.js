@@ -5,7 +5,59 @@ document.addEventListener('DOMContentLoaded', async () => {
     const approvalBox = document.querySelector('.approval-box');
     const approveBtn = document.getElementById('approve-social');
     const declineBtn = document.getElementById('decline-social');
-    const usersListContainer = document.getElementById('users-container');// Renamed to usersListContainer
+    const usersListContainer = document.getElementById('users-container');
+    const membersTab = document.getElementById("members");
+    const accountLinkRequestTab = document.getElementById("account-link-request");
+    const usersContainer2 = document.getElementById("users-container2");
+    const socialAccounts = document.querySelector(".social-accounts");
+    const socialOverlay = document.querySelector(".social-overlay");
+    const cancelBtn = document.querySelector(".cancel-btn");
+    const accountsConnected = document.querySelector("#accounts-connected");
+    const socialRequestsContainer = document.getElementById("social-requests");
+
+
+    // Hide approval box when "Cancel" button is clicked
+    cancelBtn.addEventListener("click", () => {
+        approvalBox.style.display = "none";
+    });
+
+    socialAccounts.addEventListener("click", function () {
+        socialOverlay.style.display = "block";
+        approvalBox.style.display = "block";
+    });
+
+    cancelBtn.addEventListener("click", function () {
+        socialOverlay.style.display = "none";
+        approvalBox.style.display = "none";
+    });
+
+    accountsConnected.addEventListener("click", function () {
+        socialOverlay.style.display = "block";
+        approvalBox.style.display = "block";
+    });
+
+    socialOverlay.addEventListener("click", function () {
+        socialOverlay.style.display = "none";
+        approvalBox.style.display = "none";
+    });
+    membersTab.classList.add("selected");
+    accountLinkRequestTab.classList.remove("selected");
+    usersContainer.style.display = "block";
+    usersContainer2.style.display = "none";
+
+    membersTab.addEventListener("click", function() {
+        membersTab.classList.add("selected");
+        accountLinkRequestTab.classList.remove("selected");
+        usersContainer.style.display = "block";
+        usersContainer2.style.display = "none";
+    });
+
+    accountLinkRequestTab.addEventListener("click", function() {
+        accountLinkRequestTab.classList.add("selected");
+        membersTab.classList.remove("selected");
+        usersContainer.style.display = "none";
+        usersContainer2.style.display = "block";
+    });
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
 
@@ -60,8 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function populateUserRequests(requests) {
-        const usersContainer = document.getElementById('social-requests');
-        usersContainer.innerHTML = ''; // Clear existing content
+        socialRequestsContainer.innerHTML = ''; // Clear existing content
     
         requests.forEach(request => {
             const userBox = document.createElement('div');
@@ -204,7 +255,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         errorBox.textContent = message;
     }
 
-    fetchRequests();
+    
 
     // Function to fetch and display user data
     getAllUsers()
@@ -514,6 +565,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    fetchRequests();
 const options = {
     root: null,
     rootMargin: '0px',
