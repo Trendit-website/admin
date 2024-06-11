@@ -14,52 +14,51 @@ document.addEventListener('DOMContentLoaded', async () => {
     const cancelBtn = document.querySelector(".cancel-btn");
     const accountsConnected = document.querySelector("#accounts-connected");
     const socialRequestsContainer = document.getElementById("social-requests");
+    var hamburgerMenu = document.querySelector('.hamburger');
+    var navBar = document.querySelector('.nav-bar');
 
+   // Hide approval box when "Cancel" button is clicked
+   document.querySelector(".cancel-btn").addEventListener("click", () => {
+    approvalBox.style.display = "none";
+});
 
-    // Hide approval box when "Cancel" button is clicked
-    cancelBtn.addEventListener("click", () => {
-        approvalBox.style.display = "none";
-    });
-
-    socialAccounts.addEventListener("click", function () {
-        socialOverlay.style.display = "block";
+// Show approval box when any social account is clicked
+document.querySelectorAll(".social-accounts").forEach(socialAccount => {
+    socialAccount.addEventListener("click", () => {
+        document.querySelector(".social-overlay").style.display = "block";
         approvalBox.style.display = "block";
     });
+});
 
-    cancelBtn.addEventListener("click", function () {
-        socialOverlay.style.display = "none";
-        approvalBox.style.display = "none";
-    });
+// Hide approval box and social overlay when "Cancel" button is clicked
+document.querySelector(".cancel-btn").addEventListener("click", () => {
+    document.querySelector(".social-overlay").style.display = "none";
+    approvalBox.style.display = "none";
+});
 
-    accountsConnected.addEventListener("click", function () {
-        socialOverlay.style.display = "block";
-        approvalBox.style.display = "block";
-    });
+// Switch to "Members" tab
+membersTab.classList.add("selected");
+accountLinkRequestTab.classList.remove("selected");
+usersContainer.style.display = "block";
+usersContainer2.style.display = "none";
 
-    socialOverlay.addEventListener("click", function () {
-        socialOverlay.style.display = "none";
-        approvalBox.style.display = "none";
-    });
+membersTab.addEventListener("click", () => {
     membersTab.classList.add("selected");
     accountLinkRequestTab.classList.remove("selected");
     usersContainer.style.display = "block";
     usersContainer2.style.display = "none";
+});
 
-    membersTab.addEventListener("click", function() {
-        membersTab.classList.add("selected");
-        accountLinkRequestTab.classList.remove("selected");
-        usersContainer.style.display = "block";
-        usersContainer2.style.display = "none";
-    });
+// Switch to "Account Link Request" tab
+accountLinkRequestTab.addEventListener("click", () => {
+    accountLinkRequestTab.classList.add("selected");
+    membersTab.classList.remove("selected");
+    usersContainer.style.display = "none";
+    usersContainer2.style.display = "block";
+});
 
-    accountLinkRequestTab.addEventListener("click", function() {
-        accountLinkRequestTab.classList.add("selected");
-        membersTab.classList.remove("selected");
-        usersContainer.style.display = "none";
-        usersContainer2.style.display = "block";
-    });
-    var hamburgerMenu = document.querySelector('.hamburger');
-    var navBar = document.querySelector('.nav-bar');
+
+
 
     hamburgerMenu.addEventListener('click', function() {
         navBar.classList.toggle('active');
