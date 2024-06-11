@@ -103,36 +103,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function populateUserRequests(requests) {
-        socialRequestsContainer.innerHTML = ''; // Clear existing content
+        try {
+            socialRequestsContainer.innerHTML = ''; // Clear existing content
     
-        requests.forEach(request => {
-            const userBox = document.createElement('div');
-            userBox.classList.add('name-box');
-            userBox.dataset.userId = request.sender_id;
+            requests.forEach(request => {
+                const userBox = document.createElement('div');
+                userBox.classList.add('name-box');
+                userBox.dataset.userId = request.sender_id;
     
-            const user = userData.users.find(user => user.id === parseInt(request.sender_id, 10));
-            if (user) {
-                userBox.innerHTML = `
-                    <div class="name">
-                        <img src="${user.profile_picture || './images/default-user.png'}" alt="">
-                        <div class="name-email">
-                            <p class="user-name">${user.firstname} ${user.lastname}</p>
-                            <p class="user-email">${user.email}</p>
+                const user = userData.users.find(user => user.id === parseInt(request.sender_id, 10));
+                if (user) {
+                    userBox.innerHTML = `
+                        <div class="name">
+                            <img src="${user.profile_picture || './images/default-user.png'}" alt="">
+                            <div class="name-email">
+                                <p class="user-name">${user.firstname} ${user.lastname}</p>
+                                <p class="user-email">${user.email}</p>
+                            </div>
+                            <div class="social-account">
+                                <img style="width: 40px;" src="./images/new-green.svg">
+                                ${generateSocialIcons(request)}
+                                <img src="./images/tinyright.png" alt="">
+                            </div>
                         </div>
-                        <div class="social-account">
-                            <img style="width: 40px;" src="./images/new-green.svg">
-                            ${generateSocialIcons(request)}
-                            <img src="./images/tinyright.png" alt="">
-                        </div>
-                    </div>
-                `;
-                userBox.addEventListener('click', () => {
-                    showApprovalBox(user, request);
-                });
-                socialRequestsContainer.appendChild(userBox);
-            }
-        });
+                    `;
+                    userBox.addEventListener('click', () => {
+                        showApprovalBox(user, request);
+                    });
+                    socialRequestsContainer.appendChild(userBox);
+                }
+            });
+        } catch (error) {
+            console.error('Error populating user requests:', error);
+            showError('Error populating user requests. Please try again later.');
+        }
     }
+    
 
     function generateSocialIcons(request) {
         let iconsHTML = '';
@@ -340,30 +346,32 @@ document.addEventListener('DOMContentLoaded', async () => {
                     body: JSON.stringify({ userId })
                 })
             ]);
-
+    
             if (!taskMetricsResponse.ok || !transactionMetricsResponse.ok) {
                 throw new Error('Network response was not ok');
             }
-
+    
             const taskMetrics = await taskMetricsResponse.json();
             const transactionMetrics = await transactionMetricsResponse.json();
-
+    
             console.log("Fetched task metrics: ", taskMetrics);
             console.log("Fetched transaction metrics: ", transactionMetrics);
-
+    
             document.getElementById('total-earned').textContent = `₦${taskMetrics.totalEarned.toFixed(2)}`;
             document.getElementById('total-advertised').textContent = `₦${taskMetrics.totalAdvertised.toFixed(2)}`;
             document.getElementById('total-commissioned-amount').textContent = `₦${taskMetrics.totalCommissioned.toFixed(2)}`;
             document.getElementById('date-joined').textContent = new Date(taskMetrics.dateJoined).toDateString();
-
+    
             document.getElementById('wallet-balance').textContent = `₦${transactionMetrics.walletBalance.toFixed(2)}`;
             document.getElementById('total-credit-amount').textContent = `₦${transactionMetrics.totalCredit.toFixed(2)}`;
             document.getElementById('total-debit').textContent = `₦${transactionMetrics.totalDebit.toFixed(2)}`;
-
+    
         } catch (error) {
             console.error('Error fetching user details:', error);
+            showError('Error fetching user details. Please try again later.');
         }
     }
+    
 
     async function fetchAndDisplayUserTransactions(userId) {
         const endpoint = `/user_transactions/${userId}`;
