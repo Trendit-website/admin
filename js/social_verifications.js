@@ -88,7 +88,7 @@ function generateSocialIcons(request) {
 async function getAllUsers() {
     try {
         const response = await fetch(`${baseUrl}/users`, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`
             }
