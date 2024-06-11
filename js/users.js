@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const data = await response.json();
             if (data.status_code === 200) {
                 console.log("Fetched social verification requests: ", data.social_verification_requests);
-                // Call getAllUsers to populate userData
+                // Fetch all user data
                 getAllUsers()
                     .then(response => {
                         userData = response; // Assign response to userData variable
@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             showError('Error fetching requests');
         }
     }
+    
     
     function getAllUsers(page = 1) {
         const usersUrl = `${baseUrl}/users?page=${page}`;
@@ -111,12 +112,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function populateUserRequests(requests) {
+        const socialRequestsContainer = document.getElementById('social-requests');
         socialRequestsContainer.innerHTML = ''; // Clear existing content
     
         requests.forEach(request => {
             const userBox = document.createElement('div');
             userBox.classList.add('name-box');
-            userBox.dataset.userId = request.sender_id;
     
             // Ensure userData and userData.users are available
             if (userData && userData.users) {
@@ -148,25 +149,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     
 
     function generateSocialIcons(request) {
-        let iconsHTML = '';
-        switch (request.type) {
-            case 'insta':
-                iconsHTML += `<img src="./images/insta.png" alt="">`;
-                break;
-            case 'facebook':
-                iconsHTML += `<img src="./images/facebook.png" alt="">`;
-                break;
-            case 'twitter':
-                iconsHTML += `<img src="./images/twitter.png" alt="">`;
-                break;
-            case 'appstore':
-                iconsHTML += `<img src="./images/appstore.png" alt="">`;
-                break;
-            default:
-                break;
+        let icons = '';
+        const socialPlatforms = {
+            insta: './images/insta.png',
+            facebook: './images/facebook.png',
+            twitter: './images/twitter.png',
+            appstore: './images/appstore.png'
+        };
+    
+        for (const platform in socialPlatforms) {
+            if (request[platform]) {
+                icons += `<img src="${socialPlatforms[platform]}" alt="">`;
+            }
         }
-        return iconsHTML;
+        return icons;
     }
+    
 
     function showApprovalBox(user, request) {
         const userNameElem = document.getElementById('user-name');
@@ -260,7 +258,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         errorBox.textContent = message;
     }
 
-    fetchRequests();
+   
 
     // Function to fetch and display user data
     getAllUsers()
@@ -571,6 +569,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Error displaying users:', error);
         }
     }
+
+    fetchRequests();
 
 const options = {
     root: null,
