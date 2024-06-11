@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) {
             showError('Error fetching requests');
         }
-    }
+    }    
 
     function getAllUsers(page = 1) {
         const usersUrl = `${baseUrl}/users?page=${page}`;
@@ -60,12 +60,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function populateUserRequests(requests) {
-        usersContainer.innerHTML = '';
+        const usersContainer = document.getElementById('social-requests');
+        usersContainer.innerHTML = ''; // Clear existing content
+    
         requests.forEach(request => {
             const userBox = document.createElement('div');
             userBox.classList.add('name-box');
             userBox.dataset.userId = request.sender_id;
-
+    
             const user = userData.users.find(user => user.id === parseInt(request.sender_id, 10));
             if (user) {
                 userBox.innerHTML = `
@@ -89,6 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
+    
 
     function generateSocialIcons(request) {
         let iconsHTML = '';
@@ -109,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 break;
         }
         return iconsHTML;
-    }
+    }    
 
     function showApprovalBox(user, request) {
         const userNameElem = document.getElementById('user-name');
@@ -242,15 +245,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const phone = document.getElementById('phone');
         const birthday = document.getElementById('birthday');
         const profilePicture = document.getElementById('profile-picture');
-        const balance = document.getElementById('wallet-balance');
-        const totalEarned = document.getElementById('total-earned');
-        const totalEarnedPercentage = document.getElementById('total-earned-percentage');
-        const totalCommissionedAmount = document.getElementById('total-commissioned-amount');
-        const totalCommissionedPercentage = document.getElementById('total-commissioned-percentage');
-        const totalDebit = document.getElementById('total-debit');
-        const totalCreditAmount = document.getElementById('total-credit-amount');
-        const totalCreditPercentage = document.getElementById('total-credit-percentage');
-        
 
         userName.textContent = user.firstname + ' ' + user.lastname;
         userEmail.textContent = user.email;
@@ -260,38 +254,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         phone.textContent = user.phone ? '+234' + user.phone : "Not Specified";
         birthday.textContent = user.birthday ? new Date(user.birthday).toDateString() : "Not Specified";
         profilePicture.src = user.profile_picture || "./images/default-user.png";
-
-
-        fetchUserBalance(user.id)
-            .then(userBalance => {
-                balance.textContent = userBalance;
-            })
-            .catch(error => {
-                console.error('Error fetching user balance:', error);
-                balance.textContent = 'Error fetching balance';
-            });
-
-        // Fetch and update other user data
-        fetchUserData(user.id)
-            .then(([creditData, paymentData, withdrawalData, debitData]) => {
-                // Update total earned
-                totalEarned.textContent = paymentData.total_earned;
-                totalEarnedPercentage.textContent = paymentData.total_earned_percentage;
-
-                // Update total commissioned
-                totalCommissionedAmount.textContent = paymentData.total_commissioned;
-                totalCommissionedPercentage.textContent = paymentData.total_commissioned_percentage;
-
-                // Update total debit
-                totalDebit.textContent = debitData.total_debit;
-
-                // Update total credit
-                totalCreditAmount.textContent = creditData.total_credit;
-                totalCreditPercentage.textContent = creditData.total_credit_percentage;
-            })
-            .catch(error => {
-                console.error('Error fetching user data:', error);
-            });
 
         fetchAndDisplayUserDetails(userId)
             .then(() => fetchAndDisplayUserTransactions(userId))
@@ -314,102 +276,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         userPopup.style.display = 'none';
         overlay.style.display = 'none';
     });
-
-    function fetchUserBalance(userId) {
-        return fetch(`${baseUrl}/user_balance/${userId}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Failed to fetch balance for user ID: ${userId}`);
-            }
-            return response.json();
-        })
-        .then(balanceData => {
-            if (balanceData.status_code === 200) {
-                return balanceData.user_balance;
-            } else {
-                throw new Error(balanceData.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching user balance:', error);
-            return 'Error fetching balance';
-        });
-    }
-
-    function fetchUserData(userId) {
-        return Promise.all([
-            fetchUserCreditTransactions(userId),
-            fetchUserPaymentTransactions(userId),
-            fetchUserWithdrawalTransactions(userId),
-            fetchUserDebitTransactions(userId)
-        ]);
-    }
-
-    function fetchUserCreditTransactions(userId) {
-        return fetch(`${baseUrl}/user_credit_transactions/${userId}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .catch(error => {
-            console.error('Error fetching credit transactions:', error);
-            return null;
-        });
-    }
-
-    function fetchUserPaymentTransactions(userId) {
-        return fetch(`${baseUrl}/user_payment_transactions/${userId}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .catch(error => {
-            console.error('Error fetching payment transactions:', error);
-            return null;
-        });
-    }
-
-    function fetchUserWithdrawalTransactions(userId) {
-        return fetch(`${baseUrl}/user_withdrawal_transactions/${userId}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .catch(error => {
-            console.error('Error fetching withdrawal transactions:', error);
-            return null;
-        });
-    }
-
-    function fetchUserDebitTransactions(userId) {
-        return fetch(`${baseUrl}/user_debit_transactions/${userId}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .catch(error => {
-            console.error('Error fetching debit transactions:', error);
-            return null;
-        });
-    }
 
     async function fetchAndDisplayUserDetails(userId) {
         try {
