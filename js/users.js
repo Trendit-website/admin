@@ -394,7 +394,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    fetchRequests();
 
 const options = {
     root: null,
