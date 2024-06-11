@@ -36,28 +36,68 @@ async function fetchSocialVerificationRequests() {
 }
 
 // Populate social verification requests into the HTML
+// function populateSocialVerificationRequests(requests, users) {
+//     const socialRequestsContainer = document.getElementById('social-requests');
+
+//     if (!socialRequestsContainer) {
+//         console.error('Element with id "social-requests" not found');
+//         return;
+//     }
+    
+//     console.log('socialRequestsContainer found');
+//     console.log('Requests:', requests);
+//     console.log('Users:', users);
+
+//     socialRequestsContainer.innerHTML = ''; // Clear existing content
+
+//     requests.forEach(request => {
+//         console.log('Processing request:', request);
+//         const userBox = document.createElement('div');
+//         userBox.classList.add('name-box');
+
+//         const user = users.find(user => user.id === parseInt(request.sender_id, 10));
+//         if (user) {
+//             console.log('Found user for request:', user);
+//             userBox.innerHTML = `
+//                 <div class="name">
+//                     <img src="${user.profile_picture || './images/default-user.png'}" alt="">
+//                     <div class="name-email">
+//                         <p class="user-name">${user.firstname} ${user.lastname}</p>
+//                         <p class="user-email">${user.email}</p>
+//                     </div>
+//                     <div class="social-account">
+//                         <img style="width: 40px;" src="./images/new-green.svg">
+//                         ${generateSocialIcons(request)}
+//                         <img src="./images/tinyright.png" alt="">
+//                     </div>
+//                 </div>
+//                 <div class="request-info">
+//                     <p><strong>Request ID:</strong> ${request.id}</p>
+//                     <p><strong>Type:</strong> ${request.type}</p>
+//                     <p><strong>Body:</strong> ${request.body}</p>
+//                     <p><strong>Status:</strong> ${request.status}</p>
+//                 </div>
+//             `;
+//             userBox.addEventListener('click', () => {
+//                 showApprovalBox(user, request);
+//             });
+//             socialRequestsContainer.appendChild(userBox);
+//         } else {
+//             console.warn('User not found for request:', request);
+//         }
+//     });
+// }
 function populateSocialVerificationRequests(requests, users) {
     const socialRequestsContainer = document.getElementById('social-requests');
-
-    if (!socialRequestsContainer) {
-        console.error('Element with id "social-requests" not found');
-        return;
-    }
-    
-    console.log('socialRequestsContainer found');
-    console.log('Requests:', requests);
-    console.log('Users:', users);
-
     socialRequestsContainer.innerHTML = ''; // Clear existing content
 
     requests.forEach(request => {
-        console.log('Processing request:', request);
-        const userBox = document.createElement('div');
-        userBox.classList.add('name-box');
-
         const user = users.find(user => user.id === parseInt(request.sender_id, 10));
         if (user) {
-            console.log('Found user for request:', user);
+            const userBox = document.createElement('div');
+            userBox.classList.add('name-box');
+            userBox.dataset.userId = user.id;
+
             userBox.innerHTML = `
                 <div class="name">
                     <img src="${user.profile_picture || './images/default-user.png'}" alt="">
@@ -71,22 +111,33 @@ function populateSocialVerificationRequests(requests, users) {
                         <img src="./images/tinyright.png" alt="">
                     </div>
                 </div>
-                <div class="request-info">
-                    <p><strong>Request ID:</strong> ${request.id}</p>
-                    <p><strong>Type:</strong> ${request.type}</p>
-                    <p><strong>Body:</strong> ${request.body}</p>
-                    <p><strong>Status:</strong> ${request.status}</p>
-                </div>
             `;
+
             userBox.addEventListener('click', () => {
                 showApprovalBox(user, request);
             });
+
             socialRequestsContainer.appendChild(userBox);
-        } else {
-            console.warn('User not found for request:', request);
         }
     });
 }
+
+function generateSocialIcons(request) {
+    let icons = '';
+    const socialPlatforms = {
+        instagram: './images/insta.png',
+        facebook: './images/facebook.png',
+        twitter: './images/twitter.png',
+        appstore: './images/appstore.png'
+        // Add more social platforms as needed
+    };
+
+    if (request.type && socialPlatforms[request.type]) {
+        icons += `<img src="${socialPlatforms[request.type]}" alt="">`;
+    }
+    return icons;
+}
+
 
 // Helper function to generate social icons
 function generateSocialIcons(request) {
@@ -130,50 +181,6 @@ async function getAllUsers() {
     }
 }
 
-// function showApprovalBox(user, request) {
-//     const userNameElem = document.getElementById('user-name');
-//     const userEmailElem = document.getElementById('user-email');
-//     const profilePictureElem = document.getElementById('profile-picture');
-//     const socialLink = approvalBox.querySelector('.social-link a');
-//     const socialIcon = approvalBox.querySelector('.social-link img');
-//     const statusElement = approvalBox.querySelector('.status');
-//     const buttonsElement = approvalBox.querySelector('.buttons');
-
-//     if (userNameElem && userEmailElem && profilePictureElem && socialLink && socialIcon && statusElement && buttonsElement) {
-//         userNameElem.textContent = `${user.firstname} ${user.lastname}`;
-//         userEmailElem.textContent = user.email;
-//         profilePictureElem.src = user.profile_picture || './images/default-user.png';
-
-//         socialLink.href = request.body;
-//         socialLink.textContent = request.body;
-
-//         socialIcon.src = `./images/${request.type}.png`;
-
-//         if (request.status === 'approved') {
-//             statusElement.textContent = 'Approved';
-//             statusElement.style.color = 'green';
-//             buttonsElement.style.display = 'none';
-//         } else if (request.status === 'rejected') {
-//             statusElement.textContent = 'Rejected';
-//             statusElement.style.color = 'red';
-//             buttonsElement.style.display = 'none';
-//         } else {
-//             statusElement.textContent = '';
-//             buttonsElement.style.display = 'block';
-//         }
-
-//         approvalBox.style.display = 'block';
-
-//         approveBtn.onclick = () => handleRequestApproval(request, true);
-//         declineBtn.onclick = () => handleRequestApproval(request, false);
-//     } else {
-//         console.error('One or more elements not found in the DOM');
-//     }
-// }
-
-// Function to handle request approval
-
-// Function to populate the user information and linked social accounts
 function showApprovalBox(user, request) {
     const userNameElem = document.getElementById('user-name');
     const userEmailElem = document.getElementById('user-email');
@@ -226,6 +233,48 @@ function showApprovalBox(user, request) {
 }
 
 
+// function showApprovalBox(user, request) {
+//     const userNameElem = document.getElementById('user-name');
+//     const userEmailElem = document.getElementById('user-email');
+//     const profilePictureElem = document.getElementById('profile-picture');
+//     const socialLink = approvalBox.querySelector('.social-link a');
+//     const socialIcon = approvalBox.querySelector('.social-link img');
+//     const statusElement = approvalBox.querySelector('.status');
+//     const buttonsElement = approvalBox.querySelector('.buttons');
+
+//     if (userNameElem && userEmailElem && profilePictureElem && socialLink && socialIcon && statusElement && buttonsElement) {
+//         userNameElem.textContent = `${user.firstname} ${user.lastname}`;
+//         userEmailElem.textContent = user.email;
+//         profilePictureElem.src = user.profile_picture || './images/default-user.png';
+
+//         socialLink.href = request.body;
+//         socialLink.textContent = request.body;
+
+//         socialIcon.src = `./images/${request.type}.png`;
+
+//         if (request.status === 'approved') {
+//             statusElement.textContent = 'Approved';
+//             statusElement.style.color = 'green';
+//             buttonsElement.style.display = 'none';
+//         } else if (request.status === 'rejected') {
+//             statusElement.textContent = 'Rejected';
+//             statusElement.style.color = 'red';
+//             buttonsElement.style.display = 'none';
+//         } else {
+//             statusElement.textContent = '';
+//             buttonsElement.style.display = 'block';
+//         }
+
+//         approvalBox.style.display = 'block';
+
+//         approveBtn.onclick = () => handleRequestApproval(request, true);
+//         declineBtn.onclick = () => handleRequestApproval(request, false);
+//     } else {
+//         console.error('One or more elements not found in the DOM');
+//     }
+// }
+
+// Function to handle request approval
 function handleRequestApproval(request, isApproved) {
     const endpoint = isApproved ? '/approve_social_verification_request' : '/reject_social_verification_request';
     fetch(`${baseUrl}${endpoint}`, {
