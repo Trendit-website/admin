@@ -1,121 +1,195 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//     const socialOverlay = document.querySelector(".social-overlay");
-//     const approvalBox = document.querySelector(".approval-box");
-//     const cancelBtn = document.querySelector(".cancel-btn");
-//     const accountsConnected = document.querySelector("#accounts-connected");
-//     const socialRequestsContainer = document.getElementById("social-requests");
+const baseUrl = 'https://api-staging.trendit3.com/api/admin';
+const accessToken = getCookie('accessToken'); 
+const approveBtn = document.getElementById('approve-social');
+const declineBtn = document.getElementById('decline-social');
 
-//     // Function to fetch social verification requests
-//     function fetchSocialVerificationRequests(page = 1, perPage = 20) {
-//         const baseUrl = 'https://api-staging.trendit3.com/api/admin';
-//         const accessToken = getCookie('accessToken');
-//         fetch(`${baseUrl}/social_verification_requests`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${accessToken}`
-//             },
-//             body: JSON.stringify({ page, per_page: perPage })
-//         })
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('Network response was not ok');
-//             }
-//             return response.json();
-//         })
-//         .then(data => {
-//             if (data.status_code === 200) {
-//                 renderSocialVerificationRequests(data.social_verification_requests);
-//                 approvalBox.style.display = "block";
-//                 socialOverlay.style.display = "block";
-//             } else {
-//                 alert("Error fetching social verification requests: " + data.message);
-//             }
-//         })
-//         .catch(error => {
-//             console.error("Error fetching social verification requests:", error);
-//             alert("Error fetching social verification requests: " + error.message);
-//         });
-//     }
+// Fetch social verification requests and user data
+async function fetchSocialVerificationRequests() {
+    try {
+        const response = await fetch(`${baseUrl}/social_verification_requests`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({ page: 1, per_page: 20 })
+        });
+        const data = await response.json();
+        if (data.status_code === 200) {
+            console.log("Fetched social verification requests: ", data.social_verification_requests);
+            // Fetch all user data
+            const usersData = await getAllUsers();
+            populateSocialVerificationRequests(data.social_verification_requests, usersData.users);
+        } else {
+            showError(data.message);
+        }
+    } catch (error) {
+        showError('Error fetching requests');
+    }
+}
 
-//     // Function to render social verification requests
-//     function renderSocialVerificationRequests(requests) {
-//         socialRequestsContainer.innerHTML = "";
-//         requests.forEach(request => {
-//             const requestElement = document.createElement("div");
-//             requestElement.className = "social-approve-box";
-//             requestElement.innerHTML = `
-//                 <div class="social-link">
-//                     <img src="./images/${request.type}.png" alt="">
-//                     <a href="${request.body}" target="_blank">${request.body}</a>
-//                 </div>
-//                 <div class="buttons">
-//                     ${request.status === "pending" ? `
-//                         <button class="approve-social" data-id="${request.id}" data-type="${request.type}" data-link="${request.body}" data-user-id="${request.sender_id}">Accept</button>
-//                         <button class="decline-social" data-id="${request.id}" data-type="${request.type}" data-link="${request.body}" data-user-id="${request.sender_id}">Decline</button>
-//                     ` : `<p class="status">${request.status}</p>`}
-//                 </div>
-//             `;
-//             socialRequestsContainer.appendChild(requestElement);
-//         });
+// Populate social verification requests into the HTML
+function populateSocialVerificationRequests(requests, users) {
+    const socialRequestsContainer = document.getElementById('social-requests');
+    socialRequestsContainer.innerHTML = ''; // Clear existing content
 
-//         document.querySelectorAll(".approve-social").forEach(button => {
-//             button.addEventListener("click", () => handleApproval(button.dataset.id, button.dataset.userId, button.dataset.type, button.dataset.link, 'approve'));
-//         });
+    requests.forEach(request => {
+        const userBox = document.createElement('div');
+        userBox.classList.add('name-box');
 
-//         document.querySelectorAll(".decline-social").forEach(button => {
-//             button.addEventListener("click", () => handleApproval(button.dataset.id, button.dataset.userId, button.dataset.type, button.dataset.link, 'decline'));
-//         });
-//     }
+        const user = users.find(user => user.id === parseInt(request.sender_id, 10));
+        if (user) {
+            userBox.innerHTML = `
+                <div class="name">
+                    <img src="${user.profile_picture || './images/default-user.png'}" alt="">
+                    <div class="name-email">
+                        <p class="user-name">${user.firstname} ${user.lastname}</p>
+                        <p class="user-email">${user.email}</p>
+                    </div>
+                    <div class="social-account">
+                        <img style="width: 40px;" src="./images/new-green.svg">
+                        ${generateSocialIcons(request)}
+                        <img src="./images/tinyright.png" alt="">
+                    </div>
+                </div>
+            `;
+            userBox.addEventListener('click', () => {
+                showApprovalBox(user, request);
+            });
+            socialRequestsContainer.appendChild(userBox);
+        }
+    });
+}
 
-//     // Function to handle approval or rejection
-//     function handleApproval(id, userId, type, link, action) {
-//         const baseUrl = 'https://api-staging.trendit3.com/api/admin';
-//         const endpoint = action === 'approve' ? '/approve_social_verification_request' : '/reject_social_verification_request';
-//         const accessToken = getCookie('accessToken');
-//         fetch(`${baseUrl}${endpoint}`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${accessToken}`
-//             },
-//             body: JSON.stringify({
-//                 userId: userId,
-//                 type: type,
-//                 link: link,
-//                 socialVerificationId: id
-//             })
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.status_code === 200) {
-//                 alert(`Social verification request ${action}d successfully`);
-//                 fetchSocialVerificationRequests();
-//             } else {
-//                 alert(`Error ${action}ing social verification request: ${data.message}`);
-//             }
-//         })
-//         .catch(error => {
-//             console.error(`Error ${action}ing social verification request:`, error);
-//             alert(`Error ${action}ing social verification request: ${error.message}`);
-//         });
-//     }
+// Helper function to generate social icons
+function generateSocialIcons(request) {
+    let icons = '';
+    const socialPlatforms = {
+        instagram: './images/insta.png',
+        facebook: './images/facebook.png',
+        twitter: './images/twitter.png',
+        appstore: './images/appstore.png'
+    };
 
-//     // Show approval box when "Social Accounts" is clicked
-//     accountsConnected.addEventListener("click", () => {
-//         fetchSocialVerificationRequests();
-//     });
+    if (request.type && socialPlatforms[request.type]) {
+        icons += `<img src="${socialPlatforms[request.type]}" alt="">`;
+    }
+    return icons;
+}
 
-//     // Hide approval box when "Cancel" button is clicked
-//     cancelBtn.addEventListener("click", () => {
-//         approvalBox.style.display = "none";
-//         socialOverlay.style.display = "none";
-//     });
+// Function to fetch all users data
+async function getAllUsers() {
+    try {
+        const response = await fetch(`${baseUrl}/users`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+        const data = await response.json();
+        if (data.status_code === 200) {
+            return data;
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (error) {
+        throw new Error('Error fetching user data');
+    }
+}
 
-//     socialOverlay.addEventListener("click", () => {
-//         approvalBox.style.display = "none";
-//         socialOverlay.style.display = "none";
-//     });
-// });
+function showApprovalBox(user, request) {
+    const userNameElem = document.getElementById('user-name');
+    const userEmailElem = document.getElementById('user-email');
+    const profilePictureElem = document.getElementById('profile-picture');
+    const socialLink = approvalBox.querySelector('.social-link a');
+    const socialIcon = approvalBox.querySelector('.social-link img');
+    const statusElement = approvalBox.querySelector('.status');
+    const buttonsElement = approvalBox.querySelector('.buttons');
+
+    if (userNameElem && userEmailElem && profilePictureElem && socialLink && socialIcon && statusElement && buttonsElement) {
+        userNameElem.textContent = `${user.firstname} ${user.lastname}`;
+        userEmailElem.textContent = user.email;
+        profilePictureElem.src = user.profile_picture || './images/default-user.png';
+
+        socialLink.href = request.body;
+        socialLink.textContent = request.body;
+
+        socialIcon.src = `./images/${request.type}.png`;
+
+        if (request.status === 'approved') {
+            statusElement.textContent = 'Approved';
+            statusElement.style.color = 'green';
+            buttonsElement.style.display = 'none';
+        } else if (request.status === 'rejected') {
+            statusElement.textContent = 'Rejected';
+            statusElement.style.color = 'red';
+            buttonsElement.style.display = 'none';
+        } else {
+            statusElement.textContent = '';
+            buttonsElement.style.display = 'block';
+        }
+
+        approvalBox.style.display = 'block';
+
+        approveBtn.onclick = () => handleRequestApproval(request, true);
+        declineBtn.onclick = () => handleRequestApproval(request, false);
+    } else {
+        console.error('One or more elements not found in the DOM');
+    }
+}
+
+// Function to handle request approval
+function handleRequestApproval(request, isApproved) {
+    const endpoint = isApproved ? '/approve_social_verification_request' : '/reject_social_verification_request';
+    fetch(`${baseUrl}${endpoint}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+            userId: request.sender_id,
+            type: request.type,
+            link: request.body,
+            socialVerificationId: request.id
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status_code === 200) {
+            request.status = isApproved ? 'approved' : 'rejected';
+            updateRequestStatus(request);
+            approvalBox.style.display = 'none';
+        } else {
+            showError(data.message);
+        }
+    })
+    .catch(error => {
+        showError('Error processing request');
+    });
+}
+
+// Function to update request status
+function updateRequestStatus(request) {
+    const userBox = document.querySelector(`.name-box[data-user-id="${request.sender_id}"]`);
+    if (userBox) {
+        const statusElement = userBox.querySelector('.status');
+        if (request.status === 'approved') {
+            statusElement.textContent = 'Approved';
+            statusElement.style.color = 'green';
+        } else if (request.status === 'rejected') {
+            statusElement.textContent = 'Rejected';
+            statusElement.style.color = 'red';
+        }
+    }
+}
+
+function showError(message) {
+    const errorBox = document.getElementById('error-box');
+    errorBox.textContent = message;
+}
+
+
+fetchSocialVerificationRequests();
 
 
