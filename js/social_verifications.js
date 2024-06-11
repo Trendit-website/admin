@@ -2,6 +2,7 @@ const baseUrl = 'https://api-staging.trendit3.com/api/admin';
 const accessToken = getCookie('accessToken'); 
 const approveBtn = document.getElementById('approve-social');
 const declineBtn = document.getElementById('decline-social');
+const approvalBox = document.querySelector('.approval-box');
 
 // Fetch social verification requests and user data
 async function fetchSocialVerificationRequests() {
@@ -14,6 +15,11 @@ async function fetchSocialVerificationRequests() {
             },
             body: JSON.stringify({ page: 1, per_page: 20 })
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const data = await response.json();
         if (data.status_code === 200) {
             console.log("Fetched social verification requests: ", data.social_verification_requests);
@@ -24,6 +30,7 @@ async function fetchSocialVerificationRequests() {
             showError(data.message);
         }
     } catch (error) {
+        console.error('Error fetching requests:', error);
         showError('Error fetching requests');
     }
 }
@@ -86,6 +93,11 @@ async function getAllUsers() {
                 'Authorization': `Bearer ${accessToken}`
             }
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const data = await response.json();
         if (data.status_code === 200) {
             return data;
@@ -93,6 +105,7 @@ async function getAllUsers() {
             throw new Error(data.message);
         }
     } catch (error) {
+        console.error('Error fetching user data:', error);
         throw new Error('Error fetching user data');
     }
 }
@@ -165,6 +178,7 @@ function handleRequestApproval(request, isApproved) {
         }
     })
     .catch(error => {
+        console.error('Error processing request:', error);
         showError('Error processing request');
     });
 }
@@ -187,9 +201,13 @@ function updateRequestStatus(request) {
 function showError(message) {
     const errorBox = document.getElementById('error-box');
     errorBox.textContent = message;
+    errorBox.style.display = 'block';
+    setTimeout(() => {
+        errorBox.style.display = 'none';
+    }, 3000);
 }
 
 
-fetchSocialVerificationRequests();
-
-
+document.addEventListener('DOMContentLoaded', () => {
+    fetchSocialVerificationRequests();
+});
