@@ -1,65 +1,59 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const baseUrl = 'https://api-staging.trendit3.com/api/admin';
     const accessToken = getCookie('accessToken');  // Ensure this function is defined somewhere in your script
-    const usersContainer = document.getElementById('social-requests');
+    const usersContainer = document.getElementById('users-container');
     const approvalBox = document.querySelector('.approval-box');
     const approveBtn = document.getElementById('approve-social');
     const declineBtn = document.getElementById('decline-social');
-    const usersListContainer = document.getElementById('users-container');
+    const usersContainer2 = document.getElementById('users-container2');
     const membersTab = document.getElementById("members");
-    const accountLinkRequestTab = document.getElementById("account-link-request");
-    const usersContainer2 = document.getElementById("users-container2");
-    const socialAccounts = document.querySelector(".social-accounts");
-    const socialOverlay = document.querySelector(".social-overlay");
-    const cancelBtn = document.querySelector(".cancel-btn");
-    const accountsConnected = document.querySelector("#accounts-connected");
-    const socialRequestsContainer = document.getElementById("social-requests");
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
 
-   // Hide approval box when "Cancel" button is clicked
-   document.querySelector(".cancel-btn").addEventListener("click", () => {
-    approvalBox.style.display = "none";
-});
+    const accountLinkRequestTab = document.getElementById("account-link-request");
+    const socialRequestsContainer = document.getElementById("social-requests");
 
-// Show approval box when any social account is clicked
-document.querySelectorAll(".social-accounts").forEach(socialAccount => {
-    socialAccount.addEventListener("click", () => {
-        document.querySelector(".social-overlay").style.display = "block";
-        approvalBox.style.display = "block";
+    // Hide approval box when "Cancel" button is clicked
+    document.querySelector(".cancel-btn").addEventListener("click", () => {
+        approvalBox.style.display = "none";
     });
-});
 
-// Hide approval box and social overlay when "Cancel" button is clicked
-document.querySelector(".cancel-btn").addEventListener("click", () => {
-    document.querySelector(".social-overlay").style.display = "none";
-    approvalBox.style.display = "none";
-});
+    // Show approval box when any social account is clicked
+    document.querySelectorAll(".social-accounts").forEach(socialAccount => {
+        socialAccount.addEventListener("click", () => {
+            document.querySelector(".social-overlay").style.display = "block";
+            approvalBox.style.display = "block";
+        });
+    });
 
-// Switch to "Members" tab
-membersTab.classList.add("selected");
-accountLinkRequestTab.classList.remove("selected");
-usersContainer.style.display = "block";
-usersContainer2.style.display = "none";
+    // Hide approval box and social overlay when "Cancel" button is clicked
+    document.querySelector(".cancel-btn").addEventListener("click", () => {
+        document.querySelector(".social-overlay").style.display = "none";
+        approvalBox.style.display = "none";
+    });
 
-membersTab.addEventListener("click", () => {
+    // Switch to "Members" tab
     membersTab.classList.add("selected");
     accountLinkRequestTab.classList.remove("selected");
     usersContainer.style.display = "block";
     usersContainer2.style.display = "none";
-});
 
-// Switch to "Account Link Request" tab
-accountLinkRequestTab.addEventListener("click", () => {
-    accountLinkRequestTab.classList.add("selected");
-    membersTab.classList.remove("selected");
-    usersContainer.style.display = "none";
-    usersContainer2.style.display = "block";
-});
+    membersTab.addEventListener("click", () => {
+        membersTab.classList.add("selected");
+        accountLinkRequestTab.classList.remove("selected");
+        usersContainer.style.display = "block";
+        usersContainer2.style.display = "none";
+    });
 
+    // Switch to "Account Link Request" tab
+    accountLinkRequestTab.addEventListener("click", () => {
+        accountLinkRequestTab.classList.add("selected");
+        membersTab.classList.remove("selected");
+        usersContainer.style.display = "none";
+        usersContainer2.style.display = "block";
+    });
 
-
-
+    
     hamburgerMenu.addEventListener('click', function() {
         navBar.classList.toggle('active');
     });
@@ -137,7 +131,7 @@ accountLinkRequestTab.addEventListener("click", () => {
                 userBox.addEventListener('click', () => {
                     showApprovalBox(user, request);
                 });
-                usersContainer.appendChild(userBox);
+                socialRequestsContainer.appendChild(userBox);
             }
         });
     }
