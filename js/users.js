@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const usersContainer2 = document.getElementById('users-container2');
     const membersTab = document.getElementById("members");
     const accountLinkRequestTab = document.getElementById("account-link-request");
-    const socialRequestsContainer = document.getElementById("social-requests");
-    let userData = {};
+    // const socialRequestsContainer = document.getElementById("social-requests");
+    let userData ;
     var hamburgerMenu = document.querySelector('.hamburger');
     var navBar = document.querySelector('.nav-bar');
 
