@@ -38,14 +38,26 @@ async function fetchSocialVerificationRequests() {
 // Populate social verification requests into the HTML
 function populateSocialVerificationRequests(requests, users) {
     const socialRequestsContainer = document.getElementById('social-requests');
+
+    if (!socialRequestsContainer) {
+        console.error('Element with id "social-requests" not found');
+        return;
+    }
+    
+    console.log('socialRequestsContainer found');
+    console.log('Requests:', requests);
+    console.log('Users:', users);
+
     socialRequestsContainer.innerHTML = ''; // Clear existing content
 
     requests.forEach(request => {
+        console.log('Processing request:', request);
         const userBox = document.createElement('div');
         userBox.classList.add('name-box');
 
         const user = users.find(user => user.id === parseInt(request.sender_id, 10));
         if (user) {
+            console.log('Found user for request:', user);
             userBox.innerHTML = `
                 <div class="name">
                     <img src="${user.profile_picture || './images/default-user.png'}" alt="">
@@ -64,6 +76,8 @@ function populateSocialVerificationRequests(requests, users) {
                 showApprovalBox(user, request);
             });
             socialRequestsContainer.appendChild(userBox);
+        } else {
+            console.warn('User not found for request:', request);
         }
     });
 }
