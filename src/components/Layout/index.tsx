@@ -35,7 +35,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
             <div>Users</div>
           </Link>
           <Link
-            href="/tasks"
+            href="/task"
             onClick={() => setActiveTab(Tabs[2])}
             className={`pb-2 ${activeTab === Tabs[2] ? "text-main border-b-[1px] border-solid border-main" : "text-primary-black"}`}
           >

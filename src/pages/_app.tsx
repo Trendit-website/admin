@@ -4,7 +4,7 @@ import Layout from "@/components/Layout";
 import { NextPage } from "next";
 import { ReactNode, ReactElement } from "react";
 import { useRouter } from "next/router";
-import Login from "./Login";
+import Login from "./login";
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
