@@ -4,13 +4,14 @@ import AdvertTask from "./TaskTables/AdvertTask"
 import EngageTask from "./TaskTables/EngageTask"
 import PostAdvert from "./TaskTables/PostAdvert"
 import EngageAdvert from "./TaskTables/EngageAdvert"
+import Activities from "../Dashboard/Activities"
 
 const Task = () => {
     const Tabs = ['Advert tasks', 'Engagement tasks', 'Post Adverts', 'Engagement Adverts']
     const [activeTab, setActiveTab] = useState(Tabs[0])
     return (
-        <div>
-            <div className="flex flex-col text-primary-black gap-y-8 py-6">
+        <div className="w-full flex items-start py-8">
+            <div className="flex flex-col text-primary-black gap-y-8 py-6 w-9/12">
                 <div className="flex items-center justify-between w-10/12 m-auto">
                     <h1 className="flex flex-col text-[30px] font-bold">
                         Tasks
@@ -49,6 +50,7 @@ const Task = () => {
                     )
                 }
             </div>
+            <Activities />
         </div>
     )
 }
