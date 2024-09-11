@@ -11,10 +11,19 @@ const RedHat = Red_Hat_Display({
 
 export default function Home() {
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between ${inter.className} ${RedHat.className}`}
-    >
-      <Dashboard />
-    </main>
+    <>
+      <main
+        className={`hidden lg:flex min-h-screen flex-col items-center justify-between ${inter.className} ${RedHat.className}`}
+      >
+        <Dashboard />
+      </main>
+      <main
+        className={`flex lg:hidden min-h-screen flex-col items-center justify-center ${inter.className} ${RedHat.className}`}
+      >
+        <div className="text-primary-black">
+          For better viewing experience, please check on a bigger screen size
+        </div>
+      </main>
+    </>
   );
 }

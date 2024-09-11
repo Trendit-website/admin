@@ -25,126 +25,132 @@ const AppealTable = () => {
             </tr>
           </thead>
           <tbody className="flex flex-col gap-y-4 px-2">
-            <tr className="flex items-center justify-between border-solid border-b-[1px] border-primary-border">
-              <div className="flex items-center gap-x-20 py-4">
-                <td>
-                  <div className="flex items-center gap-x-2">
-                    <Icons type="checkbox" />
+            <Link href="/appeal-request/dhgdhfb">
+              <tr className="flex items-center justify-between border-solid border-b-[1px] border-primary-border">
+                <div className="flex items-center gap-x-20 py-4">
+                  <td>
                     <div className="flex items-center gap-x-2">
-                      <Image
-                        src="/assets/avatar.png"
-                        alt="avatar"
-                        width={40}
-                        height={40}
-                      />
-                      <div>
-                        <p>Olivia Rhye</p>
-                        <span>@olivia</span>
+                      <Icons type="checkbox" />
+                      <div className="flex items-center gap-x-2">
+                        <Image
+                          src="/assets/avatar.png"
+                          alt="avatar"
+                          width={40}
+                          height={40}
+                        />
+                        <div>
+                          <p>Olivia Rhye</p>
+                          <span>@olivia</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td>
-                  <div className="flex items-start gap-x-2">
-                    <Icons type="facebook" width={20} height={20} />
-                    <div className="flex flex-col">
-                      <p>Facebook</p>
-                      <Link href="facebook.com">
-                        http://facebook.com/stephen.oyeshola.1/?_rdr
-                      </Link>
-                    </div>
-                  </div>
-                </td>
-              </div>
-              <div className="flex items-center gap-x-12">
-                <td>Advertisement</td>
-                <td className="">#11,0000</td>
-                <td className="w-[69px] -mr-4 h-[22px] flex items-center justify-center rounded-[6px] border-solid border-[1px] border-borderColor px-[6px] py-[2px]">
-                  Pending
-                </td>
-                <td>Jan 13, 2024</td>
-              </div>
-            </tr>
-            <tr className="flex items-center justify-between border-solid border-b-[1px] border-primary-border">
-              <div className="flex items-center gap-x-20 py-4">
-                <td>
-                  <div className="flex items-center gap-x-2">
-                    <Icons type="checkbox" />
-                    <div className="flex items-center gap-x-2">
-                      <Image
-                        src="/assets/avatar.png"
-                        alt="avatar"
-                        width={40}
-                        height={40}
-                      />
-                      <div>
-                        <p>Olivia Rhye</p>
-                        <span>@olivia</span>
+                  </td>
+                  <td>
+                    <div className="flex items-start gap-x-2">
+                      <Icons type="facebook" width={20} height={20} />
+                      <div className="flex flex-col">
+                        <p>Facebook</p>
+                        <Link href="facebook.com">
+                          http://facebook.com/stephen.oyeshola.1/?_rdr
+                        </Link>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td>
-                  <div className="flex items-start gap-x-2">
-                    <Icons type="facebook" width={20} height={20} />
-                    <div className="flex flex-col">
-                      <p>Facebook</p>
-                      <Link href="facebook.com">
-                        http://facebook.com/stephen.oyeshola.1/?_rdr
-                      </Link>
-                    </div>
-                  </div>
-                </td>
-              </div>
-              <div className="flex items-center gap-x-12">
-                <td>Advertisement</td>
-                <td className="">#11,0000</td>
-                <td className="w-[69px] -mr-4 h-[22px] flex items-center justify-center rounded-[6px] border-solid border-[1px] border-borderColor px-[6px] py-[2px]">
-                  Pending
-                </td>
-                <td>Jan 13, 2024</td>
-              </div>
-            </tr>
-            <tr className="flex items-center justify-between border-solid border-b-[1px] border-primary-border">
-              <div className="flex items-center gap-x-20 py-4">
-                <td>
-                  <div className="flex items-center gap-x-2">
-                    <Icons type="checkbox" />
+                  </td>
+                </div>
+                <div className="flex items-center gap-x-12">
+                  <td>Advertisement</td>
+                  <td className="">#11,0000</td>
+                  <td className="w-[69px] -mr-4 h-[22px] flex items-center justify-center rounded-[6px] border-solid border-[1px] border-borderColor px-[6px] py-[2px]">
+                    Pending
+                  </td>
+                  <td>Jan 13, 2024</td>
+                </div>
+              </tr>
+            </Link>
+            <Link href="/appeal-request/dhgdhfb">
+              <tr className="flex items-center justify-between border-solid border-b-[1px] border-primary-border">
+                <div className="flex items-center gap-x-20 py-4">
+                  <td>
                     <div className="flex items-center gap-x-2">
-                      <Image
-                        src="/assets/avatar.png"
-                        alt="avatar"
-                        width={40}
-                        height={40}
-                      />
-                      <div>
-                        <p>Olivia Rhye</p>
-                        <span>@olivia</span>
+                      <Icons type="checkbox" />
+                      <div className="flex items-center gap-x-2">
+                        <Image
+                          src="/assets/avatar.png"
+                          alt="avatar"
+                          width={40}
+                          height={40}
+                        />
+                        <div>
+                          <p>Olivia Rhye</p>
+                          <span>@olivia</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td>
-                  <div className="flex items-start gap-x-2">
-                    <Icons type="facebook" width={20} height={20} />
-                    <div className="flex flex-col">
-                      <p>Facebook</p>
-                      <Link href="facebook.com">
-                        http://facebook.com/stephen.oyeshola.1/?_rdr
-                      </Link>
+                  </td>
+                  <td>
+                    <div className="flex items-start gap-x-2">
+                      <Icons type="facebook" width={20} height={20} />
+                      <div className="flex flex-col">
+                        <p>Facebook</p>
+                        <Link href="facebook.com">
+                          http://facebook.com/stephen.oyeshola.1/?_rdr
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                </td>
-              </div>
-              <div className="flex items-center gap-x-12">
-                <td>Advertisement</td>
-                <td className="">#11,0000</td>
-                <td className="w-[69px] -mr-4 h-[22px] flex items-center justify-center rounded-[6px] border-solid border-[1px] border-borderColor px-[6px] py-[2px]">
-                  Pending
-                </td>
-                <td>Jan 13, 2024</td>
-              </div>
-            </tr>
+                  </td>
+                </div>
+                <div className="flex items-center gap-x-12">
+                  <td>Advertisement</td>
+                  <td className="">#11,0000</td>
+                  <td className="w-[69px] -mr-4 h-[22px] flex items-center justify-center rounded-[6px] border-solid border-[1px] border-borderColor px-[6px] py-[2px]">
+                    Pending
+                  </td>
+                  <td>Jan 13, 2024</td>
+                </div>
+              </tr>
+            </Link>
+            <Link href="/appeal-request/dhgdhfb">
+              <tr className="flex items-center justify-between border-solid border-b-[1px] border-primary-border">
+                <div className="flex items-center gap-x-20 py-4">
+                  <td>
+                    <div className="flex items-center gap-x-2">
+                      <Icons type="checkbox" />
+                      <div className="flex items-center gap-x-2">
+                        <Image
+                          src="/assets/avatar.png"
+                          alt="avatar"
+                          width={40}
+                          height={40}
+                        />
+                        <div>
+                          <p>Olivia Rhye</p>
+                          <span>@olivia</span>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex items-start gap-x-2">
+                      <Icons type="facebook" width={20} height={20} />
+                      <div className="flex flex-col">
+                        <p>Facebook</p>
+                        <Link href="facebook.com">
+                          http://facebook.com/stephen.oyeshola.1/?_rdr
+                        </Link>
+                      </div>
+                    </div>
+                  </td>
+                </div>
+                <div className="flex items-center gap-x-12">
+                  <td>Advertisement</td>
+                  <td className="">#11,0000</td>
+                  <td className="w-[69px] -mr-4 h-[22px] flex items-center justify-center rounded-[6px] border-solid border-[1px] border-borderColor px-[6px] py-[2px]">
+                    Pending
+                  </td>
+                  <td>Jan 13, 2024</td>
+                </div>
+              </tr>
+            </Link>
             <tr className="flex items-center justify-between border-solid border-b-[1px] border-primary-border">
               <div className="flex items-center gap-x-20 py-4">
                 <td>

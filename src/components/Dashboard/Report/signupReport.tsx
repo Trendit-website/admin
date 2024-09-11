@@ -1,4 +1,5 @@
 import Button from "@/components/Shared/Button";
+import Image from "next/image";
 const SignupReport = () => {
   const Range = ["12 months", "30 days", "7 days", "24 hours"];
   return (
@@ -16,6 +17,9 @@ const SignupReport = () => {
         {Range.map((range, index) => (
           <p key={index}>{range}</p>
         ))}
+      </div>
+      <div className="w-full flex items-center justify-center">
+        <Image src="/assets/chart.png" alt="" width={802} height={192} />
       </div>
     </div>
   );

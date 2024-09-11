@@ -8,7 +8,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   return (
     <div>
-      <header className="w-full bg-[#FFFFFF] flex items-center justify-around h-[72px] py-4">
+      <header className="w-full bg-[#FFFFFF] hidden lg:flex items-center justify-around h-[72px] py-4">
         <Link href="/" onClick={() => setActiveTab(Tabs[0])}>
           <Image
             src="/assets/Logo.svg"
@@ -23,28 +23,28 @@ const Layout = ({ children }: { children: ReactNode }) => {
           <Link
             href="/"
             onClick={() => setActiveTab(Tabs[0])}
-            className={`pb-2 ${activeTab === Tabs[0] ? "text-main border-b-[1px] border-solid border-main" : "text-primary-black"}`}
+            className={`py-2 px-2 ${activeTab === Tabs[0] ? "text-main border-b-[1px] border-solid border-main bg-[#FFF0FF]" : "text-primary-black"}`}
           >
             Dashboard
           </Link>
           <Link
             href="/users"
             onClick={() => setActiveTab(Tabs[1])}
-            className={`pb-2 ${activeTab === Tabs[1] ? "text-main border-b-[1px] border-solid border-main" : "text-primary-black"}`}
+            className={`py-2 px-2 ${activeTab === Tabs[1] ? "text-main border-b-[1px] border-solid border-main bg-[#FFF0FF]" : "text-primary-black"}`}
           >
             <div>Users</div>
           </Link>
           <Link
             href="/task"
             onClick={() => setActiveTab(Tabs[2])}
-            className={`pb-2 ${activeTab === Tabs[2] ? "text-main border-b-[1px] border-solid border-main" : "text-primary-black"}`}
+            className={`py-2 px-2 ${activeTab === Tabs[2] ? "text-main border-b-[1px] border-solid border-main bg-[#FFF0FF]" : "text-primary-black"}`}
           >
             Tasks
           </Link>
           <Link
             href="/transactions"
             onClick={() => setActiveTab(Tabs[3])}
-            className={`pb-2 ${activeTab === Tabs[3] ? "text-main border-b-[1px] border-solid border-main" : "text-primary-black"}`}
+            className={`py-2 px-2 ${activeTab === Tabs[3] ? "text-main border-b-[1px] border-solid border-main bg-[#FFF0FF]" : "text-primary-black"}`}
           >
             Transactions
           </Link>
