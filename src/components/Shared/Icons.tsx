@@ -716,7 +716,7 @@ const Icons = ({
         >
           <path
             d="M8.33333 1.33333C8.33333 0.873096 7.96024 0.5 7.5 0.5C7.03976 0.5 6.66667 0.873096 6.66667 1.33333V7.16667H0.833333C0.373096 7.16667 0 7.53976 0 8C0 8.46024 0.373096 8.83333 0.833333 8.83333H6.66667V14.6667C6.66667 15.1269 7.03976 15.5 7.5 15.5C7.96024 15.5 8.33333 15.1269 8.33333 14.6667V8.83333H14.1667C14.6269 8.83333 15 8.46024 15 8C15 7.53976 14.6269 7.16667 14.1667 7.16667H8.33333V1.33333Z"
-            fill="white"
+            fill={fill || "white"}
           />
         </svg>
       );
@@ -738,6 +738,24 @@ const Icons = ({
           />
         </svg>
       );
+    case 'withdraw-arrow':
+      return (
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.83337 10.1673L10.1667 1.83398M10.1667 1.83398H1.83337M10.1667 1.83398V10.1673" stroke="#CB29BE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      )
+    case 'cancel': 
+    return (
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13 1L1 13M1 1L13 13" stroke="#98A2B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    )
+    case 'single-dot':
+    return (
+      <svg width="5" height="4" viewBox="0 0 5 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="2.5" cy="2" r="2" fill="#475367"/>
+      </svg>
+    )
   }
 };
 export default Icons;

@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 import { NextPage } from "next";
 import { ReactNode, ReactElement } from "react";
 import { useRouter } from "next/router";
+import { NextUIProvider } from "@nextui-org/react";
 import Login  from "./Login";
 
 type AppPropsWithLayout = AppProps & {
@@ -19,7 +20,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout =
     Component.getLayout ??
     ((page) => (
-      <>{router.route === "/Login" ? <Login /> : <Layout>{page}</Layout>}</>
+      <>
+        <NextUIProvider>
+          {router.route === "/Login" ? <Login /> : <Layout>{page}</Layout>}
+        </NextUIProvider>
+      </>
     ));
   return <>{getLayout(<Component {...pageProps} />)}</>;
 }
