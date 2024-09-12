@@ -55,9 +55,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
               <Icons type="search" />
             </span>
           </div>
+          <Link href='/settings'>
           <div>
             <Icons type="settings" />
           </div>
+          </Link>
           <div>
             <Icons type="alarm" />
           </div>

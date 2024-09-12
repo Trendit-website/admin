@@ -35,7 +35,6 @@ const Transaction = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const showModal = () => {
     onOpen()
-    console.log(20)
   }
   return (
     <>

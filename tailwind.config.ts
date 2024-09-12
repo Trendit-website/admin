@@ -15,6 +15,9 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         // "bg-pattern": `${bgPattern}`
       },
+      backgroundColor: {
+        customPurple: "#CB29BE"
+      },
       fontFamily: {
         RedHat: ["RedHat", "sans-serif"],
       },
