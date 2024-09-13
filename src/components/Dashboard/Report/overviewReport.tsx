@@ -1,5 +1,7 @@
 import Button from "@/components/Shared/Button";
 import Icons from "@/components/Shared/Icons";
+import { useGetDashboardInsight } from "@/api/useGetDashboardInsight";
+import { useEffect } from "react";
 
 const OverviewReport = () => {
   const Range = ["12 months", "30 days", "7 days", "24 hours"];
@@ -45,6 +47,8 @@ const OverviewReport = () => {
       percentage: "0.2",
     },
   ];
+  const {dashboardInsight, isLoading, isError } = useGetDashboardInsight('year')
+  console.log(dashboardInsight)
   return (
     <div className="w-full h-[411px] bg-[#FFFFFF] border-[1px] border-[#E4E7EC] border-solid  flex flex-col py-4 gap-y-10 text-primary-black rounded-[12px]">
       <div className="flex items-center justify-between w-11/12 px-4 ">

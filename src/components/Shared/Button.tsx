@@ -1,16 +1,21 @@
+import { ReactNode } from "react";
 const Button = ({
   label,
   clickFunction,
   classNames,
+  disabled
 }: {
-  label: string;
+  label: ReactNode | string;
   clickFunction?: () => void;
   classNames: string;
+  disabled?: boolean
+  
 }) => {
   return (
     <div>
       <button
         className={classNames}
+        disabled={disabled}
         onClick={() => (clickFunction ? clickFunction() : "")}
       >
         {label}

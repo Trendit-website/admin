@@ -1,6 +1,6 @@
+
 import { Inter } from "next/font/google";
 import { Red_Hat_Display } from "next/font/google";
-import Dashboard from "@/components/Dashboard";
 
 const inter = Inter({ subsets: ["latin"] });
 const RedHat = Red_Hat_Display({
@@ -11,18 +11,7 @@ const RedHat = Red_Hat_Display({
 export default function Home() {
   return (
     <>
-      <main
-        className={`hidden lg:flex min-h-screen flex-col items-center justify-between ${inter.className} ${RedHat.className}`}
-      >
-        <Dashboard />
-      </main>
-      <main
-        className={`flex lg:hidden min-h-screen flex-col items-center justify-center ${inter.className} ${RedHat.className}`}
-      >
-        <div className="text-primary-black">
-          For better viewing experience, please check on a bigger screen size
-        </div>
-      </main>
+     
     </>
   );
 }
