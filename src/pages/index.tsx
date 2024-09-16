@@ -1,4 +1,3 @@
-
 import { Inter } from "next/font/google";
 import { Red_Hat_Display } from "next/font/google";
 
@@ -9,9 +8,5 @@ const RedHat = Red_Hat_Display({
 });
 
 export default function Home() {
-  return (
-    <>
-     
-    </>
-  );
+  return <></>;
 }

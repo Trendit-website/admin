@@ -1,10 +1,10 @@
-import Setting from "@/components/Settings/setting"
+import Setting from "@/components/Settings/setting";
 
 const SettingsPage = () => {
-    return (
-        <div>
-            <Setting />
-        </div>
-    )
-}
-export default SettingsPage
+  return (
+    <div>
+      <Setting />
+    </div>
+  );
+};
+export default SettingsPage;

@@ -1,3 +1,3 @@
 export type LoginSchema = {
-    email: string
-}
+  email: string;
+};

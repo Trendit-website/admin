@@ -1,11 +1,25 @@
-import { ApiClient } from "@/services/apiClient"
-import useSWR from "swr"
-export const useGetDashboardInsight = (range: string) => {
-    const {data, error} = useSWR(`/dashboard-insight?range=${range}`, ApiClient)
-    console.error(error)
-    return {
-      dashboardInsight: data,
-      isLoading: !data || !error,
-      isError: error
-    }
-}
+import { ApiClient } from "@/services/apiClient";
+import useSWR from "swr";
+import { InsightSchema, SignupReportSchema } from "@/utils/insightSchema";
+export const useGetOverviewReport = (range: string) => {
+  const { data, error } = useSWR<InsightSchema>(
+    `/dashboard-insight?range=${range}`,
+    ApiClient,
+  );
+  return {
+    overviewReport: data?.data,
+    isLoading: !data,
+    isError: error,
+  };
+};
+export const useGetSignupReport = (range: string) => {
+  const { data, error } = useSWR<SignupReportSchema>(
+    `/signup-report?range=${range}`,
+    ApiClient,
+  );
+  return {
+    signupReport: data?.data?.signup_data,
+    isLoading: !data,
+    isError: error,
+  };
+};

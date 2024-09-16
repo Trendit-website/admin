@@ -2,8 +2,14 @@ import Icons from "@/components/Shared/Icons";
 import Image from "next/image";
 import UsersDetailsComponent from "./UsersDetails";
 import Link from "next/link";
-
+import { useGetUsersDetails } from "@/api/useGetUsers";
+import { useRouter } from "next/router";
 const UsersDetails = () => {
+  const router = useRouter();
+  const { userDetails, isLoading, isError } = useGetUsersDetails(
+    router.query?.id,
+  );
+  console.log(userDetails, router.query?.id);
   return (
     <div className="flex flex-col gap-y-6 px-4 py-8 w-full text-[#667185]">
       <div className="flex items-center w-full px-4 gap-x-2 text-[14px]">

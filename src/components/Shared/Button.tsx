@@ -3,13 +3,12 @@ const Button = ({
   label,
   clickFunction,
   classNames,
-  disabled
+  disabled,
 }: {
   label: ReactNode | string;
   clickFunction?: () => void;
   classNames: string;
-  disabled?: boolean
-  
+  disabled?: boolean;
 }) => {
   return (
     <div>

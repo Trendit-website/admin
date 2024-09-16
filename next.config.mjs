@@ -2,6 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   distDir: "build",
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
