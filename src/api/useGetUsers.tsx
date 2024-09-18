@@ -1,6 +1,6 @@
 import { ApiClient } from "@/services/apiClient";
 import { UserDetailsSchema, UserSchema } from "@/utils/userSchema";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 
 export const useGetAllUsers = () => {
   const { data, error } = useSWR<UserSchema>("/users", ApiClient);
@@ -27,13 +27,7 @@ export const useGetAllAdvertisers = () => {
   };
 };
 export const useGetUsersDetails = (id: string | string[] | undefined) => {
-  const { data, error } = useSWR<UserDetailsSchema>(
-    `/user/${Number(id)}`,
-    ApiClient,
-  );
-  return {
-    userDetails: data?.data,
-    isLoading: !data,
-    isError: error,
-  };
+  const UserDetails = ApiClient.post('/fetch-user', id)
+  mutate("/fetch-user")
+  return UserDetails
 };

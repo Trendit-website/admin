@@ -1,36 +1,36 @@
 import { ApiClient } from "@/services/apiClient";
 import { OrderDetailSchema, OrderSchema } from "@/utils/orderSchema";
 import useSWR from "swr";
-export const useGetOrders = () => {
-  const { data, error } = useSWR<OrderSchema>(`/tasks`, ApiClient);
+export const useGetOrders = (page: number) => {
+  const { data, error } = useSWR<OrderSchema>(`/tasks?page=${page}&per_page=15`, ApiClient);
   return {
     orders: data?.data,
     isLoading: !data,
     isError: error,
   };
 };
-export const useGetPendingOrders = () => {
-  const { data, error } = useSWR<OrderSchema>(`/pending-tasks`, ApiClient);
+export const useGetPendingOrders = (page: number) => {
+  const { data, error } = useSWR<OrderSchema>(`/pending-tasks?page=${page}&per_page=15`, ApiClient);
   return {
     pendingOrders: data?.data,
-    isLoadingPending: !data,
-    isErrorPending: error,
+    isLoadingPendingOrders: !data,
+    isErrorPendingOrders: error,
   };
 };
-export const useGetApprovedOrders = () => {
-  const { data, error } = useSWR<OrderSchema>(`/approved-tasks`, ApiClient);
+export const useGetApprovedOrders = (page: number) => {
+  const { data, error } = useSWR<OrderSchema>(`/approved-tasks?page=${page}&per_page=15`, ApiClient);
   return {
     approvedOrders: data?.data,
-    isLoadingApproved: !data,
-    isErrorApproved: error,
+    isLoadingApprovedOrders: !data,
+    isErrorApprovedOrders: error,
   };
 };
-export const useGetFailedOrders = () => {
-  const { data, error } = useSWR<OrderSchema>(`/failed-tasks`, ApiClient);
+export const useGetFailedOrders = (page: number) => {
+  const { data, error } = useSWR<OrderSchema>(`/failed-tasks?page=${page}&per_page=15`, ApiClient);
   return {
     failedOrders: data?.data,
-    isLoadingFailed: !data,
-    isErrorFailed: error,
+    isLoadingFailedOrders: !data,
+    isErrorFailedOrders: error,
   };
 };
 export const useGetOrderDetails = (orderId: string | string[] | undefined) => {

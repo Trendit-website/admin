@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useAccessToken } from "@/hooks/useAccessToken";
 const baseUrl = process.env.NEXT_PUBLIC_BASEURL;
-const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyNjQ2NTI1NywianRpIjoiOTlkMGU2YWUtZWU5Zi00OTBhLWJkY2UtNTEzMzhjNmVmZDI5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNzI2NDY1MjU3LCJjc3JmIjoiYzFjN2YwYTktYTRmZC00ZDU2LTgxMmUtOTk4YjY2NmVjMzYzIiwiZXhwIjoxNzI2NTUxNjU3fQ.ER75jB-hU_48z-UEIVnCjvdKqc57SQaeer27_53ZONI`;
+const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyNjY0MjY2OSwianRpIjoiZDg2MTc1Y2EtOGFhNC00OWUwLTk1OTQtZDI0ZjgxZThjMWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNzI2NjQyNjY5LCJjc3JmIjoiM2NlMzFkNmYtOTJjMC00ZTEyLThiMDMtZWI3YTEzNzkwOGE3IiwiZXhwIjoxNzI2NzI5MDY5fQ.2t6LW8GDRK1Q-rLj_ASVzDYcLemTX9ZKMPmpTpMiimM`;
 export const ApiClient = axios.create({
   baseURL: baseUrl,
   headers: {

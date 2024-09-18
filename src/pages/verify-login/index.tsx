@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 const VerifyLogin = () => {
   const router = useRouter();
-  const VerifyLogin = useVerifyLogin("PJsxmMRlfzrajLdt-7NJmg");
+  const VerifyLogin = useVerifyLogin(router.query?.token);
   console.log(VerifyLogin);
   return <div></div>;
 };
