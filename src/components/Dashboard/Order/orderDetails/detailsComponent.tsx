@@ -2,9 +2,18 @@ import Icons from "@/components/Shared/Icons";
 import Image from "next/image";
 import Link from "next/link";
 import bg from "./Background pattern decorative.png";
-import { OrderDetailSchema } from "@/utils/orderSchema";
+import { useDisclosure } from "@nextui-org/react";
+import PreviewImageModal from "@/components/Modals/PreviewImageModal";
+import { useState } from "react";
 const DetailsComponent = ({ details }: { details: any }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedImage, setSelectedImage] = useState<string>('')
+  const showModal = (img: string) => {
+    setSelectedImage(img)
+    onOpen();
+  };
   return (
+    <>
     <div className="flex items-center justify-between gap-x-6 w-full">
       <div className="flex flex-col w-6/12 h-[570px] bg-[#F9FAFC] px-4 gap-y-4 py-4 rounded-[12px] border-solid border-[1px] border-borderColor">
         <div className="w-full px-4">
@@ -120,6 +129,7 @@ const DetailsComponent = ({ details }: { details: any }) => {
                     key={index}
                     width={34}
                     height={34}
+                    onClick={() => showModal(img)}
                     alt="advert media "
                   />
                 ))}
@@ -129,7 +139,7 @@ const DetailsComponent = ({ details }: { details: any }) => {
         </div>
         <div className="text-[#344054] flex items-center justify-between px-4">
           <p className="font-normal">Sub-total</p>
-          <p className="font-medium text-secondary">{details?.fee_paid}</p>
+          <p className="font-medium text-secondary">{Number(details?.fee_paid).toLocaleString()}</p>
         </div>
       </div>
       <div className="flex flex-col justify-around w-6/12 gap-y-10 font-normal text-secondary text-[14px] h-[570px] bg-[#F9FAFC] px-4 gap-y-4 py-4 rounded-[12px] border-solid border-[1px] border-borderColor">
@@ -181,6 +191,8 @@ const DetailsComponent = ({ details }: { details: any }) => {
         )}
       </div>
     </div>
+    <PreviewImageModal isOpen={isOpen} onClose={onClose} src={selectedImage}/>
+    </>
   );
 };
 export default DetailsComponent;

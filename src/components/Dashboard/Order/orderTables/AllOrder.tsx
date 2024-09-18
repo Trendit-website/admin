@@ -83,7 +83,7 @@ const AllOrders = () => {
                 {order?.task_type?.charAt(0).toUpperCase() +
                   order?.task_type?.slice(1)}
               </td>
-              <td className=" w-2/12">{order?.fee_paid}</td>
+              <td className=" w-2/12">{Number(order?.fee_paid).toLocaleString()}</td>
               <td className="w-2/12">
                 {format(new Date(order.date_created), "MMM dd, yyyy")}
               </td>
@@ -109,8 +109,8 @@ const AllOrders = () => {
             Next
             <Icons type="next" />
             </div>
-        </div>
-            </>
+    </div>
+    </>
             )
         }
       </>

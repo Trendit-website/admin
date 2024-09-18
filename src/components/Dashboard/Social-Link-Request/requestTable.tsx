@@ -2,9 +2,11 @@ import Icons from "@/components/Shared/Icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useGetSocialLinkRequest } from "@/api/useGetSocialLinkRequest";
+import { useState } from "react";
 const RequestTable = () => {
-  const pages = [1, 2, 3, 4, 5, 6, 6];
-  const { socialRequest, isLoading, isError } = useGetSocialLinkRequest();
+  const [activePage, setActivePage] = useState(1)
+  const { socialRequest, isLoading, isError } = useGetSocialLinkRequest(activePage);
+  const pages = Array.from({length: socialRequest?.total_pages ?? 1}, (_, i) => i + 1)
   console.log(socialRequest?.social_profiles);
   return (
     <div className="text-primary-black w-full px-4">

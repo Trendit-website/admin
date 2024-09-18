@@ -5,6 +5,13 @@ export type OrderSchema = {
     total: number;
   };
 };
+export type TaskPerfomers = {
+  data: {
+    total_pages: number,
+    current_page: number,
+    task_performances: any[]
+  }
+}
 export type OrderDetailSchema = {
   data: {
     task: {
@@ -25,6 +32,7 @@ export type OrderDetailSchema = {
       media_path: ""[];
       task_type: string;
       account_link: string;
+      task_key: string
     };
     pages: number;
     total: number;
