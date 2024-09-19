@@ -2,14 +2,14 @@ import Icons from "@/components/Shared/Icons";
 import Image from "next/image";
 import UsersDetailsComponent from "./UsersDetails";
 import Link from "next/link";
-import { useGetUsersDetails, useGetuserDetail } from "@/api/useGetUsers";
+import { UseGetUsersDetails, UseGetuserDetail } from "@/api/useGetUsers";
 import { useRouter } from "next/router";
 const UsersDetails = () => {
   const router = useRouter();
   // const  UserDetails  = useGetUsersDetails(
   //   router.query?.id,
   // );
-  const {userDetail, isError} = useGetuserDetail( router.query?.id,)
+  const {userDetail, isError} = UseGetuserDetail( router.query?.id,)
   console.log(userDetail, isError);
   return (
     <div className="flex flex-col gap-y-6 px-4 py-8 w-full text-[#667185]">

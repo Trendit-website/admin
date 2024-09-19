@@ -1,13 +1,12 @@
 import Icons from "@/components/Shared/Icons";
 import Image from "next/image";
 import Link from "next/link";
-import { useGetSocialLinkRequest } from "@/api/useGetSocialLinkRequest";
+import { UseGetSocialLinkRequest } from "@/api/useGetSocialLinkRequest";
 import { useState } from "react";
 const RequestTable = () => {
   const [activePage, setActivePage] = useState(1)
-  const { socialRequest, isLoading, isError } = useGetSocialLinkRequest(activePage);
+  const { socialRequest, isLoading, isError } = UseGetSocialLinkRequest(activePage);
   const pages = Array.from({length: socialRequest?.total_pages ?? 1}, (_, i) => i + 1)
-  console.log(socialRequest?.social_profiles);
   return (
     <div className="text-primary-black w-full px-4">
       <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-4 text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
@@ -89,7 +88,7 @@ const RequestTable = () => {
               </tr>
             </Link>
             {socialRequest?.social_profiles?.map((profiles, index) => (
-              <tr className="flex items-center justify-between border-solid border-b-[1px] px-4 border-primary-border">
+              <tr key={index} className="flex items-center justify-between border-solid border-b-[1px] px-4 border-primary-border">
                 <div className="flex items-center gap-x-24 py-4">
                   <td>
                     <div className="flex items-center gap-x-2">

@@ -1,4 +1,4 @@
-const useFormatNumbers = (value: number) => {
+const UseFormatNumbers = (value: number) => {
   if (value < 1000) {
     return `${value}`;
   } else if (value >= 1000 && value < 1000000) {
@@ -7,4 +7,4 @@ const useFormatNumbers = (value: number) => {
     return `${(value / 1000000).toFixed(2)}M`;
   }
 };
-export default useFormatNumbers;
+export default UseFormatNumbers;

@@ -1,8 +1,8 @@
 import {
-  useGetOrders,
-  useGetPendingOrders,
-  useGetApprovedOrders,
-  useGetFailedOrders,
+  UseGetOrders,
+  UseGetPendingOrders,
+  UseGetApprovedOrders,
+  UseGetFailedOrders,
 } from "@/api/useGetOrders";
 import { useEffect, useState, useReducer } from "react";
 import InputField from "@/components/Shared/InputField";
@@ -14,10 +14,10 @@ import FailedOrders from "./orderTables/FailedOrders";
 const Ordertable = () => {
   
   const [activePage, setActivePage] = useState(1)
-  const { orders } = useGetOrders(activePage);
-  const { pendingOrders} = useGetPendingOrders(1);
-  const { approvedOrders} = useGetApprovedOrders(1);
-  const { failedOrders} = useGetFailedOrders(1);
+  const { orders } = UseGetOrders(activePage);
+  const { pendingOrders} = UseGetPendingOrders(1);
+  const { approvedOrders} = UseGetApprovedOrders(1);
+  const { failedOrders} = UseGetFailedOrders(1);
   const Tabs = ["All", "Pending", "Approved", "Cancelled"];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const reducer = (state: any, action: string) => {
@@ -41,12 +41,12 @@ const Ordertable = () => {
     }
   }
   const [state, dispatch] = useReducer(reducer, orders)
-  useEffect(() => {
-    if(orders) {
-      dispatch(Tabs[0])
-    }
-    setActiveTab(Tabs[0])
-  }, [orders]);
+  // useEffect(() => {
+  //   if(orders) {
+  //     dispatch(Tabs[0])
+  //   }
+  //   setActiveTab(Tabs[0])
+  // }, [Tabs, orders]);
   return (
     <>
       <div className="flex items-center justify-between px-4 py-4">
@@ -64,7 +64,7 @@ const Ordertable = () => {
               </p>{" "}
               {activeTab === tab && (
                 <span className="text-[12px] flex items-center justify-center border-solid border-b-[1px] border-[#E4E7EC] w-[28px] h-[22px] rounded-[16px] bg-[#F9FAFB]">
-                  {state?.total ? String(state?.total) : ""}
+                  {state?.total ? String(state?.total) : orders?.total}
                 </span>
               )}
             </div>

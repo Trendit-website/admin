@@ -3,17 +3,17 @@ import Image from "next/image";
 import DetailsComponent from "./detailsComponent";
 import Orderperformers from "./Orderperformers";
 import Link from "next/link";
-import { useGetOrderDetails, useApproveOrders, useRejectOrders } from "@/api/useGetOrders";
+import { UseGetOrderDetails, UseApproveOrders, UseRejectOrders } from "@/api/useGetOrders";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 const OrderDetails = () => {
   const router = useRouter();
-  const { orderDetails, isLoading, isError } = useGetOrderDetails(
+  const { orderDetails, isLoading, isError } = UseGetOrderDetails(
     router.query?.id,
   );
   console.log(orderDetails)
   const ApproveOrder = (id: number) => {
-    useApproveOrders(id)
+    UseApproveOrders(id)
     .then((response) => {
       toast.success(response.data?.message)
     })
@@ -22,7 +22,7 @@ const OrderDetails = () => {
     })
   }
   const RejectOrder = (id: number) => {
-    useRejectOrders(id)
+    UseRejectOrders(id)
     .then((response) => {
       toast.success(response.data?.message)
     })

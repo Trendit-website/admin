@@ -1,10 +1,10 @@
 import Icons from "@/components/Shared/Icons";
 import { format } from "date-fns";
 import { useState } from "react";
-import { useGetAdvertTask } from "@/api/useGetTask";
+import { UseGetAdvertTask } from "@/api/useGetTask";
 const AdvertTask = () => {
   const [activePage, setActivePage] = useState(1)
-  const { advertTask, isLoadingAdvertTask, isErrorAdvertTask } = useGetAdvertTask(activePage);
+  const { advertTask, isLoadingAdvertTask, isErrorAdvertTask } = UseGetAdvertTask(activePage);
   const pages = Array.from({length: advertTask?.pages ?? 1}, (_, i) => i + 1)
   const NextPage = () => {
     if(advertTask?.pages) {

@@ -1,12 +1,20 @@
 import { useRouter } from "next/router";
-import { useVerifyLogin } from "@/api/useVerifyLogin";
+import { UseVerifyLogin } from "@/api/useVerifyLogin";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 const VerifyLogin = () => {
   const router = useRouter();
-  const VerifyLogin = useVerifyLogin(router.query?.token);
-  console.log(VerifyLogin);
+  useEffect(() => {
+    UseVerifyLogin(router.query?.token)
+    .then((response) => {
+      router.push('/dashboard')
+      console.log(response)
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+  }, [router.query?.token])
   return <div></div>;
 };
 export default VerifyLogin;

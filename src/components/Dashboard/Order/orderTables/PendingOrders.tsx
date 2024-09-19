@@ -1,11 +1,11 @@
-import { useGetPendingOrders } from "@/api/useGetOrders"
+import { UseGetPendingOrders } from "@/api/useGetOrders"
 import { useState } from "react";
 import Icons from "@/components/Shared/Icons";
 import Link from "next/link";
 import { format } from "date-fns";
 const PendingOrders = () => {
     const [activePage, setActivePage] = useState(1)
-    const { pendingOrders, isLoadingPendingOrders, isErrorPendingOrders } = useGetPendingOrders(activePage);
+    const { pendingOrders, isLoadingPendingOrders, isErrorPendingOrders } = UseGetPendingOrders(activePage);
     const pages = Array.from({length: pendingOrders?.pages ?? 1}, (_, i) => i + 1)
     const NextPage = () => {
         if(pendingOrders?.pages) {

@@ -1,9 +1,9 @@
 import Icons from "@/components/Shared/Icons";
-import { useGetInflowPayment } from "@/api/useGetTransaction";
-import { useCapitalise } from "@/services/useCapitalis";
+import { UseGetInflowPayment } from "@/api/useGetTransaction";
+import { UseCapitalise } from "@/utils/useCapitalise";
 const OrderPaymentTable = () => {
   const { inflowPayment, isLoadingInflowPayment, isErrorInflowPayment } =
-    useGetInflowPayment();
+    UseGetInflowPayment();
   return (
     <>
       {isLoadingInflowPayment && (
@@ -33,16 +33,16 @@ const OrderPaymentTable = () => {
                   className="flex items-center py-4 border-borderColor border-b-[1px] border-solid"
                 >
                   <td className="w-3/12">
-                    {useCapitalise(transaction?.payment_type)}
+                    {UseCapitalise(transaction?.payment_type)}
                   </td>
                   <td className="w-6/12">
-                    {useCapitalise(transaction?.payment_method)}
+                    {UseCapitalise(transaction?.payment_method)}
                   </td>
                   <td className="w-3/12">{transaction?.key}</td>
                   <td className="w-3/12">
                     <div className="flex items-center justify-center gap-x-[4px] text-[#067647] text-[12px] w-[92px] h-[22px] rounded-[16px] border-solid border-[1px] border-[#ABEFC6]">
                       <Icons type="verified-icon" />
-                      {useCapitalise(transaction?.status)}
+                      {UseCapitalise(transaction?.status)}
                     </div>
                   </td>
                   <td className="w-3/12 text-[#4CAF50]">

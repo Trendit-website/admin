@@ -2,10 +2,10 @@ import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { useGetAllAdvertisers } from "@/api/useGetUsers";
+import { UseGetAllAdvertisers } from "@/api/useGetUsers";
 const AdvertisersTable = () => {
   const [activePage, setActivePage] = useState(1)
-  const { allAdvertisers, isLoading, isError } = useGetAllAdvertisers(activePage);
+  const { allAdvertisers, isLoading, isError } = UseGetAllAdvertisers(activePage);
   const pages = Array.from({length: allAdvertisers?.pages ?? 1}, (_, i) => i + 1)
   const NextPage = () => {
     if(allAdvertisers?.pages) {

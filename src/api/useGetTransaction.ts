@@ -2,7 +2,7 @@ import { ApiClient } from "@/services/apiClient";
 import { TransactionSchema } from "@/utils/transactionSchema";
 import useSWR from "swr";
 
-export const useGetAllTransaction = () => {
+export const UseGetAllTransaction = () => {
   const { data, error } = useSWR<TransactionSchema>("/transactions", ApiClient);
   return {
     allTransaction: data?.data,
@@ -10,7 +10,7 @@ export const useGetAllTransaction = () => {
     isErrorTransaction: error,
   };
 };
-export const useGetInflowPayment = () => {
+export const UseGetInflowPayment = () => {
   const { data, error } = useSWR<TransactionSchema>(
     "/transactions/inflow",
     ApiClient,
@@ -21,7 +21,7 @@ export const useGetInflowPayment = () => {
     isErrorInflowPayment: error,
   };
 };
-export const useGetOutflowPayment = () => {
+export const UseGetOutflowPayment = () => {
   const { data, error } = useSWR<TransactionSchema>(
     "/transactions/outflow",
     ApiClient,

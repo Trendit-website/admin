@@ -5,8 +5,8 @@ import EarnerPayoutTable from "./TransactionTable/EarnerPayoutTable";
 import OrderPaymentTable from "./TransactionTable/OrderPaymentTable";
 import WithdrawalModal from "./PaymentModal/WithdrawalModal";
 import { useDisclosure } from "@nextui-org/react";
-import { useGetAllTransaction } from "@/api/useGetTransaction";
-import useFormatNumbers from "@/api/useFormatNumber";
+import { UseGetAllTransaction } from "@/api/useGetTransaction";
+import UseFormatNumbers from "@/utils/useFormatNumber";
 const Transaction = () => {
   const pages = [1, 2, 3, 4, 5, 6, 6];
   const ReportOverview = [
@@ -39,7 +39,7 @@ const Transaction = () => {
     onOpen();
   };
   const { allTransaction, isLoadingTransaction, isErrorTransaction } =
-    useGetAllTransaction();
+    UseGetAllTransaction();
   return (
     <>
       <div className="w-full flex items-start py-8">
@@ -109,7 +109,7 @@ const Transaction = () => {
                 <p className="text-[14px] text-[#475467]">Total Inflow</p>
                 <div className="flex items-center gap-x-2">
                   <span className="text-primary-black text-[30px]">
-                    {useFormatNumbers(Number(allTransaction?.total_inflow))}
+                    {UseFormatNumbers(Number(allTransaction?.total_inflow))}
                   </span>
                 </div>
               </div>
@@ -117,7 +117,7 @@ const Transaction = () => {
                 <p className="text-[14px] text-[#475467]">Total Outflow</p>
                 <div className="flex items-center gap-x-2">
                   <span className="text-primary-black text-[30px]">
-                    {useFormatNumbers(Number(allTransaction?.total_outflow))}
+                    {UseFormatNumbers(Number(allTransaction?.total_outflow))}
                   </span>
                 </div>
               </div>
@@ -127,7 +127,7 @@ const Transaction = () => {
                 </p>
                 <div className="flex items-center gap-x-2">
                   <span className="text-primary-black text-[30px]">
-                    {useFormatNumbers(
+                    {UseFormatNumbers(
                       Number(allTransaction?.total_pending_inflow),
                     )}
                   </span>
@@ -139,7 +139,7 @@ const Transaction = () => {
                 </p>
                 <div className="flex items-center gap-x-2">
                   <span className="text-primary-black text-[30px]">
-                    {useFormatNumbers(
+                    {UseFormatNumbers(
                       Number(allTransaction?.total_pending_outflow),
                     )}
                   </span>

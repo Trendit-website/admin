@@ -1,11 +1,11 @@
 import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import Link from "next/link";
-import { useGetAllEarners } from "@/api/useGetUsers";
+import { UseGetAllEarners } from "@/api/useGetUsers";
 import { useState } from "react";
 const EarnersTable = () => {
   const [activePage, setActivePage] = useState(1)
-  const { allEarners, isLoading, isError } = useGetAllEarners(activePage);
+  const { allEarners, isLoading, isError } = UseGetAllEarners(activePage);
   const pages = Array.from({length: allEarners?.pages ?? 1}, (_, i) => i + 1)
   const NextPage = () => {
     if(allEarners?.pages) {

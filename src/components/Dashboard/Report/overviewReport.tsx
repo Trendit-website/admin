@@ -1,7 +1,7 @@
 import Button from "@/components/Shared/Button";
 import Icons from "@/components/Shared/Icons";
-import { useGetOverviewReport } from "@/api/useGetDashboardInsight";
-import useFormatNumbers from "@/api/useFormatNumber";
+import { UseGetOverviewReport } from "@/api/useGetDashboardInsight";
+import UseFormatNumbers from "@/utils/useFormatNumber";
 import { useState } from "react";
 
 const OverviewReport = () => {
@@ -24,7 +24,7 @@ const OverviewReport = () => {
     },
   ];
   const [activeRange, setActiveRange] = useState(Range[0]);
-  const { overviewReport, isLoading, isError } = useGetOverviewReport(
+  const { overviewReport, isLoading, isError } = UseGetOverviewReport(
     activeRange.query,
   );
   return (
@@ -68,7 +68,7 @@ const OverviewReport = () => {
               </p>
               <div className="flex items-center gap-x-2">
                 <span className="text-primary-black text-[30px]">
-                  {useFormatNumbers(
+                  {UseFormatNumbers(
                     Number(overviewReport?.total_earners_settled),
                   )}
                 </span>
@@ -82,7 +82,7 @@ const OverviewReport = () => {
               <p className="text-[14px] text-[#475467]">Total Order Paid</p>
               <div className="flex items-center gap-x-2">
                 <span className="text-primary-black text-[30px]">
-                  {useFormatNumbers(Number(overviewReport?.total_order_paid))}
+                  {UseFormatNumbers(Number(overviewReport?.total_order_paid))}
                 </span>
                 {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
                           <Icons type="chart" />
@@ -94,7 +94,7 @@ const OverviewReport = () => {
               <p className="text-[14px] text-[#475467]">Total Referral paid</p>
               <div className="flex items-center gap-x-2">
                 <span className="text-primary-black text-[30px]">
-                  {useFormatNumbers(
+                  {UseFormatNumbers(
                     Number(overviewReport?.total_referral_paid),
                   )}
                 </span>
@@ -108,7 +108,7 @@ const OverviewReport = () => {
               <p className="text-[14px] text-[#475467]">Total Membership Fee</p>
               <div className="flex items-center gap-x-2">
                 <span className="text-primary-black text-[30px]">
-                  {useFormatNumbers(
+                  {UseFormatNumbers(
                     Number(overviewReport?.total_membership_fee),
                   )}
                 </span>
@@ -122,7 +122,7 @@ const OverviewReport = () => {
               <p className="text-[14px] text-[#475467]">Total Inflow Pending</p>
               <div className="flex items-center gap-x-2">
                 <span className="text-primary-black text-[30px]">
-                  {useFormatNumbers(
+                  {UseFormatNumbers(
                     Number(overviewReport?.total_inflow_pending),
                   )}
                 </span>
@@ -138,7 +138,7 @@ const OverviewReport = () => {
               </p>
               <div className="flex items-center gap-x-2">
                 <span className="text-primary-black text-[30px]">
-                  {useFormatNumbers(
+                  {UseFormatNumbers(
                     Number(overviewReport?.total_outflow_pending),
                   )}
                 </span>
@@ -154,7 +154,7 @@ const OverviewReport = () => {
               </p>
               <div className="flex items-center gap-x-2">
                 <span className="text-primary-black text-[30px]">
-                  {useFormatNumbers(
+                  {UseFormatNumbers(
                     Number(overviewReport?.num_available_tasks),
                   )}
                 </span>
@@ -168,7 +168,7 @@ const OverviewReport = () => {
               <p className="text-[14px] text-[#475467]">No of Approved Ads</p>
               <div className="flex items-center gap-x-2">
                 <span className="text-primary-black text-[30px]">
-                  {useFormatNumbers(Number(overviewReport?.num_approved_ads))}
+                  {UseFormatNumbers(Number(overviewReport?.num_approved_ads))}
                 </span>
                 {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
                           <Icons type="chart" />

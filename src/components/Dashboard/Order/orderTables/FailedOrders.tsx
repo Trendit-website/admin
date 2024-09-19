@@ -1,11 +1,11 @@
-import { useGetFailedOrders } from "@/api/useGetOrders"
+import { UseGetFailedOrders } from "@/api/useGetOrders"
 import { useState } from "react";
 import Icons from "@/components/Shared/Icons";
 import Link from "next/link";
 import { format } from "date-fns";
 const FailedOrders = () => {
     const [activePage, setActivePage] = useState(1)
-    const { failedOrders, isLoadingFailedOrders, isErrorFailedOrders } = useGetFailedOrders(activePage);
+    const { failedOrders, isLoadingFailedOrders, isErrorFailedOrders } = UseGetFailedOrders(activePage);
     const pages = Array.from({length: failedOrders?.pages ?? 1}, (_, i) => i + 1)
     const NextPage = () => {
         if(failedOrders?.pages) {

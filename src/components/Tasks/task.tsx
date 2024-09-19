@@ -3,7 +3,6 @@ import Icons from "../Shared/Icons";
 import AdvertTask from "./TaskTables/AdvertTask";
 import EngageTask from "./TaskTables/EngageTask";
 import Activities from "../Dashboard/Activities";
-import { useGetAdvertTask, useGetEngagementTask } from "@/api/useGetTask";
 
 const Task = () => {
   const Tabs = [
@@ -11,8 +10,6 @@ const Task = () => {
     "Engagement tasks",
   ];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
-  const { engagementTask, isLoadingEngagementTask, isErrorEngagementTask } =
-    useGetEngagementTask(1);
   return (
     <div className="w-full flex items-start py-8">
       <div className="flex flex-col text-primary-black gap-y-8 py-6 w-9/12">

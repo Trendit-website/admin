@@ -3,7 +3,7 @@ import InputField from "@/components/Shared/InputField";
 import { Select, SelectItem } from "@nextui-org/react";
 import Image from "next/image";
 import PreviewImageModal from "@/components/Modals/PreviewImageModal";
-import { useGetOrderPerformers, useVerifyTaskPerformance } from "@/api/useGetOrders";
+import { UseGetOrderPerformers, UseVerifyTaskPerformance } from "@/api/useGetOrders";
 import { useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
 import { format } from "date-fns";
@@ -17,7 +17,7 @@ const Orderperformers = ({
   const status = ['Paid', 'Cancelled', 'Pending']
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState<string>('')
-  const { performers, isLoading, isError } = useGetOrderPerformers(orderId, activePage)
+  const { performers, isLoading, isError } = UseGetOrderPerformers(orderId, activePage)
   const pages = Array.from({length: performers?.total_pages?? 1}, (_, i) => i + 1)
   const NextPage = () => {
     if(performers?.total_pages) {
@@ -33,7 +33,7 @@ const Orderperformers = ({
     setActivePage(page)
   }
   const verifyTaskPerformance = (key: string, action: string) => {
-    useVerifyTaskPerformance(key, action)
+    UseVerifyTaskPerformance(key, action)
     .then((response) => {
       toast.success(response.data?.message)
     })

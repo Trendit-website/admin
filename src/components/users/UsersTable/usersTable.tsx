@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Icons from "../../Shared/Icons";
 import Image from "next/image";
-import { useGetAllUsers } from "@/api/useGetUsers";
+import { UseGetAllUsers } from "@/api/useGetUsers";
 import { useState } from "react";
 const UsersTable = () => {
   const [activePage, setActivePage] = useState(1)
-  const { allUsers, isLoading, isError } = useGetAllUsers(activePage);
+  const { allUsers, isLoading, isError } = UseGetAllUsers(activePage);
   const pages = Array.from({length: allUsers?.pages ?? 1}, (_, i) => i + 1)
   const NextPage = () => {
     if(allUsers?.pages) {

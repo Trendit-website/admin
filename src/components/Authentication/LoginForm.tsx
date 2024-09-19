@@ -2,7 +2,7 @@ import Image from "next/image";
 import InputField from "../Shared/InputField";
 import Button from "../Shared/Button";
 import { useForm } from "react-hook-form";
-import { useLogin } from "@/api/useLogin";
+import { UseLogin } from "@/api/useLogin";
 import { LoginSchema } from "@/utils/loginSchema";
 import toast from "react-hot-toast";
 import { useState } from "react";
@@ -15,7 +15,7 @@ const LoginForm = () => {
   const fieldContent = watch("email");
   const Login = (data: LoginSchema) => {
     setLoading(true);
-    useLogin(data)
+    UseLogin(data)
       .then((response) => {
         toast.success(response.data?.message);
       })

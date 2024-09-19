@@ -1,11 +1,11 @@
-import { useGetOrders } from "@/api/useGetOrders"
+import { UseGetOrders } from "@/api/useGetOrders"
 import { useState } from "react";
 import Icons from "@/components/Shared/Icons";
 import Link from "next/link";
 import { format } from "date-fns";
 const AllOrders = () => {
     const [activePage, setActivePage] = useState(1)
-    const { orders, isLoading, isError } = useGetOrders(activePage);
+    const { orders, isLoading, isError } = UseGetOrders(activePage);
     const pages = Array.from({length: orders?.pages ?? 1}, (_, i) => i + 1)
     const NextPage = () => {
         if(orders?.pages) {

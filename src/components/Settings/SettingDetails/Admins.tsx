@@ -1,9 +1,8 @@
 import Icons from "@/components/Shared/Icons";
 import Image from "next/image";
-import { useGetAdmins } from "@/api/useGetAdmins";
+import { UseGetAdmins } from "@/api/useGetAdmins";
 const Admins = () => {
-  const {admins, isLoadingAdmins, isErrorAdmins} = useGetAdmins()
-  console.log(admins)
+  const {admins, isLoadingAdmins, isErrorAdmins} = UseGetAdmins()
   const getAdminRole = (roles: any[]) => {
     for (const role of roles) {
       if(role === 'Admin' || role === 'Junior Admin') {
@@ -42,7 +41,7 @@ const Admins = () => {
         {
           admins && (
             admins?.users.map((admin: any, index: number) => (
-              <tr className="flex items-center py-4 border-borderColor border-b-[1px] border-solid">
+              <tr key={index} className="flex items-center py-4 border-borderColor border-b-[1px] border-solid">
               <td className="flex items-center gap-x-[7px] w-7/12">
                 <Icons type="checkbox" />
                 <Image

@@ -1,6 +1,6 @@
 import Button from "@/components/Shared/Button";
 import Image from "next/image";
-import { useGetSignupReport } from "@/api/useGetDashboardInsight";
+import { UseGetSignupReport } from "@/api/useGetDashboardInsight";
 import { useState } from "react";
 import LineChart from "./signupChart";
 const SignupReport = () => {
@@ -23,7 +23,7 @@ const SignupReport = () => {
     },
   ];
   const [activeRange, setActiveRange] = useState(Range[0]);
-  const { signupReport, isLoading, isError } = useGetSignupReport(
+  const { signupReport, isLoading, isError } = UseGetSignupReport(
     activeRange.query,
   );
   return (

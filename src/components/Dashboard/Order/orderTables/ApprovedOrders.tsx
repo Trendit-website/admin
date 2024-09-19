@@ -1,11 +1,11 @@
-import { useGetApprovedOrders } from "@/api/useGetOrders"
+import { UseGetApprovedOrders } from "@/api/useGetOrders"
 import { useState } from "react";
 import Icons from "@/components/Shared/Icons";
 import Link from "next/link";
 import { format } from "date-fns";
 const ApprovedOrders = () => {
     const [activePage, setActivePage] = useState(1)
-    const { approvedOrders, isLoadingApprovedOrders, isErrorApprovedOrders } = useGetApprovedOrders(activePage);
+    const { approvedOrders, isLoadingApprovedOrders, isErrorApprovedOrders } = UseGetApprovedOrders(activePage);
     const pages = Array.from({length: approvedOrders?.pages ?? 1}, (_, i) => i + 1)
     const NextPage = () => {
         if(approvedOrders?.pages) {
