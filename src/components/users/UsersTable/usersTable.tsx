@@ -2,9 +2,24 @@ import Link from "next/link";
 import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import { useGetAllUsers } from "@/api/useGetUsers";
+import { useState } from "react";
 const UsersTable = () => {
-  const pages = [1, 2, 3, 4, 5, 6, 6];
-  const { allUsers, isLoading, isError } = useGetAllUsers();
+  const [activePage, setActivePage] = useState(1)
+  const { allUsers, isLoading, isError } = useGetAllUsers(activePage);
+  const pages = Array.from({length: allUsers?.pages ?? 1}, (_, i) => i + 1)
+  const NextPage = () => {
+    if(allUsers?.pages) {
+        activePage !== allUsers?.pages ?  setActivePage(prevPage => (prevPage + 1)) : ''
+    }
+}
+const PrevPage = () => {
+    if(allUsers?.pages) {
+        activePage === 1 ? '' :  setActivePage(prevPage => (prevPage - 1))
+    }
+}
+const showSpecificPage = (page: number) => {
+    setActivePage(page)
+}
   return (
     <div className="text-primary-black w-full px-4">
       <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
@@ -65,7 +80,7 @@ const UsersTable = () => {
                         <Icons type="checkbox" />
                         <div className="flex items-center gap-x-2">
                           <Image
-                            src={user?.profile_picture || ""}
+                            src={user?.profile_picture || "/assets/Logo.svg"}
                             width={40}
                             height={40}
                             className="rounded-[200px] w-[40px] h-[40px]"
@@ -86,19 +101,19 @@ const UsersTable = () => {
                 ))}
               </tbody>
             </table>
-            <div className="w-full flex items-center justify-between py-4 px-4">
-              <div className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
-                <Icons type="prev" />
-                Previous
+            <div className="flex w-full items-center justify-between px-4 py-4">
+              <div onClick={() => PrevPage()} className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
+              <Icons type="prev" />
+              Previous
               </div>
               <div className="flex items-center gap-x-4">
-                {pages.map((item, index) => (
-                  <p key={index}>{item}</p>
-                ))}
+              {pages.map((page, index) => (
+                  <p onClick={() => showSpecificPage(page)} key={index} className={activePage === page ? 'text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main' : ''}>{page}</p>
+              ))}
               </div>
-              <div className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
-                Next
-                <Icons type="next" />
+              <div onClick={() => NextPage()} className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
+              Next
+              <Icons type="next" />
               </div>
             </div>
           </>

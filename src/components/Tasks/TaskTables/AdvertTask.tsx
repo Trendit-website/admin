@@ -1,33 +1,42 @@
 import Icons from "@/components/Shared/Icons";
 import { format } from "date-fns";
-const AdvertTask = ({
-  activeTab,
-  advertTasks,
-  isLoadingTask,
-}: {
-  activeTab: string;
-  advertTasks: any;
-  isLoadingTask: boolean;
-}) => {
-  const pages = [1, 2, 3, 4, 5, 6, 6];
+import { useState } from "react";
+import { useGetAdvertTask } from "@/api/useGetTask";
+const AdvertTask = () => {
+  const [activePage, setActivePage] = useState(1)
+  const { advertTask, isLoadingAdvertTask, isErrorAdvertTask } = useGetAdvertTask(activePage);
+  const pages = Array.from({length: advertTask?.pages ?? 1}, (_, i) => i + 1)
+  const NextPage = () => {
+    if(advertTask?.pages) {
+        activePage !== advertTask?.pages ?  setActivePage(prevPage => (prevPage + 1)) : ''
+    }
+}
+const PrevPage = () => {
+    if(advertTask?.pages) {
+        activePage === 1 ? '' :  setActivePage(prevPage => (prevPage - 1))
+    }
+}
+const showSpecificPage = (page: number) => {
+    setActivePage(page)
+}
   return (
     <div className="text-primary-black w-full px-4">
       <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
-        {isLoadingTask && (
+        {isLoadingAdvertTask && !isErrorAdvertTask && (
           <div className="flex items-center justify-center py-6">
             <Icons type="loader" />
           </div>
         )}
-        {advertTasks && (
+        {advertTask && (
           <>
             <div className="flex items-center justify-between w-full px-6 py-4">
               <div className="flex flex-col gap-y-2">
                 <div className="flex items-center gap-x-4">
                   <h3 className="text-[18px] text-primary-black text-semibold">
-                    {activeTab}
+                    Advert Task
                   </h3>
                   <div className="flex items-center justify-center w-[45px] h-[21px] px-4 text-[12px] text-[#344054] border-[1px] rounded-[6px] border-solid border-borderColor">
-                    {advertTasks?.total}
+                    {advertTask?.total}
                   </div>
                 </div>
                 <span>
@@ -51,7 +60,7 @@ const AdvertTask = ({
                 </tr>
               </thead>
               <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
-                {advertTasks?.tasks.map((task: any, index: number) => (
+                {advertTask?.tasks.map((task: any, index: number) => (
                   <tr
                     className="flex items-center py-4 border-borderColor border-b-[1px] border-solid"
                     key={index}
@@ -79,23 +88,30 @@ const AdvertTask = ({
                 ))}
               </tbody>
             </table>
-            <div className="w-full flex items-center justify-between py-4 px-4">
-              <div className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
-                <Icons type="prev" />
-                Previous
+            <div className="flex w-full items-center justify-between px-4 py-4">
+              <div onClick={() => PrevPage()} className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
+              <Icons type="prev" />
+              Previous
               </div>
               <div className="flex items-center gap-x-4">
-                {pages.map((item, index) => (
-                  <p key={index}>{item}</p>
-                ))}
+              {pages.map((page, index) => (
+                  <p onClick={() => showSpecificPage(page)} key={index} className={activePage === page ? 'text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main' : ''}>{page}</p>
+              ))}
               </div>
-              <div className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
-                Next
-                <Icons type="next" />
+              <div onClick={() => NextPage()} className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
+              Next
+              <Icons type="next" />
               </div>
             </div>
           </>
         )}
+        {
+          isErrorAdvertTask && (
+            <div className="w-full flex items-center justify-center py-8">
+              {isErrorAdvertTask?.response?.data?.message || '   An error occured try again later '}
+            </div>
+          )
+        }
       </div>
     </div>
   );

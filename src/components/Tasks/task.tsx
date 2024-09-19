@@ -2,8 +2,6 @@ import { useState } from "react";
 import Icons from "../Shared/Icons";
 import AdvertTask from "./TaskTables/AdvertTask";
 import EngageTask from "./TaskTables/EngageTask";
-// import PostAdvert from "./TaskTables/PostAdvert";
-// import EngageAdvert from "./TaskTables/EngageAdvert";
 import Activities from "../Dashboard/Activities";
 import { useGetAdvertTask, useGetEngagementTask } from "@/api/useGetTask";
 
@@ -11,14 +9,10 @@ const Task = () => {
   const Tabs = [
     "Advert tasks",
     "Engagement tasks",
-    // "Post Adverts",
-    // "Engagement Adverts",
   ];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
-  const { advertTask, isLoadingAdvertTask, isErrorAdvertTask } =
-    useGetAdvertTask();
   const { engagementTask, isLoadingEngagementTask, isErrorEngagementTask } =
-    useGetEngagementTask();
+    useGetEngagementTask(1);
   return (
     <div className="w-full flex items-start py-8">
       <div className="flex flex-col text-primary-black gap-y-8 py-6 w-9/12">
@@ -46,21 +40,11 @@ const Task = () => {
           ))}
         </div>
         {activeTab === Tabs[0] && (
-          <AdvertTask
-            activeTab={Tabs[0]}
-            advertTasks={advertTask}
-            isLoadingTask={isLoadingAdvertTask}
-          />
+          <AdvertTask />
         )}
         {activeTab === Tabs[1] && (
-          <EngageTask
-            activeTab={Tabs[1]}
-            engagementTasks={engagementTask}
-            isLoadingTask={isLoadingEngagementTask}
-          />
+          <EngageTask />
         )}
-        {/* {activeTab === Tabs[2] && <PostAdvert activeTab={Tabs[2]} />}
-        {activeTab === Tabs[3] && <EngageAdvert activeTab={Tabs[3]} />} */}
       </div>
       <Activities />
     </div>

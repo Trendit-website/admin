@@ -2,24 +2,24 @@ import { ApiClient } from "@/services/apiClient";
 import { UserDetailsSchema, UserSchema } from "@/utils/userSchema";
 import useSWR, { mutate } from "swr";
 
-export const useGetAllUsers = () => {
-  const { data, error } = useSWR<UserSchema>("/users", ApiClient);
+export const useGetAllUsers = (page: number) => {
+  const { data, error } = useSWR<UserSchema>(`/users?page=${page}&per_page=15`, ApiClient);
   return {
     allUsers: data?.data,
     isLoading: !data,
     isError: error,
   };
 };
-export const useGetAllEarners = () => {
-  const { data, error } = useSWR<UserSchema>("/earners", ApiClient);
+export const useGetAllEarners = (page: number) => {
+  const { data, error } = useSWR<UserSchema>(`/earners?page=${page}&per_page=15`, ApiClient);
   return {
     allEarners: data?.data,
     isLoading: !data,
     isError: error,
   };
 };
-export const useGetAllAdvertisers = () => {
-  const { data, error } = useSWR<UserSchema>("/advertisers", ApiClient);
+export const useGetAllAdvertisers = (page: number) => {
+  const { data, error } = useSWR<UserSchema>(`/advertisers?page=${page}&per_page=15`, ApiClient);
   return {
     allAdvertisers: data?.data,
     isLoading: !data,
@@ -31,3 +31,10 @@ export const useGetUsersDetails = (id: string | string[] | undefined) => {
   mutate("/fetch-user")
   return UserDetails
 };
+export const useGetuserDetail = (id: string | string[] | undefined) => {
+  const {data, error} = useSWR<UserDetailsSchema>(`/user/${id}`, ApiClient)
+  return {
+    userDetail: data?.data,
+    isError: error
+  }
+}

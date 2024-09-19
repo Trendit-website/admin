@@ -18,7 +18,6 @@ const Orderperformers = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState<string>('')
   const { performers, isLoading, isError } = useGetOrderPerformers(orderId, activePage)
-  console.log(performers)
   const pages = Array.from({length: performers?.total_pages?? 1}, (_, i) => i + 1)
   const NextPage = () => {
     if(performers?.total_pages) {
