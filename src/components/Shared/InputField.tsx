@@ -8,10 +8,10 @@ const InputField = ({
   leftIcon,
   register,
   id,
-  containerStyle
+  containerStyle,
 }: {
   classNames: string;
-  containerStyle?: string
+  containerStyle?: string;
   type: string;
   placeholder: string;
   rightIcon?: string;
@@ -20,7 +20,13 @@ const InputField = ({
   id?: string;
 }) => {
   return (
-    <div className={containerStyle ? containerStyle : 'flex items-center justify-between px-2 py-2'}>
+    <div
+      className={
+        containerStyle
+          ? containerStyle
+          : "flex items-center justify-between px-2 py-2"
+      }
+    >
       {rightIcon && <Icons type={rightIcon} />}
       <input
         className={classNames}

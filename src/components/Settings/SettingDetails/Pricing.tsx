@@ -9,8 +9,8 @@ const Pricing = () => {
     "Engagement Adverts",
   ];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
-  const {pricing, isLoadingPrice, isError} = UseGetPricing()
-  console.log(pricing)
+  const { pricing, isLoadingPrice, isError } = UseGetPricing();
+  console.log(pricing);
   return (
     <div className="flex flex-col gap-y-8">
       <div className="w-full px-4 py-3 text-[18px] text-primary-black ">

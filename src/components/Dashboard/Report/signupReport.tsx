@@ -49,7 +49,7 @@ const SignupReport = () => {
         ))}
       </div>
       <div className="w-full flex items-center justify-center">
-        <LineChart signupReport={signupReport} range={activeRange?.label}/>
+        <LineChart signupReport={signupReport} range={activeRange?.label} />
         {/* <Image src="/assets/chart.png" alt="" width={802} height={192} /> */}
       </div>
     </div>

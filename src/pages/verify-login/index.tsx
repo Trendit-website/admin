@@ -7,14 +7,14 @@ const VerifyLogin = () => {
   const router = useRouter();
   useEffect(() => {
     UseVerifyLogin(router.query?.token)
-    .then((response) => {
-      router.push('/dashboard')
-      console.log(response)
-    })
-    .catch((error) => {
-      console.error(error)
-    })
-  }, [router.query?.token])
+      .then((response) => {
+        router.push("/dashboard");
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [router.query?.token]);
   return <div></div>;
 };
 export default VerifyLogin;

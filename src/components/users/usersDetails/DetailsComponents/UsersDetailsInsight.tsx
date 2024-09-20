@@ -1,5 +1,11 @@
 import { UserDetailsSchema } from "@/utils/userSchema";
-const UsersDeatailsInsight = ({ activeTab, details }: { activeTab: string, details: UserDetailsSchema | undefined }) => {
+const UsersDeatailsInsight = ({
+  activeTab,
+  details,
+}: {
+  activeTab: string;
+  details: UserDetailsSchema | undefined;
+}) => {
   const ReportOverview = [
     {
       label: "Total Earned This Month",
@@ -25,7 +31,7 @@ const UsersDeatailsInsight = ({ activeTab, details }: { activeTab: string, detai
       label: "Total Transactions",
       value: details?.transaction_metrics.total_transactions,
       percentage: "10.8",
-    }
+    },
   ];
   return (
     <>

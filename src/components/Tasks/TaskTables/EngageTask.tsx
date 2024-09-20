@@ -3,22 +3,28 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { UseGetEngagementTask } from "@/api/useGetTask";
 const EngageTask = () => {
-  const [activePage, setActivePage] = useState(1)
-  const { engagementTask, isLoadingEngagementTask, isErrorEngagementTask } = UseGetEngagementTask(activePage)
+  const [activePage, setActivePage] = useState(1);
+  const { engagementTask, isLoadingEngagementTask, isErrorEngagementTask } =
+    UseGetEngagementTask(activePage);
   const NextPage = () => {
-    if(engagementTask?.pages) {
-        activePage !== engagementTask?.pages ?  setActivePage(prevPage => (prevPage + 1)) : ''
+    if (engagementTask?.pages) {
+      activePage !== engagementTask?.pages
+        ? setActivePage((prevPage) => prevPage + 1)
+        : "";
     }
-}
-const PrevPage = () => {
-    if(engagementTask?.pages) {
-        activePage === 1 ? '' :  setActivePage(prevPage => (prevPage - 1))
+  };
+  const PrevPage = () => {
+    if (engagementTask?.pages) {
+      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
     }
-}
-const showSpecificPage = (page: number) => {
-    setActivePage(page)
-}
-  const pages = Array.from({length: engagementTask?.pages ?? 1}, (_, i) => i + 1)
+  };
+  const showSpecificPage = (page: number) => {
+    setActivePage(page);
+  };
+  const pages = Array.from(
+    { length: engagementTask?.pages ?? 1 },
+    (_, i) => i + 1,
+  );
   return (
     <div className="text-primary-black w-full px-4">
       <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
@@ -94,18 +100,34 @@ const showSpecificPage = (page: number) => {
               </tbody>
             </table>
             <div className="flex w-full items-center justify-between px-4 py-4">
-              <div onClick={() => PrevPage()} className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
-              <Icons type="prev" />
-              Previous
+              <div
+                onClick={() => PrevPage()}
+                className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+              >
+                <Icons type="prev" />
+                Previous
               </div>
               <div className="flex items-center gap-x-4">
-              {pages.map((page, index) => (
-                  <p onClick={() => showSpecificPage(page)} key={index} className={activePage === page ? 'text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main' : ''}>{page}</p>
-              ))}
+                {pages.map((page, index) => (
+                  <p
+                    onClick={() => showSpecificPage(page)}
+                    key={index}
+                    className={
+                      activePage === page
+                        ? "text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main"
+                        : ""
+                    }
+                  >
+                    {page}
+                  </p>
+                ))}
               </div>
-              <div onClick={() => NextPage()} className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
-              Next
-              <Icons type="next" />
+              <div
+                onClick={() => NextPage()}
+                className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+              >
+                Next
+                <Icons type="next" />
               </div>
             </div>
           </>

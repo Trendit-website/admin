@@ -1,8 +1,15 @@
 import { ApiClient } from "@/services/apiClient";
-import { OrderDetailSchema, OrderSchema, TaskPerfomers } from "@/utils/orderSchema";
-import useSWR, {mutate} from "swr";
+import {
+  OrderDetailSchema,
+  OrderSchema,
+  TaskPerfomers,
+} from "@/utils/orderSchema";
+import useSWR, { mutate } from "swr";
 export const UseGetOrders = (page: number) => {
-  const { data, error } = useSWR<OrderSchema>(`/tasks?page=${page}&per_page=15`, ApiClient);
+  const { data, error } = useSWR<OrderSchema>(
+    `/tasks?page=${page}&per_page=15`,
+    ApiClient,
+  );
   return {
     orders: data?.data,
     isLoading: !data,
@@ -10,7 +17,10 @@ export const UseGetOrders = (page: number) => {
   };
 };
 export const UseGetPendingOrders = (page: number) => {
-  const { data, error } = useSWR<OrderSchema>(`/pending-tasks?page=${page}&per_page=15`, ApiClient);
+  const { data, error } = useSWR<OrderSchema>(
+    `/pending-tasks?page=${page}&per_page=15`,
+    ApiClient,
+  );
   return {
     pendingOrders: data?.data,
     isLoadingPendingOrders: !data,
@@ -18,7 +28,10 @@ export const UseGetPendingOrders = (page: number) => {
   };
 };
 export const UseGetApprovedOrders = (page: number) => {
-  const { data, error } = useSWR<OrderSchema>(`/approved-tasks?page=${page}&per_page=15`, ApiClient);
+  const { data, error } = useSWR<OrderSchema>(
+    `/approved-tasks?page=${page}&per_page=15`,
+    ApiClient,
+  );
   return {
     approvedOrders: data?.data,
     isLoadingApprovedOrders: !data,
@@ -26,7 +39,10 @@ export const UseGetApprovedOrders = (page: number) => {
   };
 };
 export const UseGetFailedOrders = (page: number) => {
-  const { data, error } = useSWR<OrderSchema>(`/failed-tasks?page=${page}&per_page=15`, ApiClient);
+  const { data, error } = useSWR<OrderSchema>(
+    `/failed-tasks?page=${page}&per_page=15`,
+    ApiClient,
+  );
   return {
     failedOrders: data?.data,
     isLoadingFailedOrders: !data,
@@ -45,28 +61,31 @@ export const UseGetOrderDetails = (orderId: string | string[] | undefined) => {
   };
 };
 export const UseApproveOrders = (taskId: number) => {
-  const approveOrders = ApiClient.post(`/tasks/${taskId}/approve`)
+  const approveOrders = ApiClient.post(`/tasks/${taskId}/approve`);
   mutate("/tasks/${taskId}/approve");
   return approveOrders;
-}
+};
 export const UseRejectOrders = (taskId: number) => {
-  const approveOrders = ApiClient.post(`/tasks/${taskId}/`)
+  const approveOrders = ApiClient.post(`/tasks/${taskId}/`);
   mutate("/reject-task/${taskId}");
   return approveOrders;
-}
+};
 export const UseGetOrderPerformers = (orderKey: string, page: number) => {
-  const {data, error} = useSWR<TaskPerfomers>(`/tasks/${orderKey}/performances?page=${page}&per_page=15`, ApiClient)
+  const { data, error } = useSWR<TaskPerfomers>(
+    `/tasks/${orderKey}/performances?page=${page}&per_page=15`,
+    ApiClient,
+  );
   return {
     performers: data?.data,
     isLoading: !data,
-    isError: error
-  }
-}
+    isError: error,
+  };
+};
 export const UseVerifyTaskPerformance = (key: string, action: string) => {
   const verifyTaskPerformance = ApiClient.post(`/tasks/verify-performance`, {
     performed_task_id_key: key,
-    status: action
-  })
+    status: action,
+  });
   mutate("/tasks/verify-performance");
-  return verifyTaskPerformance
-}
+  return verifyTaskPerformance;
+};

@@ -9,13 +9,11 @@ import Userstransaction from "./DetailsComponents/Userstransaction";
 import UsersReferral from "./DetailsComponents/UsersReferral";
 import { UserDetailsSchema } from "@/utils/userSchema";
 import UserActivities from "./DetailsComponents/UsersActivities";
-const UsersDetailsComponent = (
-  {
-    details
-  }: {
-    details: UserDetailsSchema | undefined
-  }
-) => {
+const UsersDetailsComponent = ({
+  details,
+}: {
+  details: UserDetailsSchema | undefined;
+}) => {
   const tabs = [
     "Insights",
     "Activities",
@@ -69,7 +67,9 @@ const UsersDetailsComponent = (
                 <Icons type="region" />
                 Region
               </div>
-              <div>{details?.user?.local_government}, {details?.user?.state}</div>
+              <div>
+                {details?.user?.local_government}, {details?.user?.state}
+              </div>
             </div>
             <div className="flex flex-col gap-y-2 text-[12px] text-secondary">
               <div className="flex items-center gap-x-[5px]">
@@ -102,11 +102,15 @@ const UsersDetailsComponent = (
             </div>
           ))}
         </div>
-        {activeTab === tabs[0] && <UsersDeatailsInsight activeTab={tabs[0]} details={details}/>}
-        {activeTab === tabs[1] && <UserActivities details={details}/>}
-        {activeTab === tabs[2] && <Userstransaction details={details}/>}
-        {activeTab === tabs[3] && <UserSocialAccount activeTab={tabs[3]} details={details}/>}
-        {activeTab === tabs[4] && <UsersReferral details={details}/>}
+        {activeTab === tabs[0] && (
+          <UsersDeatailsInsight activeTab={tabs[0]} details={details} />
+        )}
+        {activeTab === tabs[1] && <UserActivities details={details} />}
+        {activeTab === tabs[2] && <Userstransaction details={details} />}
+        {activeTab === tabs[3] && (
+          <UserSocialAccount activeTab={tabs[3]} details={details} />
+        )}
+        {activeTab === tabs[4] && <UsersReferral details={details} />}
       </div>
     </div>
   );

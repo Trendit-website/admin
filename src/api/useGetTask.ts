@@ -3,7 +3,10 @@ import { OrderSchema } from "@/utils/orderSchema";
 import useSWR from "swr";
 
 export const UseGetAdvertTask = (page: number) => {
-  const { data, error } = useSWR<OrderSchema>(`/advert-tasks?page=${page}&per_page=10`, ApiClient);
+  const { data, error } = useSWR<OrderSchema>(
+    `/advert-tasks?page=${page}&per_page=10`,
+    ApiClient,
+  );
   return {
     advertTask: data?.data,
     isLoadingAdvertTask: !data,
@@ -11,7 +14,10 @@ export const UseGetAdvertTask = (page: number) => {
   };
 };
 export const UseGetEngagementTask = (page: number) => {
-  const { data, error } = useSWR<OrderSchema>(`/engagement-tasks?page=${page}&per_page108`, ApiClient);
+  const { data, error } = useSWR<OrderSchema>(
+    `/engagement-tasks?page=${page}&per_page108`,
+    ApiClient,
+  );
   return {
     engagementTask: data?.data,
     isLoadingEngagementTask: !data,

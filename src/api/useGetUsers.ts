@@ -3,7 +3,10 @@ import { UserDetailsSchema, UserSchema } from "@/utils/userSchema";
 import useSWR, { mutate } from "swr";
 
 export const UseGetAllUsers = (page: number) => {
-  const { data, error } = useSWR<UserSchema>(`/users?page=${page}&per_page=15`, ApiClient);
+  const { data, error } = useSWR<UserSchema>(
+    `/users?page=${page}&per_page=15`,
+    ApiClient,
+  );
   return {
     allUsers: data?.data,
     isLoading: !data,
@@ -11,7 +14,10 @@ export const UseGetAllUsers = (page: number) => {
   };
 };
 export const UseGetAllEarners = (page: number) => {
-  const { data, error } = useSWR<UserSchema>(`/earners?page=${page}&per_page=15`, ApiClient);
+  const { data, error } = useSWR<UserSchema>(
+    `/earners?page=${page}&per_page=15`,
+    ApiClient,
+  );
   return {
     allEarners: data?.data,
     isLoading: !data,
@@ -19,7 +25,10 @@ export const UseGetAllEarners = (page: number) => {
   };
 };
 export const UseGetAllAdvertisers = (page: number) => {
-  const { data, error } = useSWR<UserSchema>(`/advertisers?page=${page}&per_page=15`, ApiClient);
+  const { data, error } = useSWR<UserSchema>(
+    `/advertisers?page=${page}&per_page=15`,
+    ApiClient,
+  );
   return {
     allAdvertisers: data?.data,
     isLoading: !data,
@@ -27,9 +36,9 @@ export const UseGetAllAdvertisers = (page: number) => {
   };
 };
 export const UseGetUsersDetails = (id: number) => {
-  const UserDetails = ApiClient.post('/fetch-user', {
-    "id": id
-  })
-  mutate("/fetch-user")
-  return UserDetails
+  const UserDetails = ApiClient.post("/fetch-user", {
+    id: id,
+  });
+  mutate("/fetch-user");
+  return UserDetails;
 };

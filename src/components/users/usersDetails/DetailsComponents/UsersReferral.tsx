@@ -1,16 +1,19 @@
 import Icons from "@/components/Shared/Icons";
 import Image from "next/image";
 import { UserDetailsSchema } from "@/utils/userSchema";
-const UsersReferral = ({ details }: {details: UserDetailsSchema | undefined }) => {
+const UsersReferral = ({
+  details,
+}: {
+  details: UserDetailsSchema | undefined;
+}) => {
   return (
     <div className="flex flex-col gap-y-6 w-full">
       <div className="flex items-center justify-between">
         Referral Activities
         <Icons type="vertical-dot" />
       </div>
-      {
-        details?.referral_metrics.referral_history?.length !== 0 && (
-          <table>
+      {details?.referral_metrics.referral_history?.length !== 0 && (
+        <table>
           <tbody className="flex flex-col gap-y-6">
             <tr className="flex items-center justify-between px-4 border-solid border-b-[1px] border-borderColor pb-2">
               <td className="flex items-center gap-x-2">
@@ -86,15 +89,12 @@ const UsersReferral = ({ details }: {details: UserDetailsSchema | undefined }) =
             </tr>
           </tbody>
         </table>
-        )
-      }
-      {
-        details?.referral_metrics.referral_history.length === 0 && (
-          <div className="flex w-full items-center justify-center">
-              No referrals
-          </div>
-        )
-      }
+      )}
+      {details?.referral_metrics.referral_history.length === 0 && (
+        <div className="flex w-full items-center justify-center">
+          No referrals
+        </div>
+      )}
     </div>
   );
 };

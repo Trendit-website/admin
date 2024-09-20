@@ -12,35 +12,26 @@ import ApprovedOrders from "./orderTables/ApprovedOrders";
 import FailedOrders from "./orderTables/FailedOrders";
 
 const Ordertable = () => {
-  
-  const [activePage, setActivePage] = useState(1)
+  const [activePage, setActivePage] = useState(1);
   const { orders } = UseGetOrders(activePage);
-  const { pendingOrders} = UseGetPendingOrders(1);
-  const { approvedOrders} = UseGetApprovedOrders(1);
-  const { failedOrders} = UseGetFailedOrders(1);
+  const { pendingOrders } = UseGetPendingOrders(1);
+  const { approvedOrders } = UseGetApprovedOrders(1);
+  const { failedOrders } = UseGetFailedOrders(1);
   const Tabs = ["All", "Pending", "Approved", "Cancelled"];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const reducer = (state: any, action: string) => {
     switch (action) {
       case Tabs[0]:
-      return (
-        state = orders
-      )
+        return (state = orders);
       case Tabs[1]:
-      return (
-        state = pendingOrders
-      )
+        return (state = pendingOrders);
       case Tabs[2]:
-      return (
-        state = approvedOrders
-      )
+        return (state = approvedOrders);
       case Tabs[3]:
-      return (
-        state = failedOrders
-      )
+        return (state = failedOrders);
     }
-  }
-  const [state, dispatch] = useReducer(reducer, orders)
+  };
+  const [state, dispatch] = useReducer(reducer, orders);
   // useEffect(() => {
   //   if(orders) {
   //     dispatch(Tabs[0])
@@ -56,10 +47,13 @@ const Ordertable = () => {
               key={index}
               className={`w-[114px] flex items-center justify-center pb-2 ${activeTab === tab ? "text-main border-solid border-b-[1px] border-main" : ""}`}
             >
-              <p onClick={() => {
-                dispatch(tab)
-                setActiveTab(tab)
-              }} className="text-[16px]">
+              <p
+                onClick={() => {
+                  dispatch(tab);
+                  setActiveTab(tab);
+                }}
+                className="text-[16px]"
+              >
                 {tab}
               </p>{" "}
               {activeTab === tab && (
@@ -78,20 +72,10 @@ const Ordertable = () => {
       </div>
       <div className="text-primary-black w-full px-4">
         <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-6 text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
-          {activeTab === Tabs[0] && (
-            <AllOrders />
-          )}
-           {activeTab === Tabs[1] && (
-            <PendingOrders />
-          )}
-          {
-            activeTab === Tabs[2] && (
-              <ApprovedOrders />
-            )}
-            {
-            activeTab === Tabs[3] && (
-              <FailedOrders />
-            )}
+          {activeTab === Tabs[0] && <AllOrders />}
+          {activeTab === Tabs[1] && <PendingOrders />}
+          {activeTab === Tabs[2] && <ApprovedOrders />}
+          {activeTab === Tabs[3] && <FailedOrders />}
         </div>
       </div>
     </>

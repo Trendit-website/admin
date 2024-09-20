@@ -21,7 +21,7 @@ const LoginForm = () => {
       })
       .catch((error) => {
         toast.error(error?.response?.data?.message);
-        console.error(error)
+        console.error(error);
       })
       .finally(() => {
         setLoading(false);

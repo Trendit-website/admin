@@ -5,10 +5,7 @@ import EngageTask from "./TaskTables/EngageTask";
 import Activities from "../Dashboard/Activities";
 
 const Task = () => {
-  const Tabs = [
-    "Advert tasks",
-    "Engagement tasks",
-  ];
+  const Tabs = ["Advert tasks", "Engagement tasks"];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   return (
     <div className="w-full flex items-start py-8">
@@ -36,12 +33,8 @@ const Task = () => {
             </p>
           ))}
         </div>
-        {activeTab === Tabs[0] && (
-          <AdvertTask />
-        )}
-        {activeTab === Tabs[1] && (
-          <EngageTask />
-        )}
+        {activeTab === Tabs[0] && <AdvertTask />}
+        {activeTab === Tabs[1] && <EngageTask />}
       </div>
       <Activities />
     </div>
