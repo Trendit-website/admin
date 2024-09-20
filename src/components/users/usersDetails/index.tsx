@@ -17,7 +17,7 @@ const UsersDetails = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, [userdetails]);
+  }, [userdetails, router.query?.id]);
   return (
     <div className="flex flex-col gap-y-6 px-4 py-8 w-full text-[#667185]">
       <div className="flex items-center w-full px-4 gap-x-2 text-[14px]">

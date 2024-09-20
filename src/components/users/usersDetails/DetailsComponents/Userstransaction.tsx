@@ -34,7 +34,7 @@ const Userstransaction = ({
           <tbody className="flex flex-col h-[350px] pt-2 overflow-y-scroll gap-y-4">
             {details?.transaction_metrics.transactions_history?.map(
               (transaction, index) => (
-                <tr className="flex text-[12px] font-normal text-primary-black items-center border-solid border-b-[1px] border-borderColor pb-2">
+                <tr key={index} className="flex text-[12px] font-normal text-primary-black items-center border-solid border-b-[1px] border-borderColor pb-2">
                   <td className="w-3/12">
                     {UseCapitalise(transaction?.transaction_type)}
                   </td>

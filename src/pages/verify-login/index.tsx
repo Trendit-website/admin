@@ -14,7 +14,7 @@ const VerifyLogin = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, [router.query?.token]);
+  }, [router.query?.token, router]);
   return <div></div>;
 };
 export default VerifyLogin;
