@@ -7,7 +7,15 @@ import UserSocialAccount from "./DetailsComponents/UserSocialAccount";
 import UsersDeatailsInsight from "./DetailsComponents/UsersDetailsInsight";
 import Userstransaction from "./DetailsComponents/Userstransaction";
 import UsersReferral from "./DetailsComponents/UsersReferral";
-const UsersDetailsComponent = () => {
+import { UserDetailsSchema } from "@/utils/userSchema";
+import UserActivities from "./DetailsComponents/UsersActivities";
+const UsersDetailsComponent = (
+  {
+    details
+  }: {
+    details: UserDetailsSchema | undefined
+  }
+) => {
   const tabs = [
     "Insights",
     "Activities",
@@ -32,28 +40,28 @@ const UsersDetailsComponent = () => {
               <Icons type="phone" />
               Phone Number
             </div>
-            <div className="">08078591688</div>
+            <div className="">{details?.user?.phone}</div>
           </div>
           <div className="flex flex-col gap-y-2 text-[12px] text-secondary">
             <div className="flex items-center gap-x-[5px]">
               <Icons type="email" />
               Email
             </div>
-            <div>abscefgthrjk234@gmail.com</div>
+            <div>{details?.user?.email}</div>
           </div>
           <div className="flex flex-col gap-y-2 text-[12px] text-secondary">
             <div className="flex items-center gap-x-[5px]">
               <Icons type="flag" />
               Nationality
             </div>
-            <div>Nigerian</div>
+            <div>{details?.user?.country}</div>
           </div>
           <div className="flex flex-col gap-y-2 text-[12px] text-secondary">
             <div className="flex items-center gap-x-[5px]">
               <Icons type="religion" />
               Religion
             </div>
-            <div>Christainity</div>
+            <div>{details?.user?.religion}</div>
           </div>
           <div className="w-full flex items-center justify-between">
             <div className="flex flex-col gap-y-2 text-[12px] text-secondary">
@@ -61,14 +69,14 @@ const UsersDetailsComponent = () => {
                 <Icons type="region" />
                 Region
               </div>
-              <div>ikeja, Lagos</div>
+              <div>{details?.user?.local_government}, {details?.user?.state}</div>
             </div>
             <div className="flex flex-col gap-y-2 text-[12px] text-secondary">
               <div className="flex items-center gap-x-[5px]">
                 <Icons type="gender" />
                 Gender
               </div>
-              <div>Male</div>
+              <div>{details?.user?.gender}</div>
             </div>
           </div>
           <div className="flex flex-col gap-y-2 text-[12px] text-secondary">
@@ -94,10 +102,11 @@ const UsersDetailsComponent = () => {
             </div>
           ))}
         </div>
-        {activeTab === tabs[0] && <UsersDeatailsInsight activeTab={tabs[0]} />}
-        {activeTab === tabs[2] && <Userstransaction />}
-        {activeTab === tabs[3] && <UserSocialAccount activeTab={tabs[3]} />}
-        {activeTab === tabs[4] && <UsersReferral />}
+        {activeTab === tabs[0] && <UsersDeatailsInsight activeTab={tabs[0]} details={details}/>}
+        {activeTab === tabs[1] && <UserActivities details={details}/>}
+        {activeTab === tabs[2] && <Userstransaction details={details}/>}
+        {activeTab === tabs[3] && <UserSocialAccount activeTab={tabs[3]} details={details}/>}
+        {activeTab === tabs[4] && <UsersReferral details={details}/>}
       </div>
     </div>
   );

@@ -581,7 +581,7 @@ const Icons = ({
           />
         </svg>
       );
-    case "failed-icon":
+    case "rejected-icon":
       return (
         <svg
           width="10"

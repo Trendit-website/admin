@@ -3,10 +3,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { UseGetSocialLinkRequest } from "@/api/useGetSocialLinkRequest";
 import { useState } from "react";
+import { UseCapitalise } from "@/utils/useCapitalise";
 const RequestTable = () => {
   const [activePage, setActivePage] = useState(1)
   const { socialRequest, isLoading, isError } = UseGetSocialLinkRequest(activePage);
   const pages = Array.from({length: socialRequest?.total_pages ?? 1}, (_, i) => i + 1)
+  const NextPage = () => {
+    if(socialRequest?.total_pages) {
+        activePage !== socialRequest?.total_pages ?  setActivePage(prevPage => (prevPage + 1)) : ''
+    }
+}
+const PrevPage = () => {
+    if(socialRequest?.total_pages) {
+        activePage === 1 ? '' :  setActivePage(prevPage => (prevPage - 1))
+    }
+}
+const showSpecificPage = (page: number) => {
+  setActivePage(page)
+}
   return (
     <div className="text-primary-black w-full px-4">
       <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-4 text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
@@ -26,125 +40,102 @@ const RequestTable = () => {
             <Icons type="vertical-dot" />
           </span>
         </div>
-        <table className="w-full flex flex-col gap-y-2">
-          <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
-            <tr className="flex items-center justify-between">
-              <div className="flex items-center gap-x-36">
-                <td className="flex items-center gap-x-2">
-                  <Icons type="checkbox" />
-                  Name
-                  <Icons type="arrow-down" />
-                </td>
-                <td className="flex items-center gap-x-2">Links</td>
-              </div>
-              <div className="flex items-center justify-start gap-x-36">
-                <td className="flex items-center gap-x-[2px]">Date created </td>
-                <div className="mr-12">
-                  <td className="text-[#475467]">Action</td>
-                </div>
-              </div>
-            </tr>
-          </thead>
-          <tbody className="flex flex-col gap-y-4 w-full">
-            <Link href="/users/dvdhhjf">
-              <tr className="flex items-center justify-between border-solid border-b-[1px] px-4 border-primary-border">
-                <div className="flex items-center gap-x-24 py-4">
-                  <td>
-                    <div className="flex items-center gap-x-2">
+        {
+          isLoading && !isError && (
+            <div className="w-full flex items-center justify-center py-8">
+               <Icons type="loader" />
+            </div>
+          )
+        }
+        {
+          isError && (
+            <div className="w-full flex items-center justify-center py-8">
+                An error occured try again later !!!!!
+            </div>
+          )
+        }
+        {
+          socialRequest && (
+          <>
+            <table className="w-full flex flex-col gap-y-2">
+              <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
+                <tr className="flex items-center">
+                    <td className="flex items-center gap-x-2 w-4/12">
                       <Icons type="checkbox" />
-                      <div className="flex items-center gap-x-2">
-                        <Image
-                          src="/assets/avatar.png"
-                          alt="avatar"
-                          width={40}
-                          height={40}
-                        />
-                        <div>
-                          <p>Olivia Rhye</p>
-                          <span>@olivia</span>
+                      Name
+                      <Icons type="arrow-down" />
+                    </td>
+                    <td className="flex items-center w-7/12">Links</td>
+                    <td className="text-[#475467] w-3/12">Action</td>
+                </tr>
+              </thead>
+              <tbody className="flex flex-col gap-y-4 w-full">
+                {socialRequest?.social_profiles?.map((profiles, index) => (
+                  <tr key={index} className="flex items-center border-solid border-b-[1px] px-4 py-2 border-primary-border">
+                      <td className="w-4/12">
+                        <div className="flex items-center gap-x-2">
+                          <Icons type="checkbox" />
+                          <div className="flex items-center gap-x-2">
+                            <Image
+                              src={profiles?.user?.profile_picture || "/assets/avatar.png"}
+                              alt="avatar"
+                              width={40}
+                              height={40}
+                              className="w-[40px] h-[40px] rounded-[200px]"
+                            />
+                            <div>
+                              <p>{profiles?.user?.email}</p>
+                              <span>@{profiles?.user?.username}</span>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="flex items-start gap-x-2">
-                      <Icons type="facebook" width={20} height={20} />
-                      <div className="flex flex-col">
-                        <p>Facebook</p>
-                        <Link href="facebook.com">
-                          http://facebook.com/stephen.oyeshola.1/?_rdr
-                        </Link>
-                      </div>
-                    </div>
-                  </td>
-                </div>
-                <div className="flex items-center gap-x-32 ml-6">
-                  <td>Jan 6, 2024 11:59pm</td>
-                  <div className="flex items-center gap-x-2">
-                    <td>Decline</td>
-                    <td className="text-main font-bold">Approve</td>
+                      </td>
+                      <td className="flex items-start gap-x-4 w-7/12">
+                          <Icons type={profiles?.platform} width={20} height={20} />
+                          <div className="flex flex-col">
+                            <p>{profiles?.platform}</p>
+                            <Link href={profiles?.link}>
+                                {profiles?.link}
+                            </Link>
+                          </div>
+                      </td>
+                      {
+                        profiles?.status === 'pending' && (
+                          <td className="flex items-center w-3/12 gap-x-4">
+                            <button>Decline</button>
+                            <button className="text-main font-bold">Approve</button>
+                          </td>
+                        )
+                      }
+                      {
+                        profiles?.status !== 'pending' && (
+                          <td className="flex items-center w-3/12 gap-x-4">
+                            {UseCapitalise(profiles?.status)}
+                          </td>
+                        )
+                      }
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="flex w-full items-center justify-between px-4">
+                  <div onClick={() => PrevPage()} className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
+                  <Icons type="prev" />
+                  Previous
                   </div>
-                </div>
-              </tr>
-            </Link>
-            {socialRequest?.social_profiles?.map((profiles, index) => (
-              <tr key={index} className="flex items-center justify-between border-solid border-b-[1px] px-4 border-primary-border">
-                <div className="flex items-center gap-x-24 py-4">
-                  <td>
-                    <div className="flex items-center gap-x-2">
-                      <Icons type="checkbox" />
-                      <div className="flex items-center gap-x-2">
-                        <Image
-                          src="/assets/avatar.png"
-                          alt="avatar"
-                          width={40}
-                          height={40}
-                        />
-                        <div>
-                          <p>Olivia Rhye</p>
-                          <span>@olivia</span>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="flex items-start gap-x-2">
-                      <Icons type="facebook" width={20} height={20} />
-                      <div className="flex flex-col">
-                        <p>Facebook</p>
-                        <Link href="facebook.com">
-                          http://facebook.com/stephen.oyeshola.1/?_rdr
-                        </Link>
-                      </div>
-                    </div>
-                  </td>
-                </div>
-                <div className="flex items-center gap-x-32 ml-6">
-                  <td>Jan 6, 2024 11:59pm</td>
-                  <div className="flex items-center gap-x-2">
-                    <td>Decline</td>
-                    <td className="text-main font-bold">Approve</td>
+                  <div className="flex items-center gap-x-4">
+                  {pages.map((page, index) => (
+                      <p onClick={() => showSpecificPage(page)} key={index} className={activePage === page ? 'text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main' : ''}>{page}</p>
+                  ))}
                   </div>
-                </div>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="flex w-full items-center justify-between px-4">
-          <div className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
-            <Icons type="prev" />
-            Previous
-          </div>
-          <div className="flex items-center gap-x-4">
-            {pages.map((item, index) => (
-              <p key={index}>{item}</p>
-            ))}
-          </div>
-          <div className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
-            Next
-            <Icons type="next" />
-          </div>
-        </div>
+                  <div onClick={() => NextPage()} className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
+                  Next
+                  <Icons type="next" />
+                  </div>
+            </div>
+          </>
+          )
+        }
       </div>
     </div>
   );

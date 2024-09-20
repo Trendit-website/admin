@@ -26,15 +26,10 @@ export const UseGetAllAdvertisers = (page: number) => {
     isError: error,
   };
 };
-export const UseGetUsersDetails = (id: string | string[] | undefined) => {
-  const UserDetails = ApiClient.post('/fetch-user', id)
+export const UseGetUsersDetails = (id: number) => {
+  const UserDetails = ApiClient.post('/fetch-user', {
+    "id": id
+  })
   mutate("/fetch-user")
   return UserDetails
 };
-export const UseGetuserDetail = (id: string | string[] | undefined) => {
-  const {data, error} = useSWR<UserDetailsSchema>(`/user/${id}`, ApiClient)
-  return {
-    userDetail: data?.data,
-    isError: error
-  }
-}
