@@ -1,4 +1,4 @@
-import { UserDetailsSchema } from "@/utils/userSchema";
+import { UserDetailsSchema } from "@/utils/schema/userSchema";
 const UsersDeatailsInsight = ({
   activeTab,
   details,
@@ -36,7 +36,9 @@ const UsersDeatailsInsight = ({
   return (
     <>
       <div className="flex items-center justify-between w-11/12 px-4 ">
-        <p className="text-[18px] font-bold text-primary-black">{activeTab}</p>
+        <p className="text-[18px] cursor-pointer font-bold text-primary-black">
+          {activeTab}
+        </p>
       </div>
       <div className="w-full px-2 grid grid-cols-4 gap-8">
         {ReportOverview.map((report, index) => (

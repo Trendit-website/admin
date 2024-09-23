@@ -3,7 +3,7 @@ import InputField from "../Shared/InputField";
 import Button from "../Shared/Button";
 import { useForm } from "react-hook-form";
 import { UseLogin } from "@/api/useLogin";
-import { LoginSchema } from "@/utils/loginSchema";
+import { LoginSchema } from "@/utils/schema/loginSchema";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import Icons from "../Shared/Icons";

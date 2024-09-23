@@ -22,7 +22,7 @@ const SocialMedia = () => {
           <p
             key={index}
             onClick={() => setActiveTab(tab)}
-            className={`pb-2 ${activeTab === tab && "text-main border-main border-solid border-b-[1px]"}`}
+            className={`pb-2 ${activeTab === tab && "text-main cursor-pointer border-main border-solid border-b-[1px]"}`}
           >
             {tab}
           </p>

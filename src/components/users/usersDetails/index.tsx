@@ -5,7 +5,7 @@ import Link from "next/link";
 import { UseGetUsersDetails } from "@/api/useGetUsers";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { UserDetailsSchema } from "@/utils/userSchema";
+import { UserDetailsSchema } from "@/utils/schema/userSchema";
 const UsersDetails = () => {
   const router = useRouter();
   const [userdetails, setUserDetails] = useState<UserDetailsSchema>();

@@ -8,16 +8,16 @@ const VerifyLogin = () => {
   const router = useRouter();
   const [isVerified, setIsVerified] = useState<boolean>(true);
   useEffect(() => {
-    if(router.isReady) {
+    if (router.isReady) {
       UseVerifyLogin(router.query?.token)
-      .then((response) => {
-        sessionStorage.setItem("access_token", response.data?.access_token);
-        setIsVerified(true);
-      })
-      .catch((error) => {
-        toast.error(error?.response?.data?.message);
-        router.push("/Login");
-      });
+        .then((response) => {
+          sessionStorage.setItem("access_token", response.data?.access_token);
+          setIsVerified(true);
+        })
+        .catch((error) => {
+          toast.error(error?.response?.data?.message);
+          router.push("/Login");
+        });
     }
   }, [router.isReady]);
   return (

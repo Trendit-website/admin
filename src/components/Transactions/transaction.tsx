@@ -152,7 +152,7 @@ const Transaction = () => {
                 <p
                   onClick={() => setActiveTab(tab)}
                   key={index}
-                  className={`text-[14px] pb-2 ${activeTab === tab ? "text-main border-solid border-b-[1px] border-main" : "text-[#344054]"} `}
+                  className={`text-[14px] pb-2 ${activeTab === tab ? "text-main cursor-pointer border-solid border-b-[1px] border-main" : "text-[#344054]"} `}
                 >
                   {tab}
                 </p>

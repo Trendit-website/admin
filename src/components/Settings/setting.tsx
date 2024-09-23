@@ -25,7 +25,7 @@ const Setting = () => {
         </div>
       </div>
       <div className="flex items-start bg-[#FFFFFF] py-2 w-10/12 h-[867px] m-auto rounded-[12px] border-[1px] border-solid border-borderColor">
-        <div className="text-primary-black w-3/12 h-full flex flex-col gap-y-4 px-4 py-4 border-solid border-r-[1px] border-borderColor">
+        <div className="text-primary-black cursor-pointer w-3/12 h-full flex flex-col gap-y-4 px-4 py-4 border-solid border-r-[1px] border-borderColor">
           {Tabs.map((tab, index) => (
             <p key={index} onClick={() => setActiveTab(tab)}>
               {tab}

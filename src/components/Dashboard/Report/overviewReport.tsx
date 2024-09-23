@@ -42,7 +42,7 @@ const OverviewReport = () => {
         {Range.map((range, index) => (
           <p
             key={index}
-            className={`pb-2 ${activeRange.label === range.label ? "text-main border-b-[1px] border-solid border-main" : "text-seondary"}`}
+            className={`pb-2 ${activeRange.label === range.label ? "text-main cursor-pointer border-b-[1px] border-solid border-main" : "text-seondary"}`}
             onClick={() => setActiveRange(range)}
           >
             {range.label}

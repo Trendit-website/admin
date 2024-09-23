@@ -1,5 +1,5 @@
 import ApiClient from "@/services/apiClient";
-import { LoginSchema } from "@/utils/loginSchema";
+import { LoginSchema } from "@/utils/schema/loginSchema";
 import { mutate } from "swr";
 
 export const UseLogin = (data: LoginSchema) => {

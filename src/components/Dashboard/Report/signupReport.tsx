@@ -37,7 +37,7 @@ const SignupReport = () => {
           label="View report"
         />
       </div>
-      <div className="ml-4 w-6/12 flex items-center gap-x-4 border-b-[1px] border-solid border-[#E4E7EC]">
+      <div className="ml-4 w-6/12 flex items-center cursor-pointer gap-x-4 border-b-[1px] border-solid border-[#E4E7EC]">
         {Range.map((range, index) => (
           <p
             key={index}
@@ -50,7 +50,6 @@ const SignupReport = () => {
       </div>
       <div className="w-full flex items-center justify-center">
         <LineChart signupReport={signupReport} range={activeRange?.label} />
-        {/* <Image src="/assets/chart.png" alt="" width={802} height={192} /> */}
       </div>
     </div>
   );

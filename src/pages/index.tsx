@@ -10,15 +10,14 @@ const RedHat = Red_Hat_Display({
 });
 
 export default function Home() {
-  const {token} = useAccessToken()
-  const router = useRouter()
+  const { token } = useAccessToken();
+  const router = useRouter();
   useEffect(() => {
-    if(token !== null) {
-      router.push('/dashboard')
+    if (token !== null) {
+      router.push("/dashboard");
     } else {
-      router.push('/Login')
+      router.push("/Login");
     }
-  })
-  return <>
-  </>;
+  });
+  return <></>;
 }

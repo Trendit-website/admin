@@ -20,18 +20,18 @@ export type NextPageWithLayout = NextPage & {
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const router = useRouter();
- const {token} = useAccessToken()
- const [isLogin, setLogin] = useState<boolean>()
- useEffect(() => {
-  if(router.route !== '/verify-login' && router.route !== '/Login') {
-    if(token === null) {
-      setLogin(false)
-      router.push('/Login')
-    } else {
-      setLogin(true)
+  const { token } = useAccessToken();
+  const [isLogin, setLogin] = useState<boolean>();
+  useEffect(() => {
+    if (router.route !== "/verify-login" && router.route !== "/Login") {
+      if (token === null) {
+        setLogin(false);
+        router.push("/Login");
+      } else {
+        setLogin(true);
+      }
     }
-  }
- })
+  });
   const getLayout =
     Component.getLayout ??
     ((page) => (
@@ -41,11 +41,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           {router.route === "/Login" && <Login />}
           {router.route === "/" && ""}
           {router.route === "/verify-login" && <VerifyLogin />}
-          {(router.route !== "/Login" &&
+          {router.route !== "/Login" &&
             router.route !== "/" &&
-            router.route !== "/verify-login") && 
-            isLogin && <Layout>{page}</Layout>
-            }
+            router.route !== "/verify-login" &&
+            isLogin && <Layout>{page}</Layout>}
         </NextUIProvider>
       </>
     ));

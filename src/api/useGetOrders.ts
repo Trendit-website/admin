@@ -3,7 +3,7 @@ import {
   OrderDetailSchema,
   OrderSchema,
   TaskPerfomers,
-} from "@/utils/orderSchema";
+} from "@/utils/schema/orderSchema";
 import useSWR, { mutate } from "swr";
 export const UseGetOrders = (page: number) => {
   const { data, error } = useSWR<OrderSchema>(

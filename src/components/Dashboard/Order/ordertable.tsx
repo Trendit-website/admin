@@ -4,7 +4,7 @@ import {
   UseGetApprovedOrders,
   UseGetFailedOrders,
 } from "@/api/useGetOrders";
-import { useEffect, useState, useReducer } from "react";
+import { useState, useReducer } from "react";
 import InputField from "@/components/Shared/InputField";
 import AllOrders from "./orderTables/AllOrder";
 import PendingOrders from "./orderTables/PendingOrders";
@@ -32,12 +32,6 @@ const Ordertable = () => {
     }
   };
   const [state, dispatch] = useReducer(reducer, orders);
-  // useEffect(() => {
-  //   if(orders) {
-  //     dispatch(Tabs[0])
-  //   }
-  //   setActiveTab(Tabs[0])
-  // }, [Tabs, orders]);
   return (
     <>
       <div className="flex items-center justify-between px-4 py-4">
@@ -45,7 +39,7 @@ const Ordertable = () => {
           {Tabs.map((tab, index) => (
             <div
               key={index}
-              className={`w-[114px] flex items-center justify-center pb-2 ${activeTab === tab ? "text-main border-solid border-b-[1px] border-main" : ""}`}
+              className={`w-[114px] flex items-center cursor-pointer justify-center pb-2 ${activeTab === tab ? "text-main border-solid border-b-[1px] border-main" : ""}`}
             >
               <p
                 onClick={() => {

@@ -1,5 +1,5 @@
 import ApiClient from "@/services/apiClient";
-import { UserDetailsSchema, UserSchema } from "@/utils/userSchema";
+import { UserDetailsSchema, UserSchema } from "@/utils/schema/userSchema";
 import useSWR, { mutate } from "swr";
 
 export const UseGetAllUsers = (page: number) => {

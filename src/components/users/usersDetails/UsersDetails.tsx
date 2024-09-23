@@ -7,7 +7,7 @@ import UserSocialAccount from "./DetailsComponents/UserSocialAccount";
 import UsersDeatailsInsight from "./DetailsComponents/UsersDetailsInsight";
 import Userstransaction from "./DetailsComponents/Userstransaction";
 import UsersReferral from "./DetailsComponents/UsersReferral";
-import { UserDetailsSchema } from "@/utils/userSchema";
+import { UserDetailsSchema } from "@/utils/schema/userSchema";
 import UserActivities from "./DetailsComponents/UsersActivities";
 const UsersDetailsComponent = ({
   details,
@@ -96,7 +96,7 @@ const UsersDetailsComponent = ({
             <div
               onClick={() => setActiveTab(tab)}
               key={index}
-              className={`text-[14px] pb-6 font-normal ${activeTab === tab ? "text-main border-b-[1px] border-solid border-main" : "text-[#344054]"}`}
+              className={`text-[14px] pb-6 font-normal ${activeTab === tab ? "text-main cursor-pointer border-b-[1px] border-solid border-main" : "text-[#344054]"}`}
             >
               {tab}
             </div>

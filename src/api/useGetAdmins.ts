@@ -1,5 +1,5 @@
 import ApiClient from "@/services/apiClient";
-import { UserSchema } from "@/utils/userSchema";
+import { UserSchema } from "@/utils/schema/userSchema";
 import useSWR from "swr";
 
 export const UseGetAdmins = () => {

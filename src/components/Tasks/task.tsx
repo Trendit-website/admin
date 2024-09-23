@@ -27,7 +27,7 @@ const Task = () => {
             <p
               key={index}
               onClick={() => setActiveTab(tab)}
-              className={`pb-2 ${activeTab === tab ? "text-main border-main border-b-[1px] border-solid" : "text-secondary"}`}
+              className={`pb-2 ${activeTab === tab ? "text-main cursor-pointer border-main border-b-[1px] border-solid" : "text-secondary"}`}
             >
               {tab}
             </p>
