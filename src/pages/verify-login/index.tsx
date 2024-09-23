@@ -2,28 +2,24 @@ import { useRouter } from "next/router";
 import { UseVerifyLogin } from "@/api/useVerifyLogin";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import Icons from "@/components/Shared/Icons";
 import Button from "@/components/Shared/Button";
 
 const VerifyLogin = () => {
   const router = useRouter();
-  const [isVerified, setIsVerified] = useState<boolean>();
+  const [isVerified, setIsVerified] = useState<boolean>(true);
   useEffect(() => {
-    console.log(10);
-    UseVerifyLogin(router.query?.token)
+    if(router.isReady) {
+      UseVerifyLogin(router.query?.token)
       .then((response) => {
         sessionStorage.setItem("access_token", response.data?.access_token);
-        console.log(response);
-        if (sessionStorage.getItem("access_token") !== null) {
-          setIsVerified(true);
-        }
+        setIsVerified(true);
       })
       .catch((error) => {
-        console.error(error);
         toast.error(error?.response?.data?.message);
         router.push("/Login");
       });
-  }, []);
+    }
+  }, [router.isReady]);
   return (
     isVerified && (
       <div className="w-full h-screen text-center flex flex-col gap-y-2 items-center text-primary-black justify-center">
