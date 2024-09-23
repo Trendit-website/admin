@@ -1,4 +1,4 @@
-import { ApiClient } from "@/services/apiClient";
+import ApiClient from "@/services/apiClient";
 import { OrderSchema } from "@/utils/orderSchema";
 import useSWR from "swr";
 

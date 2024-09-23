@@ -11,6 +11,7 @@ import { useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
+import { UseCapitalise } from "@/utils/useCapitalise";
 const Orderperformers = ({ orderId }: { orderId: string }) => {
   const [activePage, setActivePage] = useState(1);
   const status = ["Paid", "Cancelled", "Pending"];
@@ -174,47 +175,50 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
                             View Screenshot
                           </td>
                         )}
-                        {performer?.post_link && (
-                          <td className="w-3/12">
-                            <a href={performer?.post_link}>View Post</a>
-                          </td>
-                        )}
-                        <td className="w-3/12 flex items-center gap-x-2">
-                          {performer?.status === "in_review" && (
-                            <>
-                              <button
-                                disabled={
-                                  performer?.status !== "pending" ||
-                                  performer?.status === "in_review"
-                                }
-                                onClick={() =>
-                                  verifyTaskPerformance(
-                                    performer?.key,
-                                    "reject",
-                                  )
-                                }
-                              >
-                                Reject
-                              </button>
-                              <button
-                                disabled={
-                                  performer?.status !== "pending" ||
-                                  performer?.status === "in_review"
-                                }
-                                onClick={() =>
-                                  verifyTaskPerformance(
-                                    performer?.key,
-                                    "accept",
-                                  )
-                                }
-                                className="text-main"
-                              >
-                                Approve
-                              </button>
-                            </>
+                        {performer?.post_link !== "" &&
+                          performer?.post_link !== "undefined" && (
+                            <td className="w-3/12">
+                              <a href={performer?.post_link}>View Post</a>
+                            </td>
                           )}
+                        <td className="w-3/12 flex items-center gap-x-2">
+                          {performer?.status === "in_review" ||
+                            (performer?.status === "pending" && (
+                              <>
+                                <button
+                                  disabled={
+                                    performer?.status !== "pending" ||
+                                    performer?.status === "in_review"
+                                  }
+                                  onClick={() =>
+                                    verifyTaskPerformance(
+                                      performer?.key,
+                                      "reject",
+                                    )
+                                  }
+                                >
+                                  Reject
+                                </button>
+                                <button
+                                  disabled={
+                                    performer?.status !== "pending" ||
+                                    performer?.status === "in_review"
+                                  }
+                                  onClick={() =>
+                                    verifyTaskPerformance(
+                                      performer?.key,
+                                      "accept",
+                                    )
+                                  }
+                                  className="text-main"
+                                >
+                                  Approve
+                                </button>
+                              </>
+                            ))}
                           {performer?.status !== "in_review" &&
-                            performer?.status}
+                            performer?.status !== "pending" &&
+                            UseCapitalise(performer?.status)}
                         </td>
                       </tr>
                     ))}

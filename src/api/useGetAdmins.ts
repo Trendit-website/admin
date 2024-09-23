@@ -1,4 +1,4 @@
-import { ApiClient } from "@/services/apiClient";
+import ApiClient from "@/services/apiClient";
 import { UserSchema } from "@/utils/userSchema";
 import useSWR from "swr";
 

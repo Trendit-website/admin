@@ -1,4 +1,4 @@
-import { ApiClient } from "@/services/apiClient";
+import ApiClient from "@/services/apiClient";
 import useSWR from "swr";
 import { InsightSchema, SignupReportSchema } from "@/utils/insightSchema";
 export const UseGetOverviewReport = (range: string) => {

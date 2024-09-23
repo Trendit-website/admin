@@ -10,7 +10,7 @@ const ToastProvider = () => {
             backgroundColor: "#4CAF50",
             color: "#FFFFFF",
           },
-          icon: <Icons type="cancel" />,
+          icon: <Icons type="mark" />,
         },
         error: {
           style: {
@@ -19,6 +19,7 @@ const ToastProvider = () => {
             width: "350px",
           },
         },
+        icon: <Icons type="cancel" />,
       }}
     />
   );

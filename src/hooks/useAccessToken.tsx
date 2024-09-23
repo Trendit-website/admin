@@ -1,5 +1,8 @@
 export const useAccessToken = () => {
-  const access_token = sessionStorage.getItem("access_token");
+  const access_token =
+    typeof window !== "undefined"
+      ? sessionStorage.getItem("access_token")
+      : null;
   return {
     token: access_token,
   };

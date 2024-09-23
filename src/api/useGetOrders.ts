@@ -1,4 +1,4 @@
-import { ApiClient } from "@/services/apiClient";
+import ApiClient from "@/services/apiClient";
 import {
   OrderDetailSchema,
   OrderSchema,
@@ -79,6 +79,19 @@ export const UseGetOrderPerformers = (orderKey: string, page: number) => {
     performers: data?.data,
     isLoading: !data,
     isError: error,
+  };
+};
+export const UseGetOrderPerformersByStatus = (
+  status: string,
+  orderKey: string,
+) => {
+  const { data, error } = useSWR(
+    `/tasks/${orderKey}/performances?status=${status}`,
+  );
+  return {
+    performer: data,
+    isLoading: !data,
+    isErrorStatus: error,
   };
 };
 export const UseVerifyTaskPerformance = (key: string, action: string) => {
