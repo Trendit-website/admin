@@ -27,7 +27,7 @@ const Users = () => {
           <p
             key={index}
             onClick={() => setActiveTab(tab)}
-            className={`pb-2 ${activeTab === tab ? "text-main border-b-[1px] border-solid border-main" : "text-secondary"}`}
+            className={`pb-2 ${activeTab === tab ? "text-main cursor-pointer border-b-[1px] border-solid border-main" : "text-secondary"}`}
           >
             {tab}
           </p>

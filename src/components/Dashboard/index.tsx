@@ -14,12 +14,12 @@ const Dashboard = () => {
     <section className="w-11/12 flex items-start py-12 gap-x-10">
       <div className="flex flex-col gap-y-6 w-full">
         <AdminProfile />
-        <div className="flex items-center gap-x-8 w-10/12 pb-4">
+        <div className="flex items-center  gap-x-8 w-10/12 pb-4">
           {Tabs.map((tab, index) => (
             <p
               key={index}
               onClick={() => setActiveTab(tab)}
-              className={`text-[14px] font-medium text-[#344504] pb-[7px] ${activeTab === tab ? "border-b-[1px] border-solid border-main text-main font-semibold" : ""}`}
+              className={`text-[14px] font-medium cursor-pointer text-[#344504] pb-[7px] ${activeTab === tab ? "border-b-[1px] border-solid border-main text-main font-semibold" : ""}`}
             >
               {tab}
             </p>

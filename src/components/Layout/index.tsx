@@ -1,15 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import Icons from "../Shared/Icons";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
+import { useRouter } from "next/router";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const Tabs = ["Dashboard", "Users", "Tasks", "Transctions"];
-  const [activeTab, setActiveTab] = useState(Tabs[0]);
+  const router = useRouter();
   return (
     <div>
-      <header className="w-full bg-[#FFFFFF] flex items-center justify-around h-[72px] py-4">
-        <Link href="/" onClick={() => setActiveTab(Tabs[0])}>
+      <header className="w-full bg-[#FFFFFF] hidden lg:flex items-center justify-around h-[72px] py-4">
+        <Link href="/dashboard">
           <Image
             src="/assets/Logo.svg"
             alt="Trendit logo"
@@ -21,30 +21,26 @@ const Layout = ({ children }: { children: ReactNode }) => {
           className={`flex items-center gap-x-8 text-[#344054] text-[16px] font-bold text-RedHat`}
         >
           <Link
-            href="/"
-            onClick={() => setActiveTab(Tabs[0])}
-            className={`pb-2 ${activeTab === Tabs[0] ? "text-main border-b-[1px] border-solid border-main" : "text-primary-black"}`}
+            href="/dashboard"
+            className={`py-2 px-2 ${router.route === "/dashboard" ? "text-main border-b-[1px] border-solid border-main bg-[#FFF0FF]" : "text-primary-black"}`}
           >
             Dashboard
           </Link>
           <Link
             href="/users"
-            onClick={() => setActiveTab(Tabs[1])}
-            className={`pb-2 ${activeTab === Tabs[1] ? "text-main border-b-[1px] border-solid border-main" : "text-primary-black"}`}
+            className={`py-2 px-2 ${router.route === "/users" ? "text-main border-b-[1px] border-solid border-main bg-[#FFF0FF]" : "text-primary-black"}`}
           >
             <div>Users</div>
           </Link>
           <Link
-            href="/tasks"
-            onClick={() => setActiveTab(Tabs[2])}
-            className={`pb-2 ${activeTab === Tabs[2] ? "text-main border-b-[1px] border-solid border-main" : "text-primary-black"}`}
+            href="/task"
+            className={`py-2 px-2 ${router.route === "/task" ? "text-main border-b-[1px] border-solid border-main bg-[#FFF0FF]" : "text-primary-black"}`}
           >
             Tasks
           </Link>
           <Link
             href="/transactions"
-            onClick={() => setActiveTab(Tabs[3])}
-            className={`pb-2 ${activeTab === Tabs[3] ? "text-main border-b-[1px] border-solid border-main" : "text-primary-black"}`}
+            className={`py-2 px-2 ${router.route === "/transactions" ? "text-main border-b-[1px] border-solid border-main bg-[#FFF0FF]" : "text-primary-black"}`}
           >
             Transactions
           </Link>
@@ -55,9 +51,17 @@ const Layout = ({ children }: { children: ReactNode }) => {
               <Icons type="search" />
             </span>
           </div>
-          <div>
-            <Icons type="settings" />
-          </div>
+          <Link href="/settings">
+            <div
+              className={
+                router.route === "/settings"
+                  ? "bg-[#FFF0FF] px-[5px] py-[5px]"
+                  : ""
+              }
+            >
+              <Icons type="settings" />
+            </div>
+          </Link>
           <div>
             <Icons type="alarm" />
           </div>

@@ -1,50 +1,32 @@
 import Button from "@/components/Shared/Button";
 import Icons from "@/components/Shared/Icons";
+import { UseGetOverviewReport } from "@/api/useGetDashboardInsight";
+import UseFormatNumbers from "@/utils/useFormatNumber";
+import { useState } from "react";
 
 const OverviewReport = () => {
-  const Range = ["12 months", "30 days", "7 days", "24 hours"];
-  const ReportOverview = [
+  const Range = [
     {
-      label: "Total Earners Settled",
-      value: "845.8k",
-      percentage: "7.4",
+      label: "12 months",
+      query: "year",
     },
     {
-      label: "Total Order Paid",
-      value: "20.2M",
-      percentage: "7.2",
+      label: "30 days",
+      query: "month",
     },
     {
-      label: "Total Referral paid",
-      value: "10.2k",
-      percentage: "0.2",
+      label: "7 days",
+      query: "week",
     },
     {
-      label: "Total Membership Fee",
-      value: "400.3k",
-      percentage: "10.8",
-    },
-    {
-      label: "Total Inflow Pending",
-      value: "2.3k",
-      percentage: "10.8",
-    },
-    {
-      label: "Total Outflow Pending",
-      value: "10.2",
-      percentage: "10.8",
-    },
-    {
-      label: "No. of Available Tasks",
-      value: "887",
-      percentage: "7.2%",
-    },
-    {
-      label: "No of Approved Ads",
-      value: "780",
-      percentage: "0.2",
+      label: "24 hours",
+      query: "day",
     },
   ];
+  const [activeRange, setActiveRange] = useState(Range[0]);
+  const { overviewReport, isLoading, isError } = UseGetOverviewReport(
+    activeRange.query,
+  );
   return (
     <div className="w-full h-[411px] bg-[#FFFFFF] border-[1px] border-[#E4E7EC] border-solid  flex flex-col py-4 gap-y-10 text-primary-black rounded-[12px]">
       <div className="flex items-center justify-between w-11/12 px-4 ">
@@ -56,26 +38,146 @@ const OverviewReport = () => {
           label="View report"
         />
       </div>
-      <div className="ml-4 w-[290px] flex items-center gap-x-4 pb-2 border-b-[1px] border-solid border-[#E4E7EC]">
+      <div className="ml-4 w-6/12 flex items-center gap-x-4 border-b-[1px] border-solid border-[#E4E7EC]">
         {Range.map((range, index) => (
-          <p key={index}>{range}</p>
+          <p
+            key={index}
+            className={`pb-2 ${activeRange.label === range.label ? "text-main cursor-pointer border-b-[1px] border-solid border-main" : "text-seondary"}`}
+            onClick={() => setActiveRange(range)}
+          >
+            {range.label}
+          </p>
         ))}
       </div>
+      {isLoading && (
+        <div className="flex items-center justify-center w-full">
+          <Icons type="loader" />
+        </div>
+      )}
+      {isError && (
+        <div className="text-primary-black w-full text-center">
+          An Error Occured try again later !!!
+        </div>
+      )}
       <div className="w-11/12 px-4 grid grid-cols-4 gap-8">
-        {ReportOverview.map((report, index) => (
-          <div key={index} className="flex flex-col gap-[4px]">
-            <p className="text-[14px] text-[#475467]">{report.label}</p>
-            <div className="flex items-center gap-x-2">
-              <span className="text-primary-black text-[30px]">
-                #{report.value}
-              </span>
-              <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                <Icons type="chart" />
-                {report.percentage}%
+        {overviewReport && (
+          <>
+            <div className="flex flex-col gap-[4px]">
+              <p className="text-[14px] text-[#475467]">
+                Total Earners Settled
+              </p>
+              <div className="flex items-center gap-x-2">
+                <span className="text-primary-black text-[30px]">
+                  {UseFormatNumbers(
+                    Number(overviewReport?.total_earners_settled),
+                  )}
+                </span>
+                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
+                          <Icons type="chart" />
+                          {}%
+                        </div> */}
               </div>
             </div>
-          </div>
-        ))}
+            <div className="flex flex-col gap-[4px]">
+              <p className="text-[14px] text-[#475467]">Total Order Paid</p>
+              <div className="flex items-center gap-x-2">
+                <span className="text-primary-black text-[30px]">
+                  {UseFormatNumbers(Number(overviewReport?.total_order_paid))}
+                </span>
+                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
+                          <Icons type="chart" />
+                          {}%
+                        </div> */}
+              </div>
+            </div>
+            <div className="flex flex-col gap-[4px]">
+              <p className="text-[14px] text-[#475467]">Total Referral paid</p>
+              <div className="flex items-center gap-x-2">
+                <span className="text-primary-black text-[30px]">
+                  {UseFormatNumbers(
+                    Number(overviewReport?.total_referral_paid),
+                  )}
+                </span>
+                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
+                          <Icons type="chart" />
+                          {}%
+                        </div> */}
+              </div>
+            </div>
+            <div className="flex flex-col gap-[4px]">
+              <p className="text-[14px] text-[#475467]">Total Membership Fee</p>
+              <div className="flex items-center gap-x-2">
+                <span className="text-primary-black text-[30px]">
+                  {UseFormatNumbers(
+                    Number(overviewReport?.total_membership_fee),
+                  )}
+                </span>
+                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
+                          <Icons type="chart" />
+                          {}%
+                        </div> */}
+              </div>
+            </div>
+            <div className="flex flex-col gap-[4px]">
+              <p className="text-[14px] text-[#475467]">Total Inflow Pending</p>
+              <div className="flex items-center gap-x-2">
+                <span className="text-primary-black text-[30px]">
+                  {UseFormatNumbers(
+                    Number(overviewReport?.total_inflow_pending),
+                  )}
+                </span>
+                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
+                          <Icons type="chart" />
+                          {}%
+                        </div> */}
+              </div>
+            </div>
+            <div className="flex flex-col gap-[4px]">
+              <p className="text-[14px] text-[#475467]">
+                Total Outflow Pending
+              </p>
+              <div className="flex items-center gap-x-2">
+                <span className="text-primary-black text-[30px]">
+                  {UseFormatNumbers(
+                    Number(overviewReport?.total_outflow_pending),
+                  )}
+                </span>
+                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
+                          <Icons type="chart" />
+                          {}%
+                        </div> */}
+              </div>
+            </div>
+            <div className="flex flex-col gap-[4px]">
+              <p className="text-[14px] text-[#475467]">
+                No of Available Tasks
+              </p>
+              <div className="flex items-center gap-x-2">
+                <span className="text-primary-black text-[30px]">
+                  {UseFormatNumbers(
+                    Number(overviewReport?.num_available_tasks),
+                  )}
+                </span>
+                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
+                          <Icons type="chart" />
+                          {}%
+                        </div> */}
+              </div>
+            </div>
+            <div className="flex flex-col gap-[4px]">
+              <p className="text-[14px] text-[#475467]">No of Approved Ads</p>
+              <div className="flex items-center gap-x-2">
+                <span className="text-primary-black text-[30px]">
+                  {UseFormatNumbers(Number(overviewReport?.num_approved_ads))}
+                </span>
+                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
+                          <Icons type="chart" />
+                          {}%
+                        </div> */}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

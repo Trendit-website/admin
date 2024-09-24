@@ -1,53 +1,44 @@
-import Icons from "@/components/Shared/Icons";
-import Button from "@/components/Shared/Button";
-const UsersDeatailsInsight = ({ activeTab }: { activeTab: string }) => {
-  const Range = ["12 months", "30 days", "7 days", "24 hours"];
+import { UserDetailsSchema } from "@/utils/schema/userSchema";
+const UsersDeatailsInsight = ({
+  activeTab,
+  details,
+}: {
+  activeTab: string;
+  details: UserDetailsSchema | undefined;
+}) => {
   const ReportOverview = [
     {
-      label: "Total Earners Settled",
-      value: "845.8k",
+      label: "Total Earned This Month",
+      value: details?.transaction_metrics.total_earned_current_month,
       percentage: "7.4",
     },
     {
-      label: "Total Order Paid",
-      value: "20.2M",
+      label: "Overall Earnings",
+      value: details?.transaction_metrics.total_earned_overall,
       percentage: "7.2",
     },
     {
-      label: "Total Referral paid",
-      value: "10.2k",
+      label: "Total Spent This Month",
+      value: details?.transaction_metrics.total_spent_current_month,
       percentage: "0.2",
     },
     {
-      label: "Total Membership Fee",
-      value: "400.3k",
+      label: "Overall Spending",
+      value: details?.transaction_metrics.total_spent_overall,
       percentage: "10.8",
     },
     {
-      label: "Total Inflow Pending",
-      value: "2.3k",
+      label: "Total Transactions",
+      value: details?.transaction_metrics.total_transactions,
       percentage: "10.8",
-    },
-    {
-      label: "Total Outflow Pending",
-      value: "10.2",
-      percentage: "10.8",
-    },
-    {
-      label: "No. of Available Tasks",
-      value: "887",
-      percentage: "7.2%",
-    },
-    {
-      label: "No of Approved Ads",
-      value: "780",
-      percentage: "0.2",
     },
   ];
   return (
     <>
       <div className="flex items-center justify-between w-11/12 px-4 ">
-        <p className="text-[18px] font-bold text-primary-black">{activeTab}</p>
+        <p className="text-[18px] cursor-pointer font-bold text-primary-black">
+          {activeTab}
+        </p>
       </div>
       <div className="w-full px-2 grid grid-cols-4 gap-8">
         {ReportOverview.map((report, index) => (
@@ -55,12 +46,8 @@ const UsersDeatailsInsight = ({ activeTab }: { activeTab: string }) => {
             <p className="text-[14px] text-[#475467]">{report.label}</p>
             <div className="flex items-center gap-x-2">
               <span className="text-primary-black text-[30px]">
-                #{report.value}
+                #{Number(report.value).toLocaleString()}
               </span>
-              <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                <Icons type="chart" />
-                {report.percentage}%
-              </div>
             </div>
           </div>
         ))}
