@@ -1,6 +1,6 @@
-import Button from "@/components/Shared/Button";
+import Button from "../../Shared/Button";
 import Image from "next/image";
-import { UseGetSignupReport } from "@/api/useGetDashboardInsight";
+import { UseGetSignupReport } from "../../../api/useGetDashboardInsight";
 import { useState } from "react";
 import LineChart from "./signupChart";
 const SignupReport = () => {
