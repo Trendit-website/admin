@@ -1,4 +1,4 @@
-import ApiClient from "@/services/apiClient";
+import ApiClient from "../services/apiClient";
 import { mutate } from "swr";
 
 export const UseVerifyLogin = (token: string | undefined | string[]) => {

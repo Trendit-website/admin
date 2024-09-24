@@ -1,4 +1,4 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import RequestTable from "./requestTable";
 
 const SocialLinkRequest = () => {

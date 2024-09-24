@@ -1,7 +1,7 @@
 import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import Link from "next/link";
-import { UseGetAllEarners } from "@/api/useGetUsers";
+import { UseGetAllEarners } from "../../../api/useGetUsers";
 import { useState } from "react";
 const EarnersTable = () => {
   const [activePage, setActivePage] = useState(1);

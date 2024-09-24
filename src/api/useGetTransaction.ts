@@ -1,5 +1,5 @@
-import ApiClient from "@/services/apiClient";
-import { TransactionSchema } from "@/utils/schema/transactionSchema";
+import ApiClient from "../services/apiClient";
+import { TransactionSchema } from "../utils/schema/transactionSchema";
 import useSWR from "swr";
 
 export const UseGetAllTransaction = () => {

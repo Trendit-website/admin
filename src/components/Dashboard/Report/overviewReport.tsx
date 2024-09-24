@@ -1,7 +1,7 @@
-import Button from "@/components/Shared/Button";
-import Icons from "@/components/Shared/Icons";
-import { UseGetOverviewReport } from "@/api/useGetDashboardInsight";
-import UseFormatNumbers from "@/utils/useFormatNumber";
+import Button from "../../Shared/Button";
+import Icons from "../../Shared/Icons";
+import { UseGetOverviewReport } from "../../../api/useGetDashboardInsight";
+import UseFormatNumbers from "../../../utils/useFormatNumber";
 import { useState } from "react";
 
 const OverviewReport = () => {

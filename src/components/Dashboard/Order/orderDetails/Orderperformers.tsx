@@ -1,17 +1,17 @@
-import Icons from "@/components/Shared/Icons";
-import InputField from "@/components/Shared/InputField";
+import Icons from "../../../Shared/Icons";
+import InputField from "../../../Shared/InputField";
 import { Select, SelectItem } from "@nextui-org/react";
 import Image from "next/image";
-import PreviewImageModal from "@/components/Modals/PreviewImageModal";
+import PreviewImageModal from "../../../Modals/PreviewImageModal";
 import {
   UseGetOrderPerformers,
   UseVerifyTaskPerformance,
-} from "@/api/useGetOrders";
+} from "../../../../api/useGetOrders";
 import { useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
-import { UseCapitalise } from "@/utils/useCapitalise";
+import { UseCapitalise } from "../../../../utils/useCapitalise";
 const Orderperformers = ({ orderId }: { orderId: string }) => {
   const [activePage, setActivePage] = useState(1);
   const status = ["Paid", "Cancelled", "Pending"];

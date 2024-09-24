@@ -1,11 +1,11 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import UsersDetailsComponent from "./UsersDetails";
 import Link from "next/link";
-import { UseGetUsersDetails } from "@/api/useGetUsers";
+import { UseGetUsersDetails } from "../../../api/useGetUsers";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { UserDetailsSchema } from "@/utils/schema/userSchema";
+import { UserDetailsSchema } from "../../../utils/schema/userSchema";
 const UsersDetails = () => {
   const router = useRouter();
   const [userdetails, setUserDetails] = useState<UserDetailsSchema>();

@@ -1,4 +1,4 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../../Shared/Icons";
 import Image from "next/image";
 import DetailsComponent from "./detailsComponent";
 import Orderperformers from "./Orderperformers";
@@ -7,7 +7,7 @@ import {
   UseGetOrderDetails,
   UseApproveOrders,
   UseRejectOrders,
-} from "@/api/useGetOrders";
+} from "../../../../api/useGetOrders";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 const OrderDetails = () => {

@@ -1,6 +1,5 @@
 "use client";
 import axios from "axios";
-import { useAccessToken } from "@/hooks/useAccessToken";
 const baseUrl = process.env.NEXT_PUBLIC_BASEURL;
 
 const ApiClient = axios.create({

@@ -1,4 +1,4 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import Image from "next/image";
 const LiveActivities = () => {
   const activities = [

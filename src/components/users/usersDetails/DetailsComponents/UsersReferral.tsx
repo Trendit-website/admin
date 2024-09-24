@@ -1,6 +1,6 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../../Shared/Icons";
 import Image from "next/image";
-import { UserDetailsSchema } from "@/utils/schema/userSchema";
+import { UserDetailsSchema } from "../../../../utils/schema/userSchema";
 const UsersReferral = ({
   details,
 }: {

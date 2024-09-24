@@ -1,4 +1,4 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import { useState } from "react";
 const SocialMedia = () => {
   const Tabs = [

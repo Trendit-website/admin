@@ -2,7 +2,7 @@ import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { UseGetAllAdvertisers } from "@/api/useGetUsers";
+import { UseGetAllAdvertisers } from "../../../api/useGetUsers";
 const AdvertisersTable = () => {
   const [activePage, setActivePage] = useState(1);
   const { allAdvertisers, isLoading, isError } =

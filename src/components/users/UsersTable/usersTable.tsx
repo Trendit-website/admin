@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Icons from "../../Shared/Icons";
 import Image from "next/image";
-import { UseGetAllUsers } from "@/api/useGetUsers";
+import { UseGetAllUsers } from "../../../api/useGetUsers";
 import { useState } from "react";
 const UsersTable = () => {
   const [activePage, setActivePage] = useState(1);

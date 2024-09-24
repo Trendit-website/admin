@@ -1,6 +1,6 @@
-import { UseGetFailedOrders } from "@/api/useGetOrders";
+import { UseGetFailedOrders } from "../../../../api/useGetOrders";
 import { useState } from "react";
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../../Shared/Icons";
 import Link from "next/link";
 import { format } from "date-fns";
 const FailedOrders = () => {

@@ -1,7 +1,7 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import { format } from "date-fns";
 import { useState } from "react";
-import { UseGetAdvertTask } from "@/api/useGetTask";
+import { UseGetAdvertTask } from "../../../api/useGetTask";
 const AdvertTask = () => {
   const [activePage, setActivePage] = useState(1);
   const { advertTask, isLoadingAdvertTask, isErrorAdvertTask } =

@@ -1,6 +1,6 @@
-import Icons from "@/components/Shared/Icons";
-import { UseGetOutflowPayment } from "@/api/useGetTransaction";
-import { UseCapitalise } from "@/utils/useCapitalise";
+import Icons from "../../Shared/Icons";
+import { UseGetOutflowPayment } from "../../../api/useGetTransaction";
+import { UseCapitalise } from "../../../utils/useCapitalise";
 const EarnerPayoutTable = () => {
   const { outflowPayment, isLoadingOutFlow, isErrorOutflow } =
     UseGetOutflowPayment();

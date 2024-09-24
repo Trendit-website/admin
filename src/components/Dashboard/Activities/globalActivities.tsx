@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 const GlobalActivities = () => {
   const activities = [
     {

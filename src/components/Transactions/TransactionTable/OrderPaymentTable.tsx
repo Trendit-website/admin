@@ -1,6 +1,6 @@
-import Icons from "@/components/Shared/Icons";
-import { UseGetInflowPayment } from "@/api/useGetTransaction";
-import { UseCapitalise } from "@/utils/useCapitalise";
+import Icons from "../../Shared/Icons";
+import { UseGetInflowPayment } from "../../../api/useGetTransaction";
+import { UseCapitalise } from "../../../utils/useCapitalise";
 const OrderPaymentTable = () => {
   const { inflowPayment, isLoadingInflowPayment, isErrorInflowPayment } =
     UseGetInflowPayment();

@@ -3,9 +3,9 @@ import {
   UseGetPendingOrders,
   UseGetApprovedOrders,
   UseGetFailedOrders,
-} from "@/api/useGetOrders";
+} from "../../../api/useGetOrders";
 import { useState, useReducer } from "react";
-import InputField from "@/components/Shared/InputField";
+import InputField from "../../Shared/InputField";
 import AllOrders from "./orderTables/AllOrder";
 import PendingOrders from "./orderTables/PendingOrders";
 import ApprovedOrders from "./orderTables/ApprovedOrders";

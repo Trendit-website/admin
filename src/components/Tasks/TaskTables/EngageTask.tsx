@@ -1,7 +1,7 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import { format } from "date-fns";
 import { useState } from "react";
-import { UseGetEngagementTask } from "@/api/useGetTask";
+import { UseGetEngagementTask } from "../../../api/useGetTask";
 const EngageTask = () => {
   const [activePage, setActivePage] = useState(1);
   const { engagementTask, isLoadingEngagementTask, isErrorEngagementTask } =

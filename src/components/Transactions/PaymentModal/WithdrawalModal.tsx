@@ -1,7 +1,7 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import { Modal, ModalContent } from "@nextui-org/react";
-import Button from "@/components/Shared/Button";
+import Button from "../../Shared/Button";
 import { useState } from "react";
 const WithdrawalModal = ({
   isOpen,

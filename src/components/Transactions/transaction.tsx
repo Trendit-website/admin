@@ -5,8 +5,8 @@ import EarnerPayoutTable from "./TransactionTable/EarnerPayoutTable";
 import OrderPaymentTable from "./TransactionTable/OrderPaymentTable";
 import WithdrawalModal from "./PaymentModal/WithdrawalModal";
 import { useDisclosure } from "@nextui-org/react";
-import { UseGetAllTransaction } from "@/api/useGetTransaction";
-import UseFormatNumbers from "@/utils/useFormatNumber";
+import { UseGetAllTransaction } from "../../api/useGetTransaction";
+import UseFormatNumbers from "../../utils/useFormatNumber";
 const Transaction = () => {
   const pages = [1, 2, 3, 4, 5, 6, 6];
   const ReportOverview = [

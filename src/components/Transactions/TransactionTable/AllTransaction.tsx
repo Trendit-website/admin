@@ -1,5 +1,5 @@
-import Icons from "@/components/Shared/Icons";
-import { UseCapitalise } from "@/utils/useCapitalise";
+import Icons from "../../Shared/Icons";
+import { UseCapitalise } from "../../../utils/useCapitalise";
 const AllTransactionTable = ({
   allTransactions,
   isLoadingTransaction,

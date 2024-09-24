@@ -1,6 +1,6 @@
-import Icons from "@/components/Shared/Icons";
-import { UseCapitalise } from "@/utils/useCapitalise";
-import { UserDetailsSchema } from "@/utils/schema/userSchema";
+import Icons from "../../../Shared/Icons";
+import { UseCapitalise } from "../../../../utils/useCapitalise";
+import { UserDetailsSchema } from "../../../../utils/schema/userSchema";
 import { format } from "date-fns";
 const Userstransaction = ({
   details,

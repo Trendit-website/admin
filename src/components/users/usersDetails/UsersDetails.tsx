@@ -1,4 +1,4 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import Link from "next/link";
 import bg from "../../../../../public/assets/Background pattern decorative.png";
@@ -7,7 +7,7 @@ import UserSocialAccount from "./DetailsComponents/UserSocialAccount";
 import UsersDeatailsInsight from "./DetailsComponents/UsersDetailsInsight";
 import Userstransaction from "./DetailsComponents/Userstransaction";
 import UsersReferral from "./DetailsComponents/UsersReferral";
-import { UserDetailsSchema } from "@/utils/schema/userSchema";
+import { UserDetailsSchema } from "../../../utils/schema/userSchema";
 import UserActivities from "./DetailsComponents/UsersActivities";
 const UsersDetailsComponent = ({
   details,
