@@ -37,7 +37,7 @@ const OrderDetails = () => {
   return (
     <div className="flex flex-col gap-y-6 px-4 py-8 w-full text-[#667185]">
       {isLoading && (
-        <div className="w-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center">
           <Icons type="loader" />
         </div>
       )}
