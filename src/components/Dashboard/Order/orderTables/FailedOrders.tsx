@@ -28,7 +28,7 @@ const FailedOrders = () => {
   };
   return (
     <>
-      {isLoadingFailedOrders && (
+      {isLoadingFailedOrders && !isErrorFailedOrders &&(
         <div className="w-full flex items-center justify-center">
           <Icons type="loader" />
         </div>

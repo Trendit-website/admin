@@ -29,7 +29,7 @@ const PendingOrders = () => {
   };
   return (
     <>
-      {isLoadingPendingOrders && (
+      {isLoadingPendingOrders && !isErrorPendingOrders &&(
         <div className="w-full h-screen flex items-center justify-center">
           <Icons type="loader" />
         </div>

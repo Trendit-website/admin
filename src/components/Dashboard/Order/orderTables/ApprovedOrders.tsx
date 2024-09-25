@@ -28,7 +28,7 @@ const ApprovedOrders = () => {
   };
   return (
     <>
-      {isLoadingApprovedOrders && (
+      {isLoadingApprovedOrders && !isErrorApprovedOrders &&(
         <div className="w-full h-screen flex items-center justify-center">
           <Icons type="loader" />
         </div>

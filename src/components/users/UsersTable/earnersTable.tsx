@@ -24,7 +24,7 @@ const EarnersTable = () => {
   };
   return (
     <div className="text-primary-black w-full px-4">
-      {isLoading && (
+      {isLoading && !isError &&(
           <div className="w-full h-screen items-center flex justify-center">
             <Icons type="loader" />
           </div>

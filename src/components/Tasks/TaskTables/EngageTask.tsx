@@ -27,7 +27,7 @@ const EngageTask = () => {
   );
   return (
     <div className="text-primary-black w-full px-4">
-        {isLoadingEngagementTask && (
+        {isLoadingEngagementTask && !isErrorEngagementTask &&(
           <div className="flex h-screen items-center justify-center py-6">
             <Icons type="loader" />
           </div>

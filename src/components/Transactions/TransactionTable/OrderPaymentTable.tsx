@@ -6,7 +6,7 @@ const OrderPaymentTable = () => {
     UseGetInflowPayment();
   return (
     <>
-      {isLoadingInflowPayment && (
+      {isLoadingInflowPayment && !isErrorInflowPayment &&(
         <div className="w-full h-screen flex items-center py-8 justify-center">
           <Icons type="loader" />
         </div>

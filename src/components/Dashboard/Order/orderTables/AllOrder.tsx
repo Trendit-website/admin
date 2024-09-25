@@ -24,7 +24,7 @@ const AllOrders = () => {
   };
   return (
     <>
-      {isLoading && (
+      {isLoading && !isError && (
         <div className="w-full h-screen flex items-center justify-center">
           <Icons type="loader" />
         </div>

@@ -6,7 +6,7 @@ const EarnerPayoutTable = () => {
     UseGetOutflowPayment();
   return (
     <>
-      {isLoadingOutFlow && (
+      {isLoadingOutFlow && !isErrorOutflow &&(
         <div className="w-full flex h-screen items-center py-8 justify-center">
           <Icons type="loader" />
         </div>

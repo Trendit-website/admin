@@ -24,7 +24,7 @@ const Admins = () => {
         </tr>
       </thead>
       <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-4">
-        {isLoadingAdmins && (
+        {isLoadingAdmins && !isErrorAdmins &&(
           <div className="w-full flex items-center justify-center py-8">
             <Icons type="loader" />
           </div>

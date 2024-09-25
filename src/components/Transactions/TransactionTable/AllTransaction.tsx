@@ -11,7 +11,7 @@ const AllTransactionTable = ({
 }) => {
   return (
     <>
-      {isLoadingTransaction && (
+      {isLoadingTransaction && !isTransactionError && (
         <div className="w-full h-full flex items-center py-8 justify-center">
           <Icons type="loader" />
         </div>
