@@ -3,7 +3,7 @@ import Icons from "../Shared/Icons";
 
 const AdminProfile = () => {
   return (
-    <div className="flex items-start gap-x-4 w-10/12">
+    <div className="flex items-start px-10 gap-x-4 w-10/12">
       <div className="flex flex-col w-[65px] h-[65px] rounded-full items-center justify-center">
         <Image
           src="/assets/avatar.png"

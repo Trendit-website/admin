@@ -28,8 +28,18 @@ const AdvertisersTable = () => {
   };
   return (
     <div className="text-primary-black w-full px-4">
-      <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
-        {allAdvertisers && (
+      {isLoading && (
+          <div className="w-full h-screen items-center flex justify-center">
+            <Icons type="loader" />
+          </div>
+        )}
+        {isError && (
+          <div className="w-full text-red-500 h-screen items-center flex justify-center">
+            {isError?.response?.data?.message || ' An error occured try again later'}
+          </div>
+        )}
+       {allAdvertisers && ( 
+        <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
           <>
             <div className="flex items-center justify-between w-full px-6 py-4">
               <div className="flex flex-col gap-y-2">
@@ -105,12 +115,12 @@ const AdvertisersTable = () => {
             <div className="flex w-full items-center justify-between px-4 py-4">
               <div
                 onClick={() => PrevPage()}
-                className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
               >
                 <Icons type="prev" />
                 Previous
               </div>
-              <div className="flex items-center gap-x-4">
+              <div className="flex items-center cursor-pointer gap-x-4">
                 {pages.map((page, index) => (
                   <p
                     onClick={() => showSpecificPage(page)}
@@ -127,25 +137,16 @@ const AdvertisersTable = () => {
               </div>
               <div
                 onClick={() => NextPage()}
-                className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
               >
                 Next
                 <Icons type="next" />
               </div>
             </div>
           </>
-        )}
-        {isLoading && (
-          <div className="w-full items-center flex justify-center">
-            <Icons type="loader" />
-          </div>
-        )}
-        {isError && (
-          <div className="w-full items-center flex justify-center">
-            An Error occured try again later
-          </div>
-        )}
+        
       </div>
+        )}
     </div>
   );
 };

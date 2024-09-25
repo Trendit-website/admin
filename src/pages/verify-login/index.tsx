@@ -23,7 +23,7 @@ const VerifyLogin = () => {
   return (
     isVerified && (
       <div className="w-full h-screen text-center flex flex-col gap-y-2 items-center text-primary-black justify-center">
-        Verification Successfull click on the button below to access the admin
+        Verification Successfull click the button below to access the admin
         dashboard <br />
         <Button
           clickFunction={() => router.push("/dashboard")}

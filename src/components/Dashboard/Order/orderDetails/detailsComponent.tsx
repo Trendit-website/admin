@@ -5,6 +5,7 @@ import bg from "./Background pattern decorative.png";
 import { useDisclosure } from "@nextui-org/react";
 import PreviewImageModal from "@/components/Modals/PreviewImageModal";
 import { useState } from "react";
+import { UseFormatStatus } from "@/utils/useFormatStatus";
 const DetailsComponent = ({ details }: { details: any }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState<string>("");
@@ -17,7 +18,7 @@ const DetailsComponent = ({ details }: { details: any }) => {
       <div className="flex items-center justify-between gap-x-6 w-full">
         <div className="flex flex-col w-6/12 h-[570px] bg-[#F9FAFC] px-4 gap-y-4 py-4 rounded-[12px] border-solid border-[1px] border-borderColor">
           <div className="w-full px-4">
-            <p className="w-[71px] h-[22px] text-[12px] text-[#B54708] py-[2px] px-[6px] text-center border-solid border-[1px] border-[#FEDF89] rounded-[16px]">
+            <p className={`w-[71px] h-[22px] text-[12px] text-[#B54708] py-[2px] px-[6px] text-center border-solid border-[1px] border-[#FEDF89] rounded-[16px] ${UseFormatStatus(details?.status)}`}>
               {details?.status.charAt(0).toUpperCase() +
                 details?.status?.slice(1)}
             </p>

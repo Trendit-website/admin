@@ -27,7 +27,6 @@ const OverviewReport = () => {
   const { overviewReport, isLoading, isError } = UseGetOverviewReport(
     activeRange.query,
   );
-  console.log(isError)
   return (
     <div className="w-full h-[411px] bg-[#FFFFFF] border-[1px] border-[#E4E7EC] border-solid  flex flex-col py-4 gap-y-10 text-primary-black rounded-[12px]">
       <div className="flex items-center justify-between w-11/12 px-4 ">

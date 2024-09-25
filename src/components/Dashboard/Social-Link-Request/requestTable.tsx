@@ -4,6 +4,8 @@ import Link from "next/link";
 import { UseGetSocialLinkRequest } from "@/api/useGetSocialLinkRequest";
 import { useState } from "react";
 import { UseCapitalise } from "@/utils/useCapitalise";
+import { UseTrunicate } from "@/utils/useTrunicate";
+import { UseFormatStatus } from "@/utils/useFormatStatus";
 const RequestTable = () => {
   const [activePage, setActivePage] = useState(1);
   const { socialRequest, isLoading, isError } =
@@ -29,39 +31,39 @@ const RequestTable = () => {
   };
   return (
     <div className="text-primary-black w-full px-4">
-      <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-4 text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
-        <div className="flex items-center justify-between px-4 py-4">
-          <div className="text-primary-black flex flex-col gap-y-2">
-            <div className="flex items-center gap-x-4 text-[18px] text-[#101828]">
-              Social Link Request
-              <p className="text-[#344054] font-bold text-[12px] border-[1px] border-solid border-[#D0D5DD] rounded-[6px] flex items-center px-[6px] py-[1px]">
-                {socialRequest?.total}
-              </p>
-            </div>
-            <span className="text-[14px] text-[#475467]">
-              Manage your team members and their account permissions here.
-            </span>
-          </div>
-          <span>
-            <Icons type="vertical-dot" />
-          </span>
-        </div>
-        {isLoading && !isError && (
-          <div className="w-full flex items-center justify-center py-8">
+       {isLoading && !isError && (
+          <div className="w-full h-screen flex items-center justify-center py-8">
             <Icons type="loader" />
           </div>
         )}
-        {isError && (
+          {isError && (
           <div className="w-full flex items-center justify-center py-8">
             An error occured try again later !!!!!
           </div>
         )}
-        {socialRequest && (
+      {socialRequest && (
+       <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-4 text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
+          <div className="flex items-center justify-between px-4 py-4">
+            <div className="text-primary-black flex flex-col gap-y-2">
+              <div className="flex items-center gap-x-4 text-[18px] text-[#101828]">
+                Social Link Request
+                <p className="text-[#344054] font-bold text-[12px] border-[1px] border-solid border-[#D0D5DD] rounded-[6px] flex items-center px-[6px] py-[1px]">
+                  {socialRequest?.total}
+                </p>
+              </div>
+              <span className="text-[14px] text-[#475467]">
+                Manage your team members and their account permissions here.
+              </span>
+            </div>
+            <span>
+              <Icons type="vertical-dot" />
+            </span>
+          </div>
           <>
             <table className="w-full flex flex-col gap-y-2">
               <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
                 <tr className="flex items-center">
-                  <td className="flex items-center gap-x-2 w-4/12">
+                  <td className="flex items-center gap-x-2 w-5/12">
                     <Icons type="checkbox" />
                     Name
                     <Icons type="arrow-down" />
@@ -76,7 +78,7 @@ const RequestTable = () => {
                     key={index}
                     className="flex items-center border-solid border-b-[1px] px-4 py-2 border-primary-border"
                   >
-                    <td className="w-4/12">
+                    <td className="w-5/12">
                       <div className="flex items-center gap-x-2">
                         <Icons type="checkbox" />
                         <div className="flex items-center gap-x-2">
@@ -101,17 +103,17 @@ const RequestTable = () => {
                       <Icons type={profiles?.platform} width={20} height={20} />
                       <div className="flex flex-col">
                         <p>{profiles?.platform}</p>
-                        <Link href={profiles?.link}>{profiles?.link}</Link>
+                        <Link href={profiles?.link}>{UseTrunicate(profiles?.link)}</Link>
                       </div>
                     </td>
-                    {profiles?.status === "pending" && (
+                    {profiles?.status === "idle" && (
                       <td className="flex items-center w-3/12 gap-x-4">
                         <button>Decline</button>
                         <button className="text-main font-bold">Approve</button>
                       </td>
                     )}
-                    {profiles?.status !== "pending" && (
-                      <td className="flex items-center w-3/12 gap-x-4">
+                    {profiles?.status !== "idle" && (
+                      <td className={`flex items-center w-3/12 gap-x-4 ${UseFormatStatus(profiles?.status)}`}>
                         {UseCapitalise(profiles?.status)}
                       </td>
                     )}
@@ -122,12 +124,12 @@ const RequestTable = () => {
             <div className="flex w-full items-center justify-between px-4">
               <div
                 onClick={() => PrevPage()}
-                className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                className="flex cursor-pointer items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
               >
                 <Icons type="prev" />
                 Previous
               </div>
-              <div className="flex items-center gap-x-4">
+              <div className="flex items-center gap-x-4 cursor-pointer">
                 {pages.map((page, index) => (
                   <p
                     onClick={() => showSpecificPage(page)}
@@ -144,15 +146,15 @@ const RequestTable = () => {
               </div>
               <div
                 onClick={() => NextPage()}
-                className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
               >
                 Next
                 <Icons type="next" />
               </div>
             </div>
           </>
-        )}
       </div>
+    )}
     </div>
   );
 };

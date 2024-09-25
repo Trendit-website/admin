@@ -37,14 +37,14 @@ const OrderDetails = () => {
   return (
     <div className="flex flex-col gap-y-6 px-4 py-8 w-full text-[#667185]">
       {isLoading && (
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-screen flex items-center justify-center">
           <Icons type="loader" />
         </div>
       )}
       {isError && (
-        <div className="w-full flex items-center justify-center">
-          An error occured please try again later !!!!
-        </div>
+           <div className="w-full h-screen flex text-red-500 items-center justify-center py-4">
+           {isError?.response?.data?.message || ' An error occured try again later'}
+          </div>
       )}
       {orderDetails && (
         <>
