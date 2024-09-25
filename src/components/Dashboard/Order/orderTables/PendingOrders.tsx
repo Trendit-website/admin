@@ -3,7 +3,7 @@ import { useState } from "react";
 import Icons from "../../../Shared/Icons";
 import Link from "next/link";
 import { format } from "date-fns";
-import { UseFormatStatus } from "@/utils/useFormatStatus";
+import { UseFormatStatus } from "../../../../utils/useFormatStatus";
 const PendingOrders = () => {
   const [activePage, setActivePage] = useState(1);
   const { pendingOrders, isLoadingPendingOrders, isErrorPendingOrders } =

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { UseGetSocialLinkRequest } from "../../../api/useGetSocialLinkRequest";
 import { useState } from "react";
 import { UseCapitalise } from "../../../utils/useCapitalise";
+import { UseFormatStatus } from "../../../utils/useFormatStatus";
+import { UseTrunicate } from "../../../utils/useTrunicate";
 const RequestTable = () => {
   const [activePage, setActivePage] = useState(1);
   const { socialRequest, isLoading, isError } =

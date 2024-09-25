@@ -5,7 +5,7 @@ import bg from "./Background pattern decorative.png";
 import { useDisclosure } from "@nextui-org/react";
 import PreviewImageModal from "../../../Modals/PreviewImageModal";
 import { useState } from "react";
-import { UseFormatStatus } from "@/utils/useFormatStatus";
+import { UseFormatStatus } from "../../../../utils/useFormatStatus";
 const DetailsComponent = ({ details }: { details: any }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState<string>("");
