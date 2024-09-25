@@ -18,7 +18,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           />
         </Link>
         <div
-          className={`flex items-center gap-x-8 text-[#344054] text-[16px] font-bold text-RedHat`}
+          className={`flex items-center gap-x-8 text-[#344054] text-[16px] font-bold`}
         >
           <Link
             href="/dashboard"

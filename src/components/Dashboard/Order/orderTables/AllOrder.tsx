@@ -25,14 +25,14 @@ const AllOrders = () => {
   return (
     <>
       {isLoading && (
-        <div className="w-full flex items-center justify-center">
+        <div className="w-full h-screen flex items-center justify-center">
           <Icons type="loader" />
         </div>
       )}
       {isError && (
-        <div className="flex items-center justify-center w-full">
-          An error occured try again later
-        </div>
+          <div className="w-full h-screen flex text-red-500 items-center justify-center py-4">
+          {isError?.response?.data?.message || ' An error occured try again later'}
+         </div>
       )}
       {orders && (
         <>
@@ -93,12 +93,12 @@ const AllOrders = () => {
           <div className="flex w-full items-center justify-between px-4">
             <div
               onClick={() => PrevPage()}
-              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+              className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
             >
               <Icons type="prev" />
               Previous
             </div>
-            <div className="flex items-center gap-x-4">
+            <div className="flex items-center cursor-pointer gap-x-4">
               {pages.map((page, index) => (
                 <p
                   onClick={() => showSpecificPage(page)}
@@ -115,7 +115,7 @@ const AllOrders = () => {
             </div>
             <div
               onClick={() => NextPage()}
-              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+              className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
             >
               Next
               <Icons type="next" />

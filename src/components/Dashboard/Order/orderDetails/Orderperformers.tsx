@@ -55,6 +55,16 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
   };
   return (
     <>
+     {isError && (
+              <div className="w-full h-screen flex text-red-500 items-center justify-center py-4">
+               {isError?.response?.data?.message || ' An error occured try again later'}
+              </div>
+      )}
+       {isLoading && !isError && (
+              <div className="w-full h-screen flex items-center justify-center py-4">
+                <Icons type="loader" />
+              </div>
+            )}
       {performers?.task_performances?.length !== 0 && (
         <div className="text-primary-black w-full px-4">
           <div className="bg-[#FFFFFF] text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
@@ -72,7 +82,7 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
               <div>
                 <p>Status</p>
                 <Select
-                  label="Select status"
+                  // label="Select status"
                   className="w-[370px] text-secondary"
                 >
                   {status.map((status, index) => (
@@ -83,16 +93,6 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
                 </Select>
               </div>
             </div>
-            {isError && (
-              <div className="w-full flex items-center justify-center py-4">
-                An error occured try again later
-              </div>
-            )}
-            {isLoading && (
-              <div className="w-full flex items-center justify-center py-4">
-                <Icons type="loader" />
-              </div>
-            )}
             {performers && (
               <>
                 <table className="w-full flex flex-col">
@@ -224,7 +224,7 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
                     ))}
                   </tbody>
                 </table>
-                <div className="flex w-full items-center justify-between px-4">
+                <div className="flex w-full items-center justify-between px-4 py-4">
                   <div
                     onClick={() => PrevPage()}
                     className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"

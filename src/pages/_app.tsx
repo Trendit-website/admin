@@ -8,7 +8,8 @@ import { NextUIProvider } from "@nextui-org/react";
 import Login from "./Login";
 import ToastProvider from "../Providers/ToastProvider";
 import { useAccessToken } from "../hooks/useAccessToken";
-import VerifyLogin from "./verify-login";
+import VerifyLogin from "./verify-login"
+import { Red_Hat_Display } from "next/font/google";
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
@@ -17,6 +18,11 @@ type AppPropsWithLayout = AppProps & {
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
+
+const RedHat = Red_Hat_Display({
+  weight: ["300", "400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+});
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const router = useRouter();
@@ -35,7 +41,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout =
     Component.getLayout ??
     ((page) => (
-      <>
+      <main className={RedHat.className}>
         <ToastProvider />
         <NextUIProvider>
           {router.route === "/Login" && <Login />}
@@ -46,7 +52,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             router.route !== "/verify-login" &&
             isLogin && <Layout>{page}</Layout>}
         </NextUIProvider>
-      </>
+      </main>
     ));
   return <>{getLayout(<Component {...pageProps} />)}</>;
 }

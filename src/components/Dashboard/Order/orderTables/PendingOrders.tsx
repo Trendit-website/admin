@@ -3,6 +3,7 @@ import { useState } from "react";
 import Icons from "../../../Shared/Icons";
 import Link from "next/link";
 import { format } from "date-fns";
+import { UseFormatStatus } from "@/utils/useFormatStatus";
 const PendingOrders = () => {
   const [activePage, setActivePage] = useState(1);
   const { pendingOrders, isLoadingPendingOrders, isErrorPendingOrders } =
@@ -29,14 +30,14 @@ const PendingOrders = () => {
   return (
     <>
       {isLoadingPendingOrders && (
-        <div className="w-full flex items-center justify-center">
+        <div className="w-full h-screen flex items-center justify-center">
           <Icons type="loader" />
         </div>
       )}
       {isErrorPendingOrders && (
-        <div className="flex items-center justify-center w-full">
-          An error occured try again later
-        </div>
+           <div className="w-full h-screen flex text-red-500 items-center justify-center py-4">
+           {isErrorPendingOrders?.response?.data?.message || ' An error occured try again later'}
+          </div>
       )}
       {pendingOrders && (
         <>
@@ -86,7 +87,7 @@ const PendingOrders = () => {
                   <td className="w-2/12">
                     {format(new Date(order.date_created), "MMM dd, yyyy")}
                   </td>
-                  <td className="w-[69px] h-[22px] flex items-center justify-center rounded-[6px] border-solid border-[1px] border-borderColor px-[6px] py-[2px]">
+                  <td className={`w-[69px] h-[22px] flex items-center justify-center rounded-[6px] border-solid border-[1px] border-borderColor px-[6px] py-[2px] ${UseFormatStatus(order?.status)}`}>
                     {order?.status?.charAt(0).toUpperCase() +
                       order?.status?.slice(1)}
                   </td>
@@ -97,12 +98,12 @@ const PendingOrders = () => {
           <div className="flex w-full items-center justify-between px-4">
             <div
               onClick={() => PrevPage()}
-              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+              className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
             >
               <Icons type="prev" />
               Previous
             </div>
-            <div className="flex items-center gap-x-4">
+            <div className="flex items-center cursor-pointer gap-x-4">
               {pages.map((page, index) => (
                 <p
                   onClick={() => showSpecificPage(page)}
@@ -119,7 +120,7 @@ const PendingOrders = () => {
             </div>
             <div
               onClick={() => NextPage()}
-              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+              className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
             >
               Next
               <Icons type="next" />

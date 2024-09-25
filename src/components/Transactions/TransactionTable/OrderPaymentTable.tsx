@@ -7,12 +7,14 @@ const OrderPaymentTable = () => {
   return (
     <>
       {isLoadingInflowPayment && (
-        <div className="w-full flex items-center py-8 justify-center">
+        <div className="w-full h-screen flex items-center py-8 justify-center">
           <Icons type="loader" />
         </div>
       )}
       {isErrorInflowPayment && (
-        <div>An error occured please try again later</div>
+        <div className="w-full h-screen text-red-500 h-screen items-center flex justify-center">
+        {isErrorInflowPayment?.response?.data?.message || ' An error occured try again later'}
+      </div>
       )}
       {inflowPayment && (
         <table className="w-full flex flex-col">

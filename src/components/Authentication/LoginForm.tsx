@@ -21,7 +21,6 @@ const LoginForm = () => {
       })
       .catch((error) => {
         toast.error(error?.response?.data?.message);
-        console.error(error);
       })
       .finally(() => {
         setLoading(false);
@@ -32,9 +31,9 @@ const LoginForm = () => {
       <div className="flex w-full items-center justify-center">
         <Image src="/assets/Logo.svg" alt="" width={132} height={51} />
       </div>
-      <div className="flex flex-col items-center text-RedHat justify-center gap-y-4  bg-[#FFFFFF] w-[520px] h-[320px] rounded-[12px]">
+      <div className="flex flex-col items-center justify-center gap-y-4  bg-[#FFFFFF] w-[520px] h-[320px] rounded-[12px]">
         <h1 className="text-[#101828] text-[24px] font-bold">Welcome Admin</h1>
-        <span className="text-[#475467] text-[16px] text-center w-[280px]">
+        <span className="text-[#475467] text-[16px] text-center w-[300px]">
           Turn Daily Social Tasks into Paychecks! Get Paid for your Engagements.
         </span>
         <form

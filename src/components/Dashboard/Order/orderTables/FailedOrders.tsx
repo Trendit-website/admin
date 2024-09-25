@@ -34,9 +34,9 @@ const FailedOrders = () => {
         </div>
       )}
       {isErrorFailedOrders && (
-        <div className="flex items-center justify-center w-full">
-          An error occured try again later
-        </div>
+          <div className="w-full h-screen flex text-red-500 items-center justify-center py-4">
+          {isErrorFailedOrders?.response?.data?.message || ' An error occured try again later'}
+         </div>
       )}
       {failedOrders && (
         <>
@@ -97,12 +97,12 @@ const FailedOrders = () => {
           <div className="flex w-full items-center justify-between px-4">
             <div
               onClick={() => PrevPage()}
-              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+              className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
             >
               <Icons type="prev" />
               Previous
             </div>
-            <div className="flex items-center gap-x-4">
+            <div className="flex items-center cursor-pointer gap-x-4">
               {pages.map((page, index) => (
                 <p
                   onClick={() => showSpecificPage(page)}
@@ -119,7 +119,7 @@ const FailedOrders = () => {
             </div>
             <div
               onClick={() => NextPage()}
-              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+              className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
             >
               Next
               <Icons type="next" />
