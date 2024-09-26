@@ -49,7 +49,8 @@ const LiveActivities = () => {
             ))}
           </div>
           <div className="w-full flex items-center text-main text-[12px] gap-x-2 justify-center">
-            {pages.map((page, index) => (
+            view more
+            {/* {pages.map((page, index) => (
               <p
                 onClick={() => viewPage(page)}
                 key={index}
@@ -57,7 +58,7 @@ const LiveActivities = () => {
               >
                 {page}
               </p>
-            ))}
+            ))} */}
           </div>
         </>
       )}

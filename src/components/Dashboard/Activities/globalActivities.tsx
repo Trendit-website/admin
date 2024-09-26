@@ -3,26 +3,6 @@ import { UseGetGlobalActivities } from "../../../api/useGetActivities";
 import { useState } from "react";
 import Image from "next/image";
 const GlobalActivities = () => {
-  const activities = [
-    {
-      image: "/assets/avatar.png",
-      name: "Demi",
-      taskType: "Advert",
-      platform: "facebook",
-    },
-    {
-      image: "/assets/avatar.png",
-      name: "Demi",
-      taskType: "Advert",
-      platform: "facebook",
-    },
-    {
-      image: "/assets/avatar.png",
-      name: "Demi",
-      taskType: "Advert",
-      platform: "facebook",
-    },
-  ];
   const [activePage, setActivePage] = useState<number>(1);
   const { globalActivities, isError, isLoading } =
     UseGetGlobalActivities(activePage);
@@ -69,7 +49,8 @@ const GlobalActivities = () => {
             ))}
           </div>
           <div className="w-full flex items-center text-main text-[12px] gap-x-2 justify-center">
-            {pages.map((page, index) => (
+            view more
+            {/* {pages.map((page, index) => (
               <p
                 onClick={() => viewPage(page)}
                 key={index}
@@ -77,7 +58,7 @@ const GlobalActivities = () => {
               >
                 {page}
               </p>
-            ))}
+            ))} */}
           </div>
         </>
       )}

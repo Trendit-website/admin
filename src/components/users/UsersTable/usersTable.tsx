@@ -7,6 +7,7 @@ const UsersTable = () => {
   const [activePage, setActivePage] = useState(1);
   const { allUsers, isLoading, isError } = UseGetAllUsers(activePage);
   const pages = Array.from({ length: allUsers?.pages ?? 1 }, (_, i) => i + 1);
+  
   const NextPage = () => {
     if (allUsers?.pages) {
       activePage !== allUsers?.pages
