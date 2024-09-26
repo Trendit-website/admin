@@ -6,7 +6,7 @@ export type UserSchema = {
   };
 };
 export type UserDetailsSchema = {
-  referral_metrics: { referral_history: number[]; total: number };
+  referral_metrics: { referral_history: any[]; total: number };
   social_profiles: any[];
   task_activity: { activities: any[]; total: number };
   transaction_metrics: {

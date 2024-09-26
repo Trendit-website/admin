@@ -18,14 +18,14 @@ const UserActivities = ({
         </div>
       </div>
       {details?.task_activity?.activities?.length !== 0 && (
-        <div className="flex flex-col gap-y-4">
+        <div className="flex flex-col gap-y-8">
           {details?.task_activity?.activities?.map((activity, index) => (
             <div
               key={index}
               className="w-full flex items-center justify-between px-6"
             >
               <div className="flex items-start gap-x-2">
-                <Icons type={activity?.platform} />
+                <Icons type={activity?.platform} width={20} height={20}/>
                 <div className="flex flex-col gap-y-[2px] text-main">
                   @{details?.user?.username}
                   <span className="text-[12px] text-secondary">

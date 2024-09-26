@@ -22,7 +22,6 @@ const UsersDetailsComponent = ({
     "Referral List",
   ];
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  console.log(details)
   return (
     <div className="flex items-start justify-between gap-x-6 w-full">
       <div className="flex flex-col w-4/12 h-[537px] bg-[#F9FAFC] px-4 gap-y-4 py-4 rounded-[12px] border-solid border-[1px] border-borderColor">
