@@ -12,15 +12,16 @@ const AllTransactionTable = ({
   return (
     <>
       {isLoadingTransaction && !isTransactionError && (
-        <div className="w-full h-full flex items-center py-8 justify-center">
+        <div className="w-full h-full flex py-8 justify-center">
           <Icons type="loader" />
         </div>
       )}
-      {isTransactionError && 
-     <div className="w-full h-screen text-red-500 h-screen items-center flex justify-center">
-     {isTransactionError?.response?.data?.message || ' An error occured try again later'}
-   </div>
-      }
+      {isTransactionError && (
+        <div className="w-full h-screen text-red-500 h-screen text-red-500 py-6 flex justify-center">
+          {isTransactionError?.response?.data?.message ||
+            " An error occured try again later"}
+        </div>
+      )}
       {allTransactions && (
         <table className="w-full flex flex-col">
           <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">

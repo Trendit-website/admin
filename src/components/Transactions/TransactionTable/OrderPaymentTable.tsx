@@ -6,15 +6,16 @@ const OrderPaymentTable = () => {
     UseGetInflowPayment();
   return (
     <>
-      {isLoadingInflowPayment && !isErrorInflowPayment &&(
-        <div className="w-full h-screen flex items-center py-8 justify-center">
+      {isLoadingInflowPayment && !isErrorInflowPayment && (
+        <div className="w-full h-screen flex py-8 justify-center">
           <Icons type="loader" />
         </div>
       )}
       {isErrorInflowPayment && (
-        <div className="w-full h-screen text-red-500 h-screen items-center flex justify-center">
-        {isErrorInflowPayment?.response?.data?.message || ' An error occured try again later'}
-      </div>
+        <div className="w-full h-screen text-red-500 h-screen py-8 flex justify-center">
+          {isErrorInflowPayment?.response?.data?.message ||
+            " An error occured try again later"}
+        </div>
       )}
       {inflowPayment && (
         <table className="w-full flex flex-col">

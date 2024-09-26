@@ -25,7 +25,7 @@ const config: Config = {
         "primary-black": "#101828",
         main: "#CB29BE",
         secondary: "#475367",
-        pending: "#F79009"
+        pending: "#F79009",
       },
       borderColor: {
         "primary-border": "#E4E7EC",

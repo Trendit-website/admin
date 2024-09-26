@@ -29,15 +29,16 @@ const PendingOrders = () => {
   };
   return (
     <>
-      {isLoadingPendingOrders && !isErrorPendingOrders &&(
-        <div className="w-full h-screen flex items-center justify-center">
+      {isLoadingPendingOrders && !isErrorPendingOrders && (
+        <div className="w-full h-screen flex py-4 justify-center">
           <Icons type="loader" />
         </div>
       )}
       {isErrorPendingOrders && (
-           <div className="w-full h-screen flex text-red-500 items-center justify-center py-4">
-           {isErrorPendingOrders?.response?.data?.message || ' An error occured try again later'}
-          </div>
+        <div className="w-full h-screen flex text-red-500 justify-center py-4">
+          {isErrorPendingOrders?.response?.data?.message ||
+            " An error occured try again later"}
+        </div>
       )}
       {pendingOrders && (
         <>
@@ -87,7 +88,9 @@ const PendingOrders = () => {
                   <td className="w-2/12">
                     {format(new Date(order.date_created), "MMM dd, yyyy")}
                   </td>
-                  <td className={`w-[69px] h-[22px] flex items-center justify-center rounded-[6px] border-solid border-[1px] border-borderColor px-[6px] py-[2px] ${UseFormatStatus(order?.status)}`}>
+                  <td
+                    className={`w-[69px] h-[22px] flex items-center justify-center rounded-[6px] border-solid border-[1px] border-borderColor px-[6px] py-[2px] ${UseFormatStatus(order?.status)}`}
+                  >
                     {order?.status?.charAt(0).toUpperCase() +
                       order?.status?.slice(1)}
                   </td>

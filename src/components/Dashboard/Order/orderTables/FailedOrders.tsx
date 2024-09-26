@@ -28,15 +28,16 @@ const FailedOrders = () => {
   };
   return (
     <>
-      {isLoadingFailedOrders && !isErrorFailedOrders &&(
-        <div className="w-full flex items-center justify-center">
+      {isLoadingFailedOrders && !isErrorFailedOrders && (
+        <div className="w-full flex py-4 justify-center">
           <Icons type="loader" />
         </div>
       )}
       {isErrorFailedOrders && (
-          <div className="w-full h-screen flex text-red-500 items-center justify-center py-4">
-          {isErrorFailedOrders?.response?.data?.message || ' An error occured try again later'}
-         </div>
+        <div className="w-full h-screen flex text-red-500 justify-center py-4">
+          {isErrorFailedOrders?.response?.data?.message ||
+            " An error occured try again later"}
+        </div>
       )}
       {failedOrders && (
         <>

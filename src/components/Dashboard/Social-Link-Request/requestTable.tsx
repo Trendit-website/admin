@@ -31,18 +31,18 @@ const RequestTable = () => {
   };
   return (
     <div className="text-primary-black w-full px-4">
-       {isLoading && !isError && (
-          <div className="w-full h-screen flex items-center justify-center py-8">
-            <Icons type="loader" />
-          </div>
-        )}
-          {isError && (
-          <div className="w-full flex items-center justify-center py-8">
-            An error occured try again later !!!!!
-          </div>
-        )}
+      {isLoading && !isError && (
+        <div className="w-full h-screen flex justify-center py-8">
+          <Icons type="loader" />
+        </div>
+      )}
+      {isError && (
+        <div className="w-full flex text-red-500 justify-center py-8">
+          An error occured try again later !!!!!
+        </div>
+      )}
       {socialRequest && (
-       <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-4 text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
+        <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-4 text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
           <div className="flex items-center justify-between px-4 py-4">
             <div className="text-primary-black flex flex-col gap-y-2">
               <div className="flex items-center gap-x-4 text-[18px] text-[#101828]">
@@ -103,7 +103,9 @@ const RequestTable = () => {
                       <Icons type={profiles?.platform} width={20} height={20} />
                       <div className="flex flex-col">
                         <p>{profiles?.platform}</p>
-                        <Link href={profiles?.link}>{UseTrunicate(profiles?.link)}</Link>
+                        <Link href={profiles?.link}>
+                          {UseTrunicate(profiles?.link)}
+                        </Link>
                       </div>
                     </td>
                     {profiles?.status === "idle" && (
@@ -113,7 +115,9 @@ const RequestTable = () => {
                       </td>
                     )}
                     {profiles?.status !== "idle" && (
-                      <td className={`flex items-center w-3/12 gap-x-4 ${UseFormatStatus(profiles?.status)}`}>
+                      <td
+                        className={`flex items-center w-3/12 gap-x-4 ${UseFormatStatus(profiles?.status)}`}
+                      >
                         {UseCapitalise(profiles?.status)}
                       </td>
                     )}
@@ -153,8 +157,8 @@ const RequestTable = () => {
               </div>
             </div>
           </>
-      </div>
-    )}
+        </div>
+      )}
     </div>
   );
 };

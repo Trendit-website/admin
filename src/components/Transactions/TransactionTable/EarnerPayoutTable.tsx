@@ -6,16 +6,17 @@ const EarnerPayoutTable = () => {
     UseGetOutflowPayment();
   return (
     <>
-      {isLoadingOutFlow && !isErrorOutflow &&(
-        <div className="w-full flex h-screen items-center py-8 justify-center">
+      {isLoadingOutFlow && !isErrorOutflow && (
+        <div className="w-full flex h-screen py-8 justify-center">
           <Icons type="loader" />
         </div>
       )}
-      {isErrorOutflow && 
-         <div className="w-full h-screen text-red-500 h-screen items-center flex justify-center">
-         {isErrorOutflow?.response?.data?.message || ' An error occured try again later'}
-       </div>
-      }
+      {isErrorOutflow && (
+        <div className="w-full h-screen text-red-500 h-screen py-8 flex justify-center">
+          {isErrorOutflow?.response?.data?.message ||
+            " An error occured try again later"}
+        </div>
+      )}
       {outflowPayment && (
         <table className="w-full flex flex-col">
           <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">

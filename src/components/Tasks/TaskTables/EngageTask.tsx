@@ -27,18 +27,17 @@ const EngageTask = () => {
   );
   return (
     <div className="text-primary-black w-full px-4">
-        {isLoadingEngagementTask && !isErrorEngagementTask &&(
-          <div className="flex h-screen items-center justify-center py-6">
-            <Icons type="loader" />
-          </div>
-        )}
-      {
-        isErrorEngagementTask && (
-          <div className="w-full h-screen text-red-500 h-screen items-center flex justify-center">
-          {isErrorEngagementTask?.response?.data?.message || ' An error occured try again later'}
+      {isLoadingEngagementTask && !isErrorEngagementTask && (
+        <div className="flex h-screen justify-center py-6">
+          <Icons type="loader" />
         </div>
-        )
-      }
+      )}
+      {isErrorEngagementTask && (
+        <div className="w-full h-screen text-red-500 h-screen text-red-500 flex justify-center">
+          {isErrorEngagementTask?.response?.data?.message ||
+            " An error occured try again later"}
+        </div>
+      )}
       <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
         {engagementTask && (
           <>

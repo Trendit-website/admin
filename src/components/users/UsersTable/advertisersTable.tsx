@@ -29,16 +29,17 @@ const AdvertisersTable = () => {
   return (
     <div className="text-primary-black w-full px-4">
       {isLoading && !isError && (
-          <div className="w-full h-screen items-center flex justify-center">
-            <Icons type="loader" />
-          </div>
-        )}
-        {isError && (
-          <div className="w-full text-red-500 h-screen items-center flex justify-center">
-            {isError?.response?.data?.message || ' An error occured try again later'}
-          </div>
-        )}
-       {allAdvertisers && ( 
+        <div className="w-full h-screen flex justify-center">
+          <Icons type="loader" />
+        </div>
+      )}
+      {isError && (
+        <div className="w-full text-red-500 h-screen flex justify-center">
+          {isError?.response?.data?.message ||
+            " An error occured try again later"}
+        </div>
+      )}
+      {allAdvertisers && (
         <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
           <>
             <div className="flex items-center justify-between w-full px-6 py-4">
@@ -144,9 +145,8 @@ const AdvertisersTable = () => {
               </div>
             </div>
           </>
-        
-      </div>
-        )}
+        </div>
+      )}
     </div>
   );
 };

@@ -24,13 +24,13 @@ const Admins = () => {
         </tr>
       </thead>
       <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-4">
-        {isLoadingAdmins && !isErrorAdmins &&(
-          <div className="w-full flex items-center justify-center py-8">
+        {isLoadingAdmins && !isErrorAdmins && (
+          <div className="w-full flex justify-center py-8">
             <Icons type="loader" />
           </div>
         )}
         {isErrorAdmins && (
-          <div className="w-full flex items-center justify-center py-10">
+          <div className="w-full flex items-center text-red-500 justify-center py-10">
             An error occured try again later
           </div>
         )}

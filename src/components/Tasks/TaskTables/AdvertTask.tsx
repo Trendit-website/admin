@@ -24,19 +24,19 @@ const AdvertTask = () => {
   };
   return (
     <div className="text-primary-black w-full px-4">
-       {isErrorAdvertTask && (
-          <div className="w-full h-screen flex items-center justify-center py-8">
-            {isErrorAdvertTask?.response?.data?.message ||
-              "   An error occured try again later "}
-          </div>
-        )}
-         {isLoadingAdvertTask && !isErrorAdvertTask && (
-          <div className="flex h-screen items-center justify-center py-6">
-            <Icons type="loader" />
-          </div>
-        )}
-      {advertTask && (<div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
-        
+      {isErrorAdvertTask && (
+        <div className="w-full h-screen flex text-red-500 justify-center py-8">
+          {isErrorAdvertTask?.response?.data?.message ||
+            "   An error occured try again later "}
+        </div>
+      )}
+      {isLoadingAdvertTask && !isErrorAdvertTask && (
+        <div className="flex h-screen justify-center py-6">
+          <Icons type="loader" />
+        </div>
+      )}
+      {advertTask && (
+        <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
           <>
             <div className="flex items-center justify-between w-full px-6 py-4">
               <div className="flex flex-col gap-y-2">
@@ -129,8 +129,8 @@ const AdvertTask = () => {
               </div>
             </div>
           </>
-        
-      </div>)}
+        </div>
+      )}
     </div>
   );
 };
