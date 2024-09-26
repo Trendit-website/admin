@@ -22,6 +22,7 @@ const UsersDetailsComponent = ({
     "Referral List",
   ];
   const [activeTab, setActiveTab] = useState(tabs[0]);
+  console.log(details)
   return (
     <div className="flex items-start justify-between gap-x-6 w-full">
       <div className="flex flex-col w-4/12 h-[537px] bg-[#F9FAFC] px-4 gap-y-4 py-4 rounded-[12px] border-solid border-[1px] border-borderColor">
@@ -96,7 +97,7 @@ const UsersDetailsComponent = ({
             <div
               onClick={() => setActiveTab(tab)}
               key={index}
-              className={`text-[14px] pb-6 font-normal ${activeTab === tab ? "text-main cursor-pointer border-b-[1px] border-solid border-main" : "text-[#344054]"}`}
+              className={`text-[14px] pb-6 cursor-pointer font-normal ${activeTab === tab ? "text-main cursor-pointer border-b-[1px] border-solid border-main" : "text-[#344054]"}`}
             >
               {tab}
             </div>

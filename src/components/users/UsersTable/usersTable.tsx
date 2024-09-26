@@ -3,11 +3,11 @@ import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import { UseGetAllUsers } from "../../../api/useGetUsers";
 import { useState } from "react";
+import { format } from "date-fns";
 const UsersTable = () => {
   const [activePage, setActivePage] = useState(1);
   const { allUsers, isLoading, isError } = UseGetAllUsers(activePage);
   const pages = Array.from({ length: allUsers?.pages ?? 1 }, (_, i) => i + 1);
-  
   const NextPage = () => {
     if (allUsers?.pages) {
       activePage !== allUsers?.pages
@@ -76,7 +76,7 @@ const UsersTable = () => {
                     <div>Total Referred</div>
                   </td>
                   <td className="w-3/12">
-                    <div>Last Login</div>
+                    <div>Date Joined</div>
                   </td>
                 </tr>
               </thead>
@@ -110,7 +110,7 @@ const UsersTable = () => {
                     <td className="w-5/12">{user?.email}</td>
                     <td className="w-3/12">{user?.phone}</td>
                     <td className="w-3/12">1,234</td>
-                    <td className="w-3/12">Jan 6, 2024 11:59pm</td>
+                    <td className="w-3/12">{format(new Date(user?.date_joined), 'MMM dd, yyyy hh:mma')}</td>
                   </tr>
                 ))}
               </tbody>
