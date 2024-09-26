@@ -88,9 +88,6 @@ const EngageTask = () => {
                             task?.platform?.slice(1)}{" "}
                           page
                         </p>
-                        <span className="text-[14px] text-[#475467] w-11/12">
-                          {task?.caption}
-                        </span>
                       </div>
                     </td>
                     <td className="w-2/12">{task?.engagements_count}</td>

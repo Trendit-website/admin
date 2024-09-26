@@ -60,7 +60,7 @@ const Ordertable = () => {
         </div>
         <InputField
           type="text"
-          classNames="w-[320px] border-solid border-[2px] pl-4 rounded-[8px] border-[#D0D5DD] py-2"
+          classNames="w-[320px] text-primary-black border-solid border-[1px] pl-4 rounded-[8px] border-[#D0D5DD] py-2"
           placeholder="Search"
         />
       </div>

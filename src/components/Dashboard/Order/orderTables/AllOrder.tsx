@@ -68,7 +68,6 @@ const AllOrders = () => {
                         <p className="text-[14px] text-[#101828]">
                           Post adverts on your {order?.platform} page
                         </p>
-                        <span>{order?.caption}</span>
                       </div>
                     </Link>
                   </td>

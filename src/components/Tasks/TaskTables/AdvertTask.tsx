@@ -80,9 +80,6 @@ const AdvertTask = () => {
                         <p className="text-primary-black text-[14px] font-medium">
                           Post adverts on your {task?.platform} page
                         </p>
-                        <span className="text-[14px] text-[#475467] w-11/12">
-                          {task?.caption}
-                        </span>
                       </div>
                     </td>
                     <td className="w-2/12">{task?.posts_count}</td>

@@ -14,7 +14,7 @@ const UsersReferral = ({
         <Icons type="vertical-dot" />
       </div>
       {details?.referral_metrics.referral_history?.length !== 0 && (
-        <table>
+        <table className="overflow-y-scroll">
           <tbody className="flex flex-col gap-y-6">
             {
               details?.referral_metrics?.referral_history?.map((item, index) => (
