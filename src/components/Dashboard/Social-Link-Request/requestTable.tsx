@@ -42,7 +42,7 @@ const RequestTable = () => {
         </div>
       )}
       {socialRequest && (
-        <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-4 text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
+        <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-4 text-[12px] w-full">
           <div className="flex items-center justify-between px-4 py-4">
             <div className="text-primary-black flex flex-col gap-y-2">
               <div className="flex items-center gap-x-4 text-[18px] text-[#101828]">
