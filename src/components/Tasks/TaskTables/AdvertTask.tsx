@@ -2,6 +2,7 @@ import Icons from "../../Shared/Icons";
 import { format } from "date-fns";
 import { useState } from "react";
 import { UseGetAdvertTask } from "../../../api/useGetTask";
+import Link from "next/link";
 const AdvertTask = () => {
   const [activePage, setActivePage] = useState(1);
   const { advertTask, isLoadingAdvertTask, isErrorAdvertTask } =
@@ -75,12 +76,17 @@ const AdvertTask = () => {
                     key={index}
                   >
                     <td className="flex items-start gap-x-[5px] w-9/12">
+                    <Link
+                      href={`/orders/${task?.task_key}`}
+                      className="flex items-start gap-x-2"
+                    >
                       <Icons type={task?.platform} />
                       <div className="flex flex-col gap-y-[3px]">
                         <p className="text-primary-black text-[14px] font-medium">
                           Post adverts on your {task?.platform} page
                         </p>
                       </div>
+                      </Link>
                     </td>
                     <td className="w-2/12">{task?.posts_count}</td>
                     <td className="w-2/12">#110</td>

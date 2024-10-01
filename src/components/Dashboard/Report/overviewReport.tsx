@@ -73,10 +73,6 @@ const OverviewReport = () => {
                     Number(overviewReport?.total_earners_settled),
                   )}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -85,10 +81,6 @@ const OverviewReport = () => {
                 <span className="text-primary-black text-[30px]">
                   {UseFormatNumbers(Number(overviewReport?.total_order_paid))}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -99,10 +91,6 @@ const OverviewReport = () => {
                     Number(overviewReport?.total_referral_paid),
                   )}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -113,10 +101,6 @@ const OverviewReport = () => {
                     Number(overviewReport?.total_membership_fee),
                   )}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -127,10 +111,6 @@ const OverviewReport = () => {
                     Number(overviewReport?.total_inflow_pending),
                   )}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -143,10 +123,6 @@ const OverviewReport = () => {
                     Number(overviewReport?.total_outflow_pending),
                   )}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -159,10 +135,6 @@ const OverviewReport = () => {
                     Number(overviewReport?.num_available_tasks),
                   )}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -171,10 +143,6 @@ const OverviewReport = () => {
                 <span className="text-primary-black text-[30px]">
                   {UseFormatNumbers(Number(overviewReport?.num_approved_ads))}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
           </>

@@ -2,6 +2,7 @@ import Icons from "../../Shared/Icons";
 import { format } from "date-fns";
 import { useState } from "react";
 import { UseGetEngagementTask } from "../../../api/useGetTask";
+import Link from "next/link";
 const EngageTask = () => {
   const [activePage, setActivePage] = useState(1);
   const { engagementTask, isLoadingEngagementTask, isErrorEngagementTask } =
@@ -78,6 +79,10 @@ const EngageTask = () => {
                     key={index}
                   >
                     <td className="flex items-start gap-x-[5px] w-9/12">
+                    <Link
+                      href={`/orders/${task?.task_key}`}
+                      className="flex items-start gap-x-2"
+                    >
                       <Icons type={task?.platform} />
                       <div className="flex flex-col gap-y-[3px]">
                         <p className="text-primary-black text-[14px] font-medium">
@@ -89,6 +94,7 @@ const EngageTask = () => {
                           page
                         </p>
                       </div>
+                      </Link>
                     </td>
                     <td className="w-2/12">{task?.engagements_count}</td>
                     <td className="w-2/12">#110</td>

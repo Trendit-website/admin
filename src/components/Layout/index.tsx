@@ -67,7 +67,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           </div>
           <div>
             <Image
-              src="/assets/Logo.svg"
+              src="/assets/avatar.png"
               alt=""
               width={40}
               height={40}
