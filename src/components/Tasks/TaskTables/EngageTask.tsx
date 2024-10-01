@@ -83,7 +83,7 @@ const EngageTask = () => {
                       href={`/orders/${task?.task_key}`}
                       className="flex items-start gap-x-2"
                     >
-                      <Icons type={task?.platform} />
+                      <Icons type={task?.platform} width={20} height={20}/>
                       <div className="flex flex-col gap-y-[3px]">
                         <p className="text-primary-black text-[14px] font-medium">
                           {task?.goal?.charAt(0).toUpperCase() +

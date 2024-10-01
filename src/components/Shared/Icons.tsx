@@ -173,8 +173,8 @@ const Icons = ({
     case "telegram":
       return (
         <svg
-          width="32"
-          height="33"
+          width={ width || 30 }
+          height={ height || 30}
           viewBox="0 0 32 33"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -207,8 +207,8 @@ const Icons = ({
     case "instagram":
       return (
         <svg
-          width={30}
-          height={30}
+          width={ width || 30}
+          height={height || 30}
           viewBox="0 0 32 33"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
