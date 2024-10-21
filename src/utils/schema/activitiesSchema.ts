@@ -14,3 +14,11 @@ export type liveActivitiesSchema = {
     live_activities: any[];
   };
 };
+export type notificationSchema = {
+  data: {
+    total: number;
+    pages: number;
+    current_page: number;
+    notifications: any[];
+  };
+};
