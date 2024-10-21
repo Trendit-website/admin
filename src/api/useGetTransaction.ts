@@ -1,18 +1,18 @@
 import ApiClient from "../services/apiClient";
-import { TransactionSchema } from "../utils/schema/transactionSchema";
+import { PaymentRequestSchema, TransactionSchema } from "../utils/schema/transactionSchema";
 import useSWR from "swr";
 
-export const UseGetAllTransaction = () => {
-  const { data, error } = useSWR<TransactionSchema>("/transactions", ApiClient);
+export const UseGetAllTransaction = (page: number) => {
+  const { data, error } = useSWR<TransactionSchema>(`/transactions?page=${page}&per_page=10`, ApiClient);
   return {
     allTransaction: data?.data,
     isLoadingTransaction: !data,
     isErrorTransaction: error,
   };
 };
-export const UseGetInflowPayment = () => {
+export const UseGetInflowPayment = (page: number) => {
   const { data, error } = useSWR<TransactionSchema>(
-    "/transactions/inflow",
+    `/transactions/inflow?page=${page}&per_page=10`,
     ApiClient,
   );
   return {
@@ -21,9 +21,9 @@ export const UseGetInflowPayment = () => {
     isErrorInflowPayment: error,
   };
 };
-export const UseGetOutflowPayment = () => {
+export const UseGetOutflowPayment = (page: number) => {
   const { data, error } = useSWR<TransactionSchema>(
-    "/transactions/outflow",
+    `/transactions/outflow?page=${page}&per_page=10`,
     ApiClient,
   );
   return {
@@ -32,3 +32,11 @@ export const UseGetOutflowPayment = () => {
     isErrorOutflow: error,
   };
 };
+export const UseGetPaymentRequest = (page: number) => {
+  const { data, error } = useSWR<PaymentRequestSchema>(`/withdrawal-requests?page=${page}&per_page=10`, ApiClient)
+  return {
+    paymentRequest: data?.data,
+    isLoadingRequest: !data,
+    isError: error
+  }
+}
