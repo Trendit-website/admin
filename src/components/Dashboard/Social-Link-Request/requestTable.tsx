@@ -6,7 +6,6 @@ import { useState } from "react";
 import { UseCapitalise } from "../../../utils/useCapitalise";
 import { UseFormatStatus } from "../../../utils/useFormatStatus";
 import { UseTrunicate } from "../../../utils/useTrunicate";
-import { SocialverificationSchema } from "../../../utils/schema/socialSchema";
 import toast from "react-hot-toast";
 const RequestTable = () => {
   const [activePage, setActivePage] = useState(1);
@@ -18,7 +17,7 @@ const RequestTable = () => {
   );
   const approveRequest = (data: any) => {
     const requestData = {
-      socialVerificationId: data?.socialVerificationId,
+      socialVerificationId: data?.id,
       type: data?.platform,
       userId: data?.user?.id,
       link: data?.link
@@ -33,7 +32,7 @@ const RequestTable = () => {
   }
   const rejectRequest = (data: any) => {
     const requestData = {
-      socialVerificationId: data?.socialVerificationId,
+      socialVerificationId: data?.id,
       type: data?.platform,
       userId: data?.user?.id,
       link: data?.link

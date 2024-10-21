@@ -18,7 +18,6 @@ const NotificationDropdown = () => {
       activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
     }
   };
-  console.log(notification)
     return (
          <div className="absolute top-20 shadow-xl flex flex-col gap-y-4 bg-[#FFFFFF] text-primary-black w-[400px] h-[400px] overflow-y-scroll rounded-[8px] z-40 px-4 pb-6">
            {

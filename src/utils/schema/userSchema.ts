@@ -61,3 +61,47 @@ export type UserDetailsSchema = {
     };
   };
 };
+export type AdminDetailsSchema = {
+  data: {
+    user_profile: {
+      birthday: string;
+      country: string;
+      date_joined: string;
+      email: string;
+      firstname: string;
+      full_name: string;
+      gender: string;
+      id: number;
+      lastname: string;
+      local_government: string;
+      membership_fee: boolean;
+      phone: string;
+      primary_bank: {
+        account_name: string;
+        account_no: string;
+        bank_code: string;
+        bank_name: string;
+        is_primary: boolean;
+        user_id: number;
+      };
+      profile_picture: string;
+      referral_link: string;
+      roles: any[];
+      social_profiles: [];
+      state: string;
+      username: string;
+      religion: string;
+      two_fa: {
+        enabled: boolean;
+        methos: any;
+      };
+      wallet: {
+        balance: string;
+        currency_code: string;
+        currency_name: string;
+        currency_symbol: string;
+        user_id: number;
+      };
+    };
+  }
+}

@@ -21,15 +21,3 @@ ApiClient.interceptors.request.use(
   },
 );
 export default ApiClient;
-// ApiClient.interceptors.request.use(
-//     async (config) => {
-//       const access_token = typeof window !== 'undefined' ? useAccessToken() : null;
-//       if (access_token) {
-//         config.headers.Authorization = `Bearer ${access_token}`;
-//       }
-//       return config;
-//     },
-//     (error) => {
-//       return Promise.reject(error);
-//     }
-// );
