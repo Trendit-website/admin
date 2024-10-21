@@ -1,20 +1,21 @@
 import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import { UseGetAdmins } from "../../../api/useGetAdmins";
-const Admins = () => {
+import CreateAdminModal from "../../Modals/CreateAdminModal";
+const Admins = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
   const { admins, isLoadingAdmins, isErrorAdmins } = UseGetAdmins();
-  const getAdminRole = (roles: any[]) => {
-    for (const role of roles) {
-      if (role === "Admin" || role === "Junior Admin") {
-        return role;
-      }
-    }
-  };
   return (
+    <>
     <table className="w-11/12 flex flex-col m-auto ">
       <thead className="w-full bg-[#F5F5F5] text-primary-black py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
         <tr className="flex items-center">
-          <td className="flex items-center gap-x-2 w-7/12">
+          <td className="flex items-center gap-x-2 w-6/12">
             <Icons type="checkbox" />
             Name
           </td>
@@ -40,7 +41,7 @@ const Admins = () => {
               key={index}
               className="flex items-center py-4 border-borderColor border-b-[1px] border-solid"
             >
-              <td className="flex items-center gap-x-[7px] w-7/12">
+              <td className="flex items-center gap-x-[7px] w-6/12">
                 <Icons type="checkbox" />
                 <Image
                   src={admin?.profile_picture || "/assets/Logo.svg"}
@@ -56,7 +57,9 @@ const Admins = () => {
                   </span>
                 </div>
               </td>
-              <td className="w-2/12">{getAdminRole(admin?.roles)}</td>
+              <td className="w-2/12 flex flex-col">{admin.roles?.map((item: string, index: number) => (
+                <li key={index}>{item}</li>
+              ))}</td>
               <td className="w-2/12">Feb 22, 2024</td>
               <td className="w-2/12">Feb 22, 2024</td>
               <td>
@@ -66,6 +69,8 @@ const Admins = () => {
           ))}
       </tbody>
     </table>
+    <CreateAdminModal isOpen={isOpen} onClose={onClose}/>
+    </>
   );
 };
 export default Admins;
