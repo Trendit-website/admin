@@ -42,7 +42,7 @@ const NotificationDropdown = () => {
           </div>
           <div className="flex flex-col gap-y-4 text-[12px]">
             {notification?.notifications?.map((notification, index) => (
-              <div className="flex items-start justify-between border-solid border-b-[1px] border-[#E4E7EC] py-4">
+              <div key={index} className="flex items-start justify-between border-solid border-b-[1px] border-[#E4E7EC] py-4">
                 <div className="flex items-start gap-x-2">
                   <Image
                     src="/assets/avatar.png"
