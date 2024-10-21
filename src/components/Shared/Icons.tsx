@@ -680,7 +680,7 @@ const Icons = ({
         >
           <path
             d="M4.16675 10.0001H15.8334M15.8334 10.0001L10.0001 4.16675M15.8334 10.0001L10.0001 15.8334"
-            stroke="#475467"
+            stroke={fill || "#475467"}
             strokeWidth="1.66667"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -698,7 +698,7 @@ const Icons = ({
         >
           <path
             d="M15.8334 10.0001H4.16675M4.16675 10.0001L10.0001 15.8334M4.16675 10.0001L10.0001 4.16675"
-            stroke="#475467"
+            stroke={fill || "#475467"}
             strokeWidth="1.66667"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -913,6 +913,12 @@ const Icons = ({
           />
         </svg>
       );
+      case 'dot': 
+      return (
+        <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="3" cy="3" r="3" fill="#CB29BE"/>
+</svg>
+      )
   }
 };
 export default Icons;

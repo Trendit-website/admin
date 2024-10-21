@@ -6,13 +6,18 @@ const GlobalActivities = () => {
   const [activePage, setActivePage] = useState<number>(1);
   const { globalActivities, isError, isLoading } =
     UseGetGlobalActivities(activePage);
-  const pages = Array.from(
-    { length: globalActivities?.pages ?? 1 },
-    (_, i) => i + 1,
-  );
-  const viewPage = (page: number) => {
-    setActivePage(page);
-  };
+    const NextPage = () => {
+      if (globalActivities?.pages) {
+        activePage !== globalActivities?.pages
+          ? setActivePage((prevPage) => prevPage + 1)
+          : "";
+      }
+    };
+    const PrevPage = () => {
+      if (globalActivities?.pages) {
+        activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      }
+    };
   return (
     <div className="flex flex-col gap-y-6 h-[463px] w-[342px] py-4 px-4 overflow-scroll bg-[#FFFFFF] rounded-[12px] text-primary-black">
       <p className="text-[14]">Global Activities</p>
@@ -48,18 +53,20 @@ const GlobalActivities = () => {
               </div>
             ))}
           </div>
-          <div className="w-full flex items-center text-main text-[12px] gap-x-2 justify-center">
-            view more
-            {/* {pages.map((page, index) => (
-              <p
-                onClick={() => viewPage(page)}
-                key={index}
-                className={`${activePage === page ? "text-main font-semibold" : "text-primary-black"} text-[12px]`}
+          <div className="flex w-full items-center justify-center gap-x-4">
+              <div
+                onClick={() => PrevPage()}
+                className="flex cursor-pointer items-center gap-x-[6px] px-[5px] py-[5px] rounded-[8px] border-solid border-[1px] border-borderColor"
               >
-                {page}
-              </p>
-            ))} */}
-          </div>
+                <Icons type="prev" fill="#CB29BE"/>
+              </div>
+              <div
+                onClick={() => NextPage()}
+                className="flex items-center cursor-pointer gap-x-[6px] px-[5px] py-[5px] rounded-[8px] border-solid border-[1px] border-borderColor"
+              >
+                <Icons type="next" fill="#CB29BE"/>
+              </div>
+            </div>
         </>
       )}
     </div>
