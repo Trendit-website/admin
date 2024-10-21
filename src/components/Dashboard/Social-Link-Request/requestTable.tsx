@@ -1,11 +1,13 @@
 import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import Link from "next/link";
-import { UseGetSocialLinkRequest } from "../../../api/useGetSocialLinkRequest";
+import { UseApproveSocialRequest, UseGetSocialLinkRequest, UseRejectSocialRequest } from "../../../api/useGetSocialLinkRequest";
 import { useState } from "react";
 import { UseCapitalise } from "../../../utils/useCapitalise";
 import { UseFormatStatus } from "../../../utils/useFormatStatus";
 import { UseTrunicate } from "../../../utils/useTrunicate";
+import { SocialverificationSchema } from "../../../utils/schema/socialSchema";
+import toast from "react-hot-toast";
 const RequestTable = () => {
   const [activePage, setActivePage] = useState(1);
   const { socialRequest, isLoading, isError } =
@@ -14,6 +16,36 @@ const RequestTable = () => {
     { length: socialRequest?.total_pages ?? 1 },
     (_, i) => i + 1,
   );
+  const approveRequest = (data: any) => {
+    const requestData = {
+      socialVerificationId: data?.socialVerificationId,
+      type: data?.platform,
+      userId: data?.user?.id,
+      link: data?.link
+    }
+    UseApproveSocialRequest(requestData)
+    .then((response) => {
+      toast.success(response.data?.message);
+    })
+    .catch((error) => {
+      toast.error(error?.response?.data?.message);
+    })
+  }
+  const rejectRequest = (data: any) => {
+    const requestData = {
+      socialVerificationId: data?.socialVerificationId,
+      type: data?.platform,
+      userId: data?.user?.id,
+      link: data?.link
+    }
+    UseRejectSocialRequest(requestData)
+    .then((response) => {
+      toast.success(response.data?.message);
+    })
+    .catch((error) => {
+      toast.error(error?.response?.data?.message);
+    })
+  }
   const NextPage = () => {
     if (socialRequest?.total_pages) {
       activePage !== socialRequest?.total_pages
@@ -108,13 +140,13 @@ const RequestTable = () => {
                         </Link>
                       </div>
                     </td>
-                    {profiles?.status === "idle" && (
+                    {profiles?.status === 'pending' && (
                       <td className="flex items-center w-3/12 gap-x-4">
-                        <button>Decline</button>
-                        <button className="text-main font-bold">Approve</button>
+                        <button onClick={() => rejectRequest(profiles)}>Decline</button>
+                        <button className="text-main font-bold" onClick={() => approveRequest(profiles)}>Approve</button>
                       </td>
                     )}
-                    {profiles?.status !== "idle" && (
+                    {profiles?.status !== 'pending' && (
                       <td
                         className={`flex items-center w-3/12 gap-x-4 ${UseFormatStatus(profiles?.status)}`}
                       >
