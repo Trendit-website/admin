@@ -8,18 +8,18 @@ import InputField from "../../Shared/InputField";
 import { useForm } from "react-hook-form";
 const UsersTable = () => {
   const [activePage, setActivePage] = useState(1);
-  const form = useForm()
-  const { watch, register } = form
-  const searchParam = watch("searchValue")
-  const [searchData, setSearchData] = useState<string | undefined>()
-  const { user, isLoadingUser, isErrorUser } = FilterUserEmail(searchData)
+  const form = useForm();
+  const { watch, register } = form;
+  const searchParam = watch("searchValue");
+  const [searchData, setSearchData] = useState<string | undefined>();
+  const { user, isLoadingUser, isErrorUser } = FilterUserEmail(searchData);
   useEffect(() => {
-    if(searchParam) {
-      setSearchData(searchParam)
-    } else if(searchParam === '') {
-      setSearchData(undefined)
+    if (searchParam) {
+      setSearchData(searchParam);
+    } else if (searchParam === "") {
+      setSearchData(undefined);
     }
-  }, [searchParam, searchData])
+  }, [searchParam, searchData]);
   const { allUsers, isLoading, isError } = UseGetAllUsers(activePage);
   const pages = Array.from({ length: allUsers?.pages ?? 1 }, (_, i) => i + 1);
   const NextPage = () => {
@@ -50,7 +50,7 @@ const UsersTable = () => {
             " An error occured try again later"}
         </div>
       )}
-      {allUsers &&  (
+      {allUsers && (
         <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
           <>
             <div className="flex items-center justify-between w-full px-6 py-4">
@@ -67,56 +67,62 @@ const UsersTable = () => {
                   Manage your team members and their account permissions here.
                 </span>
               </div>
-                <InputField register={register("searchValue")} type="search" placeholder="Enter User's Email" classNames="w-full rounded-[8px] py-[10px] pl-[10px] border-solid border-[#DOD5DD] border-[1px] focus:outline-main" containerStyle="w-[300px] ml-32"/>
+              <InputField
+                register={register("searchValue")}
+                type="search"
+                placeholder="Enter User's Email"
+                classNames="w-full rounded-[8px] py-[10px] pl-[10px] border-solid border-[#DOD5DD] border-[1px] focus:outline-main"
+                containerStyle="w-[300px] ml-32"
+              />
               <div>
                 <Icons type="vertical-dot" />
               </div>
             </div>
-            {
-              searchParam && (
-                <div className="w-10/12 flex items-center justify-end -mt-2">
-                  <div className="bg-[#FFFFFF] flex flex-col rounded-[8px] border-[1px] border-borderColor border-solid h-[200px] w-[300px] z-10 -mb-48">
-                        {user?.users?.length > 0 && (
-                          user?.users?.map((user, index) => (
-                            <Link href={`/users/${user?.id}`} className="flex cursor-pointer items-center px-2 gap-x-4 w-full py-2 border-solid border-b-[1px] border-borderColor" key={index}>
-                               <Image
-                            src={user?.profile_picture || "/assets/Logo.svg"}
-                            width={40}
-                            height={40}
-                            className="rounded-[200px] w-[40px] h-[40px]"
-                            alt="avatar"
-                          />
-                          <div className="flex flex-col gap-y-[2px]">
-                            <p>{user?.full_name}</p>
-                            <span>{user?.email}   <b className="text-[10px]">({user?.username})</b></span>
-                          </div>
-                            </Link>
-                          ))
-                        )}
-                        {
-                          user?.users?.length <= 0 && (
-                            <div className="flex w-full text-red-500 justify-center py-2">
-                              User does not exist 
-                            </div>
-                          )
-                        }
-                        {
-                          isErrorUser && (
-                            <div className="flex w-full text-red-500 justify-center py-2">
-                                {isError?.response?.data?.message ||
-                                  " An error occured try again later"}
-                            </div>
-                          )
-                        }
-                         {isLoadingUser && !isError && (
-                          <div className="w-full py-8 flex justify-center">
-                            <Icons type="loader" />
-                          </div>
-                        )}
-                  </div>
+            {searchParam && (
+              <div className="w-10/12 flex items-center justify-end -mt-2">
+                <div className="bg-[#FFFFFF] flex flex-col rounded-[8px] border-[1px] border-borderColor border-solid h-[200px] w-[300px] z-10 -mb-48">
+                  {user?.users?.length > 0 &&
+                    user?.users?.map((user, index) => (
+                      <Link
+                        href={`/users/${user?.id}`}
+                        className="flex cursor-pointer items-center px-2 gap-x-4 w-full py-2 border-solid border-b-[1px] border-borderColor"
+                        key={index}
+                      >
+                        <Image
+                          src={user?.profile_picture || "/assets/Logo.svg"}
+                          width={40}
+                          height={40}
+                          className="rounded-[200px] w-[40px] h-[40px]"
+                          alt="avatar"
+                        />
+                        <div className="flex flex-col gap-y-[2px]">
+                          <p>{user?.full_name}</p>
+                          <span>
+                            {user?.email}{" "}
+                            <b className="text-[10px]">({user?.username})</b>
+                          </span>
+                        </div>
+                      </Link>
+                    ))}
+                  {user?.users?.length <= 0 && (
+                    <div className="flex w-full text-red-500 justify-center py-2">
+                      User does not exist
+                    </div>
+                  )}
+                  {isErrorUser && (
+                    <div className="flex w-full text-red-500 justify-center py-2">
+                      {isError?.response?.data?.message ||
+                        " An error occured try again later"}
+                    </div>
+                  )}
+                  {isLoadingUser && !isError && (
+                    <div className="w-full py-8 flex justify-center">
+                      <Icons type="loader" />
+                    </div>
+                  )}
                 </div>
-              )
-            }
+              </div>
+            )}
             <table className="w-full flex flex-col">
               <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
                 <tr className="flex items-center">
@@ -170,7 +176,12 @@ const UsersTable = () => {
                     <td className="w-5/12">{user?.email}</td>
                     <td className="w-3/12">{user?.phone}</td>
                     <td className="w-3/12">1,234</td>
-                    <td className="w-3/12">{format(new Date(user?.date_joined), 'MMM dd, yyyy hh:mma')}</td>
+                    <td className="w-3/12">
+                      {format(
+                        new Date(user?.date_joined),
+                        "MMM dd, yyyy hh:mma",
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>

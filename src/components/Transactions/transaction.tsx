@@ -33,7 +33,12 @@ const Transaction = () => {
       percentage: "10.8",
     },
   ];
-  const Tabs = ["All Transactions", "Earner Payout", "Order Payment", "Payment Request"];
+  const Tabs = [
+    "All Transactions",
+    "Earner Payout",
+    "Order Payment",
+    "Payment Request",
+  ];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [isPopUp, setPopUp] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();

@@ -76,16 +76,16 @@ const AdvertTask = () => {
                     key={index}
                   >
                     <td className="flex items-start gap-x-[5px] w-9/12">
-                    <Link
-                      href={`/orders/${task?.task_key}`}
-                      className="flex items-start gap-x-2"
-                    >
-                      <Icons type={task?.platform} width={20} height={20}/>
-                      <div className="flex flex-col gap-y-[3px]">
-                        <p className="text-primary-black text-[14px] font-medium">
-                          Post adverts on your {task?.platform} page
-                        </p>
-                      </div>
+                      <Link
+                        href={`/orders/${task?.task_key}`}
+                        className="flex items-start gap-x-2"
+                      >
+                        <Icons type={task?.platform} width={20} height={20} />
+                        <div className="flex flex-col gap-y-[3px]">
+                          <p className="text-primary-black text-[14px] font-medium">
+                            Post adverts on your {task?.platform} page
+                          </p>
+                        </div>
                       </Link>
                     </td>
                     <td className="w-2/12">{task?.posts_count}</td>

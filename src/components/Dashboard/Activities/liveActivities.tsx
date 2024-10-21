@@ -6,18 +6,18 @@ const LiveActivities = () => {
   const [activePage, setActivePage] = useState<number>(1);
   const { liveActivities, isLoading, isError } =
     UseGetLiveActivities(activePage);
-    const NextPage = () => {
-      if (liveActivities?.pages) {
-        activePage !== liveActivities?.pages
-          ? setActivePage((prevPage) => prevPage + 1)
-          : "";
-      }
-    };
-    const PrevPage = () => {
-      if (liveActivities?.pages) {
-        activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
-      }
-    };
+  const NextPage = () => {
+    if (liveActivities?.pages) {
+      activePage !== liveActivities?.pages
+        ? setActivePage((prevPage) => prevPage + 1)
+        : "";
+    }
+  };
+  const PrevPage = () => {
+    if (liveActivities?.pages) {
+      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+    }
+  };
   return (
     <div className="flex flex-col gap-y-6 h-[433px] w-[342px] py-4 px-4 overflow-scroll bg-[#FFFFFF] rounded-[12px] text-primary-black">
       <p className="text-[14]">Live Activities</p>
@@ -54,19 +54,19 @@ const LiveActivities = () => {
             ))}
           </div>
           <div className="flex w-full items-center justify-center gap-x-4">
-              <div
-                onClick={() => PrevPage()}
-                className="flex cursor-pointer items-center gap-x-[6px] px-[5px] py-[5px] rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                <Icons type="prev" fill="#CB29BE"/>
-              </div>
-              <div
-                onClick={() => NextPage()}
-                className="flex items-center cursor-pointer gap-x-[6px] px-[5px] py-[5px] rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                <Icons type="next" fill="#CB29BE"/>
-              </div>
+            <div
+              onClick={() => PrevPage()}
+              className="flex cursor-pointer items-center gap-x-[6px] px-[5px] py-[5px] rounded-[8px] border-solid border-[1px] border-borderColor"
+            >
+              <Icons type="prev" fill="#CB29BE" />
             </div>
+            <div
+              onClick={() => NextPage()}
+              className="flex items-center cursor-pointer gap-x-[6px] px-[5px] py-[5px] rounded-[8px] border-solid border-[1px] border-borderColor"
+            >
+              <Icons type="next" fill="#CB29BE" />
+            </div>
+          </div>
         </>
       )}
     </div>

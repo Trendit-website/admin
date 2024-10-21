@@ -173,8 +173,8 @@ const Icons = ({
     case "telegram":
       return (
         <svg
-          width={ width || 30 }
-          height={ height || 30}
+          width={width || 30}
+          height={height || 30}
           viewBox="0 0 32 33"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -207,7 +207,7 @@ const Icons = ({
     case "instagram":
       return (
         <svg
-          width={ width || 30}
+          width={width || 30}
           height={height || 30}
           viewBox="0 0 32 33"
           fill="none"
@@ -913,12 +913,18 @@ const Icons = ({
           />
         </svg>
       );
-      case 'dot': 
+    case "dot":
       return (
-        <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="3" cy="3" r="3" fill="#CB29BE"/>
-</svg>
-      )
+        <svg
+          width="6"
+          height="6"
+          viewBox="0 0 6 6"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="3" cy="3" r="3" fill="#CB29BE" />
+        </svg>
+      );
   }
 };
 export default Icons;

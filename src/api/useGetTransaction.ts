@@ -1,9 +1,15 @@
 import ApiClient from "../services/apiClient";
-import { PaymentRequestSchema, TransactionSchema } from "../utils/schema/transactionSchema";
+import {
+  PaymentRequestSchema,
+  TransactionSchema,
+} from "../utils/schema/transactionSchema";
 import useSWR from "swr";
 
 export const UseGetAllTransaction = (page: number) => {
-  const { data, error } = useSWR<TransactionSchema>(`/transactions?page=${page}&per_page=10`, ApiClient);
+  const { data, error } = useSWR<TransactionSchema>(
+    `/transactions?page=${page}&per_page=10`,
+    ApiClient,
+  );
   return {
     allTransaction: data?.data,
     isLoadingTransaction: !data,
@@ -33,10 +39,13 @@ export const UseGetOutflowPayment = (page: number) => {
   };
 };
 export const UseGetPaymentRequest = (page: number) => {
-  const { data, error } = useSWR<PaymentRequestSchema>(`/withdrawal-requests?page=${page}&per_page=10`, ApiClient)
+  const { data, error } = useSWR<PaymentRequestSchema>(
+    `/withdrawal-requests?page=${page}&per_page=10`,
+    ApiClient,
+  );
   return {
     paymentRequest: data?.data,
     isLoadingRequest: !data,
-    isError: error
-  }
-}
+    isError: error,
+  };
+};

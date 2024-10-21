@@ -23,14 +23,15 @@ const Setting = () => {
               Check and filter all your medical appointments here
             </span>
           </h1>
-          {
-            activeTab === 'Admin' && (
-            <div onClick={() => showModal()} className="flex items-center justify-around bg-main text-[#FFFFFF] w-[117px] h-[36px] py-[2px] px-[6px] rounded-[6px]">
-            Create
-            <Icons type="plus" />
-          </div>
-            )
-          }
+          {activeTab === "Admin" && (
+            <div
+              onClick={() => showModal()}
+              className="flex items-center justify-around bg-main text-[#FFFFFF] w-[117px] h-[36px] py-[2px] px-[6px] rounded-[6px]"
+            >
+              Create
+              <Icons type="plus" />
+            </div>
+          )}
         </div>
       </div>
       <div className="flex items-start bg-[#FFFFFF] py-2 w-10/12 h-[867px] m-auto rounded-[12px] border-[1px] border-solid border-borderColor">
@@ -43,7 +44,9 @@ const Setting = () => {
         </div>
         <div className="w-9/12">
           {activeTab === Tabs[0] && <SecuritySetting />}
-          {activeTab === Tabs[1] && <Admins isOpen={isOpen} onClose={onClose}/>}
+          {activeTab === Tabs[1] && (
+            <Admins isOpen={isOpen} onClose={onClose} />
+          )}
           {activeTab === Tabs[2] && <Pricing />}
           {activeTab === Tabs[3] && <Prefrence />}
           {activeTab === Tabs[4] && <SocialMedia />}

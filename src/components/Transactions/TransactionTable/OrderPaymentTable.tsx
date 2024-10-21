@@ -7,17 +7,17 @@ const OrderPaymentTable = () => {
   const { inflowPayment, isLoadingInflowPayment, isErrorInflowPayment } =
     UseGetInflowPayment(activePage);
   const NextPage = () => {
-      if (inflowPayment?.pages) {
-        activePage !== inflowPayment?.pages
-          ? setActivePage((prevPage) => prevPage + 1)
-          : "";
-      }
-    };
-    const PrevPage = () => {
-      if (inflowPayment?.pages) {
-        activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
-      }
-    };
+    if (inflowPayment?.pages) {
+      activePage !== inflowPayment?.pages
+        ? setActivePage((prevPage) => prevPage + 1)
+        : "";
+    }
+  };
+  const PrevPage = () => {
+    if (inflowPayment?.pages) {
+      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+    }
+  };
   return (
     <>
       {isLoadingInflowPayment && !isErrorInflowPayment && (
@@ -72,15 +72,21 @@ const OrderPaymentTable = () => {
             </tbody>
           </table>
           <div className="w-full flex items-center justify-center gap-x-8 py-4 px-4">
-                <div onClick={() => PrevPage()} className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
-                    <Icons type="prev" />
-                    Previous
-                </div>
-                <div onClick={() => NextPage()} className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
-                    Next
-                    <Icons type="next" />
-                </div>
-        </div>
+            <div
+              onClick={() => PrevPage()}
+              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+            >
+              <Icons type="prev" />
+              Previous
+            </div>
+            <div
+              onClick={() => NextPage()}
+              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+            >
+              Next
+              <Icons type="next" />
+            </div>
+          </div>
         </>
       )}
     </>

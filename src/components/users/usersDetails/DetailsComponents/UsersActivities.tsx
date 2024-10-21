@@ -25,7 +25,7 @@ const UserActivities = ({
               className="w-full flex items-center justify-between px-6"
             >
               <div className="flex items-start gap-x-2">
-                <Icons type={activity?.platform} width={20} height={20}/>
+                <Icons type={activity?.platform} width={20} height={20} />
                 <div className="flex flex-col gap-y-[2px] text-main">
                   @{details?.user?.username}
                   <span className="text-[12px] text-secondary">

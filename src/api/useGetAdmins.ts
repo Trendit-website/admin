@@ -12,15 +12,15 @@ export const UseGetAdmins = () => {
   };
 };
 export const UseCreateAdmin = (email: string) => {
-  const createAdmin = ApiClient.post("/create-admin", email)
+  const createAdmin = ApiClient.post("/create-admin", email);
   mutate("/create-admin");
   return createAdmin;
-}
+};
 export const UseGetAdminProfile = () => {
-  const {data, error} = useSWR<AdminDetailsSchema>("/profile", ApiClient)
+  const { data, error } = useSWR<AdminDetailsSchema>("/profile", ApiClient);
   return {
     admin: data?.data.user_profile,
     isLoadingAdmin: !data,
-    isError: error
-  }
-}
+    isError: error,
+  };
+};

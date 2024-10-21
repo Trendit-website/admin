@@ -59,13 +59,11 @@ const UsersDetails = () => {
         <span className="text-secondary text-[14px]">
           USER ID: RET/15118/{userdetails?.user.id}
         </span>
-        {
-          userdetails?.user?.membership_fee && (
-            <div className="flex items-center w-[74px] gap-x-2 bg-[#CB29BE] text-white text-[12px] py-[2px] px-[6px] rounded-[16px]">
+        {userdetails?.user?.membership_fee && (
+          <div className="flex items-center w-[74px] gap-x-2 bg-[#CB29BE] text-white text-[12px] py-[2px] px-[6px] rounded-[16px]">
             Verified <Icons type="mark" />
           </div>
-          )
-        }
+        )}
       </div>
       <UsersDetailsComponent details={userdetails} />
     </div>

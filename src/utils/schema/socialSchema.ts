@@ -7,8 +7,8 @@ export type SocialSchema = {
   };
 };
 export type SocialverificationSchema = {
-  socialVerificationId: number,
-  type: string,
-  userId: number,
-  link: string
-}
+  socialVerificationId: number;
+  type: string;
+  userId: number;
+  link: string;
+};

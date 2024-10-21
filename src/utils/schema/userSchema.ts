@@ -103,5 +103,5 @@ export type AdminDetailsSchema = {
         user_id: number;
       };
     };
-  }
-}
+  };
+};

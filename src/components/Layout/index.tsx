@@ -8,8 +8,8 @@ import { UseGetAdminProfile } from "../../api/useGetAdmins";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
-  const [isNotification, showNotification] = useState<boolean>(false)
-  const {admin} = UseGetAdminProfile()
+  const [isNotification, showNotification] = useState<boolean>(false);
+  const { admin } = UseGetAdminProfile();
   return (
     <div>
       <header className="w-full bg-[#FFFFFF] hidden lg:flex items-center justify-around h-[72px] py-4">
@@ -66,9 +66,15 @@ const Layout = ({ children }: { children: ReactNode }) => {
               <Icons type="settings" />
             </div>
           </Link>
-          <div onClick={() => showNotification(!isNotification)} className="-mt-2 cursor-pointer">
+          <div
+            onClick={() => showNotification(!isNotification)}
+            className="-mt-2 cursor-pointer"
+          >
             <div className="ml-[7px] flex items-center justify-center text-[#FFFFFF] text-[8px]">
-              <span className=""> <Icons type="dot" /> </span>
+              <span className="">
+                {" "}
+                <Icons type="dot" />{" "}
+              </span>
             </div>
             <Icons type="alarm" />
           </div>
@@ -83,13 +89,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
           </div>
         </div>
       </header>
-      {
-        isNotification && (
-          <div className="w-full flex items-center justify-end pr-4">
+      {isNotification && (
+        <div className="w-full flex items-center justify-end pr-4">
           <NotificationDropdown />
-          </div>
-        )
-      }
+        </div>
+      )}
       <div className="-z-20">{children}</div>
     </div>
   );
