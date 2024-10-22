@@ -179,7 +179,7 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
                         {performer?.post_link !== "" &&
                           performer?.post_link !== "undefined" && (
                             <td className="w-3/12">
-                              <a href={performer?.post_link}>View Post</a>
+                              <a href={performer?.post_link}  target="_blank">View Post</a>
                             </td>
                           )}
                         <td className="w-3/12 flex items-center gap-x-2">

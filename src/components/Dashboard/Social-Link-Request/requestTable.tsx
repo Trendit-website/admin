@@ -165,7 +165,7 @@ const RequestTable = () => {
                       <Icons type={profiles?.platform} width={20} height={20} />
                       <div className="flex flex-col">
                         <p>{profiles?.platform}</p>
-                        <Link href={profiles?.link}>
+                        <Link href={profiles?.link}  target="_blank">
                           {UseTrunicate(profiles?.link)}
                         </Link>
                       </div>
