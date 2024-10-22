@@ -44,7 +44,7 @@ const Admins = ({
                 <td className="flex items-center gap-x-[7px] w-6/12">
                   <Icons type="checkbox" />
                   <Image
-                    src={admin?.profile_picture || "/assets/Logo.svg"}
+                    src={admin?.profile_picture || "/assets/avatar.png"}
                     width={40}
                     height={40}
                     alt="avatar"

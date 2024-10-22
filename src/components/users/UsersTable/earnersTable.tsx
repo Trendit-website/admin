@@ -89,7 +89,7 @@ const EarnersTable = () => {
                         key={index}
                       >
                         <Image
-                          src={user?.profile_picture || "/assets/Logo.svg"}
+                          src={user?.profile_picture || "/assets/avatar.png"}
                           width={40}
                           height={40}
                           className="rounded-[200px] w-[40px] h-[40px]"
@@ -160,7 +160,7 @@ const EarnersTable = () => {
                         <Icons type="checkbox" />
                         <div className="flex items-center gap-x-2">
                           <Image
-                            src={user?.profile_picture || "/assets/Logo.svg"}
+                            src={user?.profile_picture || "/assets/avatar.png"}
                             width={40}
                             height={40}
                             className="rounded-[200px] w-[40px] h-[40px]"

@@ -47,7 +47,7 @@ const UsersDetails = () => {
       </div>
       <div className="w-full px-4 flex flex-col gap-y-2">
         <Image
-          src={userdetails?.user?.profile_picture || "/assets/Logo.svg"}
+          src={userdetails?.user?.profile_picture || "/assets/avatar.png"}
           width={64}
           height={64}
           className="w-[64px] h-[64px] rounded-[200px]"

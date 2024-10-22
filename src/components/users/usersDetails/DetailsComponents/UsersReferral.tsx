@@ -23,7 +23,7 @@ const UsersReferral = ({
               >
                 <td className="flex items-center gap-x-2">
                   <Image
-                    src="/assets/Logo.svg"
+                    src="/assets/avatar.png"
                     width={40}
                     className="w-[40px] h-[40px] rounded-[200px]"
                     alt="referral avatar"

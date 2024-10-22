@@ -38,7 +38,7 @@ const GlobalActivities = () => {
             {globalActivities?.global_activities?.map((item, index) => (
               <div className="flex items-start gap-x-2 text-[14px]" key={index}>
                 <Image
-                  src="/assets/Logo.svg"
+                  src="/assets/avatar.png"
                   alt="holder"
                   className="w-[32px] h-[32px] rounded-[200px]"
                   width={32}
