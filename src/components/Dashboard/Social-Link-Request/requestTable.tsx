@@ -4,17 +4,22 @@ import Link from "next/link";
 import {
   UseApproveSocialRequest,
   UseGetSocialLinkRequest,
-  UseRejectSocialRequest,
+  UseRejectSocialRequest
 } from "../../../api/useGetSocialLinkRequest";
 import { useState } from "react";
 import { UseCapitalise } from "../../../utils/useCapitalise";
 import { UseFormatStatus } from "../../../utils/useFormatStatus";
 import { UseTrunicate } from "../../../utils/useTrunicate";
 import toast from "react-hot-toast";
+import { Select, SelectItem } from "@nextui-org/react";
 const RequestTable = () => {
   const [activePage, setActivePage] = useState(1);
+  const filterParam = ["Platform"]
+  const platformFilter = ["","x", 'facebook', 'instagram', 'threads', 'whatsapp']
+  const [activeStatus, setActiveStatus] = useState<string>()
+  const [platformTab, setPlatformTab] = useState(platformFilter[0])
   const { socialRequest, isLoading, isError } =
-    UseGetSocialLinkRequest(activePage);
+    UseGetSocialLinkRequest(activePage, platformTab);
   const pages = Array.from(
     { length: socialRequest?.total_pages ?? 1 },
     (_, i) => i + 1,
@@ -90,10 +95,32 @@ const RequestTable = () => {
                 Manage your team members and their account permissions here.
               </span>
             </div>
+            <div className="flex items-center gap-x-2">
+                <div>
+                  <p>Filter By</p>
+                    <Select  className="w-[370px] text-secondary">
+                      {filterParam.map((filter, index) => (
+                            <SelectItem onClick={() => setActiveStatus(filter)}  key={index} className="text-secondary">{filter}</SelectItem>
+                      ))}
+                    </Select>
+                </div>
+                <span onClick={() => (setPlatformTab(platformFilter[0]), setActiveStatus(''))}>
+                  <Icons type="cancel" fill="#CB29BE"/>
+                </span>
+            </div>
             <span>
               <Icons type="vertical-dot" />
             </span>
           </div>
+          {
+            activeStatus === filterParam[0] && (
+            <div className="flex items-center w-[300px] gap-x-4 pl-4">
+              {platformFilter.map((platform, index) => (
+                  <p onClick={() => setPlatformTab(platform)} key={index} className={`text-[14px] font-medium cursor-pointer ${platformTab === platform ? 'text-main border-b[1px] border-solid border-main' : 'text-[#344504]'}`}>{UseCapitalise(platform)}</p>
+              ))}
+            </div>
+            )
+          }
           <>
             <table className="w-full flex flex-col gap-y-2">
               <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">

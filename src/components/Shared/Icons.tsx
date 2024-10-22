@@ -767,7 +767,7 @@ const Icons = ({
         >
           <path
             d="M13 1L1 13M1 1L13 13"
-            stroke="#98A2B3"
+            stroke={ fill || `#98A2B3`}
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"

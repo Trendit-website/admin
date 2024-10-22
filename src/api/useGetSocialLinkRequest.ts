@@ -5,9 +5,9 @@ import {
   SocialverificationSchema,
 } from "../utils/schema/socialSchema";
 import ApiClient from "../services/apiClient";
-export const UseGetSocialLinkRequest = (page: number) => {
+export const UseGetSocialLinkRequest = (page: number, platform?: string) => {
   const { data, error } = useSWR<SocialSchema>(
-    `/social-profiles?page=${page}&per_page=15`,
+    `/social-profiles?platform=${platform}&page=${page}&per_page=15`,
     ApiClient,
   );
   return {
