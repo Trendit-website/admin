@@ -167,9 +167,6 @@ const Transaction = () => {
             </div>
             {activeTab === Tabs[0] && (
               <AllTransactionTable
-                allTransactions={allTransaction}
-                isLoadingTransaction={isLoadingTransaction}
-                isTransactionError={isErrorTransaction}
               />
             )}
             {activeTab === Tabs[1] && <EarnerPayoutTable />}

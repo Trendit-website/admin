@@ -1,29 +1,24 @@
 import Icons from "../../Shared/Icons";
 import { UseCapitalise } from "../../../utils/useCapitalise";
 import { useState } from "react";
-const AllTransactionTable = ({
-  allTransactions,
-  isLoadingTransaction,
-  isTransactionError,
-}: {
-  allTransactions: any;
-  isLoadingTransaction: boolean;
-  isTransactionError: any;
-}) => {
+import { UseGetAllTransaction } from "../../../api/useGetTransaction";
+const AllTransactionTable = () => {
   const [activePage, setActivePage] = useState(1);
+  const { allTransaction, isLoadingTransaction, isErrorTransaction } =
+  UseGetAllTransaction(activePage);
   const pages = Array.from(
-    { length: allTransactions?.pages ?? 1 },
+    { length: allTransaction?.pages ?? 1 },
     (_, i) => i + 1,
   );
   const NextPage = () => {
-    if (allTransactions?.pages) {
-      activePage !== allTransactions?.pages
+    if (allTransaction?.pages) {
+      activePage !== allTransaction?.pages
         ? setActivePage((prevPage) => prevPage + 1)
         : "";
     }
   };
   const PrevPage = () => {
-    if (allTransactions?.pages) {
+    if (allTransaction?.pages) {
       activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
     }
   };
@@ -32,18 +27,18 @@ const AllTransactionTable = ({
   };
   return (
     <>
-      {isLoadingTransaction && !isTransactionError && (
+      {isLoadingTransaction && !isErrorTransaction && (
         <div className="w-full h-full flex py-8 justify-center">
           <Icons type="loader" />
         </div>
       )}
-      {isTransactionError && (
+      {isErrorTransaction && (
         <div className="w-full h-screen text-red-500 h-screen text-red-500 py-6 flex justify-center">
-          {isTransactionError?.response?.data?.message ||
+          {isErrorTransaction?.response?.data?.message ||
             " An error occured try again later"}
         </div>
       )}
-      {allTransactions && (
+      {allTransaction && (
         <>
           <table className="w-full flex flex-col">
             <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
@@ -57,7 +52,7 @@ const AllTransactionTable = ({
               </tr>
             </thead>
             <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
-              {allTransactions?.transactions?.map(
+              {allTransaction?.transactions?.map(
                 (transaction: any, index: number) => (
                   <tr
                     key={index}
@@ -95,21 +90,25 @@ const AllTransactionTable = ({
               <Icons type="prev" />
               Previous
             </div>
-            <div className="flex items-center gap-x-4">
-              {pages.map((item, index) => (
-                <p
-                  className={
-                    activePage === item
-                      ? "text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main"
-                      : ""
-                  }
-                  onClick={() => showSpecificPage(item)}
-                  key={index}
-                >
-                  {item}
-                </p>
-              ))}
-            </div>
+            {
+                pages.length <= 20 &&  (
+                  <div className="flex items-center cursor-pointer gap-x-4">
+                  {pages.map((page, index) => (
+                    <p
+                      onClick={() => showSpecificPage(page)}
+                      key={index}
+                      className={
+                        activePage === page
+                          ? "text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main"
+                          : ""
+                      }
+                    >
+                      {page}
+                    </p>
+                  ))}
+                </div>
+                ) 
+              }
             <div
               onClick={() => NextPage()}
               className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
