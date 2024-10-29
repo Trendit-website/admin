@@ -7,7 +7,6 @@ import { useEffect } from "react";
 const AdminProfile = () => {
   const { admin, isLoadingAdmin, isError } = UseGetAdminProfile();
   const router = useRouter();
-  console.log(admin);
   useEffect(() => {
     if (isError) {
       router.push("/Login");
@@ -18,13 +17,19 @@ const AdminProfile = () => {
       {admin && (
         <>
           <div className="flex flex-col w-[65px] h-[65px] rounded-full items-center justify-center">
-            <Image
+            {
+              admin?.profile_picture ? 
+              <Image
               src={admin?.profile_picture}
               alt="trendit logo"
               width={56}
               height={56}
               className="-mb-4 w-[56px] h-[56px] rounded-[200px]"
-            />
+            /> :
+            <div className="w-[40px] h-[40px] rounded-[200px]">
+            <Icons type="profile" width={40} height={40}/>
+            </div>
+            }
             {admin.membership_fee && (
               <span className="self-end">
                 <Icons type="verified" />

@@ -144,16 +144,21 @@ const RequestTable = () => {
                       <div className="flex items-center gap-x-2">
                         <Icons type="checkbox" />
                         <div className="flex items-center gap-x-2">
-                          <Image
+                          {
+                            profiles?.user?.profile_picture ? 
+                            <Image
                             src={
-                              profiles?.user?.profile_picture ||
-                              "/assets/avatar.png"
-                            }
-                            alt="avatar"
-                            width={40}
-                            height={40}
-                            className="w-[40px] h-[40px] rounded-[200px]"
-                          />
+                              profiles?.user?.profile_picture
+                                }
+                                alt="avatar"
+                                width={40}
+                                height={40}
+                                className="w-[40px] h-[40px] rounded-[200px]"
+                              /> : 
+                              <div className="w-[40px] h-[40px] rounded-[200px]">
+                                <Icons type="profile" width={35} height={35}/>
+                              </div>
+                          }
                           <div>
                             <p>{profiles?.user?.email}</p>
                             <span>@{profiles?.user?.username}</span>

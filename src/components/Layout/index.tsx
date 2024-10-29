@@ -78,14 +78,20 @@ const Layout = ({ children }: { children: ReactNode }) => {
             </div>
             <Icons type="alarm" />
           </div>
-          <div>
-            <Image
+          <div className="-mt-[14px]">
+             {
+              admin?.profile_picture ? 
+              <Image
               src={admin?.profile_picture}
-              alt=""
+              alt="trendit logo"
               width={40}
               height={40}
-              className="rounded-full w-[40px] h-[40px]"
-            />
+              className="-mb-4 w-[40px] h-[40px] rounded-[200px]"
+            /> :
+            <div className="w-[40px] h-[40px] rounded-[200px]">
+            <Icons type="profile" width={35} height={35}/>
+            </div>
+            }
           </div>
         </div>
       </header>

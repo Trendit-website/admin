@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import InputField from "../../Shared/InputField";
 import { FilterUserEmail } from "../../../api/useGetUsers";
 import { UseGetAllAdvertisers } from "../../../api/useGetUsers";
+import { format } from "date-fns";
 const AdvertisersTable = () => {
   const [activePage, setActivePage] = useState(1);
   const { allAdvertisers, isLoading, isError } =
@@ -92,13 +93,19 @@ const AdvertisersTable = () => {
                         className="flex cursor-pointer items-center px-2 gap-x-4 w-full py-2 border-solid border-b-[1px] border-borderColor"
                         key={index}
                       >
-                        <Image
-                          src={user?.profile_picture || "/assets/avatar.png"}
-                          width={40}
-                          height={40}
-                          className="rounded-[200px] w-[40px] h-[40px]"
-                          alt="avatar"
-                        />
+                       {
+                            user?.profile_picture ? 
+                            <Image
+                            src={user?.profile_picture}
+                            width={40}
+                            height={40}
+                            className="rounded-[200px] w-[40px] h-[40px]"
+                            alt="avatar"
+                          /> :
+                            <div className="w-[40px] h-[40px] rounded-[200px]">
+                            <Icons type="profile" width={30} height={30}/>
+                            </div>
+                          }
                         <div className="flex flex-col gap-y-[2px]">
                           <p>{user?.full_name}</p>
                           <span>
@@ -159,23 +166,34 @@ const AdvertisersTable = () => {
                     <td className="flex items-center gap-x-2 w-7/12">
                       <Icons type="checkbox" />
                       <div className="flex items-center gap-x-2">
-                        <Image
-                          src={user?.profile_picture || "/assets/avatar.png"}
-                          width={40}
-                          height={40}
-                          className="rounded-[200px] w-[40px] h-[40px]"
-                          alt="avatar"
-                        />
+                      {
+                            user?.profile_picture ? 
+                            <Image
+                            src={user?.profile_picture || "assets/avatar.png"}
+                            width={40}
+                            height={40}
+                            className="rounded-[200px] w-[40px] h-[40px]"
+                            alt="avatar"
+                          /> :
+                            <div className="w-[40px] h-[40px] rounded-[200px]">
+                            <Icons type="profile" width={30} height={30}/>
+                            </div>
+                          }
                         <div className="flex flex-col gap-y-[2px]">
                           <p>{user?.full_name}</p>
                           <span>{user?.username}</span>
                         </div>
                       </div>
                     </td>
-                    <td className="w-5/12">{user?.email}</td>
-                    <td className="w-3/12">{user?.phone}</td>
-                    <td className="w-3/12">1,234</td>
-                    <td className="w-3/12">Jan 6, 2024 11:59pm</td>
+                    <td className="w-6/12">{user?.email}</td>
+                    <td className="w-4/12">{user?.phone}</td>
+                    <td className="w-3/12">{user?.total_referrals}</td>
+                    <td className="w-3/12">
+                      {format(
+                        new Date(user?.date_joined),
+                        "MMM dd, yyyy hh:mma",
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>

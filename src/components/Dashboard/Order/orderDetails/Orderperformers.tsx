@@ -133,16 +133,19 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
                           )}
                         </td>
                         <td className="w-7/12 gap-x-[3px] flex items-start">
-                          <Image
-                            alt="avatar"
-                            src={
-                              performer?.user?.profile_picture ||
-                              "/assets/avatar.png"
+                           {
+                             performer?.user?.profile_picture ? 
+                              <Image
+                              src={performer?.user?.profile_picture}
+                              alt="trendit logo"
+                              width={40}
+                              height={40}
+                              className="-mb-4 w-[40px] h-[40px] rounded-[200px]"
+                            /> :
+                            <div className="w-[40px] h-[40px] rounded-[200px]">
+                            <Icons type="profile" width={40} height={40}/>
+                            </div>
                             }
-                            width={40}
-                            height={40}
-                            className="rounded-[200px] w-[40px] h-[40px]"
-                          />
                           <div>
                             <p>{performer?.user?.username}</p>
                             <span>{performer?.user?.email}</span>
