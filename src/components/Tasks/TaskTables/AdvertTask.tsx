@@ -100,7 +100,15 @@ const AdvertTask = () => {
                 ))}
               </tbody>
             </table>
-            <div className="flex w-full items-center justify-between px-4 py-4">
+            <div className="flex w-full items-center justify-between px-4 py-6">
+             <div className="flex items-center cursor-pointer gap-x-4">
+                <p
+                  className=""
+                >
+                  {activePage} of {advertTask.pages}
+                </p>
+            </div>
+            <div className="flex items-center gap-x-4">
               <div
                 onClick={() => PrevPage()}
                 className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
@@ -108,28 +116,14 @@ const AdvertTask = () => {
                 <Icons type="prev" />
                 Previous
               </div>
-              <div className="flex items-center cursor-pointer gap-x-4">
-                {pages.map((page, index) => (
-                  <p
-                    onClick={() => showSpecificPage(page)}
-                    key={index}
-                    className={
-                      activePage === page
-                        ? "text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main"
-                        : ""
-                    }
-                  >
-                    {page}
-                  </p>
-                ))}
-              </div>
               <div
                 onClick={() => NextPage()}
-                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
               >
                 Next
                 <Icons type="next" />
               </div>
+            </div>
             </div>
           </>
         </div>
