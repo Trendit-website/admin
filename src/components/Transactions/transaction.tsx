@@ -165,10 +165,7 @@ const Transaction = () => {
                 </p>
               ))}
             </div>
-            {activeTab === Tabs[0] && (
-              <AllTransactionTable
-              />
-            )}
+            {activeTab === Tabs[0] && <AllTransactionTable />}
             {activeTab === Tabs[1] && <EarnerPayoutTable />}
             {activeTab === Tabs[2] && <OrderPaymentTable />}
             {activeTab === Tabs[3] && <WithdrawRequestTable />}

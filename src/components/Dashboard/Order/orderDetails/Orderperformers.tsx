@@ -133,19 +133,19 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
                           )}
                         </td>
                         <td className="w-7/12 gap-x-[3px] flex items-start">
-                           {
-                             performer?.user?.profile_picture ? 
-                              <Image
+                          {performer?.user?.profile_picture ? (
+                            <Image
                               src={performer?.user?.profile_picture}
                               alt="trendit logo"
                               width={40}
                               height={40}
                               className="-mb-4 w-[40px] h-[40px] rounded-[200px]"
-                            /> :
+                            />
+                          ) : (
                             <div className="w-[40px] h-[40px] rounded-[200px]">
-                            <Icons type="profile" width={40} height={40}/>
+                              <Icons type="profile" width={40} height={40} />
                             </div>
-                            }
+                          )}
                           <div>
                             <p>{performer?.user?.username}</p>
                             <span>{performer?.user?.email}</span>
@@ -182,7 +182,9 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
                         {performer?.post_link !== "" &&
                           performer?.post_link !== "undefined" && (
                             <td className="w-3/12">
-                              <a href={performer?.post_link}  target="_blank">View Post</a>
+                              <a href={performer?.post_link} target="_blank">
+                                View Post
+                              </a>
                             </td>
                           )}
                         <td className="w-3/12 flex items-center gap-x-2">

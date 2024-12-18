@@ -9,6 +9,7 @@ const InputField = ({
   register,
   id,
   containerStyle,
+  value,
 }: {
   classNames: string;
   containerStyle?: string;
@@ -18,6 +19,7 @@ const InputField = ({
   leftIcon?: string;
   register?: object;
   id?: string;
+  value?: string;
 }) => {
   return (
     <div
@@ -32,6 +34,7 @@ const InputField = ({
         className={classNames}
         placeholder={placeholder}
         type={type}
+        value={value}
         id={id}
         {...register}
       />

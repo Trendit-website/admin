@@ -43,19 +43,19 @@ const Admins = ({
               >
                 <td className="flex items-center gap-x-[7px] w-6/12">
                   <Icons type="checkbox" />
-                  {
-                            admin?.profile_picture ? 
-                            <Image
-                            src={admin?.profile_picture || "assets/avatar.png"}
-                            width={40}
-                            height={40}
-                            className="rounded-[200px] w-[40px] h-[40px]"
-                            alt="avatar"
-                          /> :
-                            <div className="w-[40px] h-[40px] rounded-[200px]">
-                            <Icons type="profile" width={30} height={30}/>
-                            </div>
-                          }
+                  {admin?.profile_picture ? (
+                    <Image
+                      src={admin?.profile_picture || "assets/avatar.png"}
+                      width={40}
+                      height={40}
+                      className="rounded-[200px] w-[40px] h-[40px]"
+                      alt="avatar"
+                    />
+                  ) : (
+                    <div className="w-[40px] h-[40px] rounded-[200px]">
+                      <Icons type="profile" width={30} height={30} />
+                    </div>
+                  )}
                   <div className="flex flex-col text-primary-black text-[14px]">
                     {admin?.full_name}
                     <span className="text-secondary text-[12px]">

@@ -37,19 +37,19 @@ const LiveActivities = () => {
           <div className="flex flex-col gap-y-4">
             {liveActivities?.live_activities?.map((item, index) => (
               <div className="flex items-start gap-x-2 text-[14px]" key={index}>
-                {
-                item?.profile_picture ? 
+                {item?.profile_picture ? (
                   <Image
                     src={item?.profile_picture}
                     alt="holder"
                     className="w-[32px] h-[32px] rounded-[200px]"
                     width={32}
                     height={32}
-                  /> : 
+                  />
+                ) : (
                   <div className="w-[24px] h-[24px] rounded-[200px]">
                     <Icons type="profile" />
                   </div>
-               }
+                )}
                 <div className="flex flex-col gap-y-[4px] -mt-[5px]">
                   <span>{item.title}</span>
                   <p>

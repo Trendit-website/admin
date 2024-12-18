@@ -95,12 +95,10 @@ const ApprovedOrders = () => {
             </tbody>
           </table>
           <div className="flex w-full items-center justify-between px-4">
-             <div className="flex items-center cursor-pointer gap-x-4">
-                <p
-                  className=""
-                >
-                  {activePage} of {approvedOrders.pages}
-                </p>
+            <div className="flex items-center cursor-pointer gap-x-4">
+              <p className="">
+                {activePage} of {approvedOrders.pages}
+              </p>
             </div>
             <div className="flex items-center gap-x-4">
               <div

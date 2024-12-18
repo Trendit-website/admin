@@ -48,6 +48,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
           >
             Transactions
           </Link>
+          <Link
+            href="/marketplace"
+            className={`py-2 px-2 ${router.route === "/marketplace" ? "text-main border-b-[1px] border-solid border-main bg-[#FFF0FF]" : "text-primary-black"}`}
+          >
+            MarketPlace
+          </Link>
         </div>
         <div className="flex items-center gap-x-4">
           <div>
@@ -79,19 +85,19 @@ const Layout = ({ children }: { children: ReactNode }) => {
             <Icons type="alarm" />
           </div>
           <div className="-mt-[14px]">
-             {
-              admin?.profile_picture ? 
+            {admin?.profile_picture ? (
               <Image
-              src={admin?.profile_picture}
-              alt="trendit logo"
-              width={40}
-              height={40}
-              className="-mb-4 w-[40px] h-[40px] rounded-[200px]"
-            /> :
-            <div className="w-[40px] h-[40px] rounded-[200px]">
-            <Icons type="profile" width={35} height={35}/>
-            </div>
-            }
+                src={admin?.profile_picture}
+                alt="trendit logo"
+                width={40}
+                height={40}
+                className="-mb-4 w-[40px] h-[40px] rounded-[200px]"
+              />
+            ) : (
+              <div className="w-[40px] h-[40px] rounded-[200px]">
+                <Icons type="profile" width={35} height={35} />
+              </div>
+            )}
           </div>
         </div>
       </header>

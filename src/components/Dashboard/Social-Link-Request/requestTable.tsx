@@ -4,7 +4,7 @@ import Link from "next/link";
 import {
   UseApproveSocialRequest,
   UseGetSocialLinkRequest,
-  UseRejectSocialRequest
+  UseRejectSocialRequest,
 } from "../../../api/useGetSocialLinkRequest";
 import { useState } from "react";
 import { UseCapitalise } from "../../../utils/useCapitalise";
@@ -14,12 +14,21 @@ import toast from "react-hot-toast";
 import { Select, SelectItem } from "@nextui-org/react";
 const RequestTable = () => {
   const [activePage, setActivePage] = useState(1);
-  const filterParam = ["Platform"]
-  const platformFilter = ["","x", 'facebook', 'instagram', 'threads', 'whatsapp']
-  const [activeStatus, setActiveStatus] = useState<string>()
-  const [platformTab, setPlatformTab] = useState(platformFilter[0])
-  const { socialRequest, isLoading, isError } =
-    UseGetSocialLinkRequest(activePage, platformTab);
+  const filterParam = ["Platform"];
+  const platformFilter = [
+    "",
+    "x",
+    "facebook",
+    "instagram",
+    "threads",
+    "whatsapp",
+  ];
+  const [activeStatus, setActiveStatus] = useState<string>();
+  const [platformTab, setPlatformTab] = useState(platformFilter[0]);
+  const { socialRequest, isLoading, isError } = UseGetSocialLinkRequest(
+    activePage,
+    platformTab,
+  );
   const pages = Array.from(
     { length: socialRequest?.total_pages ?? 1 },
     (_, i) => i + 1,
@@ -96,31 +105,45 @@ const RequestTable = () => {
               </span>
             </div>
             <div className="flex items-center gap-x-2">
-                <div>
-                  <p>Filter By</p>
-                    <Select  className="w-[370px] text-secondary">
-                      {filterParam.map((filter, index) => (
-                            <SelectItem onClick={() => setActiveStatus(filter)}  key={index} className="text-secondary">{filter}</SelectItem>
-                      ))}
-                    </Select>
-                </div>
-                <span onClick={() => (setPlatformTab(platformFilter[0]), setActiveStatus(''))}>
-                  <Icons type="cancel" fill="#CB29BE"/>
-                </span>
+              <div>
+                <p>Filter By</p>
+                <Select className="w-[370px] text-secondary">
+                  {filterParam.map((filter, index) => (
+                    <SelectItem
+                      onClick={() => setActiveStatus(filter)}
+                      key={index}
+                      className="text-secondary"
+                    >
+                      {filter}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </div>
+              <span
+                onClick={() => (
+                  setPlatformTab(platformFilter[0]), setActiveStatus("")
+                )}
+              >
+                <Icons type="cancel" fill="#CB29BE" />
+              </span>
             </div>
             <span>
               <Icons type="vertical-dot" />
             </span>
           </div>
-          {
-            activeStatus === filterParam[0] && (
+          {activeStatus === filterParam[0] && (
             <div className="flex items-center w-[300px] gap-x-4 pl-4">
               {platformFilter.map((platform, index) => (
-                  <p onClick={() => setPlatformTab(platform)} key={index} className={`text-[14px] font-medium cursor-pointer ${platformTab === platform ? 'text-main border-b[1px] border-solid border-main' : 'text-[#344504]'}`}>{UseCapitalise(platform)}</p>
+                <p
+                  onClick={() => setPlatformTab(platform)}
+                  key={index}
+                  className={`text-[14px] font-medium cursor-pointer ${platformTab === platform ? "text-main border-b[1px] border-solid border-main" : "text-[#344504]"}`}
+                >
+                  {UseCapitalise(platform)}
+                </p>
               ))}
             </div>
-            )
-          }
+          )}
           <>
             <table className="w-full flex flex-col gap-y-2">
               <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
@@ -144,21 +167,19 @@ const RequestTable = () => {
                       <div className="flex items-center gap-x-2">
                         <Icons type="checkbox" />
                         <div className="flex items-center gap-x-2">
-                          {
-                            profiles?.user?.profile_picture ? 
+                          {profiles?.user?.profile_picture ? (
                             <Image
-                            src={
-                              profiles?.user?.profile_picture
-                                }
-                                alt="avatar"
-                                width={40}
-                                height={40}
-                                className="w-[40px] h-[40px] rounded-[200px]"
-                              /> : 
-                              <div className="w-[40px] h-[40px] rounded-[200px]">
-                                <Icons type="profile" width={35} height={35}/>
-                              </div>
-                          }
+                              src={profiles?.user?.profile_picture}
+                              alt="avatar"
+                              width={40}
+                              height={40}
+                              className="w-[40px] h-[40px] rounded-[200px]"
+                            />
+                          ) : (
+                            <div className="w-[40px] h-[40px] rounded-[200px]">
+                              <Icons type="profile" width={35} height={35} />
+                            </div>
+                          )}
                           <div>
                             <p>{profiles?.user?.email}</p>
                             <span>@{profiles?.user?.username}</span>
@@ -170,7 +191,7 @@ const RequestTable = () => {
                       <Icons type={profiles?.platform} width={20} height={20} />
                       <div className="flex flex-col">
                         <p>{profiles?.platform}</p>
-                        <Link href={profiles?.link}  target="_blank">
+                        <Link href={profiles?.link} target="_blank">
                           {UseTrunicate(profiles?.link)}
                         </Link>
                       </div>
@@ -200,30 +221,28 @@ const RequestTable = () => {
               </tbody>
             </table>
             <div className="flex w-full items-center justify-between px-4">
-             <div className="flex items-center cursor-pointer gap-x-4">
-                <p
-                  className=""
-                >
+              <div className="flex items-center cursor-pointer gap-x-4">
+                <p className="">
                   {activePage} of {socialRequest.total_pages}
                 </p>
-            </div>
-            <div className="flex items-center gap-x-4">
-              <div
-                onClick={() => PrevPage()}
-                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                <Icons type="prev" />
-                Previous
               </div>
-              <div
-                onClick={() => NextPage()}
-                className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                Next
-                <Icons type="next" />
+              <div className="flex items-center gap-x-4">
+                <div
+                  onClick={() => PrevPage()}
+                  className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                >
+                  <Icons type="prev" />
+                  Previous
+                </div>
+                <div
+                  onClick={() => NextPage()}
+                  className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                >
+                  Next
+                  <Icons type="next" />
+                </div>
               </div>
             </div>
-          </div>
           </>
         </div>
       )}

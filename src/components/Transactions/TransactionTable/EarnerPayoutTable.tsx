@@ -67,35 +67,30 @@ const EarnerPayoutTable = () => {
                     </td>
                     <td className="w-3/12">{transaction?.reference}</td>
                     <td className="w-3/12">
-                      <div className={`flex items-center justify-center gap-x-[4px] text-[#067647] text-[12px] w-[92px] h-[22px] rounded-[16px] border-solid border-[1px] border-[#ABEFC6] ${transaction?.status === "complete" && "text-[#067647] border-[#ABEFC6]"} ${transaction?.status === "success" && "text-[#067647] border-[#ABEFC6]"} ${transaction?.status === "pending" && "text-[#F79009] border-[#F79009]" } ${transaction?.status === "FAILED" && "text-[#F04438] border-[#F04438]"}`}>
-                      {
-                          transaction?.status === 'complete' && (
-                            <Icons type="verified-icon" />
-                          )
-                        }
-                         {
-                          transaction?.status === 'success' && (
-                            <Icons type="verified-icon" />
-                          )
-                        }
-                        {
-                          transaction?.status === 'pending' && (
-                            <Icons type="pending-icon" />
-                          )
-                        }
-                        {
-                          transaction?.status === 'FAILED' && (
-                            <Icons type="rejected-icon" />
-                          )
-                        }
+                      <div
+                        className={`flex items-center justify-center gap-x-[4px] text-[#067647] text-[12px] w-[92px] h-[22px] rounded-[16px] border-solid border-[1px] border-[#ABEFC6] ${transaction?.status === "complete" && "text-[#067647] border-[#ABEFC6]"} ${transaction?.status === "success" && "text-[#067647] border-[#ABEFC6]"} ${transaction?.status === "pending" && "text-[#F79009] border-[#F79009]"} ${transaction?.status === "FAILED" && "text-[#F04438] border-[#F04438]"}`}
+                      >
+                        {transaction?.status === "complete" && (
+                          <Icons type="verified-icon" />
+                        )}
+                        {transaction?.status === "success" && (
+                          <Icons type="verified-icon" />
+                        )}
+                        {transaction?.status === "pending" && (
+                          <Icons type="pending-icon" />
+                        )}
+                        {transaction?.status === "FAILED" && (
+                          <Icons type="rejected-icon" />
+                        )}
                         {UseCapitalise(transaction?.status)}
                       </div>
                     </td>
-                    <td className="w-3/12">
-                      {transaction?.amount}
-                    </td>
+                    <td className="w-3/12">{transaction?.amount}</td>
                     <td className="w-2/12 text-[#000000]">
-                      {format( new Date(transaction?.created_at), "MMM-dd-yyyy, HH:mma")}
+                      {format(
+                        new Date(transaction?.created_at),
+                        "MMM-dd-yyyy, HH:mma",
+                      )}
                     </td>
                   </tr>
                 ),
@@ -103,12 +98,10 @@ const EarnerPayoutTable = () => {
             </tbody>
           </table>
           <div className="flex w-full items-center justify-between px-4 py-6">
-             <div className="flex items-center cursor-pointer gap-x-4">
-                <p
-                  className=""
-                >
-                  {activePage} of {outflowPayment.pages}
-                </p>
+            <div className="flex items-center cursor-pointer gap-x-4">
+              <p className="">
+                {activePage} of {outflowPayment.pages}
+              </p>
             </div>
             <div className="flex items-center gap-x-4">
               <div
@@ -126,7 +119,7 @@ const EarnerPayoutTable = () => {
                 <Icons type="next" />
               </div>
             </div>
-            </div>
+          </div>
         </>
       )}
     </>

@@ -46,19 +46,19 @@ const UsersDetails = () => {
         </div>
       </div>
       <div className="w-full px-4 flex flex-col gap-y-2">
-         {
-              userdetails?.user?.profile_picture ? 
-              <Image
-              src={userdetails?.user?.profile_picture}
-              alt="trendit logo"
-              width={64}
-              height={64}
-              className="-mb-4 w-[64px] h-[64px] rounded-[200px]"
-            /> :
-            <div className="w-[64px] h-[64px] rounded-[200px]">
-            <Icons type="profile" width={64} height={64}/>
-            </div>
-            }
+        {userdetails?.user?.profile_picture ? (
+          <Image
+            src={userdetails?.user?.profile_picture}
+            alt="trendit logo"
+            width={64}
+            height={64}
+            className="-mb-4 w-[64px] h-[64px] rounded-[200px]"
+          />
+        ) : (
+          <div className="w-[64px] h-[64px] rounded-[200px]">
+            <Icons type="profile" width={64} height={64} />
+          </div>
+        )}
         <p className="text-primary-black text-[16px]">
           {userdetails?.user?.full_name}
         </p>

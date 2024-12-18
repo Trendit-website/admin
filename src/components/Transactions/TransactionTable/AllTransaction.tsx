@@ -6,8 +6,8 @@ import { format } from "date-fns";
 const AllTransactionTable = () => {
   const [activePage, setActivePage] = useState(1);
   const { allTransaction, isLoadingTransaction, isErrorTransaction } =
-  UseGetAllTransaction(activePage);
-  console.log(allTransaction)
+    UseGetAllTransaction(activePage);
+  console.log(allTransaction);
   const pages = Array.from(
     { length: allTransaction?.pages ?? 1 },
     (_, i) => i + 1,
@@ -28,9 +28,9 @@ const AllTransactionTable = () => {
     setActivePage(page);
   };
   return (
-    <>
+    <div className="flex flex-col gap-y-4 bg-white">
       {isLoadingTransaction && !isErrorTransaction && (
-        <div className="w-full h-full flex py-8 justify-center">
+        <div className="w-full h-screen flex py-8 justify-center">
           <Icons type="loader" />
         </div>
       )}
@@ -68,73 +68,74 @@ const AllTransactionTable = () => {
                       {UseCapitalise(transaction?.description)}
                     </td>
                     <td className="w-2/12">{transaction?.key}</td>
-                    <td className={`w-2/12 ml-8 ${transaction?.transaction_type === "debit" && "text-red-500"} ${transaction?.transaction_type === "payment" && "text-[#067647]"}`}>
+                    <td
+                      className={`w-2/12 ml-8 ${transaction?.transaction_type === "debit" && "text-red-500"} ${transaction?.transaction_type === "payment" && "text-[#067647]"}`}
+                    >
                       {UseCapitalise(transaction?.transaction_type)}
                     </td>
                     <td className="w-2/12">
-                      <div className={`flex items-center justify-center gap-x-[4px] text-[12px] w-[92px] h-[22px] rounded-[16px] border-solid border-[1px] ${transaction?.status === "complete" && "text-[#067647] border-[#ABEFC6]"} ${transaction?.status === "success" && "text-[#067647] border-[#ABEFC6]"} ${transaction?.status === "pending" && "text-[#F79009] border-[#F79009]" } ${transaction?.status === "failed" && "text-[#F04438] border-[#F04438]"}`}>
-                        {
-                          transaction?.status === 'complete' && (
-                            <Icons type="verified-icon" />
-                          )
-                        }
-                         {
-                          transaction?.status === 'success' && (
-                            <Icons type="verified-icon" />
-                          )
-                        }
-                        {
-                          transaction?.status === 'pending' && (
-                            <Icons type="pending-icon" />
-                          )
-                        }
-                        {
-                          transaction?.status === 'failed' && (
-                            <Icons type="rejected-icon" />
-                          )
-                        }
+                      <div
+                        className={`flex items-center justify-center gap-x-[4px] text-[12px] w-[92px] h-[22px] rounded-[16px] border-solid border-[1px] ${transaction?.status === "complete" && "text-[#067647] border-[#ABEFC6]"} ${transaction?.status === "success" && "text-[#067647] border-[#ABEFC6]"} ${transaction?.status === "pending" && "text-[#F79009] border-[#F79009]"} ${transaction?.status === "failed" && "text-[#F04438] border-[#F04438]"}`}
+                      >
+                        {transaction?.status === "complete" && (
+                          <Icons type="verified-icon" />
+                        )}
+                        {transaction?.status === "success" && (
+                          <Icons type="verified-icon" />
+                        )}
+                        {transaction?.status === "pending" && (
+                          <Icons type="pending-icon" />
+                        )}
+                        {transaction?.status === "failed" && (
+                          <Icons type="rejected-icon" />
+                        )}
                         {UseCapitalise(transaction?.status)}
                       </div>
                     </td>
-                    <td className={`w-2/12`}>
-                      {transaction?.amount}
-                    </td>
+                    <td className={`w-2/12`}>{transaction?.amount}</td>
                     <td className="w-2/12 text-[#000000]">
-                      {format( new Date(transaction?.created_at), "MMM-dd-yyyy, HH:mma")}
+                      {format(
+                        new Date(transaction?.created_at),
+                        "MMM-dd-yyyy, HH:mma",
+                      )}
                     </td>
                   </tr>
                 ),
               )}
             </tbody>
           </table>
-          <div className="flex w-full items-center justify-between px-4 pb-4">
-             <div className="flex items-center cursor-pointer gap-x-4">
-                <p
-                  className=""
-                >
-                  {activePage} of {allTransaction.pages}
-                </p>
-            </div>
-            <div className="flex items-center gap-x-4">
-              <div
-                onClick={() => PrevPage()}
-                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                <Icons type="prev" />
-                Previous
-              </div>
-              <div
-                onClick={() => NextPage()}
-                className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                Next
-                <Icons type="next" />
-              </div>
-            </div>
-            </div>
         </>
       )}
-    </>
+      <div className="flex w-full items-center justify-between px-4 pb-4">
+        {allTransaction ? (
+          <div className="flex items-center cursor-pointer gap-x-4">
+            <p className="">
+              {activePage} of {allTransaction.pages}
+            </p>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center py-4 text-[14px]">
+            pages...
+          </div>
+        )}
+        <div className="flex items-center gap-x-4">
+          <div
+            onClick={() => PrevPage()}
+            className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+          >
+            <Icons type="prev" />
+            Previous
+          </div>
+          <div
+            onClick={() => NextPage()}
+            className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+          >
+            Next
+            <Icons type="next" />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 export default AllTransactionTable;
