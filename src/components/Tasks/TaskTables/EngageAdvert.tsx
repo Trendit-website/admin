@@ -1,4 +1,4 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 const EngageAdvert = ({ activeTab }: { activeTab: string }) => {
   const pages = [1, 2, 3, 4, 5, 6, 6];
   return (

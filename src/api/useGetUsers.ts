@@ -1,5 +1,5 @@
-import ApiClient from "@/services/apiClient";
-import { UserDetailsSchema, UserSchema } from "@/utils/schema/userSchema";
+import ApiClient from "../services/apiClient";
+import { UserDetailsSchema, UserSchema } from "../utils/schema/userSchema";
 import useSWR, { mutate } from "swr";
 
 export const UseGetAllUsers = (page: number) => {
@@ -11,6 +11,25 @@ export const UseGetAllUsers = (page: number) => {
     allUsers: data?.data,
     isLoading: !data,
     isError: error,
+  };
+};
+export const FilterUserEmail = (email: string) => {
+  const { data, error } = useSWR<UserSchema>(
+    `/users?email=${email}`,
+    ApiClient,
+  );
+  return {
+    user: data?.data,
+    isLoadingUser: !data,
+    isErrorUser: error,
+  };
+};
+export const FilterUsername = (username: string) => {
+  const { data, error } = useSWR(`/users?username=${username}`, ApiClient);
+  return {
+    user: data,
+    isLoadingUser: !data,
+    isErrorUser: error,
   };
 };
 export const UseGetAllEarners = (page: number) => {

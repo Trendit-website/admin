@@ -1,19 +1,68 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import Link from "next/link";
-import { UseGetSocialLinkRequest } from "@/api/useGetSocialLinkRequest";
+import {
+  UseApproveSocialRequest,
+  UseGetSocialLinkRequest,
+  UseRejectSocialRequest,
+} from "../../../api/useGetSocialLinkRequest";
 import { useState } from "react";
-import { UseCapitalise } from "@/utils/useCapitalise";
-import { UseTrunicate } from "@/utils/useTrunicate";
-import { UseFormatStatus } from "@/utils/useFormatStatus";
+import { UseCapitalise } from "../../../utils/useCapitalise";
+import { UseFormatStatus } from "../../../utils/useFormatStatus";
+import { UseTrunicate } from "../../../utils/useTrunicate";
+import toast from "react-hot-toast";
+import { Select, SelectItem } from "@nextui-org/react";
 const RequestTable = () => {
   const [activePage, setActivePage] = useState(1);
-  const { socialRequest, isLoading, isError } =
-    UseGetSocialLinkRequest(activePage);
+  const filterParam = ["Platform"];
+  const platformFilter = [
+    "",
+    "x",
+    "facebook",
+    "instagram",
+    "threads",
+    "whatsapp",
+  ];
+  const [activeStatus, setActiveStatus] = useState<string>();
+  const [platformTab, setPlatformTab] = useState(platformFilter[0]);
+  const { socialRequest, isLoading, isError } = UseGetSocialLinkRequest(
+    activePage,
+    platformTab,
+  );
   const pages = Array.from(
     { length: socialRequest?.total_pages ?? 1 },
     (_, i) => i + 1,
   );
+  const approveRequest = (data: any) => {
+    const requestData = {
+      socialVerificationId: data?.id,
+      type: data?.platform,
+      userId: data?.user?.id,
+      link: data?.link,
+    };
+    UseApproveSocialRequest(requestData)
+      .then((response) => {
+        toast.success(response.data?.message);
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.message);
+      });
+  };
+  const rejectRequest = (data: any) => {
+    const requestData = {
+      socialVerificationId: data?.id,
+      type: data?.platform,
+      userId: data?.user?.id,
+      link: data?.link,
+    };
+    UseRejectSocialRequest(requestData)
+      .then((response) => {
+        toast.success(response.data?.message);
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.message);
+      });
+  };
   const NextPage = () => {
     if (socialRequest?.total_pages) {
       activePage !== socialRequest?.total_pages
@@ -31,18 +80,18 @@ const RequestTable = () => {
   };
   return (
     <div className="text-primary-black w-full px-4">
-       {isLoading && !isError && (
-          <div className="w-full h-screen flex items-center justify-center py-8">
-            <Icons type="loader" />
-          </div>
-        )}
-          {isError && (
-          <div className="w-full flex items-center justify-center py-8">
-            An error occured try again later !!!!!
-          </div>
-        )}
+      {isLoading && !isError && (
+        <div className="w-full h-screen flex justify-center py-8">
+          <Icons type="loader" />
+        </div>
+      )}
+      {isError && (
+        <div className="w-full flex text-red-500 justify-center py-8">
+          An error occured try again later !!!!!
+        </div>
+      )}
       {socialRequest && (
-       <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-4 text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
+        <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-4 text-[12px] w-full">
           <div className="flex items-center justify-between px-4 py-4">
             <div className="text-primary-black flex flex-col gap-y-2">
               <div className="flex items-center gap-x-4 text-[18px] text-[#101828]">
@@ -55,10 +104,46 @@ const RequestTable = () => {
                 Manage your team members and their account permissions here.
               </span>
             </div>
+            <div className="flex items-center gap-x-2">
+              <div>
+                <p>Filter By</p>
+                <Select className="w-[370px] text-secondary">
+                  {filterParam.map((filter, index) => (
+                    <SelectItem
+                      onClick={() => setActiveStatus(filter)}
+                      key={index}
+                      className="text-secondary"
+                    >
+                      {filter}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </div>
+              <span
+                onClick={() => (
+                  setPlatformTab(platformFilter[0]), setActiveStatus("")
+                )}
+              >
+                <Icons type="cancel" fill="#CB29BE" />
+              </span>
+            </div>
             <span>
               <Icons type="vertical-dot" />
             </span>
           </div>
+          {activeStatus === filterParam[0] && (
+            <div className="flex items-center w-[300px] gap-x-4 pl-4">
+              {platformFilter.map((platform, index) => (
+                <p
+                  onClick={() => setPlatformTab(platform)}
+                  key={index}
+                  className={`text-[14px] font-medium cursor-pointer ${platformTab === platform ? "text-main border-b[1px] border-solid border-main" : "text-[#344504]"}`}
+                >
+                  {UseCapitalise(platform)}
+                </p>
+              ))}
+            </div>
+          )}
           <>
             <table className="w-full flex flex-col gap-y-2">
               <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
@@ -82,16 +167,19 @@ const RequestTable = () => {
                       <div className="flex items-center gap-x-2">
                         <Icons type="checkbox" />
                         <div className="flex items-center gap-x-2">
-                          <Image
-                            src={
-                              profiles?.user?.profile_picture ||
-                              "/assets/avatar.png"
-                            }
-                            alt="avatar"
-                            width={40}
-                            height={40}
-                            className="w-[40px] h-[40px] rounded-[200px]"
-                          />
+                          {profiles?.user?.profile_picture ? (
+                            <Image
+                              src={profiles?.user?.profile_picture}
+                              alt="avatar"
+                              width={40}
+                              height={40}
+                              className="w-[40px] h-[40px] rounded-[200px]"
+                            />
+                          ) : (
+                            <div className="w-[40px] h-[40px] rounded-[200px]">
+                              <Icons type="profile" width={35} height={35} />
+                            </div>
+                          )}
                           <div>
                             <p>{profiles?.user?.email}</p>
                             <span>@{profiles?.user?.username}</span>
@@ -103,17 +191,28 @@ const RequestTable = () => {
                       <Icons type={profiles?.platform} width={20} height={20} />
                       <div className="flex flex-col">
                         <p>{profiles?.platform}</p>
-                        <Link href={profiles?.link}>{UseTrunicate(profiles?.link)}</Link>
+                        <Link href={profiles?.link} target="_blank">
+                          {UseTrunicate(profiles?.link)}
+                        </Link>
                       </div>
                     </td>
-                    {profiles?.status === "idle" && (
+                    {profiles?.status === "pending" && (
                       <td className="flex items-center w-3/12 gap-x-4">
-                        <button>Decline</button>
-                        <button className="text-main font-bold">Approve</button>
+                        <button onClick={() => rejectRequest(profiles)}>
+                          Decline
+                        </button>
+                        <button
+                          className="text-main font-bold"
+                          onClick={() => approveRequest(profiles)}
+                        >
+                          Approve
+                        </button>
                       </td>
                     )}
-                    {profiles?.status !== "idle" && (
-                      <td className={`flex items-center w-3/12 gap-x-4 ${UseFormatStatus(profiles?.status)}`}>
+                    {profiles?.status !== "pending" && (
+                      <td
+                        className={`flex items-center w-3/12 gap-x-4 ${UseFormatStatus(profiles?.status)}`}
+                      >
                         {UseCapitalise(profiles?.status)}
                       </td>
                     )}
@@ -122,39 +221,31 @@ const RequestTable = () => {
               </tbody>
             </table>
             <div className="flex w-full items-center justify-between px-4">
-              <div
-                onClick={() => PrevPage()}
-                className="flex cursor-pointer items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                <Icons type="prev" />
-                Previous
+              <div className="flex items-center cursor-pointer gap-x-4">
+                <p className="">
+                  {activePage} of {socialRequest.total_pages}
+                </p>
               </div>
-              <div className="flex items-center gap-x-4 cursor-pointer">
-                {pages.map((page, index) => (
-                  <p
-                    onClick={() => showSpecificPage(page)}
-                    key={index}
-                    className={
-                      activePage === page
-                        ? "text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main"
-                        : ""
-                    }
-                  >
-                    {page}
-                  </p>
-                ))}
-              </div>
-              <div
-                onClick={() => NextPage()}
-                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                Next
-                <Icons type="next" />
+              <div className="flex items-center gap-x-4">
+                <div
+                  onClick={() => PrevPage()}
+                  className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                >
+                  <Icons type="prev" />
+                  Previous
+                </div>
+                <div
+                  onClick={() => NextPage()}
+                  className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                >
+                  Next
+                  <Icons type="next" />
+                </div>
               </div>
             </div>
           </>
-      </div>
-    )}
+        </div>
+      )}
     </div>
   );
 };

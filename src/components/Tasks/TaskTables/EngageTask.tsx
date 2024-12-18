@@ -1,7 +1,8 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import { format } from "date-fns";
 import { useState } from "react";
-import { UseGetEngagementTask } from "@/api/useGetTask";
+import { UseGetEngagementTask } from "../../../api/useGetTask";
+import Link from "next/link";
 const EngageTask = () => {
   const [activePage, setActivePage] = useState(1);
   const { engagementTask, isLoadingEngagementTask, isErrorEngagementTask } =
@@ -27,18 +28,17 @@ const EngageTask = () => {
   );
   return (
     <div className="text-primary-black w-full px-4">
-        {isLoadingEngagementTask && (
-          <div className="flex h-screen items-center justify-center py-6">
-            <Icons type="loader" />
-          </div>
-        )}
-      {
-        isErrorEngagementTask && (
-          <div className="w-full h-screen text-red-500 h-screen items-center flex justify-center">
-          {isErrorEngagementTask?.response?.data?.message || ' An error occured try again later'}
+      {isLoadingEngagementTask && !isErrorEngagementTask && (
+        <div className="flex h-screen justify-center py-6">
+          <Icons type="loader" />
         </div>
-        )
-      }
+      )}
+      {isErrorEngagementTask && (
+        <div className="w-full h-screen text-red-500 h-screen text-red-500 flex justify-center">
+          {isErrorEngagementTask?.response?.data?.message ||
+            " An error occured try again later"}
+        </div>
+      )}
       <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
         {engagementTask && (
           <>
@@ -79,20 +79,22 @@ const EngageTask = () => {
                     key={index}
                   >
                     <td className="flex items-start gap-x-[5px] w-9/12">
-                      <Icons type={task?.platform} />
-                      <div className="flex flex-col gap-y-[3px]">
-                        <p className="text-primary-black text-[14px] font-medium">
-                          {task?.goal?.charAt(0).toUpperCase() +
-                            task?.goal?.slice(1)}{" "}
-                          posts on your{" "}
-                          {task?.platform.charAt(0).toUpperCase() +
-                            task?.platform?.slice(1)}{" "}
-                          page
-                        </p>
-                        <span className="text-[14px] text-[#475467] w-11/12">
-                          {task?.caption}
-                        </span>
-                      </div>
+                      <Link
+                        href={`/orders/${task?.task_key}`}
+                        className="flex items-start gap-x-2"
+                      >
+                        <Icons type={task?.platform} width={20} height={20} />
+                        <div className="flex flex-col gap-y-[3px]">
+                          <p className="text-primary-black text-[14px] font-medium">
+                            {task?.goal?.charAt(0).toUpperCase() +
+                              task?.goal?.slice(1)}{" "}
+                            posts on your{" "}
+                            {task?.platform.charAt(0).toUpperCase() +
+                              task?.platform?.slice(1)}{" "}
+                            page
+                          </p>
+                        </div>
+                      </Link>
                     </td>
                     <td className="w-2/12">{task?.engagements_count}</td>
                     <td className="w-2/12">#110</td>
@@ -106,35 +108,27 @@ const EngageTask = () => {
                 ))}
               </tbody>
             </table>
-            <div className="flex w-full items-center justify-between px-4 py-4">
-              <div
-                onClick={() => PrevPage()}
-                className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                <Icons type="prev" />
-                Previous
+            <div className="flex w-full items-center justify-between px-4 py-6">
+              <div className="flex items-center cursor-pointer gap-x-4">
+                <p className="">
+                  {activePage} of {engagementTask.pages}
+                </p>
               </div>
               <div className="flex items-center gap-x-4">
-                {pages.map((page, index) => (
-                  <p
-                    onClick={() => showSpecificPage(page)}
-                    key={index}
-                    className={
-                      activePage === page
-                        ? "text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main"
-                        : ""
-                    }
-                  >
-                    {page}
-                  </p>
-                ))}
-              </div>
-              <div
-                onClick={() => NextPage()}
-                className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                Next
-                <Icons type="next" />
+                <div
+                  onClick={() => PrevPage()}
+                  className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                >
+                  <Icons type="prev" />
+                  Previous
+                </div>
+                <div
+                  onClick={() => NextPage()}
+                  className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                >
+                  Next
+                  <Icons type="next" />
+                </div>
               </div>
             </div>
           </>

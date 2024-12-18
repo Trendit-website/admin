@@ -1,4 +1,4 @@
-import Transaction from "@/components/Transactions/transaction";
+import Transaction from "../../components/Transactions/transaction";
 
 const TransactionPage = () => {
   return (

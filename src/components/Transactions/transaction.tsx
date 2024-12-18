@@ -5,9 +5,11 @@ import EarnerPayoutTable from "./TransactionTable/EarnerPayoutTable";
 import OrderPaymentTable from "./TransactionTable/OrderPaymentTable";
 import WithdrawalModal from "./PaymentModal/WithdrawalModal";
 import { useDisclosure } from "@nextui-org/react";
-import { UseGetAllTransaction } from "@/api/useGetTransaction";
-import UseFormatNumbers from "@/utils/useFormatNumber";
+import { UseGetAllTransaction } from "../../api/useGetTransaction";
+import UseFormatNumbers from "../../utils/useFormatNumber";
+import WithdrawRequestTable from "./TransactionTable/WithdrawRequestTable";
 const Transaction = () => {
+  const [activePage, setActivePage] = useState(1);
   const pages = [1, 2, 3, 4, 5, 6, 6];
   const ReportOverview = [
     {
@@ -31,7 +33,12 @@ const Transaction = () => {
       percentage: "10.8",
     },
   ];
-  const Tabs = ["All Transactions", "Earner Payout", "Order Payment"];
+  const Tabs = [
+    "All Transactions",
+    "Earner Payout",
+    "Order Payment",
+    "Payment Request",
+  ];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [isPopUp, setPopUp] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,7 +46,7 @@ const Transaction = () => {
     onOpen();
   };
   const { allTransaction, isLoadingTransaction, isErrorTransaction } =
-    UseGetAllTransaction();
+    UseGetAllTransaction(activePage);
   return (
     <>
       <div className="w-full flex items-start py-8">
@@ -158,30 +165,10 @@ const Transaction = () => {
                 </p>
               ))}
             </div>
-            {activeTab === Tabs[0] && (
-              <AllTransactionTable
-                allTransactions={allTransaction}
-                isLoadingTransaction={isLoadingTransaction}
-                isTransactionError={isErrorTransaction}
-              />
-            )}
+            {activeTab === Tabs[0] && <AllTransactionTable />}
             {activeTab === Tabs[1] && <EarnerPayoutTable />}
             {activeTab === Tabs[2] && <OrderPaymentTable />}
-            <div className="w-full flex items-center justify-between py-4 px-4">
-              <div className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
-                <Icons type="prev" />
-                Previous
-              </div>
-              <div className="flex items-center gap-x-4">
-                {pages.map((item, index) => (
-                  <p key={index}>{item}</p>
-                ))}
-              </div>
-              <div className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor">
-                Next
-                <Icons type="next" />
-              </div>
-            </div>
+            {activeTab === Tabs[3] && <WithdrawRequestTable />}
           </div>
         </div>
       </div>

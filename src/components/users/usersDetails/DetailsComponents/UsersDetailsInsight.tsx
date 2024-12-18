@@ -1,4 +1,4 @@
-import { UserDetailsSchema } from "@/utils/schema/userSchema";
+import { UserDetailsSchema } from "../../../../utils/schema/userSchema";
 const UsersDeatailsInsight = ({
   activeTab,
   details,

@@ -1,5 +1,5 @@
-import ApiClient from "@/services/apiClient";
-import { OrderSchema } from "@/utils/schema/orderSchema";
+import ApiClient from "../services/apiClient";
+import { OrderSchema } from "../utils/schema/orderSchema";
 import useSWR from "swr";
 
 export const UseGetAdvertTask = (page: number) => {

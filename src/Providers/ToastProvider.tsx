@@ -1,4 +1,4 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../components/Shared/Icons";
 import { Toaster } from "react-hot-toast";
 
 const ToastProvider = () => {

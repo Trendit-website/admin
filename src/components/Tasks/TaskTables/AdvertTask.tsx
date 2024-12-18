@@ -1,7 +1,8 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import { format } from "date-fns";
 import { useState } from "react";
-import { UseGetAdvertTask } from "@/api/useGetTask";
+import { UseGetAdvertTask } from "../../../api/useGetTask";
+import Link from "next/link";
 const AdvertTask = () => {
   const [activePage, setActivePage] = useState(1);
   const { advertTask, isLoadingAdvertTask, isErrorAdvertTask } =
@@ -24,19 +25,19 @@ const AdvertTask = () => {
   };
   return (
     <div className="text-primary-black w-full px-4">
-       {isErrorAdvertTask && (
-          <div className="w-full h-screen flex items-center justify-center py-8">
-            {isErrorAdvertTask?.response?.data?.message ||
-              "   An error occured try again later "}
-          </div>
-        )}
-         {isLoadingAdvertTask && !isErrorAdvertTask && (
-          <div className="flex h-screen items-center justify-center py-6">
-            <Icons type="loader" />
-          </div>
-        )}
-      {advertTask && (<div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
-        
+      {isErrorAdvertTask && (
+        <div className="w-full h-screen flex text-red-500 justify-center py-8">
+          {isErrorAdvertTask?.response?.data?.message ||
+            "   An error occured try again later "}
+        </div>
+      )}
+      {isLoadingAdvertTask && !isErrorAdvertTask && (
+        <div className="flex h-screen justify-center py-6">
+          <Icons type="loader" />
+        </div>
+      )}
+      {advertTask && (
+        <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
           <>
             <div className="flex items-center justify-between w-full px-6 py-4">
               <div className="flex flex-col gap-y-2">
@@ -75,15 +76,17 @@ const AdvertTask = () => {
                     key={index}
                   >
                     <td className="flex items-start gap-x-[5px] w-9/12">
-                      <Icons type={task?.platform} />
-                      <div className="flex flex-col gap-y-[3px]">
-                        <p className="text-primary-black text-[14px] font-medium">
-                          Post adverts on your {task?.platform} page
-                        </p>
-                        <span className="text-[14px] text-[#475467] w-11/12">
-                          {task?.caption}
-                        </span>
-                      </div>
+                      <Link
+                        href={`/orders/${task?.task_key}`}
+                        className="flex items-start gap-x-2"
+                      >
+                        <Icons type={task?.platform} width={20} height={20} />
+                        <div className="flex flex-col gap-y-[3px]">
+                          <p className="text-primary-black text-[14px] font-medium">
+                            Post adverts on your {task?.platform} page
+                          </p>
+                        </div>
+                      </Link>
                     </td>
                     <td className="w-2/12">{task?.posts_count}</td>
                     <td className="w-2/12">#110</td>
@@ -97,40 +100,32 @@ const AdvertTask = () => {
                 ))}
               </tbody>
             </table>
-            <div className="flex w-full items-center justify-between px-4 py-4">
-              <div
-                onClick={() => PrevPage()}
-                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                <Icons type="prev" />
-                Previous
-              </div>
+            <div className="flex w-full items-center justify-between px-4 py-6">
               <div className="flex items-center cursor-pointer gap-x-4">
-                {pages.map((page, index) => (
-                  <p
-                    onClick={() => showSpecificPage(page)}
-                    key={index}
-                    className={
-                      activePage === page
-                        ? "text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main"
-                        : ""
-                    }
-                  >
-                    {page}
-                  </p>
-                ))}
+                <p className="">
+                  {activePage} of {advertTask.pages}
+                </p>
               </div>
-              <div
-                onClick={() => NextPage()}
-                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                Next
-                <Icons type="next" />
+              <div className="flex items-center gap-x-4">
+                <div
+                  onClick={() => PrevPage()}
+                  className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                >
+                  <Icons type="prev" />
+                  Previous
+                </div>
+                <div
+                  onClick={() => NextPage()}
+                  className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                >
+                  Next
+                  <Icons type="next" />
+                </div>
               </div>
             </div>
           </>
-        
-      </div>)}
+        </div>
+      )}
     </div>
   );
 };

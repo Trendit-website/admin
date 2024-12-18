@@ -3,9 +3,9 @@ import {
   UseGetPendingOrders,
   UseGetApprovedOrders,
   UseGetFailedOrders,
-} from "@/api/useGetOrders";
+} from "../../../api/useGetOrders";
 import { useState, useReducer } from "react";
-import InputField from "@/components/Shared/InputField";
+import InputField from "../../Shared/InputField";
 import AllOrders from "./orderTables/AllOrder";
 import PendingOrders from "./orderTables/PendingOrders";
 import ApprovedOrders from "./orderTables/ApprovedOrders";
@@ -60,7 +60,7 @@ const Ordertable = () => {
         </div>
         <InputField
           type="text"
-          classNames="w-[320px] border-solid border-[2px] pl-4 rounded-[8px] border-[#D0D5DD] py-2"
+          classNames="w-[320px] outline-none text-primary-black border-solid border-[1px] pl-4 rounded-[8px] border-[#D0D5DD] py-2"
           placeholder="Search"
         />
       </div>

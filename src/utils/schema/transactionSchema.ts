@@ -10,3 +10,14 @@ export type TransactionSchema = {
     total_pending_outflow: number | string;
   };
 };
+export type PaymentRequestSchema = {
+  data: {
+    current_page: number;
+    message: string;
+    pages: number;
+    status: string;
+    status_code: number;
+    total: number;
+    withdrawal_requests: any[];
+  };
+};

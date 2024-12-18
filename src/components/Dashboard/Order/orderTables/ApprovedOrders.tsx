@@ -1,6 +1,6 @@
-import { UseGetApprovedOrders } from "@/api/useGetOrders";
+import { UseGetApprovedOrders } from "../../../../api/useGetOrders";
 import { useState } from "react";
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../../Shared/Icons";
 import Link from "next/link";
 import { format } from "date-fns";
 const ApprovedOrders = () => {
@@ -28,15 +28,16 @@ const ApprovedOrders = () => {
   };
   return (
     <>
-      {isLoadingApprovedOrders && (
-        <div className="w-full h-screen flex items-center justify-center">
+      {isLoadingApprovedOrders && !isErrorApprovedOrders && (
+        <div className="w-full h-screen flex py-4 justify-center">
           <Icons type="loader" />
         </div>
       )}
       {isErrorApprovedOrders && (
-          <div className="w-full h-screen flex text-red-500 items-center justify-center py-4">
-          {isErrorApprovedOrders?.response?.data?.message || ' An error occured try again later'}
-         </div>
+        <div className="w-full h-screen flex text-red-500 justify-center py-4">
+          {isErrorApprovedOrders?.response?.data?.message ||
+            " An error occured try again later"}
+        </div>
       )}
       {approvedOrders && (
         <>
@@ -71,7 +72,6 @@ const ApprovedOrders = () => {
                         <p className="text-[14px] text-[#101828]">
                           Post adverts on your {order?.platform} page
                         </p>
-                        <span>{order?.caption}</span>
                       </div>
                     </Link>
                   </td>
@@ -95,34 +95,26 @@ const ApprovedOrders = () => {
             </tbody>
           </table>
           <div className="flex w-full items-center justify-between px-4">
-            <div
-              onClick={() => PrevPage()}
-              className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-            >
-              <Icons type="prev" />
-              Previous
-            </div>
             <div className="flex items-center cursor-pointer gap-x-4">
-              {pages.map((page, index) => (
-                <p
-                  onClick={() => showSpecificPage(page)}
-                  key={index}
-                  className={
-                    activePage === page
-                      ? "text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main"
-                      : ""
-                  }
-                >
-                  {page}
-                </p>
-              ))}
+              <p className="">
+                {activePage} of {approvedOrders.pages}
+              </p>
             </div>
-            <div
-              onClick={() => NextPage()}
-              className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-            >
-              Next
-              <Icons type="next" />
+            <div className="flex items-center gap-x-4">
+              <div
+                onClick={() => PrevPage()}
+                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+              >
+                <Icons type="prev" />
+                Previous
+              </div>
+              <div
+                onClick={() => NextPage()}
+                className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+              >
+                Next
+                <Icons type="next" />
+              </div>
             </div>
           </div>
         </>

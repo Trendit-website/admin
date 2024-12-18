@@ -1,4 +1,4 @@
-import ApiClient from "@/services/apiClient";
+import ApiClient from "../services/apiClient";
 import useSWR from "swr";
 
 export const UseGetPricing = () => {

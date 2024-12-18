@@ -1,4 +1,4 @@
-import Setting from "@/components/Settings/setting";
+import Setting from "../../components/Settings/setting";
 
 const SettingsPage = () => {
   return (

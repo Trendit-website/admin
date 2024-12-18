@@ -1,4 +1,4 @@
-import AppealDetails from "@/components/Dashboard/Appeal/appealDetails";
+import AppealDetails from "../../components/Dashboard/Appeal/appealDetails";
 
 const AppealRequestPage = () => {
   return (

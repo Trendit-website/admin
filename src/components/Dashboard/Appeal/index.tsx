@@ -1,4 +1,4 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import AppealTable from "./appealTable";
 const Appeal = () => {
   const pages = [1, 2, 3, 4, 5, 6, 6];

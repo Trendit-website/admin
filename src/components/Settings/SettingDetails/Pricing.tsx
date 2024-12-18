@@ -1,5 +1,5 @@
-import { UseGetPricing } from "@/api/usePricing";
-import Icons from "@/components/Shared/Icons";
+import { UseGetPricing } from "../../../api/usePricing";
+import Icons from "../../Shared/Icons";
 import { useState } from "react";
 const Pricing = () => {
   const Tabs = [

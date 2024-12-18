@@ -1,4 +1,4 @@
-import UsersDetails from "@/components/users/usersDetails";
+import UsersDetails from "../../components/users/usersDetails";
 
 const UsersDetailsPage = () => {
   return (

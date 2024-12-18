@@ -1,11 +1,11 @@
-import Icons from "@/components/Shared/Icons";
+import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import UsersDetailsComponent from "./UsersDetails";
 import Link from "next/link";
-import { UseGetUsersDetails } from "@/api/useGetUsers";
+import { UseGetUsersDetails } from "../../../api/useGetUsers";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { UserDetailsSchema } from "@/utils/schema/userSchema";
+import { UserDetailsSchema } from "../../../utils/schema/userSchema";
 const UsersDetails = () => {
   const router = useRouter();
   const [userdetails, setUserDetails] = useState<UserDetailsSchema>();
@@ -46,22 +46,30 @@ const UsersDetails = () => {
         </div>
       </div>
       <div className="w-full px-4 flex flex-col gap-y-2">
-        <Image
-          src={userdetails?.user?.profile_picture || "/assets/Logo.svg"}
-          width={64}
-          height={64}
-          className="w-[64px] h-[64px] rounded-[200px]"
-          alt="profile picture"
-        />
+        {userdetails?.user?.profile_picture ? (
+          <Image
+            src={userdetails?.user?.profile_picture}
+            alt="trendit logo"
+            width={64}
+            height={64}
+            className="-mb-4 w-[64px] h-[64px] rounded-[200px]"
+          />
+        ) : (
+          <div className="w-[64px] h-[64px] rounded-[200px]">
+            <Icons type="profile" width={64} height={64} />
+          </div>
+        )}
         <p className="text-primary-black text-[16px]">
           {userdetails?.user?.full_name}
         </p>
         <span className="text-secondary text-[14px]">
           USER ID: RET/15118/{userdetails?.user.id}
         </span>
-        <div className="flex items-center w-[74px] gap-x-2 bg-[#CB29BE] text-white text-[12px] py-[2px] px-[6px] rounded-[16px]">
-          Verified <Icons type="mark" />
-        </div>
+        {userdetails?.user?.membership_fee && (
+          <div className="flex items-center w-[74px] gap-x-2 bg-[#CB29BE] text-white text-[12px] py-[2px] px-[6px] rounded-[16px]">
+            Verified <Icons type="mark" />
+          </div>
+        )}
       </div>
       <UsersDetailsComponent details={userdetails} />
     </div>

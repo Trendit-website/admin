@@ -6,3 +6,9 @@ export type SocialSchema = {
     total: number;
   };
 };
+export type SocialverificationSchema = {
+  socialVerificationId: number;
+  type: string;
+  userId: number;
+  link: string;
+};

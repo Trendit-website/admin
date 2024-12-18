@@ -1,7 +1,7 @@
-import Button from "@/components/Shared/Button";
-import Icons from "@/components/Shared/Icons";
-import { UseGetOverviewReport } from "@/api/useGetDashboardInsight";
-import UseFormatNumbers from "@/utils/useFormatNumber";
+import Button from "../../Shared/Button";
+import Icons from "../../Shared/Icons";
+import { UseGetOverviewReport } from "../../../api/useGetDashboardInsight";
+import UseFormatNumbers from "../../../utils/useFormatNumber";
 import { useState } from "react";
 
 const OverviewReport = () => {
@@ -27,6 +27,7 @@ const OverviewReport = () => {
   const { overviewReport, isLoading, isError } = UseGetOverviewReport(
     activeRange.query,
   );
+  console.error(isError);
   return (
     <div className="w-full h-[411px] bg-[#FFFFFF] border-[1px] border-[#E4E7EC] border-solid  flex flex-col py-4 gap-y-10 text-primary-black rounded-[12px]">
       <div className="flex items-center justify-between w-11/12 px-4 ">
@@ -72,10 +73,6 @@ const OverviewReport = () => {
                     Number(overviewReport?.total_earners_settled),
                   )}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -84,10 +81,6 @@ const OverviewReport = () => {
                 <span className="text-primary-black text-[30px]">
                   {UseFormatNumbers(Number(overviewReport?.total_order_paid))}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -98,10 +91,6 @@ const OverviewReport = () => {
                     Number(overviewReport?.total_referral_paid),
                   )}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -112,10 +101,6 @@ const OverviewReport = () => {
                     Number(overviewReport?.total_membership_fee),
                   )}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -126,10 +111,6 @@ const OverviewReport = () => {
                     Number(overviewReport?.total_inflow_pending),
                   )}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -142,10 +123,6 @@ const OverviewReport = () => {
                     Number(overviewReport?.total_outflow_pending),
                   )}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -158,10 +135,6 @@ const OverviewReport = () => {
                     Number(overviewReport?.num_available_tasks),
                   )}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -170,10 +143,6 @@ const OverviewReport = () => {
                 <span className="text-primary-black text-[30px]">
                   {UseFormatNumbers(Number(overviewReport?.num_approved_ads))}
                 </span>
-                {/* <div className="flex items-center gap-x-[4px] px-[3px] text-[14px] border-solid border-[1px] rounded-[6px] border-[#E4E7EC]">
-                          <Icons type="chart" />
-                          {}%
-                        </div> */}
               </div>
             </div>
           </>

@@ -1,17 +1,17 @@
-import Icons from "@/components/Shared/Icons";
-import InputField from "@/components/Shared/InputField";
+import Icons from "../../../Shared/Icons";
+import InputField from "../../../Shared/InputField";
 import { Select, SelectItem } from "@nextui-org/react";
 import Image from "next/image";
-import PreviewImageModal from "@/components/Modals/PreviewImageModal";
+import PreviewImageModal from "../../../Modals/PreviewImageModal";
 import {
   UseGetOrderPerformers,
   UseVerifyTaskPerformance,
-} from "@/api/useGetOrders";
+} from "../../../../api/useGetOrders";
 import { useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
-import { UseCapitalise } from "@/utils/useCapitalise";
+import { UseCapitalise } from "../../../../utils/useCapitalise";
 const Orderperformers = ({ orderId }: { orderId: string }) => {
   const [activePage, setActivePage] = useState(1);
   const status = ["Paid", "Cancelled", "Pending"];
@@ -55,16 +55,17 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
   };
   return (
     <>
-     {isError && (
-              <div className="w-full h-screen flex text-red-500 items-center justify-center py-4">
-               {isError?.response?.data?.message || ' An error occured try again later'}
-              </div>
+      {isError && (
+        <div className="w-full h-screen flex text-red-500 justify-center py-4">
+          {isError?.response?.data?.message ||
+            " An error occured try again later"}
+        </div>
       )}
-       {isLoading && !isError && (
-              <div className="w-full h-screen flex items-center justify-center py-4">
-                <Icons type="loader" />
-              </div>
-            )}
+      {isLoading && !isError && (
+        <div className="w-full h-screen flex justify-center py-4">
+          <Icons type="loader" />
+        </div>
+      )}
       {performers?.task_performances?.length !== 0 && (
         <div className="text-primary-black w-full px-4">
           <div className="bg-[#FFFFFF] text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
@@ -132,16 +133,19 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
                           )}
                         </td>
                         <td className="w-7/12 gap-x-[3px] flex items-start">
-                          <Image
-                            alt="avatar"
-                            src={
-                              performer?.user?.profile_picture ||
-                              "/assets/avatar.png"
-                            }
-                            width={40}
-                            height={40}
-                            className="rounded-[200px] w-[40px] h-[40px]"
-                          />
+                          {performer?.user?.profile_picture ? (
+                            <Image
+                              src={performer?.user?.profile_picture}
+                              alt="trendit logo"
+                              width={40}
+                              height={40}
+                              className="-mb-4 w-[40px] h-[40px] rounded-[200px]"
+                            />
+                          ) : (
+                            <div className="w-[40px] h-[40px] rounded-[200px]">
+                              <Icons type="profile" width={40} height={40} />
+                            </div>
+                          )}
                           <div>
                             <p>{performer?.user?.username}</p>
                             <span>{performer?.user?.email}</span>
@@ -178,7 +182,9 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
                         {performer?.post_link !== "" &&
                           performer?.post_link !== "undefined" && (
                             <td className="w-3/12">
-                              <a href={performer?.post_link}>View Post</a>
+                              <a href={performer?.post_link} target="_blank">
+                                View Post
+                              </a>
                             </td>
                           )}
                         <td className="w-3/12 flex items-center gap-x-2">
