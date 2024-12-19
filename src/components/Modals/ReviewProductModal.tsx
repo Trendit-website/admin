@@ -53,7 +53,7 @@ const ReviewProductModal = ({
             classNames="border-[1px] text-primary-black text-[14px] outline-none border-solid border-[#DOD5DD] rounded-[8px] py-2 pl-2 w-[350px] bg-transparent"
             type="text"
             placeholder="Write a Comment"
-            id="email"
+            id="comment"
             register={register("comment", {
               required: true,
             })}
