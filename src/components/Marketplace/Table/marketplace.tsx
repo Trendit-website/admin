@@ -132,7 +132,7 @@ const MarketPlaceTable = () => {
                               onClick={() => (
                                 setOption({
                                   id: product.product_id,
-                                  status: "reject",
+                                  status: "rejected",
                                 }),
                                 onOpen()
                               )}
