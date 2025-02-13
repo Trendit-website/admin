@@ -47,6 +47,7 @@ const Transaction = () => {
   };
   const { allTransaction, isLoadingTransaction, isErrorTransaction } =
     UseGetAllTransaction(activePage);
+  console.log(allTransaction);
   return (
     <>
       <div className="w-full flex items-start py-8">
@@ -58,10 +59,10 @@ const Transaction = () => {
                 Check and filter all your medical appointments here
               </span>
             </h1>
-            <div className="flex items-center justify-around bg-main text-[#FFFFFF] w-[117px] h-[36px] py-[2px] px-[6px] rounded-[6px]">
+            {/* <div className="flex items-center justify-around bg-main text-[#FFFFFF] w-[117px] h-[36px] py-[2px] px-[6px] rounded-[6px]">
               Create
               <Icons type="plus" />
-            </div>
+            </div> */}
           </div>
 
           <div className="bg-[#FFFFFF] flex flex-col gap-y-6 w-full px-6 rounded-[6px] border-solid border-[1px] border-borderColor">
@@ -159,16 +160,13 @@ const Transaction = () => {
                 <p
                   onClick={() => setActiveTab(tab)}
                   key={index}
-                  className={`text-[14px] pb-2 ${activeTab === tab ? "text-main cursor-pointer border-solid border-b-[1px] border-main" : "text-[#344054]"} `}
+                  className={`text-[14px] cursor-pointer pb-2 ${activeTab === tab ? "text-main cursor-pointer border-solid border-b-[1px] border-main" : "text-[#344054]"} `}
                 >
                   {tab}
                 </p>
               ))}
             </div>
-            {activeTab === Tabs[0] && (
-              <AllTransactionTable
-              />
-            )}
+            {activeTab === Tabs[0] && <AllTransactionTable />}
             {activeTab === Tabs[1] && <EarnerPayoutTable />}
             {activeTab === Tabs[2] && <OrderPaymentTable />}
             {activeTab === Tabs[3] && <WithdrawRequestTable />}

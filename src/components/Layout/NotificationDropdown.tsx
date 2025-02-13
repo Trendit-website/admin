@@ -42,21 +42,24 @@ const NotificationDropdown = () => {
           </div>
           <div className="flex flex-col gap-y-4 text-[12px]">
             {notification?.notifications?.map((notification, index) => (
-              <div key={index} className="flex items-start justify-between border-solid border-b-[1px] border-[#E4E7EC] py-4">
+              <div
+                key={index}
+                className="flex items-start justify-between border-solid border-b-[1px] border-[#E4E7EC] py-4"
+              >
                 <div className="flex items-start gap-x-2">
-                {
-                notification?.profile_picture ? 
-                  <Image
-                    src={notification?.profile_picture}
-                    alt="holder"
-                    className="w-[32px] h-[32px] rounded-[200px]"
-                    width={32}
-                    height={32}
-                  /> : 
-                  <div className="w-[24px] h-[24px] rounded-[200px]">
-                    <Icons type="profile" />
-                  </div>
-               }
+                  {notification?.profile_picture ? (
+                    <Image
+                      src={notification?.profile_picture}
+                      alt="holder"
+                      className="w-[32px] h-[32px] rounded-[200px]"
+                      width={32}
+                      height={32}
+                    />
+                  ) : (
+                    <div className="w-[24px] h-[24px] rounded-[200px]">
+                      <Icons type="profile" />
+                    </div>
+                  )}
                   <div className="w-8/12">
                     <p className="font-semibold">{notification?.title}</p>
                     <span className="text-[10px]">{notification?.body}</span>

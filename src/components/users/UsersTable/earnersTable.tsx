@@ -89,19 +89,19 @@ const EarnersTable = () => {
                         className="flex cursor-pointer items-center px-2 gap-x-4 w-full py-2 border-solid border-b-[1px] border-borderColor"
                         key={index}
                       >
-                       {
-                            user?.profile_picture ? 
-                            <Image
+                        {user?.profile_picture ? (
+                          <Image
                             src={user?.profile_picture || "assets/avatar.png"}
                             width={40}
                             height={40}
                             className="rounded-[200px] w-[40px] h-[40px]"
                             alt="avatar"
-                          /> :
-                            <div className="w-[40px] h-[40px] rounded-[200px]">
-                            <Icons type="profile" width={30} height={30}/>
-                            </div>
-                          }
+                          />
+                        ) : (
+                          <div className="w-[40px] h-[40px] rounded-[200px]">
+                            <Icons type="profile" width={30} height={30} />
+                          </div>
+                        )}
                         <div className="flex flex-col gap-y-[2px]">
                           <p>{user?.full_name}</p>
                           <span>
@@ -166,19 +166,19 @@ const EarnersTable = () => {
                       >
                         <Icons type="checkbox" />
                         <div className="flex items-center gap-x-2">
-                        {
-                            user?.profile_picture ? 
+                          {user?.profile_picture ? (
                             <Image
-                            src={user?.profile_picture || "assets/avatar.png"}
-                            width={40}
-                            height={40}
-                            className="rounded-[200px] w-[40px] h-[40px]"
-                            alt="avatar"
-                          /> :
+                              src={user?.profile_picture || "assets/avatar.png"}
+                              width={40}
+                              height={40}
+                              className="rounded-[200px] w-[40px] h-[40px]"
+                              alt="avatar"
+                            />
+                          ) : (
                             <div className="w-[40px] h-[40px] rounded-[200px]">
-                            <Icons type="profile" width={30} height={30}/>
+                              <Icons type="profile" width={30} height={30} />
                             </div>
-                          }
+                          )}
                           <div className="flex flex-col gap-y-[2px]">
                             <p>{user?.full_name}</p>
                             <span>{user?.username}</span>
@@ -189,38 +189,33 @@ const EarnersTable = () => {
                     <td className="w-6/12">{user?.email}</td>
                     <td className="w-4/12">{user?.phone}</td>
                     <td className="w-3/12">{user?.total_referrals}</td>
-                    {format(
-                        new Date(user?.date_joined),
-                        "MMM dd, yyyy hh:mma",
-                      )}
+                    {format(new Date(user?.date_joined), "MMM dd, yyyy hh:mma")}
                   </tr>
                 ))}
               </tbody>
             </table>
             <div className="flex w-full items-center justify-between px-4 py-6">
-             <div className="flex items-center cursor-pointer gap-x-4">
-                <p
-                  className=""
-                >
+              <div className="flex items-center cursor-pointer gap-x-4">
+                <p className="">
                   {activePage} of {allEarners.pages}
                 </p>
-            </div>
-            <div className="flex items-center gap-x-4">
-              <div
-                onClick={() => PrevPage()}
-                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                <Icons type="prev" />
-                Previous
               </div>
-              <div
-                onClick={() => NextPage()}
-                className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                Next
-                <Icons type="next" />
+              <div className="flex items-center gap-x-4">
+                <div
+                  onClick={() => PrevPage()}
+                  className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                >
+                  <Icons type="prev" />
+                  Previous
+                </div>
+                <div
+                  onClick={() => NextPage()}
+                  className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                >
+                  Next
+                  <Icons type="next" />
+                </div>
               </div>
-            </div>
             </div>
           </>
         </div>

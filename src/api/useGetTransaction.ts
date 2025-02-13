@@ -3,7 +3,7 @@ import {
   PaymentRequestSchema,
   TransactionSchema,
 } from "../utils/schema/transactionSchema";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 
 export const UseGetAllTransaction = (page: number) => {
   const { data, error } = useSWR<TransactionSchema>(
@@ -15,6 +15,21 @@ export const UseGetAllTransaction = (page: number) => {
     isLoadingTransaction: !data,
     isErrorTransaction: error,
   };
+};
+export const UseGetBalance = () => {
+  const { data, error } = useSWR("/balance", ApiClient);
+  return {
+    balance: data,
+    balanceError: error,
+  };
+};
+export const UseEvaluateWithdrawal = (data: {
+  withdrawal_request_id: number;
+  status: string;
+}) => {
+  const evaluateRequest = ApiClient.post("/withdrawal-request/evaluate", data);
+  mutate("/withdrawal-request/evaluate");
+  return evaluateRequest;
 };
 export const UseGetInflowPayment = (page: number) => {
   const { data, error } = useSWR<TransactionSchema>(

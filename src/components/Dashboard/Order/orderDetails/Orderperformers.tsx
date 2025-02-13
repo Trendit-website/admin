@@ -12,18 +12,15 @@ import { useState } from "react";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 import { UseCapitalise } from "../../../../utils/useCapitalise";
+import { UseFormatStatus } from "../../../../utils/useFormatStatus";
 const Orderperformers = ({ orderId }: { orderId: string }) => {
   const [activePage, setActivePage] = useState(1);
-  const status = ["Paid", "Cancelled", "Pending"];
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [loading, setLoading] = useState({ id: "", state: false });
   const [selectedImage, setSelectedImage] = useState<string>("");
   const { performers, isLoading, isError } = UseGetOrderPerformers(
     orderId,
     activePage,
-  );
-  const pages = Array.from(
-    { length: performers?.total_pages ?? 1 },
-    (_, i) => i + 1,
   );
   const NextPage = () => {
     if (performers?.total_pages) {
@@ -37,16 +34,17 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
       activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
     }
   };
-  const showSpecificPage = (page: number) => {
-    setActivePage(page);
-  };
+
   const verifyTaskPerformance = (key: string, action: string) => {
+    setLoading({ id: key, state: true });
     UseVerifyTaskPerformance(key, action)
       .then((response) => {
         toast.success(response.data?.message);
+        setLoading({ id: "", state: false });
       })
       .catch((error) => {
         toast.error(error?.response?.data?.message);
+        setLoading({ id: "", state: false });
       });
   };
   const showModal = (img: string) => {
@@ -55,215 +53,222 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
   };
   return (
     <>
-      {isError && (
-        <div className="w-full h-screen flex text-red-500 justify-center py-4">
-          {isError?.response?.data?.message ||
-            " An error occured try again later"}
-        </div>
-      )}
-      {isLoading && !isError && (
-        <div className="w-full h-screen flex justify-center py-4">
-          <Icons type="loader" />
-        </div>
-      )}
-      {performers?.task_performances?.length !== 0 && (
-        <div className="text-primary-black w-full px-4">
-          <div className="bg-[#FFFFFF] text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
-            <div className="flex items-center justify-around w-full py-4">
-              <div className="flex flex-col gap-y-2">
-                <p>Performers</p>
-                <InputField
-                  type="search"
-                  placeholder="search"
-                  rightIcon="search"
-                  containerStyle="border-solid border-[1px] border-borderColor rounded-[8px] py-2 pl-2 flex items-center w-[370px] gap-x-2"
-                  classNames="border-none outline-none w-[360px]"
-                />
-              </div>
-              <div>
-                <p>Status</p>
-                <Select
-                  // label="Select status"
-                  className="w-[370px] text-secondary"
-                >
-                  {status.map((status, index) => (
-                    <SelectItem key={index} className="text-secondary">
-                      {status}
-                    </SelectItem>
+      <div className="text-primary-black w-full px-4">
+        <div className="bg-[#FFFFFF] text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
+          <>
+            <table className="w-full flex flex-col">
+              <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
+                <tr className="flex items-center">
+                  <td className="flex items-center w-2/12">Date</td>
+                  <td className="text-[#475467] w-6/12">Performers</td>
+                  <td className="text-[#475467] w-3/12">
+                    Social media username
+                  </td>
+                  <td className="text-[#475467] w-3/12">Status</td>
+                  <td className="w-3/12">Proof</td>
+                  <td className="w-3/12">Action</td>
+                </tr>
+              </thead>
+              {performers && performers?.task_performances?.length !== 0 && (
+                <tbody className="flex flex-col gap-y-4 px-2">
+                  {performers?.task_performances?.map((performer, index) => (
+                    <tr
+                      key={index}
+                      className="flex items-center py-4 border-b-[1px] border-solid border-borderColor"
+                    >
+                      <td className="w-2/12">
+                        {format(
+                          new Date(
+                            performer?.date_completed || performer?.started_at,
+                          ),
+                          "MMM dd, yyyy",
+                        )}{" "}
+                        <br />
+                        {format(
+                          new Date(
+                            performer?.date_completed || performer?.started_at,
+                          ),
+                          " HH:mma",
+                        )}
+                      </td>
+                      <td className="w-6/12 gap-x-[3px] flex items-start">
+                        {performer?.user?.profile_picture ? (
+                          <Image
+                            src={performer?.user?.profile_picture}
+                            alt="trendit logo"
+                            width={40}
+                            height={40}
+                            className="-mb-4 w-[40px] h-[40px] rounded-[200px]"
+                          />
+                        ) : (
+                          <div className="w-[40px] h-[40px] rounded-[200px]">
+                            <Icons type="profile" width={40} height={40} />
+                          </div>
+                        )}
+                        <div>
+                          <p>{performer?.user?.username}</p>
+                          <span>{performer?.user?.email}</span>
+                        </div>
+                      </td>
+                      <td className="w-3/12 flex items-center gap-x-[2px]">
+                        <Icons
+                          type={performer?.platform}
+                          width={28}
+                          height={28}
+                        />
+                        {performer?.account_name?.slice(0, 25)}
+                      </td>
+                      <td
+                        className={`w-3/12 ${UseFormatStatus(performer.status)}`}
+                      >
+                        {performer?.status === "completed" && "Paid"}
+                        {performer?.status === "in_review" && "Pending"}
+                        {performer?.status === "pending" && "Pending"}
+                        {performer?.status === "cancelled" && "Declined"}
+                        {performer?.status === "rejected" && "Declined"}
+                      </td>
+                      {!performer?.proof_screenshot_path &&
+                        !performer?.post_link && (
+                          <td className="w-3/12 ">No proof provided</td>
+                        )}
+                      {performer?.proof_screenshot_path && (
+                        <td
+                          className="w-3/12 flex flex-col cursor-pointer"
+                          onClick={() =>
+                            showModal(performer?.proof_screenshot_path)
+                          }
+                        >
+                          View Screenshot
+                          {performer?.post_link !== "" &&
+                            performer?.post_link !== "undefined" && (
+                              <a href={performer?.post_link} target="_blank">
+                                View Post
+                              </a>
+                            )}
+                        </td>
+                      )}
+                      <td
+                        className={`w-3/12 flex items-center gap-x-2 ${UseFormatStatus(performer?.status)}`}
+                      >
+                        {performer?.status === "in_review" &&
+                          (loading.id === performer.key && loading.state ? (
+                            <Icons type="loader" />
+                          ) : (
+                            <>
+                              <button
+                                onClick={() =>
+                                  verifyTaskPerformance(
+                                    performer?.key,
+                                    "reject",
+                                  )
+                                }
+                              >
+                                Reject
+                              </button>
+                              <button
+                                onClick={() =>
+                                  verifyTaskPerformance(
+                                    performer?.key,
+                                    "accept",
+                                  )
+                                }
+                                className="text-main"
+                              >
+                                Approve
+                              </button>
+                            </>
+                          ))}
+                        {performer?.status === "pending" &&
+                          (loading.id === performer.key && loading.state ? (
+                            <Icons type="loader" />
+                          ) : (
+                            <>
+                              <button
+                                onClick={() =>
+                                  verifyTaskPerformance(
+                                    performer?.key,
+                                    "reject",
+                                  )
+                                }
+                              >
+                                Reject
+                              </button>
+                              <button
+                                onClick={() =>
+                                  verifyTaskPerformance(
+                                    performer?.key,
+                                    "accept",
+                                  )
+                                }
+                                className="text-main"
+                              >
+                                Approve
+                              </button>
+                            </>
+                          ))}
+                        {performer?.status !== "in_review" &&
+                          performer?.status !== "pending" &&
+                          UseCapitalise(performer?.status)}
+                      </td>
+                    </tr>
                   ))}
-                </Select>
+                </tbody>
+              )}
+              {isError && (
+                <div className="w-full h-screen flex text-red-500 justify-center py-4">
+                  {isError?.response?.data?.message ||
+                    " An error occured try again later"}
+                </div>
+              )}
+              {isLoading && !isError && (
+                <div className="w-full h-screen flex justify-center py-4">
+                  <Icons type="loader" />
+                </div>
+              )}
+              {performers && performers?.task_performances?.length === 0 && (
+                <div className="flex items-center justify-center py-10">
+                  No Task Performers
+                </div>
+              )}
+            </table>
+            <div className="flex w-full items-center justify-between px-4 py-4">
+              <div className="flex items-center gap-x-4">
+                <p
+                  className={
+                    "text-main flex items-center justify-center font-bold"
+                  }
+                >
+                  {activePage} of{" "}
+                  {performers && performers.total_pages > 0
+                    ? performers.total_pages
+                    : 1}
+                </p>
+              </div>
+              <div className="flex items-center gap-x-4">
+                <button
+                  disabled={activePage === 1}
+                  onClick={() => PrevPage()}
+                  className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                >
+                  <Icons type="prev" />
+                  Previous
+                </button>
+                <button
+                  disabled={
+                    activePage === performers?.total_pages ||
+                    performers?.total_pages === 0
+                  }
+                  onClick={() => NextPage()}
+                  className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                >
+                  Next
+                  <Icons type="next" />
+                </button>
               </div>
             </div>
-            {performers && (
-              <>
-                <table className="w-full flex flex-col">
-                  <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
-                    <tr className="flex items-center">
-                      <td className="flex items-center w-2/12">Date</td>
-                      <td className="text-[#475467] w-7/12">Performers</td>
-                      <td className="text-[#475467] w-3/12">
-                        Social media username
-                      </td>
-                      <td className="text-[#475467] w-3/12">Status</td>
-                      <td className="w-3/12">Proof</td>
-                      <td className="w-3/12">Action</td>
-                    </tr>
-                  </thead>
-                  <tbody className="flex flex-col gap-y-4 px-2">
-                    {performers?.task_performances?.map((performer, index) => (
-                      <tr
-                        key={index}
-                        className="flex items-center py-4 border-b-[1px] border-solid border-borderColor"
-                      >
-                        <td className="w-2/12">
-                          {format(
-                            new Date(
-                              performer?.date_completed ||
-                                performer?.started_at,
-                            ),
-                            "MMM dd, yyyy",
-                          )}{" "}
-                          <br />
-                          {format(
-                            new Date(
-                              performer?.date_completed ||
-                                performer?.started_at,
-                            ),
-                            " HH:mma",
-                          )}
-                        </td>
-                        <td className="w-7/12 gap-x-[3px] flex items-start">
-                           {
-                             performer?.user?.profile_picture ? 
-                              <Image
-                              src={performer?.user?.profile_picture}
-                              alt="trendit logo"
-                              width={40}
-                              height={40}
-                              className="-mb-4 w-[40px] h-[40px] rounded-[200px]"
-                            /> :
-                            <div className="w-[40px] h-[40px] rounded-[200px]">
-                            <Icons type="profile" width={40} height={40}/>
-                            </div>
-                            }
-                          <div>
-                            <p>{performer?.user?.username}</p>
-                            <span>{performer?.user?.email}</span>
-                          </div>
-                        </td>
-                        <td className="w-3/12 flex items-center gap-x-[2px]">
-                          <Icons
-                            type={performer?.platform}
-                            width={28}
-                            height={28}
-                          />
-                          {performer?.account_name?.slice(0, 25)}
-                        </td>
-                        <td className="w-3/12">
-                          {performer?.status === "completed" && "Paid"}
-                          {performer?.status === "in_review" && "Pending"}
-                          {performer?.status === "cancelled" && "Declined"}
-                          {performer?.status === "rejected" && "Declined"}
-                        </td>
-                        {!performer?.proof_screenshot_path &&
-                          !performer?.post_link && (
-                            <td className="w-3/12">No proof provided</td>
-                          )}
-                        {performer?.proof_screenshot_path && (
-                          <td
-                            className="w-3/12"
-                            onClick={() =>
-                              showModal(performer?.proof_screenshot_path)
-                            }
-                          >
-                            View Screenshot
-                          </td>
-                        )}
-                        {performer?.post_link !== "" &&
-                          performer?.post_link !== "undefined" && (
-                            <td className="w-3/12">
-                              <a href={performer?.post_link}  target="_blank">View Post</a>
-                            </td>
-                          )}
-                        <td className="w-3/12 flex items-center gap-x-2">
-                          {performer?.status === "in_review" ||
-                            (performer?.status === "pending" && (
-                              <>
-                                <button
-                                  disabled={
-                                    performer?.status !== "pending" ||
-                                    performer?.status === "in_review"
-                                  }
-                                  onClick={() =>
-                                    verifyTaskPerformance(
-                                      performer?.key,
-                                      "reject",
-                                    )
-                                  }
-                                >
-                                  Reject
-                                </button>
-                                <button
-                                  disabled={
-                                    performer?.status !== "pending" ||
-                                    performer?.status === "in_review"
-                                  }
-                                  onClick={() =>
-                                    verifyTaskPerformance(
-                                      performer?.key,
-                                      "accept",
-                                    )
-                                  }
-                                  className="text-main"
-                                >
-                                  Approve
-                                </button>
-                              </>
-                            ))}
-                          {performer?.status !== "in_review" &&
-                            performer?.status !== "pending" &&
-                            UseCapitalise(performer?.status)}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <div className="flex w-full items-center justify-between px-4 py-4">
-                  <div
-                    onClick={() => PrevPage()}
-                    className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-                  >
-                    <Icons type="prev" />
-                    Previous
-                  </div>
-                  <div className="flex items-center gap-x-4">
-                    {pages.map((page, index) => (
-                      <p
-                        onClick={() => showSpecificPage(page)}
-                        key={index}
-                        className={
-                          activePage === page
-                            ? "text-main h-[20px] w-[20px] rounded-[8px] flex items-center justify-center font-bold border-[1px] border-solid border-main"
-                            : ""
-                        }
-                      >
-                        {page}
-                      </p>
-                    ))}
-                  </div>
-                  <div
-                    onClick={() => NextPage()}
-                    className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-                  >
-                    Next
-                    <Icons type="next" />
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
+          </>
         </div>
-      )}
+      </div>
       <PreviewImageModal
         isOpen={isOpen}
         onClose={onClose}

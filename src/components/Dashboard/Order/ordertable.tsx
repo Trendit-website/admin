@@ -51,18 +51,18 @@ const Ordertable = () => {
                 {tab}
               </p>{" "}
               {activeTab === tab && (
-                <span className="text-[12px] flex items-center justify-center border-solid border-b-[1px] border-[#E4E7EC] w-[28px] h-[22px] rounded-[16px] bg-[#F9FAFB]">
+                <span className="text-[12px] ml-2 flex items-center justify-center border-solid border-b-[1px] border-[#E4E7EC] w-[28px] h-[22px] rounded-[16px] bg-[#F9FAFB]">
                   {state?.total ? String(state?.total) : orders?.total}
                 </span>
               )}
             </div>
           ))}
         </div>
-        <InputField
+        {/* <InputField
           type="text"
           classNames="w-[320px] outline-none text-primary-black border-solid border-[1px] pl-4 rounded-[8px] border-[#D0D5DD] py-2"
           placeholder="Search"
-        />
+        /> */}
       </div>
       <div className="text-primary-black w-full px-4">
         <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-6 text-[12px] w-full border-[1px] border-solid border-primary-border rounded-[12px]">
