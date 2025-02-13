@@ -75,9 +75,9 @@ const MarketPlaceTable = () => {
             </thead>
             {allProducts && (
               <>
-                {allProducts.products.length > 0 &&
-                 <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
-                  {allProducts.products.map((product, index) => (
+                {allProducts.products.length > 0 && (
+                  <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
+                    {allProducts.products.map((product, index) => (
                       <tr
                         className="flex items-center py-4 border-borderColor border-b-[1px] border-solid"
                         key={index}
@@ -143,9 +143,9 @@ const MarketPlaceTable = () => {
                           </div>
                         </td>
                       </tr>
-                      ))}
+                    ))}
                   </tbody>
-                   }
+                )}
                 {allProducts.products.length < 1 && (
                   <div className="flex w-full items-ceter py-4">
                     No Products listed at the moments

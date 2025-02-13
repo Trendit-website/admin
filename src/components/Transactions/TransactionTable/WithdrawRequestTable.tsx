@@ -1,12 +1,15 @@
 import { format } from "date-fns";
-import { UseEvaluateWithdrawal, UseGetPaymentRequest } from "../../../api/useGetTransaction";
+import {
+  UseEvaluateWithdrawal,
+  UseGetPaymentRequest,
+} from "../../../api/useGetTransaction";
 import { UseCapitalise } from "../../../utils/useCapitalise";
 import Icons from "../../Shared/Icons";
 import { useState } from "react";
 import toast from "react-hot-toast";
 const WithdrawRequestTable = () => {
   const [activePage, setActivePage] = useState(1);
-  const [loading, setLoading] = useState({id: 0, state: false})
+  const [loading, setLoading] = useState({ id: 0, state: false });
   const { paymentRequest, isLoadingRequest, isError } =
     UseGetPaymentRequest(activePage);
   const NextPage = () => {
@@ -17,15 +20,18 @@ const WithdrawRequestTable = () => {
     }
   };
   const verifyRequest = (id: number, action: string) => {
-    setLoading({id: id, state: true})
-    UseEvaluateWithdrawal({withdrawal_request_id: id, status: action}).then((response) => {
-      toast.success(response.data?.message)
-    }).catch((error) => {
-      toast.error(error?.response?.data?.message);
-    }).finally(() => {
-      setLoading({id: 0, state: false})
-    })
-  }
+    setLoading({ id: id, state: true });
+    UseEvaluateWithdrawal({ withdrawal_request_id: id, status: action })
+      .then((response) => {
+        toast.success(response.data?.message);
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.message);
+      })
+      .finally(() => {
+        setLoading({ id: 0, state: false });
+      });
+  };
   const PrevPage = () => {
     if (paymentRequest?.pages) {
       activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
@@ -33,21 +39,22 @@ const WithdrawRequestTable = () => {
   };
   return (
     <>
-        <>
-          <table className="w-full flex flex-col">
-            <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
-              <tr className="flex items-center">
-                <td className="w-3/12">Account Number</td>
-                <td className="w-4/12">Bank Name</td>
-                <td className="w-3/12">Transaction Ref</td>
-                <td className="w-3/12">Status</td>
-                <td className="w-3/12">Amount</td>
-                <td className="w-3/12">Created time</td>
-                <td className="w-2/12">Action</td>
-              </tr>
-            </thead>
-            <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
-            {paymentRequest && paymentRequest?.withdrawal_requests?.length > 0 && (
+      <>
+        <table className="w-full flex flex-col">
+          <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
+            <tr className="flex items-center">
+              <td className="w-3/12">Account Number</td>
+              <td className="w-4/12">Bank Name</td>
+              <td className="w-3/12">Transaction Ref</td>
+              <td className="w-3/12">Status</td>
+              <td className="w-3/12">Amount</td>
+              <td className="w-3/12">Created time</td>
+              <td className="w-2/12">Action</td>
+            </tr>
+          </thead>
+          <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
+            {paymentRequest &&
+              paymentRequest?.withdrawal_requests?.length > 0 && (
                 <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
                   {paymentRequest?.withdrawal_requests?.map(
                     (transaction: any, index: number) => (
@@ -81,7 +88,9 @@ const WithdrawRequestTable = () => {
                             {UseCapitalise(transaction?.status)}
                           </div>
                         </td>
-                        <td className="w-3/12">₦{Number(transaction?.amount).toLocaleString()}.00</td>
+                        <td className="w-3/12">
+                          ₦{Number(transaction?.amount).toLocaleString()}.00
+                        </td>
                         <td className="w-2/12 text-[#000000]">
                           {format(
                             new Date(transaction?.created_at),
@@ -89,76 +98,85 @@ const WithdrawRequestTable = () => {
                           )}
                         </td>
                         <td className="w-2/12 flex justify-center">
-                        {
-                          loading.id === transaction.id && loading.state ? <Icons type="loader" /> : 
-                              <div className="flex items-center gap-x-2">
-                                <button
-                                  onClick={() => verifyRequest(transaction.id, "reject")}
-                                >
-                                  Reject
-                                </button>
-                                <button
-                                  onClick={() => verifyRequest(transaction.id, "accept")}
-                                  className="text-main"
-                                >
-                                  Approve
-                                </button>
-                              </div>
-                        }
+                          {loading.id === transaction.id && loading.state ? (
+                            <Icons type="loader" />
+                          ) : (
+                            <div className="flex items-center gap-x-2">
+                              <button
+                                onClick={() =>
+                                  verifyRequest(transaction.id, "reject")
+                                }
+                              >
+                                Reject
+                              </button>
+                              <button
+                                onClick={() =>
+                                  verifyRequest(transaction.id, "accept")
+                                }
+                                className="text-main"
+                              >
+                                Approve
+                              </button>
+                            </div>
+                          )}
                         </td>
                       </tr>
                     ),
                   )}
                 </tbody>
               )}
-             {isLoadingRequest && !isError && (
-                <div className="w-full h-full flex py-8 justify-center">
-                  <Icons type="loader" />
-                </div>
-              )}
-              {isError && (
-                <div className="w-full h-screen text-red-500 h-screen text-red-500 py-6 flex justify-center">
-                  {isError?.response?.data?.message ||
-                    " An error occured try again later"}
-                </div>
-              )}
-              {paymentRequest?.withdrawal_requests?.length < 1 && (
-                <div className="w-full flex items-center justify-center py-10">
-                  No withdrawal requests at the moment
-                </div>
-              )}   
-            </tbody>
-          </table>
-          <div className="flex w-full items-center justify-between px-4 py-4">
-                  <div className="flex items-center gap-x-4">
-                      <p
-                        className={
-                         "text-main flex items-center justify-center font-bold"
-                        }
-                      >
-                        {activePage} of {paymentRequest && paymentRequest.pages > 0 ? paymentRequest.pages : activePage}
-                      </p>
-                  </div>
-                  <div className="flex items-center gap-x-4">
-                    <button
-                    disabled={activePage === 1}
-                      onClick={() => PrevPage()}
-                      className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-                    >
-                      <Icons type="prev" />
-                      Previous
-                    </button>
-                    <button
-                    disabled={activePage === paymentRequest?.pages || paymentRequest?.pages === 0}
-                      onClick={() => NextPage()}
-                      className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-                    >
-                      Next
-                      <Icons type="next" />
-                    </button>
-                  </div>
-                </div>
-        </>
+            {isLoadingRequest && !isError && (
+              <div className="w-full h-full flex py-8 justify-center">
+                <Icons type="loader" />
+              </div>
+            )}
+            {isError && (
+              <div className="w-full h-screen text-red-500 h-screen text-red-500 py-6 flex justify-center">
+                {isError?.response?.data?.message ||
+                  " An error occured try again later"}
+              </div>
+            )}
+            {paymentRequest?.withdrawal_requests?.length < 1 && (
+              <div className="w-full flex items-center justify-center py-10">
+                No withdrawal requests at the moment
+              </div>
+            )}
+          </tbody>
+        </table>
+        <div className="flex w-full items-center justify-between px-4 py-4">
+          <div className="flex items-center gap-x-4">
+            <p
+              className={"text-main flex items-center justify-center font-bold"}
+            >
+              {activePage} of{" "}
+              {paymentRequest && paymentRequest.pages > 0
+                ? paymentRequest.pages
+                : activePage}
+            </p>
+          </div>
+          <div className="flex items-center gap-x-4">
+            <button
+              disabled={activePage === 1}
+              onClick={() => PrevPage()}
+              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+            >
+              <Icons type="prev" />
+              Previous
+            </button>
+            <button
+              disabled={
+                activePage === paymentRequest?.pages ||
+                paymentRequest?.pages === 0
+              }
+              onClick={() => NextPage()}
+              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+            >
+              Next
+              <Icons type="next" />
+            </button>
+          </div>
+        </div>
+      </>
     </>
   );
 };

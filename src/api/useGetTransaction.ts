@@ -17,17 +17,20 @@ export const UseGetAllTransaction = (page: number) => {
   };
 };
 export const UseGetBalance = () => {
-  const { data, error } = useSWR("/balance", ApiClient)
+  const { data, error } = useSWR("/balance", ApiClient);
   return {
     balance: data,
-    balanceError: error
-  }
-}
-export const UseEvaluateWithdrawal = (data: {withdrawal_request_id: number, status: string}) => {
-  const evaluateRequest = ApiClient.post("/withdrawal-request/evaluate", data)
-  mutate("/withdrawal-request/evaluate")
-  return evaluateRequest
-}
+    balanceError: error,
+  };
+};
+export const UseEvaluateWithdrawal = (data: {
+  withdrawal_request_id: number;
+  status: string;
+}) => {
+  const evaluateRequest = ApiClient.post("/withdrawal-request/evaluate", data);
+  mutate("/withdrawal-request/evaluate");
+  return evaluateRequest;
+};
 export const UseGetInflowPayment = (page: number) => {
   const { data, error } = useSWR<TransactionSchema>(
     `/transactions/inflow?page=${page}&per_page=10`,

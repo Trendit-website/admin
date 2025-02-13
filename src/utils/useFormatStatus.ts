@@ -3,9 +3,9 @@ export const UseFormatStatus = (status: string) => {
     case "verified":
       return "text-green-500";
     case "completed":
-        return "text-green-500";
+      return "text-green-500";
     case "accepted":
-          return "text-green-500";
+      return "text-green-500";
     case "rejected":
       return "text-red-500";
     case "cancelled":

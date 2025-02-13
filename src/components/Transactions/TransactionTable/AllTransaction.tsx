@@ -1,7 +1,10 @@
 import Icons from "../../Shared/Icons";
 import { UseCapitalise } from "../../../utils/useCapitalise";
 import { useState } from "react";
-import { UseGetAllTransaction, UseGetBalance } from "../../../api/useGetTransaction";
+import {
+  UseGetAllTransaction,
+  UseGetBalance,
+} from "../../../api/useGetTransaction";
 import { format } from "date-fns";
 const AllTransactionTable = () => {
   const [activePage, setActivePage] = useState(1);
@@ -21,24 +24,26 @@ const AllTransactionTable = () => {
     if (allTransaction?.pages) {
       activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
     }
-  }
+  };
   return (
     <div className="flex flex-col gap-y-4 bg-white">
-        <>
-          <table className="w-full flex flex-col">
-            <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
-              <tr className="flex items-center">
-                <td className="w-2/12">Type</td>
-                <td className="w-6/12">Description</td>
-                <td className="w-2/12">Transaction Ref</td>
-                <td className="w-2/12 ml-8">Category</td>
-                <td className="w-2/12">Status</td>
-                <td className="w-2/12">Amount</td>
-                <td className="w-2/12">Created time</td>
-              </tr>
-            </thead>
-            <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
-              {allTransaction && allTransaction.transactions.length > 0 && allTransaction?.transactions?.map(
+      <>
+        <table className="w-full flex flex-col">
+          <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
+            <tr className="flex items-center">
+              <td className="w-2/12">Type</td>
+              <td className="w-6/12">Description</td>
+              <td className="w-2/12">Transaction Ref</td>
+              <td className="w-2/12 ml-8">Category</td>
+              <td className="w-2/12">Status</td>
+              <td className="w-2/12">Amount</td>
+              <td className="w-2/12">Created time</td>
+            </tr>
+          </thead>
+          <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
+            {allTransaction &&
+              allTransaction.transactions.length > 0 &&
+              allTransaction?.transactions?.map(
                 (transaction: any, index: number) => (
                   <tr
                     key={index}
@@ -85,29 +90,30 @@ const AllTransactionTable = () => {
                   </tr>
                 ),
               )}
-              {isErrorTransaction && (
-                      <div className="w-full h-screen text-red-500 h-screen text-red-500 py-6 flex justify-center">
-                        {isErrorTransaction?.response?.data?.message ||
-                          " An error occured try again later"}
-                      </div>
-                    )}
-              {isLoadingTransaction && !isErrorTransaction && (
-                <div className="w-full h-screen flex py-8 justify-center">
-                  <Icons type="loader" />
-                </div>
-              )}
-            </tbody>
-          </table>
-        </>
+            {isErrorTransaction && (
+              <div className="w-full h-screen text-red-500 h-screen text-red-500 py-6 flex justify-center">
+                {isErrorTransaction?.response?.data?.message ||
+                  " An error occured try again later"}
+              </div>
+            )}
+            {isLoadingTransaction && !isErrorTransaction && (
+              <div className="w-full h-screen flex py-8 justify-center">
+                <Icons type="loader" />
+              </div>
+            )}
+          </tbody>
+        </table>
+      </>
       <div className="flex w-full items-center justify-between px-4 pb-4">
-          <div className="flex items-center cursor-pointer gap-x-4">
-            <p className="">
-              {activePage} of {allTransaction ? allTransaction?.pages : activePage}
-            </p>
-          </div>
+        <div className="flex items-center cursor-pointer gap-x-4">
+          <p className="">
+            {activePage} of{" "}
+            {allTransaction ? allTransaction?.pages : activePage}
+          </p>
+        </div>
         <div className="flex items-center gap-x-4">
           <button
-          disabled={activePage === 1}
+            disabled={activePage === 1}
             onClick={() => PrevPage()}
             className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
           >
@@ -115,7 +121,10 @@ const AllTransactionTable = () => {
             Previous
           </button>
           <button
-          disabled={activePage === allTransaction?.pages || allTransaction?.total === 0}
+            disabled={
+              activePage === allTransaction?.pages ||
+              allTransaction?.total === 0
+            }
             onClick={() => NextPage()}
             className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
           >

@@ -20,56 +20,56 @@ const PendingOrders = () => {
       activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
     }
   };
-  if(isLoadingPendingOrders && !isErrorPendingOrders) {
+  if (isLoadingPendingOrders && !isErrorPendingOrders) {
     return (
       <table className="w-full flex flex-col gap-y-2">
-     <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
-              <tr className="flex items-center">
-                <td className="flex items-center gap-x-2 w-10/12">
-                  <Icons type="checkbox" />
-                  Tasks
-                </td>
-                <td className="text-[#475467] w-3/12 ml-4">Type</td>
-                <td className="text-[#475467] w-3/12 -ml-2">Amount paid</td>
-                <td className="flex items-center gap-x-[2px] w-2/12">
-                  Date created <Icons type="arrow-down" />
-                </td>
-                <td className="text-[#475467] text-right w-2/12">Status</td>
-              </tr>
-            </thead>
-      <tbody className="flex flex-col gap-y-4 px-2">
-        <div className="w-full h-screen flex items-center justify-center">
-        <Icons type="loader" />
-        </div>
-      </tbody>
-    </table>
-    )
+        <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
+          <tr className="flex items-center">
+            <td className="flex items-center gap-x-2 w-10/12">
+              <Icons type="checkbox" />
+              Tasks
+            </td>
+            <td className="text-[#475467] w-3/12 ml-4">Type</td>
+            <td className="text-[#475467] w-3/12 -ml-2">Amount paid</td>
+            <td className="flex items-center gap-x-[2px] w-2/12">
+              Date created <Icons type="arrow-down" />
+            </td>
+            <td className="text-[#475467] text-right w-2/12">Status</td>
+          </tr>
+        </thead>
+        <tbody className="flex flex-col gap-y-4 px-2">
+          <div className="w-full h-screen flex items-center justify-center">
+            <Icons type="loader" />
+          </div>
+        </tbody>
+      </table>
+    );
   }
-  if(isErrorPendingOrders) {
+  if (isErrorPendingOrders) {
     return (
       <table className="w-full flex flex-col gap-y-2">
-       <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
-              <tr className="flex items-center">
-                <td className="flex items-center gap-x-2 w-10/12">
-                  <Icons type="checkbox" />
-                  Tasks
-                </td>
-                <td className="text-[#475467] w-3/12 ml-4">Type</td>
-                <td className="text-[#475467] w-3/12 -ml-2">Amount paid</td>
-                <td className="flex items-center gap-x-[2px] w-2/12">
-                  Date created <Icons type="arrow-down" />
-                </td>
-                <td className="text-[#475467] text-right w-2/12">Status</td>
-              </tr>
-            </thead>
-      <tbody className="flex flex-col gap-y-4 px-2">
-      <div className="w-full flex text-red-500 justify-center py-4">
-          {isErrorPendingOrders?.response?.data?.message ||
-            " An error occured try again later"}
-        </div>
-      </tbody>
-    </table>
-    )
+        <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
+          <tr className="flex items-center">
+            <td className="flex items-center gap-x-2 w-10/12">
+              <Icons type="checkbox" />
+              Tasks
+            </td>
+            <td className="text-[#475467] w-3/12 ml-4">Type</td>
+            <td className="text-[#475467] w-3/12 -ml-2">Amount paid</td>
+            <td className="flex items-center gap-x-[2px] w-2/12">
+              Date created <Icons type="arrow-down" />
+            </td>
+            <td className="text-[#475467] text-right w-2/12">Status</td>
+          </tr>
+        </thead>
+        <tbody className="flex flex-col gap-y-4 px-2">
+          <div className="w-full flex text-red-500 justify-center py-4">
+            {isErrorPendingOrders?.response?.data?.message ||
+              " An error occured try again later"}
+          </div>
+        </tbody>
+      </table>
+    );
   }
   return (
     <>

@@ -47,7 +47,7 @@ const Transaction = () => {
   };
   const { allTransaction, isLoadingTransaction, isErrorTransaction } =
     UseGetAllTransaction(activePage);
-  console.log(allTransaction)
+  console.log(allTransaction);
   return (
     <>
       <div className="w-full flex items-start py-8">

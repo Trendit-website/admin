@@ -49,10 +49,13 @@ const OrderDetails = () => {
       {orderDetails && (
         <>
           <div className="flex items-center w-full px-4 gap-x-2 text-[14px]">
-              <p onClick={() => router.back()} className="flex cursor-pointer items-center gap-x-2">
-                <Icons type="arrow-back" />
-                Back
-              </p>
+            <p
+              onClick={() => router.back()}
+              className="flex cursor-pointer items-center gap-x-2"
+            >
+              <Icons type="arrow-back" />
+              Back
+            </p>
             <p className="text-[14px]">
               Earn /{" "}
               <span className="text-main">Create {orderDetails?.platform}</span>
