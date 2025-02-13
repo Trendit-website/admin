@@ -1,17 +1,15 @@
 import Icons from "../../Shared/Icons";
 import { UseCapitalise } from "../../../utils/useCapitalise";
 import { useState } from "react";
-import { UseGetAllTransaction } from "../../../api/useGetTransaction";
+import { UseGetAllTransaction, UseGetBalance } from "../../../api/useGetTransaction";
 import { format } from "date-fns";
 const AllTransactionTable = () => {
   const [activePage, setActivePage] = useState(1);
   const { allTransaction, isLoadingTransaction, isErrorTransaction } =
     UseGetAllTransaction(activePage);
-  console.log(allTransaction);
-  const pages = Array.from(
-    { length: allTransaction?.pages ?? 1 },
-    (_, i) => i + 1,
-  );
+  // const { balance, balanceError} = UseGetBalance()
+  // console.log(allTransaction);
+  // console.log(balance, balanceError)
   const NextPage = () => {
     if (allTransaction?.pages) {
       activePage !== allTransaction?.pages
@@ -23,29 +21,14 @@ const AllTransactionTable = () => {
     if (allTransaction?.pages) {
       activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
     }
-  };
-  const showSpecificPage = (page: number) => {
-    setActivePage(page);
-  };
+  }
   return (
     <div className="flex flex-col gap-y-4 bg-white">
-      {isLoadingTransaction && !isErrorTransaction && (
-        <div className="w-full h-screen flex py-8 justify-center">
-          <Icons type="loader" />
-        </div>
-      )}
-      {isErrorTransaction && (
-        <div className="w-full h-screen text-red-500 h-screen text-red-500 py-6 flex justify-center">
-          {isErrorTransaction?.response?.data?.message ||
-            " An error occured try again later"}
-        </div>
-      )}
-      {allTransaction && (
         <>
           <table className="w-full flex flex-col">
             <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
               <tr className="flex items-center">
-                <td className="w-1/12">Type</td>
+                <td className="w-2/12">Type</td>
                 <td className="w-6/12">Description</td>
                 <td className="w-2/12">Transaction Ref</td>
                 <td className="w-2/12 ml-8">Category</td>
@@ -55,13 +38,13 @@ const AllTransactionTable = () => {
               </tr>
             </thead>
             <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
-              {allTransaction?.transactions?.map(
+              {allTransaction && allTransaction.transactions.length > 0 && allTransaction?.transactions?.map(
                 (transaction: any, index: number) => (
                   <tr
                     key={index}
                     className="flex items-center py-4 border-borderColor border-b-[1px] border-solid"
                   >
-                    <td className="w-1/12">
+                    <td className="w-2/12">
                       {UseCapitalise(transaction?.transaction_type)}
                     </td>
                     <td className="w-6/12">
@@ -92,7 +75,7 @@ const AllTransactionTable = () => {
                         {UseCapitalise(transaction?.status)}
                       </div>
                     </td>
-                    <td className={`w-2/12`}>{transaction?.amount}</td>
+                    <td className={`w-2/12`}>₦{transaction?.amount}</td>
                     <td className="w-2/12 text-[#000000]">
                       {format(
                         new Date(transaction?.created_at),
@@ -102,37 +85,43 @@ const AllTransactionTable = () => {
                   </tr>
                 ),
               )}
+              {isErrorTransaction && (
+                      <div className="w-full h-screen text-red-500 h-screen text-red-500 py-6 flex justify-center">
+                        {isErrorTransaction?.response?.data?.message ||
+                          " An error occured try again later"}
+                      </div>
+                    )}
+              {isLoadingTransaction && !isErrorTransaction && (
+                <div className="w-full h-screen flex py-8 justify-center">
+                  <Icons type="loader" />
+                </div>
+              )}
             </tbody>
           </table>
         </>
-      )}
       <div className="flex w-full items-center justify-between px-4 pb-4">
-        {allTransaction ? (
           <div className="flex items-center cursor-pointer gap-x-4">
             <p className="">
-              {activePage} of {allTransaction.pages}
+              {activePage} of {allTransaction ? allTransaction?.pages : activePage}
             </p>
           </div>
-        ) : (
-          <div className="flex items-center justify-center py-4 text-[14px]">
-            pages...
-          </div>
-        )}
         <div className="flex items-center gap-x-4">
-          <div
+          <button
+          disabled={activePage === 1}
             onClick={() => PrevPage()}
-            className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+            className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
           >
             <Icons type="prev" />
             Previous
-          </div>
-          <div
+          </button>
+          <button
+          disabled={activePage === allTransaction?.pages || allTransaction?.total === 0}
             onClick={() => NextPage()}
-            className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+            className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
           >
             Next
             <Icons type="next" />
-          </div>
+          </button>
         </div>
       </div>
     </div>

@@ -8,13 +8,13 @@ import SocialLinkRequest from "./Social-Link-Request";
 import Appeal from "./Appeal";
 
 const Dashboard = () => {
-  const Tabs = ["Overview", "Orders", "Social link Request", "Appeal"];
+  const Tabs = ["Overview", "Orders", "Social link Request"];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   return (
     <section className="w-11/12 flex items-start py-12 gap-x-10">
       <div className="flex flex-col gap-y-6 w-full">
         <AdminProfile />
-        <div className="flex items-center px-10 gap-x-8 w-10/12 pb-4">
+        <div className="flex items-center px-10 pl-12 gap-x-8 w-10/12 pb-2 -mb-4">
           {Tabs.map((tab, index) => (
             <p
               key={index}

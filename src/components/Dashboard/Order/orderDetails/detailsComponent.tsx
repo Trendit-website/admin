@@ -143,7 +143,7 @@ const DetailsComponent = ({ details }: { details: any }) => {
           <div className="text-[#344054] flex items-center justify-between px-4">
             <p className="font-normal">Sub-total</p>
             <p className="font-medium text-secondary">
-              {Number(details?.fee_paid).toLocaleString()}
+            ₦{Number(details?.fee_paid).toLocaleString()}.00
             </p>
           </div>
         </div>

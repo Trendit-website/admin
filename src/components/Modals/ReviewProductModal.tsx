@@ -3,12 +3,10 @@ import Button from "../Shared/Button";
 import Icons from "../Shared/Icons";
 import InputField from "../Shared/InputField";
 import DefaultModal from "./modal";
-import Image from "next/image";
 import { useState } from "react";
 import { reviewType } from "../../utils/schema/productSchema";
 import { UseReviewProduct } from "../../api/useGetProduct";
 import toast from "react-hot-toast";
-import { UseCapitalise } from "../../utils/useCapitalise";
 const ReviewProductModal = ({
   isOpen,
   onClose,

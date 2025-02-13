@@ -7,10 +7,6 @@ const FailedOrders = () => {
   const [activePage, setActivePage] = useState(1);
   const { failedOrders, isLoadingFailedOrders, isErrorFailedOrders } =
     UseGetFailedOrders(activePage);
-  const pages = Array.from(
-    { length: failedOrders?.pages ?? 1 },
-    (_, i) => i + 1,
-  );
   const NextPage = () => {
     if (failedOrders?.pages) {
       activePage !== failedOrders?.pages
@@ -23,22 +19,59 @@ const FailedOrders = () => {
       activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
     }
   };
-  const showSpecificPage = (page: number) => {
-    setActivePage(page);
-  };
-  return (
-    <>
-      {isLoadingFailedOrders && !isErrorFailedOrders && (
-        <div className="w-full flex py-4 justify-center">
+  if(isLoadingFailedOrders && !isErrorFailedOrders) {
+    return (
+      <table className="w-full flex flex-col gap-y-2">
+      <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
+        <tr className="flex items-center">
+          <td className="flex items-center gap-x-2 w-10/12">
+            <Icons type="checkbox" />
+            Tasks
+          </td>
+          <td className="text-[#475467] w-3/12 ml-4">Type</td>
+          <td className="text-[#475467] w-3/12 -ml-2">Amount paid</td>
+          <td className="flex items-center gap-x-[2px] w-2/12">
+            Date created <Icons type="arrow-down" />
+          </td>
+          <td className="text-[#475467] text-right w-2/12">Status</td>
+        </tr>
+      </thead>
+      <tbody className="flex flex-col gap-y-4 px-2">
+      <div className="w-full flex py-4 justify-center">
           <Icons type="loader" />
         </div>
-      )}
-      {isErrorFailedOrders && (
+      </tbody>
+      </table>
+    )
+  }
+  if(isErrorFailedOrders) {
+    return (
+      <table className="w-full flex flex-col gap-y-2">
+      <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
+        <tr className="flex items-center">
+          <td className="flex items-center gap-x-2 w-10/12">
+            <Icons type="checkbox" />
+            Tasks
+          </td>
+          <td className="text-[#475467] w-3/12 ml-4">Type</td>
+          <td className="text-[#475467] w-3/12 -ml-2">Amount paid</td>
+          <td className="flex items-center gap-x-[2px] w-2/12">
+            Date created <Icons type="arrow-down" />
+          </td>
+          <td className="text-[#475467] text-right w-2/12">Status</td>
+        </tr>
+      </thead>
+      <tbody className="flex flex-col gap-y-4 px-2">
         <div className="w-full h-screen flex text-red-500 justify-center py-4">
           {isErrorFailedOrders?.response?.data?.message ||
             " An error occured try again later"}
         </div>
-      )}
+      </tbody>
+      </table>
+    )
+  }
+  return (
+    <>
       {failedOrders && (
         <>
           <table className="w-full flex flex-col gap-y-2">

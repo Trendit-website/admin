@@ -15,7 +15,6 @@ const OrderDetails = () => {
   const { orderDetails, isLoading, isError } = UseGetOrderDetails(
     router.query?.id,
   );
-  console.log(orderDetails);
   const ApproveOrder = (id: number) => {
     UseApproveOrders(id)
       .then((response) => {
@@ -50,12 +49,10 @@ const OrderDetails = () => {
       {orderDetails && (
         <>
           <div className="flex items-center w-full px-4 gap-x-2 text-[14px]">
-            <Link href="/">
-              <p className="flex items-center gap-x-2">
+              <p onClick={() => router.back()} className="flex cursor-pointer items-center gap-x-2">
                 <Icons type="arrow-back" />
                 Back
               </p>
-            </Link>
             <p className="text-[14px]">
               Earn /{" "}
               <span className="text-main">Create {orderDetails?.platform}</span>

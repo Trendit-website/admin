@@ -21,18 +21,6 @@ const OrderPaymentTable = () => {
   };
   return (
     <>
-      {isLoadingInflowPayment && !isErrorInflowPayment && (
-        <div className="w-full h-screen flex py-8 justify-center">
-          <Icons type="loader" />
-        </div>
-      )}
-      {isErrorInflowPayment && (
-        <div className="w-full h-screen text-red-500 h-screen py-8 flex justify-center">
-          {isErrorInflowPayment?.response?.data?.message ||
-            " An error occured try again later"}
-        </div>
-      )}
-      {inflowPayment && (
         <>
           <table className="w-full flex flex-col">
             <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
@@ -46,7 +34,7 @@ const OrderPaymentTable = () => {
               </tr>
             </thead>
             <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
-              {inflowPayment?.transactions?.map(
+              {inflowPayment && inflowPayment.total > 0 && inflowPayment?.transactions?.map(
                 (transaction: any, index: number) => (
                   <tr
                     key={index}
@@ -79,7 +67,7 @@ const OrderPaymentTable = () => {
                       </div>
                     </td>
                     <td className="w-3/12 text-[#4CAF50]">
-                      {transaction?.amount}
+                    ₦{transaction?.amount}
                     </td>
                     <td className="w-2/12 text-[#000000]">
                       {format(
@@ -90,33 +78,45 @@ const OrderPaymentTable = () => {
                   </tr>
                 ),
               )}
+               {isErrorInflowPayment && (
+                <div className="w-full h-screen text-red-500 h-screen py-8 flex justify-center">
+                  {isErrorInflowPayment?.response?.data?.message ||
+                    " An error occured try again later"}
+                </div>
+              )}
+            {isLoadingInflowPayment && !isErrorInflowPayment && (
+                <div className="w-full h-screen flex py-8 justify-center">
+                  <Icons type="loader" />
+                </div>
+              )}
             </tbody>
           </table>
           <div className="flex w-full items-center justify-between px-4 py-6">
             <div className="flex items-center cursor-pointer gap-x-4">
               <p className="">
-                {activePage} of {inflowPayment.pages}
+                {activePage} of {inflowPayment && inflowPayment.pages > 0 ? inflowPayment?.pages : activePage}
               </p>
             </div>
             <div className="flex items-center gap-x-4">
-              <div
+              <button
+              disabled={activePage === 1}
                 onClick={() => PrevPage()}
-                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
               >
                 <Icons type="prev" />
                 Previous
-              </div>
-              <div
+              </button>
+              <button
+                disabled={activePage === inflowPayment.pages || inflowPayment?.total === 0}
                 onClick={() => NextPage()}
-                className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
               >
                 Next
                 <Icons type="next" />
-              </div>
+              </button>
             </div>
           </div>
         </>
-      )}
     </>
   );
 };

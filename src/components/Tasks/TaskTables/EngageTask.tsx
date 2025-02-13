@@ -18,29 +18,14 @@ const EngageTask = () => {
     if (engagementTask?.pages) {
       activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
     }
-  };
-  const showSpecificPage = (page: number) => {
-    setActivePage(page);
-  };
+  }
   const pages = Array.from(
     { length: engagementTask?.pages ?? 1 },
     (_, i) => i + 1,
   );
   return (
     <div className="text-primary-black w-full px-4">
-      {isLoadingEngagementTask && !isErrorEngagementTask && (
-        <div className="flex h-screen justify-center py-6">
-          <Icons type="loader" />
-        </div>
-      )}
-      {isErrorEngagementTask && (
-        <div className="w-full h-screen text-red-500 h-screen text-red-500 flex justify-center">
-          {isErrorEngagementTask?.response?.data?.message ||
-            " An error occured try again later"}
-        </div>
-      )}
       <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
-        {engagementTask && (
           <>
             <div className="flex items-center justify-between w-full px-6 py-4">
               <div className="flex flex-col gap-y-2">
@@ -72,46 +57,59 @@ const EngageTask = () => {
                   <td className="w-2/12">Last updated</td>
                 </tr>
               </thead>
-              <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
-                {engagementTask?.tasks.map((task: any, index: number) => (
-                  <tr
-                    className="flex items-center py-4 border-borderColor border-b-[1px] border-solid"
-                    key={index}
-                  >
-                    <td className="flex items-start gap-x-[5px] w-9/12">
-                      <Link
-                        href={`/orders/${task?.task_key}`}
-                        className="flex items-start gap-x-2"
-                      >
-                        <Icons type={task?.platform} width={20} height={20} />
-                        <div className="flex flex-col gap-y-[3px]">
-                          <p className="text-primary-black text-[14px] font-medium">
-                            {task?.goal?.charAt(0).toUpperCase() +
-                              task?.goal?.slice(1)}{" "}
-                            posts on your{" "}
-                            {task?.platform.charAt(0).toUpperCase() +
-                              task?.platform?.slice(1)}{" "}
-                            page
-                          </p>
-                        </div>
-                      </Link>
-                    </td>
-                    <td className="w-2/12">{task?.engagements_count}</td>
-                    <td className="w-2/12">#110</td>
-                    <td className="w-2/12">
-                      {format(new Date(task?.updated_at), "MMM dd, yyyy")}
-                    </td>
-                    <td>
-                      <Icons type="vertical-dot" />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+              {engagementTask && (
+                <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
+                  {engagementTask?.tasks.map((task: any, index: number) => (
+                    <tr
+                      className="flex items-center py-4 border-borderColor border-b-[1px] border-solid"
+                      key={index}
+                    >
+                      <td className="flex items-start gap-x-[5px] w-9/12">
+                        <Link
+                          href={`/orders/${task?.task_key}`}
+                          className="flex items-start gap-x-2"
+                        >
+                          <Icons type={task?.platform} width={20} height={20} />
+                          <div className="flex flex-col gap-y-[3px]">
+                            <p className="text-primary-black text-[14px] font-medium">
+                              {task?.goal?.charAt(0).toUpperCase() +
+                                task?.goal?.slice(1)}{" "}
+                              posts on your{" "}
+                              {task?.platform.charAt(0).toUpperCase() +
+                                task?.platform?.slice(1)}{" "}
+                              page
+                            </p>
+                          </div>
+                        </Link>
+                      </td>
+                      <td className="w-2/12">{task?.engagements_count}</td>
+                      <td className="w-2/12">₦{Number(task?.fee_paid).toLocaleString()}.00</td>
+                      <td className="w-2/12">
+                        {format(new Date(task?.updated_at), "MMM dd, yyyy")}
+                      </td>
+                      <td>
+                        <Icons type="vertical-dot" />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              )}
+              {isErrorEngagementTask && (
+                <div className="w-full text-red-500 h-screen text-red-500 flex justify-center">
+                  {isErrorEngagementTask?.response?.data?.message ||
+                    " An error occured try again later"}
+                </div>
+              )}
+              {isLoadingEngagementTask && !isErrorEngagementTask && (
+                <div className="flex flex-col h-screen items-center justify-center py-6">
+                  <Icons type="loader" />
+                </div>
+              )}
             </table>
             <div className="flex w-full items-center justify-between px-4 py-6">
               <div className="flex items-center cursor-pointer gap-x-4">
                 <p className="">
-                  {activePage} of {engagementTask.pages}
+                  {activePage} of {engagementTask && engagementTask.pages}
                 </p>
               </div>
               <div className="flex items-center gap-x-4">
@@ -132,7 +130,6 @@ const EngageTask = () => {
               </div>
             </div>
           </>
-        )}
       </div>
     </div>
   );

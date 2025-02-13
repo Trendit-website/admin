@@ -22,16 +22,11 @@ const RequestTable = () => {
     "instagram",
     "threads",
     "whatsapp",
-  ];
-  const [activeStatus, setActiveStatus] = useState<string>();
+  ]
   const [platformTab, setPlatformTab] = useState(platformFilter[0]);
   const { socialRequest, isLoading, isError } = UseGetSocialLinkRequest(
     activePage,
     platformTab,
-  );
-  const pages = Array.from(
-    { length: socialRequest?.total_pages ?? 1 },
-    (_, i) => i + 1,
   );
   const approveRequest = (data: any) => {
     const requestData = {
@@ -75,24 +70,13 @@ const RequestTable = () => {
       activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
     }
   };
-  const showSpecificPage = (page: number) => {
-    setActivePage(page);
-  };
+  if(isLoading && !isError) {
+    
+  }
   return (
     <div className="text-primary-black w-full px-4">
-      {isLoading && !isError && (
-        <div className="w-full h-screen flex justify-center py-8">
-          <Icons type="loader" />
-        </div>
-      )}
-      {isError && (
-        <div className="w-full flex text-red-500 justify-center py-8">
-          An error occured try again later !!!!!
-        </div>
-      )}
-      {socialRequest && (
         <div className="bg-[#FFFFFF] flex flex-col gap-y-4 py-4 text-[12px] w-full">
-          <div className="flex items-center justify-between px-4 py-4">
+          <div className="flex items-center justify-between px-4 py-2">
             <div className="text-primary-black flex flex-col gap-y-2">
               <div className="flex items-center gap-x-4 text-[18px] text-[#101828]">
                 Social Link Request
@@ -104,35 +88,17 @@ const RequestTable = () => {
                 Manage your team members and their account permissions here.
               </span>
             </div>
-            <div className="flex items-center gap-x-2">
-              <div>
-                <p>Filter By</p>
-                <Select className="w-[370px] text-secondary">
-                  {filterParam.map((filter, index) => (
-                    <SelectItem
-                      onClick={() => setActiveStatus(filter)}
-                      key={index}
-                      className="text-secondary"
-                    >
-                      {filter}
-                    </SelectItem>
-                  ))}
-                </Select>
-              </div>
-              <span
-                onClick={() => (
-                  setPlatformTab(platformFilter[0]), setActiveStatus("")
-                )}
-              >
-                <Icons type="cancel" fill="#CB29BE" />
-              </span>
-            </div>
             <span>
               <Icons type="vertical-dot" />
             </span>
           </div>
-          {activeStatus === filterParam[0] && (
-            <div className="flex items-center w-[300px] gap-x-4 pl-4">
+          <div className="flex items-center w-[300px] gap-x-4 pl-4">
+                <p
+                  onClick={() => setPlatformTab(platformFilter[0])}
+                  className={`text-[14px] -mr-4 font-medium cursor-pointer ${platformTab === platformFilter[0] ? "text-main border-b[1px] border-solid border-main" : "text-[#344504]"}`}
+                >
+                All
+                </p>
               {platformFilter.map((platform, index) => (
                 <p
                   onClick={() => setPlatformTab(platform)}
@@ -142,8 +108,7 @@ const RequestTable = () => {
                   {UseCapitalise(platform)}
                 </p>
               ))}
-            </div>
-          )}
+          </div>
           <>
             <table className="w-full flex flex-col gap-y-2">
               <thead className="w-full bg-[#F5F5F5] py-2 px-4 rounded-tr-[12px] rounded-tl-[12px]">
@@ -157,6 +122,8 @@ const RequestTable = () => {
                   <td className="text-[#475467] w-3/12">Action</td>
                 </tr>
               </thead>
+              {socialRequest && (
+                <>
               <tbody className="flex flex-col gap-y-4 w-full">
                 {socialRequest?.social_profiles?.map((profiles, index) => (
                   <tr
@@ -219,8 +186,7 @@ const RequestTable = () => {
                   </tr>
                 ))}
               </tbody>
-            </table>
-            <div className="flex w-full items-center justify-between px-4">
+              <div className="flex w-full items-center justify-between px-4">
               <div className="flex items-center cursor-pointer gap-x-4">
                 <p className="">
                   {activePage} of {socialRequest.total_pages}
@@ -242,10 +208,22 @@ const RequestTable = () => {
                   <Icons type="next" />
                 </div>
               </div>
-            </div>
+              </div>
+              </>
+              )}
+              {isError && (
+                <div className="w-full flex text-red-500 justify-center py-8">
+                  An error occured try again later !!!!!
+                </div>
+              )}
+              {isLoading && !isError && (
+              <div className="w-full h-screen flex justify-center py-8">
+                <Icons type="loader" />
+              </div>
+              )}
+            </table>
           </>
         </div>
-      )}
     </div>
   );
 };
