@@ -55,8 +55,7 @@ const WithdrawRequestTable = () => {
           <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
             {paymentRequest &&
               paymentRequest?.withdrawal_requests?.length > 0 && (
-                <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
-                  {paymentRequest?.withdrawal_requests?.map(
+                  paymentRequest?.withdrawal_requests?.map(
                     (transaction: any, index: number) => (
                       <tr
                         key={index}
@@ -121,9 +120,8 @@ const WithdrawRequestTable = () => {
                           )}
                         </td>
                       </tr>
-                    ),
-                  )}
-                </tbody>
+                    )
+                  )
               )}
             {isLoadingRequest && !isError && (
               <div className="w-full h-full flex py-8 justify-center">
