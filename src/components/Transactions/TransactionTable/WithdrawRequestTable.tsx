@@ -41,18 +41,18 @@ const WithdrawRequestTable = () => {
     <>
       <>
         <table className="w-full flex flex-col">
-          <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
+          <thead className="w-full bg-[#F5F5F5] py-2 rounded-tr-[12px] rounded-tl-[12px]">
             <tr className="flex items-center">
-              <td className="w-3/12">Account Number</td>
-              <td className="w-4/12">Bank Name</td>
+              <td className="w-2/12">Account Number</td>
+              <td className="w-2/12">Bank Name</td>
               <td className="w-3/12">Transaction Ref</td>
-              <td className="w-3/12">Status</td>
-              <td className="w-3/12">Amount</td>
-              <td className="w-3/12">Created time</td>
-              <td className="w-2/12">Action</td>
+              <td className="w-2/12">Status</td>
+              <td className="w-2/12">Amount</td>
+              <td className="w-2/12">Created time</td>
+              <td className="w-1/12">Action</td>
             </tr>
           </thead>
-          <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
+          <tbody className="flex flex-col gap-y-4 text-secondary text-[12px]">
             {paymentRequest &&
               paymentRequest?.withdrawal_requests?.length > 0 && (
                   paymentRequest?.withdrawal_requests?.map(
@@ -61,16 +61,20 @@ const WithdrawRequestTable = () => {
                         key={index}
                         className="flex items-center py-4 border-borderColor border-b-[1px] border-solid"
                       >
-                        <td className="w-3/12">
-                          {UseCapitalise(transaction?.account_no)}
+                        <td className="w-2/12">
+                          {transaction?.account_no}
                         </td>
-                        <td className="w-4/12">
+                        <td className="w-2/12">
                           {UseCapitalise(transaction?.bank_name)}
                         </td>
-                        <td className="w-3/12">{transaction?.reference}</td>
                         <td className="w-3/12">
+                        {transaction?.reference}
+                        </td>
+                        <td className="w-2/12">
                           <div
-                            className={`flex items-center justify-center gap-x-[4px] text-[#067647] text-[12px] w-[92px] h-[22px] rounded-[16px] border-solid border-[1px] border-[#ABEFC6] ${transaction?.status === "complete" && "text-[#067647] border-[#ABEFC6]"} ${transaction?.status === "success" && "text-[#067647] border-[#ABEFC6]"} ${transaction?.status === "pending" && "text-[#F79009] border-[#F79009]"} ${transaction?.status === "FAILED" && "text-[#F04438] border-[#F04438]"}`}
+                            className={`flex items-center justify-center gap-x-[4px] text-[#067647] text-[12px] w-[92px] h-[22px] rounded-[16px] border-solid border-[1px] border-[#ABEFC6]
+                              ${transaction?.status === "complete" && "text-[#067647] border-[#ABEFC6]"} ${transaction?.status === "success" && "text-[#067647] border-[#ABEFC6]"} ${transaction?.status === "pending" && "text-[#F79009] border-[#F79009]"} ${transaction?.status === "FAILED" && "text-[#F04438] border-[#F04438]"}
+                              `}
                           >
                             {transaction?.status === "complete" && (
                               <Icons type="verified-icon" />
@@ -80,24 +84,24 @@ const WithdrawRequestTable = () => {
                             )}
                             {transaction?.status === "pending" && (
                               <Icons type="pending-icon" />
-                            )}
+                             )}
                             {transaction?.status === "FAILED" && (
                               <Icons type="rejected-icon" />
                             )}
                             {UseCapitalise(transaction?.status)}
                           </div>
                         </td>
-                        <td className="w-3/12">
+                        <td className="w-2/12">
                           ₦{Number(transaction?.amount).toLocaleString()}.00
                         </td>
-                        <td className="w-2/12 text-[#000000]">
+                        <td className="text-[#000000] w-2/12">
                           {format(
                             new Date(transaction?.created_at),
                             "MMM-dd-yyyy, HH:mma",
                           )}
                         </td>
-                        <td className="w-2/12 flex justify-center">
-                          {loading.id === transaction.id && loading.state ? (
+                        <td className="flex justify-center w-1/12">
+                          {loading.id === 2 && loading.state ? (
                             <Icons type="loader" />
                           ) : (
                             <div className="flex items-center gap-x-2">
@@ -120,9 +124,9 @@ const WithdrawRequestTable = () => {
                           )}
                         </td>
                       </tr>
-                    )
+                     )
                   )
-              )}
+              )} 
             {isLoadingRequest && !isError && (
               <div className="w-full h-full flex py-8 justify-center">
                 <Icons type="loader" />

@@ -5,7 +5,7 @@ import EarnersTable from "./UsersTable/earnersTable";
 import AdvertisersTable from "./UsersTable/advertisersTable";
 import AffiliatesTable from "./UsersTable/affiliatesTable";
 const Users = () => {
-  const tabs = ["All Users", "Earners", "Advertisers", "Affliates"];
+  const tabs = ["All Users", "Earners", "Advertisers"];
   const [activeTab, setActiveTab] = useState(tabs[0]);
   return (
     <div className="w-full flex flex-col gap-y-12 py-8">
@@ -16,9 +16,9 @@ const Users = () => {
             Check and filter all your medical appointments here
           </span>
         </div>
-        <div className="flex items-center justify-center py-2 gap-x-2 w-[117px] h-[35px] rounded-[8px] bg-[#CB29BE]">
+        {/* <div className="flex items-center justify-center py-2 gap-x-2 w-[117px] h-[35px] rounded-[8px] bg-[#CB29BE]">
           Create <Icons type="plus" />
-        </div>
+        </div> */}
       </div>
       <div
         className={`flex items-center border-b-[1px] border-solid border-borderColor gap-x-8 text-[14px] text-[#344054] w-10/12 m-auto`}
