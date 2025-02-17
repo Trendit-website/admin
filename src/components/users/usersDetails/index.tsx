@@ -38,14 +38,14 @@ const UsersDetails = () => {
             Task ID: RET/15118/{userdetails?.user.id}
           </span>
         </div>
-        <div className="flex items-center gap-x-2">
+        {/* <div className="flex items-center gap-x-2">
           <button className="flex items-center bg-[#CB29BE] py-[8px] px-[12px] rounded-[8px] text-[#ffffff] text-[14px]">
             Action
             <Icons type="dropdown" fill="#FFFFFF" />
           </button>
-        </div>
+        </div> */}
       </div>
-      <div className="w-full px-4 flex flex-col gap-y-2">
+      <div className="w-full px-4 flex flex-col gap-y-4">
         {userdetails?.user?.profile_picture ? (
           <Image
             src={userdetails?.user?.profile_picture}

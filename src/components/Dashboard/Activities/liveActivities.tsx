@@ -5,7 +5,7 @@ import Image from "next/image";
 const LiveActivities = () => {
   const [activePage, setActivePage] = useState<number>(1);
   const { liveActivities, isLoading, isError } =
-    UseGetLiveActivities(activePage);
+    UseGetLiveActivities(activePage)
   const NextPage = () => {
     if (liveActivities?.pages) {
       activePage !== liveActivities?.pages
@@ -53,7 +53,7 @@ const LiveActivities = () => {
                 <div className="flex flex-col gap-y-[4px] -mt-[5px]">
                   <span>{item.title}</span>
                   <p>
-                    {item?.body} <span className="text-main">View</span>
+                    {item?.body}
                   </p>
                 </div>
               </div>
