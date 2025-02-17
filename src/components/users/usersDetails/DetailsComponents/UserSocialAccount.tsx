@@ -19,8 +19,8 @@ const UserSocialAccount = ({
           <Icons type="vertical-dot" />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4 overflow-y-scroll">
-        {details?.social_profiles.map((social, index) => (
+      <div className="grid w-full grid-cols-2 gap-4 overflow-y-scroll">
+        {details && details.social_profiles.length > 0 &&  details?.social_profiles.map((social, index) => (
           <div
             key={index}
             className="flex items-start px-2 py-4 gap-x-4 rounded-[4px] bg-[#FFFFFF] w-12/12 border-solid border-[1px] border-borderColor"
@@ -51,6 +51,11 @@ const UserSocialAccount = ({
             </div>
           </div>
         ))}
+      {details && details.social_profiles.length === 0 && (
+        <div className="flex w-full items-center justify-center py-6">
+          No Linked Accounts
+        </div>
+      )}
       </div>
     </div>
   );

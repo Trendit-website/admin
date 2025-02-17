@@ -7,10 +7,11 @@ import { useForm } from "react-hook-form";
 import InputField from "../../Shared/InputField";
 import { FilterUserEmail } from "../../../api/useGetUsers";
 import { format } from "date-fns";
+import { useRouter } from "next/router";
 const EarnersTable = () => {
   const [activePage, setActivePage] = useState(1);
   const { allEarners, isLoading, isError } = UseGetAllEarners(activePage);
-  const pages = Array.from({ length: allEarners?.pages ?? 1 }, (_, i) => i + 1);
+  const router = useRouter()
   const form = useForm();
   const { watch, register } = form;
   const searchParam = watch("searchValue");
@@ -40,18 +41,6 @@ const EarnersTable = () => {
   };
   return (
     <div className="text-primary-black w-full px-4">
-      {isLoading && !isError && (
-        <div className="w-full h-screen py-8 flex justify-center">
-          <Icons type="loader" />
-        </div>
-      )}
-      {isError && (
-        <div className="w-full py-8 h-screen text-red-500 flex justify-center">
-          {isError?.response?.data?.message ||
-            " An error occured try again later"}
-        </div>
-      )}
-      {allEarners && (
         <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
           <>
             <div className="flex items-center justify-between w-full px-6 py-4">
@@ -64,9 +53,9 @@ const EarnersTable = () => {
                     {allEarners?.total}
                   </div>
                 </div>
-                <span>
+                {/* <span>
                   Manage your team members and their account permissions here.
-                </span>
+                </span> */}
               </div>
               <InputField
                 register={register("searchValue")}
@@ -133,35 +122,35 @@ const EarnersTable = () => {
             <table className="w-full flex flex-col">
               <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
                 <tr className="flex items-center">
-                  <td className="flex items-center w-7/12">
+                  <td className="flex items-center w-5/12">
                     <div className="flex items-center gap-x-3">
                       <Icons type="checkbox" />
                       Name
                     </div>
                   </td>
                   <td className="w-5/12">
-                    <div>Email Address</div>
+                    Email Address
                   </td>
-                  <td className="flex items-center w-3/12">
-                    <div>Phone Number</div>
+                  <td className="w-4/12">
+                    Phone Number
                   </td>
-                  <td className="w-3/12">
-                    <div>Total Referred</div>
+                  <td className="w-4/12">
+                    Total Referred
                   </td>
-                  <td className="w-3/12">
-                    <div>Last Login</div>
+                  <td className="w-4/12">
+                    Last Login
                   </td>
                 </tr>
               </thead>
               <tbody className="flex flex-col gap-y-2 text-secondary text-[12px]">
-                {allEarners?.users.map((user, index) => (
+                {allEarners && allEarners.users.length > 0 && allEarners?.users.map((user, index) => (
                   <tr
                     key={index}
-                    className="flex items-center px-8 py-2 border-b-[1px] pb-2 border-solid border-borderColor"
+                    onClick={() => router.push(`/users/${user?.id}`)}
+                    className="flex items-center cursor-pointer px-8 py-2 border-b-[1px] pb-2 border-solid border-borderColor"
                   >
-                    <td className="flex items-center gap-x-2 w-7/12">
-                      <Link
-                        href={`/users/${user?.id}`}
+                    <td className="flex items-center gap-x-2 w-5/12">
+                      <div
                         className="flex items-center gap-x-2"
                       >
                         <Icons type="checkbox" />
@@ -184,42 +173,54 @@ const EarnersTable = () => {
                             <span>{user?.username}</span>
                           </div>
                         </div>
-                      </Link>
+                      </div>
                     </td>
-                    <td className="w-6/12">{user?.email}</td>
+                    <td className="w-5/12">{user?.email}</td>
                     <td className="w-4/12">{user?.phone}</td>
-                    <td className="w-3/12">{user?.total_referrals}</td>
-                    {format(new Date(user?.date_joined), "MMM dd, yyyy hh:mma")}
+                    <td className="w-4/12">{user?.total_referrals || 0}</td>
+                    <td className="w-4/12">{format(new Date(user?.date_joined), "MMM dd, yyyy hh:mma")}</td>
                   </tr>
                 ))}
+                  {isLoading && !isError && (
+        <div className="w-full h-screen py-8 flex justify-center">
+          <Icons type="loader" />
+        </div>
+      )}
+      {isError && (
+        <div className="w-full py-8 h-screen text-red-500 flex justify-center">
+          {isError?.response?.data?.message ||
+            " An error occured try again later"}
+        </div>
+      )}
               </tbody>
             </table>
             <div className="flex w-full items-center justify-between px-4 py-6">
               <div className="flex items-center cursor-pointer gap-x-4">
                 <p className="">
-                  {activePage} of {allEarners.pages}
+                  {activePage} of {allEarners &&  allEarners.pages || activePage}
                 </p>
               </div>
               <div className="flex items-center gap-x-4">
-                <div
+                <button
+                disabled={activePage === 1}
                   onClick={() => PrevPage()}
-                  className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                  className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
                 >
                   <Icons type="prev" />
                   Previous
-                </div>
-                <div
+                </button>
+                <button
                   onClick={() => NextPage()}
-                  className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                  disabled={activePage === allEarners?.pages}
+                  className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
                 >
                   Next
                   <Icons type="next" />
-                </div>
+                </button>
               </div>
             </div>
           </>
         </div>
-      )}
     </div>
   );
 };

@@ -13,10 +13,9 @@ const Userstransaction = ({
         <div className="flex flex-col">
           <p className="text-[15px]">Wallet bal:</p>
           <div className="text-[32px]">
-            {details?.user.wallet.currency_symbol}{" "}
-            {Number(
+            {details?.user.wallet.currency_symbol}{" "}{Number(
               details?.transaction_metrics.wallet_balance,
-            ).toLocaleString()}
+            ).toLocaleString()}.00
           </div>
         </div>
         <div className="flex items-center justify-center rounded-[125px] w-[35px] h-[35px] border-[1px] border-solid border-[#DADADA]">
@@ -32,7 +31,7 @@ const Userstransaction = ({
         </div>
         <table className="w-full">
           <tbody className="flex flex-col h-[350px] pt-2 overflow-y-scroll gap-y-4">
-            {details?.transaction_metrics.transactions_history?.map(
+            {details && details.transaction_metrics.transactions_history.length > 0 && details?.transaction_metrics.transactions_history?.map(
               (transaction, index) => (
                 <tr
                   key={index}
@@ -46,9 +45,6 @@ const Userstransaction = ({
                     {details.user.username} <br />
                     {format(new Date(transaction?.created_at), "MM/yyyy")}
                   </td>
-                  <td className="w-3/12">
-                    {UseCapitalise(transaction.status)}
-                  </td>
                   <td
                     className={
                       transaction?.transaction_type === "debit"
@@ -60,6 +56,11 @@ const Userstransaction = ({
                   </td>
                 </tr>
               ),
+            )}
+            {details && details.transaction_metrics.transactions_history.length === 0 && (
+              <div className="flex items-center justify-center w-full py-6">
+                No Transactions
+              </div>
             )}
           </tbody>
         </table>

@@ -46,7 +46,9 @@ const UsersDeatailsInsight = ({
             <p className="text-[14px] text-[#475467]">{report.label}</p>
             <div className="flex items-center gap-x-2">
               <span className="text-primary-black text-[30px]">
-                #{Number(report.value).toLocaleString()}
+                {report.label !== "Total Transactions" && "₦"}
+                {report.value ? Number(report.value).toLocaleString() : 0}
+                {report.label !== "Total Transactions" && ".00"}
               </span>
             </div>
           </div>

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import InputField from "../../Shared/InputField";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 const UsersTable = () => {
   const [activePage, setActivePage] = useState(1);
   const form = useForm();
@@ -21,7 +22,7 @@ const UsersTable = () => {
     }
   }, [searchParam, searchData]);
   const { allUsers, isLoading, isError } = UseGetAllUsers(activePage);
-  const pages = Array.from({ length: allUsers?.pages ?? 1 }, (_, i) => i + 1);
+  const router = useRouter()
   const NextPage = () => {
     if (allUsers?.pages) {
       activePage !== allUsers?.pages
@@ -34,23 +35,8 @@ const UsersTable = () => {
       activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
     }
   };
-  const showSpecificPage = (page: number) => {
-    setActivePage(page);
-  };
   return (
     <div className="text-primary-black w-full px-4">
-      {isLoading && !isError && (
-        <div className="w-full h-screen py-8 flex justify-center">
-          <Icons type="loader" />
-        </div>
-      )}
-      {isError && (
-        <div className="w-full py-8 text-red-500 flex justify-center">
-          {isError?.response?.data?.message ||
-            " An error occured try again later"}
-        </div>
-      )}
-      {allUsers && (
         <div className="bg-[#FFFFFF] text-[12px] w-11/12 m-auto border-[1px] border-solid border-primary-border rounded-[12px]">
           <>
             <div className="flex items-center justify-between w-full px-6 py-4">
@@ -153,14 +139,14 @@ const UsersTable = () => {
                 </tr>
               </thead>
               <tbody className="flex flex-col gap-y-2 text-secondary text-[12px]">
-                {allUsers?.users.map((user, index) => (
+                {allUsers && allUsers.users.length > 0 && allUsers?.users.map((user, index) => (
                   <tr
                     key={index}
-                    className="flex items-center px-8 py-2 border-b-[1px] pb-2 border-solid border-borderColor"
+                    onClick={() => router.push(`/users/${user?.id}`)}
+                    className="flex items-center cursor-pointer px-8 py-2 border-b-[1px] pb-2 border-solid border-borderColor"
                   >
                     <td className="flex items-center gap-x-2 w-7/12">
-                      <Link
-                        href={`/users/${user?.id}`}
+                      <div
                         className="flex items-center gap-x-2"
                       >
                         <Icons type="checkbox" />
@@ -183,11 +169,11 @@ const UsersTable = () => {
                             <span>{user?.username}</span>
                           </div>
                         </div>
-                      </Link>
+                      </div>
                     </td>
                     <td className="w-6/12">{user?.email}</td>
                     <td className="w-4/12">{user?.phone}</td>
-                    <td className="w-3/12">{user?.total_referrals}</td>
+                    <td className="w-3/12">{user?.total_referrals || 0}</td>
                     <td className="w-3/12">
                       {format(
                         new Date(user?.date_joined),
@@ -196,34 +182,52 @@ const UsersTable = () => {
                     </td>
                   </tr>
                 ))}
+                {allUsers && allUsers.total === 0 && (
+                  <div className="w-full text-center text-[16px] py-6">
+                    No users
+                  </div>
+                )}
+                {isLoading && !isError && (
+        <div className="w-full h-screen py-8 flex justify-center py-6">
+          <Icons type="loader" />
+        </div>
+      )}
+      {isError && (
+        <div className="w-full py-8 text-red-500 flex justify-center py-6">
+          {isError?.response?.data?.message ||
+            " An error occured try again later"}
+        </div>
+      )}
               </tbody>
             </table>
             <div className="flex w-full items-center justify-between px-4 py-6">
               <div className="flex items-center cursor-pointer gap-x-4">
                 <p className="">
-                  {activePage} of {allUsers.pages}
+                  {activePage} of {allUsers &&  allUsers?.pages || activePage}
                 </p>
               </div>
               <div className="flex items-center gap-x-4">
-                <div
+                <button
                   onClick={() => PrevPage()}
-                  className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+                  disabled={activePage === 1}
+                  className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
                 >
                   <Icons type="prev" />
                   Previous
-                </div>
-                <div
+                </button>
+                <button
+                disabled={activePage === allUsers?.pages}
                   onClick={() => NextPage()}
-                  className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+
+                  className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
                 >
                   Next
                   <Icons type="next" />
-                </div>
+                </button>
               </div>
             </div>
           </>
         </div>
-      )}
     </div>
   );
 };
