@@ -11,10 +11,12 @@ import { UseCapitalise } from "../../../utils/useCapitalise";
 import { UseFormatStatus } from "../../../utils/useFormatStatus";
 import { UseTrunicate } from "../../../utils/useTrunicate";
 import toast from "react-hot-toast";
-import { Select, SelectItem } from "@nextui-org/react";
-const RequestTable = () => {
-  const [activePage, setActivePage] = useState(1);
-  const filterParam = ["Platform"];
+import { useRouter, useSearchParams } from "next/navigation";
+const RequestTable = ({tab}: {tab: string}) => {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage || 1);
+  const router = useRouter()
   const platformFilter = [
     "",
     "x",
@@ -61,13 +63,13 @@ const RequestTable = () => {
   const NextPage = () => {
     if (socialRequest?.total_pages) {
       activePage !== socialRequest?.total_pages
-        ? setActivePage((prevPage) => prevPage + 1)
+        ? (setActivePage((prevPage) => prevPage + 1), router.push(`/dashboard?tab=${tab}&page=${activePage + 1}`))
         : "";
     }
   };
   const PrevPage = () => {
     if (socialRequest?.total_pages) {
-      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      activePage === 1 ? "" : (setActivePage((prevPage) => prevPage - 1), router.push(`/dashboard?tab=${tab}&page=${activePage - 1}`));
     }
   };
   if (isLoading && !isError) {

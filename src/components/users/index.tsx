@@ -1,12 +1,15 @@
 import { useState } from "react";
-import Icons from "../Shared/Icons";
 import UsersTable from "./UsersTable/usersTable";
 import EarnersTable from "./UsersTable/earnersTable";
 import AdvertisersTable from "./UsersTable/advertisersTable";
 import AffiliatesTable from "./UsersTable/affiliatesTable";
+import { useRouter, useSearchParams } from "next/navigation";
 const Users = () => {
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab");
   const tabs = ["All Users", "Earners", "Advertisers"];
-  const [activeTab, setActiveTab] = useState(tabs[0]);
+  const [activeTab, setActiveTab] = useState(currentTab || tabs[0]);
+  const router = useRouter()
   return (
     <div className="w-full flex flex-col gap-y-12 py-8">
       <div className="flex items-center m-auto justify-between w-10/12">
@@ -26,16 +29,16 @@ const Users = () => {
         {tabs.map((tab, index) => (
           <p
             key={index}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => (setActiveTab(tab), router.push(`/users?tab=${tab}`))}
             className={`pb-2 cursor-pointer ${activeTab === tab ? "text-main border-b-[1px] border-solid border-main" : "text-secondary"}`}
           >
             {tab}
           </p>
         ))}
       </div>
-      {activeTab === tabs[0] && <UsersTable />}
-      {activeTab === tabs[1] && <EarnersTable />}
-      {activeTab === tabs[2] && <AdvertisersTable />}
+      {activeTab === tabs[0] && <UsersTable tab={activeTab} />}
+      {activeTab === tabs[1] && <EarnersTable tab={activeTab}/>}
+      {activeTab === tabs[2] && <AdvertisersTable tab={activeTab}/>}
       {activeTab === tabs[3] && <AffiliatesTable />}
     </div>
   );
