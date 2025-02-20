@@ -7,14 +7,16 @@ import Image from "next/image";
 import { UseGetProducts } from "../../../api/useGetProduct";
 import { useDisclosure } from "@nextui-org/react";
 import ReviewProductModal from "../../Modals/ReviewProductModal";
+import { useRouter } from "next/router";
 
 const MarketPlaceTable = () => {
   const Tabs = ["Review"];
   const [activePage, setActivePage] = useState(1);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [activeTab, setActiveTab] = useState(Tabs[0]);
-  const { allProductError, allProducts } = UseGetProducts(activePage);
+  const { allProductError, allProducts } = UseGetProducts(activePage)
   const [option, setOption] = useState({ id: null, status: "" });
+  const router = useRouter()
   return (
     <div className="w-full flex items-start py-8">
       <div className="flex flex-col text-primary-black gap-y-8 py-6 w-9/12">
@@ -25,10 +27,10 @@ const MarketPlaceTable = () => {
               Check and filter all your medical appointments here
             </span>
           </h1>
-          <div className="flex items-center justify-around bg-main text-[#FFFFFF] w-[117px] h-[36px] py-[2px] px-[6px] rounded-[6px]">
+          {/* <div className="flex items-center justify-around bg-main text-[#FFFFFF] w-[117px] h-[36px] py-[2px] px-[6px] rounded-[6px]">
             Create
             <Icons type="plus" />
-          </div>
+          </div> */}
         </div>
         <div
           className={`flex items-center w-10/12 border-b-[1px] m-auto border-solid border-gray gap-x-12`}
@@ -79,12 +81,12 @@ const MarketPlaceTable = () => {
                   <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
                     {allProducts.products.map((product, index) => (
                       <tr
-                        className="flex items-center py-4 border-borderColor border-b-[1px] border-solid"
+                        className="flex cursor-pointer items-center py-4 border-borderColor border-b-[1px] border-solid"
                         key={index}
+                        onClick={() => router.push(`/marketplace/${product.product_id}`)}
                       >
                         <td className="flex items-start gap-x-[5px] w-5/12">
-                          <Link
-                            href={`/marketplace/${product.product_id}`}
+                          <div
                             className="flex items-start gap-x-2"
                           >
                             <div className="flex items-center gap-x-[3px]">
@@ -103,7 +105,7 @@ const MarketPlaceTable = () => {
                                 {product.name}
                               </p>
                             </div>
-                          </Link>
+                          </div>
                         </td>
                         <td className="w-3/12">
                           #{product.price.toLocaleString()}.00
@@ -167,12 +169,9 @@ const MarketPlaceTable = () => {
           </table>
           <div className="flex w-full items-center justify-between px-4 py-6">
             <div className="flex items-center cursor-pointer gap-x-4">
-              {allProducts && (
                 <p className="">
-                  {allProducts.current_page} of {allProducts.total_pages}
+                  {activePage} of {allProducts ? allProducts.total_pages : activePage}
                 </p>
-              )}
-              {!allProducts && <p className="text-primary-black">pages...</p>}
             </div>
             <div className="flex items-center gap-x-4">
               <div

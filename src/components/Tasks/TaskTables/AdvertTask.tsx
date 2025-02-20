@@ -3,20 +3,24 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { UseGetAdvertTask } from "../../../api/useGetTask";
 import Link from "next/link";
-const AdvertTask = () => {
-  const [activePage, setActivePage] = useState(1);
+import { useRouter, useSearchParams } from "next/navigation";
+const AdvertTask = ({tab}: {tab: string}) => {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage || 1);
+  const router = useRouter()
   const { advertTask, isLoadingAdvertTask, isErrorAdvertTask } =
     UseGetAdvertTask(activePage);
   const NextPage = () => {
     if (advertTask?.pages) {
       activePage !== advertTask?.pages
-        ? setActivePage((prevPage) => prevPage + 1)
+        ? (setActivePage((prevPage) => prevPage + 1), router.push(`/task?tab=${tab}&page=${activePage + 1}`))
         : "";
     }
   };
   const PrevPage = () => {
     if (advertTask?.pages) {
-      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      activePage === 1 ? "" : (setActivePage((prevPage) => prevPage - 1), router.push(`/task?tab=${tab}&page=${activePage - 1}`));
     }
   };
   return (
@@ -62,7 +66,7 @@ const AdvertTask = () => {
                   >
                     <td className="flex items-start gap-x-[5px] w-9/12">
                       <Link
-                        href={`/orders/${task?.task_key}`}
+                        href={`/orders/${task?.task_key}?page=${activePage}`}
                         className="flex items-start gap-x-2"
                       >
                         <Icons type={task?.platform} width={20} height={20} />

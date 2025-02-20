@@ -3,20 +3,24 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { UseGetEngagementTask } from "../../../api/useGetTask";
 import Link from "next/link";
-const EngageTask = () => {
-  const [activePage, setActivePage] = useState(1);
+import { useRouter, useSearchParams } from "next/navigation";
+const EngageTask = ({tab}: {tab: string}) => {
+  const searchParams = useSearchParams();
+  const router = useRouter()
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage || 1);
   const { engagementTask, isLoadingEngagementTask, isErrorEngagementTask } =
     UseGetEngagementTask(activePage);
   const NextPage = () => {
     if (engagementTask?.pages) {
       activePage !== engagementTask?.pages
-        ? setActivePage((prevPage) => prevPage + 1)
+        ? (setActivePage((prevPage) => prevPage + 1), router.push(`/task?tab=${tab}&page=${activePage + 1}`))
         : "";
     }
   };
   const PrevPage = () => {
     if (engagementTask?.pages) {
-      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      activePage === 1 ? "" : (setActivePage((prevPage) => prevPage - 1),  router.push(`/task?tab=${tab}&page=${activePage - 1}`));
     }
   };
   const pages = Array.from(

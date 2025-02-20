@@ -7,8 +7,11 @@ import { format } from "date-fns";
 import InputField from "../../Shared/InputField";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-const UsersTable = () => {
-  const [activePage, setActivePage] = useState(1);
+import { useSearchParams } from "next/navigation";
+const UsersTable = ({tab}: {tab: string}) => {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage || 1);
   const form = useForm();
   const { watch, register } = form;
   const searchParam = watch("searchValue");
@@ -26,13 +29,13 @@ const UsersTable = () => {
   const NextPage = () => {
     if (allUsers?.pages) {
       activePage !== allUsers?.pages
-        ? setActivePage((prevPage) => prevPage + 1)
+        ? (setActivePage((prevPage) => prevPage + 1), router.push(`/users?tab=${tab}&page=${activePage + 1}`))
         : "";
     }
   };
   const PrevPage = () => {
     if (allUsers?.pages) {
-      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      activePage === 1 ? "" : (setActivePage((prevPage) => prevPage - 1), router.push(`/users?tab=${tab}&page=${activePage - 1}`));
     }
   };
   return (

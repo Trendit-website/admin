@@ -8,8 +8,11 @@ import InputField from "../../Shared/InputField";
 import { FilterUserEmail } from "../../../api/useGetUsers";
 import { format } from "date-fns";
 import { useRouter } from "next/router";
-const EarnersTable = () => {
-  const [activePage, setActivePage] = useState(1);
+import { useSearchParams } from "next/navigation";
+const EarnersTable = ({tab}: {tab: string}) => {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage || 1);
   const { allEarners, isLoading, isError } = UseGetAllEarners(activePage);
   const router = useRouter()
   const form = useForm();
@@ -27,13 +30,13 @@ const EarnersTable = () => {
   const NextPage = () => {
     if (allEarners?.pages) {
       activePage !== allEarners?.pages
-        ? setActivePage((prevPage) => prevPage + 1)
+        ? (setActivePage((prevPage) => prevPage + 1), router.push(`/users?tab=${tab}&page=${activePage + 1}`))
         : "";
     }
   };
   const PrevPage = () => {
     if (allEarners?.pages) {
-      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      activePage === 1 ? "" : (setActivePage((prevPage) => prevPage - 1), router.push(`/users?tab=${tab}&page=${activePage - 1}`));
     }
   };
   const showSpecificPage = (page: number) => {

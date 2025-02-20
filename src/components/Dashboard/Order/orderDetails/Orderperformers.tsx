@@ -131,7 +131,7 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
                         !performer?.post_link && (
                           <td className="w-3/12 ">No proof provided</td>
                         )}
-                      {performer?.proof_screenshot_path && (
+                      {performer?.proof_screenshot_path && !performer?.post_link && (
                         <td
                           className="w-3/12 flex flex-col cursor-pointer"
                           onClick={() =>
@@ -139,13 +139,32 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
                           }
                         >
                           View Screenshot
-                          {performer?.post_link !== "" &&
-                            performer?.post_link !== "undefined" && (
-                              <a href={performer?.post_link} target="_blank">
-                                View Post
-                              </a>
-                            )}
                         </td>
+                      )}
+                      {performer.proof_screenshot_path && performer.post_link && (
+                       <td
+                       className="w-3/12 flex flex-col cursor-pointer"
+                       onClick={() =>
+                         showModal(performer?.proof_screenshot_path)
+                       }
+                     >
+                       View Screenshot
+                       {performer?.post_link !== "" &&
+                         performer?.post_link !== "undefined" && (
+                           <a href={performer?.post_link} target="_blank">
+                             View Post
+                           </a>
+                         )}
+                     </td>                      
+                      )}
+                      {performer?.post_link && !performer?.proof_screenshot_path && (
+                        <td
+                        className="w-3/12 flex flex-col cursor-pointer"
+                        >
+                          <a href={performer?.post_link} target="_blank">
+                            View Post
+                          </a>
+                      </td>                        
                       )}
                       <td
                         className={`w-3/12 flex items-center gap-x-2 ${UseFormatStatus(performer?.status)}`}

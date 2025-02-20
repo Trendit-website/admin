@@ -3,8 +3,11 @@ import { useState } from "react";
 import Icons from "../../../Shared/Icons";
 import Link from "next/link";
 import { format } from "date-fns";
+import { useSearchParams } from "next/navigation";
 const AllOrders = () => {
-  const [activePage, setActivePage] = useState(1);
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage);
   const { orders, isLoading, isError } = UseGetOrders(activePage);
   const NextPage = () => {
     if (orders?.pages) {

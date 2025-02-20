@@ -8,8 +8,11 @@ import { FilterUserEmail } from "../../../api/useGetUsers";
 import { UseGetAllAdvertisers } from "../../../api/useGetUsers";
 import { format } from "date-fns";
 import { useRouter } from "next/router";
-const AdvertisersTable = () => {
-  const [activePage, setActivePage] = useState(1);
+import { useSearchParams } from "next/navigation";
+const AdvertisersTable = ({tab}: {tab: string}) => {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage || 1);
   const { allAdvertisers, isLoading, isError } =
     UseGetAllAdvertisers(activePage);
   const form = useForm();
@@ -28,13 +31,13 @@ const AdvertisersTable = () => {
   const NextPage = () => {
     if (allAdvertisers?.pages) {
       activePage !== allAdvertisers?.pages
-        ? setActivePage((prevPage) => prevPage + 1)
+        ? (setActivePage((prevPage) => prevPage + 1), router.push(`/users?tab=${tab}&page=${activePage + 1}`))
         : "";
     }
   };
   const PrevPage = () => {
     if (allAdvertisers?.pages) {
-      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      activePage === 1 ? "" : (setActivePage((prevPage) => prevPage - 1), router.push(`/users?tab=${tab}&page=${activePage - 1}`));
     }
   };
   const showSpecificPage = (page: number) => {
