@@ -3,20 +3,24 @@ import { UseGetInflowPayment } from "../../../api/useGetTransaction";
 import { UseCapitalise } from "../../../utils/useCapitalise";
 import { useState } from "react";
 import { format } from "date-fns";
-const OrderPaymentTable = () => {
-  const [activePage, setActivePage] = useState(1);
+import { useRouter, useSearchParams } from "next/navigation";
+const OrderPaymentTable = ({tab}: {tab: string}) => {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage || 1);
+  const router = useRouter()
   const { inflowPayment, isLoadingInflowPayment, isErrorInflowPayment } =
     UseGetInflowPayment(activePage);
   const NextPage = () => {
     if (inflowPayment?.pages) {
       activePage !== inflowPayment?.pages
-        ? setActivePage((prevPage) => prevPage + 1)
+        ? (setActivePage((prevPage) => prevPage + 1), router.push(`/transactions?tab=${tab}&page=${activePage + 1}`))
         : "";
     }
   };
   const PrevPage = () => {
     if (inflowPayment?.pages) {
-      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      activePage === 1 ? "" : (setActivePage((prevPage) => prevPage - 1), router.push(`/transactions?tab=${tab}&page=${activePage - 1}`));
     }
   };
   return (
@@ -113,7 +117,7 @@ const OrderPaymentTable = () => {
             </button>
             <button
               disabled={
-                activePage === inflowPayment.pages || inflowPayment?.total === 0
+                activePage === inflowPayment?.pages || inflowPayment?.total === 0
               }
               onClick={() => NextPage()}
               className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"

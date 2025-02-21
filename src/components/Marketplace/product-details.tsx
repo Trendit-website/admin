@@ -11,9 +11,7 @@ import ReviewProductModal from "../Modals/ReviewProductModal";
 
 const ProductDetails = () => {
   const router = useRouter();
-  const { details, detailsError } = UsegetProductDetails(router.query?.id);
-  console.log(router.query?.id)
-  console.log(details)
+  const { details, detailsError } = UsegetProductDetails(router.query?.id)
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [action, setAction] = useState<string>();
   const [modals, setModal] = useState({

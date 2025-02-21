@@ -2,6 +2,7 @@ import Icons from "../../Shared/Icons";
 import Image from "next/image";
 import { UseGetAdmins } from "../../../api/useGetAdmins";
 import CreateAdminModal from "../../Modals/CreateAdminModal";
+import { format } from "date-fns";
 const Admins = ({
   isOpen,
   onClose,
@@ -9,7 +10,7 @@ const Admins = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const { admins, isLoadingAdmins, isErrorAdmins } = UseGetAdmins();
+  const { admins, isLoadingAdmins, isErrorAdmins } = UseGetAdmins()
   return (
     <>
       <table className="w-11/12 flex flex-col m-auto ">
@@ -19,9 +20,8 @@ const Admins = ({
               <Icons type="checkbox" />
               Name
             </td>
-            <td className="w-2/12">Roles</td>
-            <td className="w-2/12">Date Added</td>
-            <td className="w-2/12">Last Active</td>
+            <td className="w-4/12">Roles</td>
+            <td className="w-4/12">Date Added</td>
           </tr>
         </thead>
         <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-4">
@@ -63,16 +63,12 @@ const Admins = ({
                     </span>
                   </div>
                 </td>
-                <td className="w-2/12 flex flex-col">
+                <td className="w-4/12 flex flex-col">
                   {admin.roles?.map((item: string, index: number) => (
                     <li key={index}>{item}</li>
                   ))}
                 </td>
-                <td className="w-2/12">Feb 22, 2024</td>
-                <td className="w-2/12">Feb 22, 2024</td>
-                <td>
-                  <Icons type="vertical-dot" />
-                </td>
+                <td className="w-4/12">{format(new Date(admin?.date_joined), "MMM dd, yyyy")}</td>
               </tr>
             ))}
         </tbody>

@@ -56,11 +56,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
           </Link>
         </div>
         <div className="flex items-center gap-x-4">
-          <div>
+          {/* <div>
             <span>
               <Icons type="search" />
             </span>
-          </div>
+          </div> */}
           <Link href="/settings">
             <div
               className={

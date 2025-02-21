@@ -7,15 +7,19 @@ import { UseCapitalise } from "../../../utils/useCapitalise";
 import Icons from "../../Shared/Icons";
 import { useState } from "react";
 import toast from "react-hot-toast";
-const WithdrawRequestTable = () => {
-  const [activePage, setActivePage] = useState(1);
+import { useRouter, useSearchParams } from "next/navigation";
+const WithdrawRequestTable = ({tab}: {tab: string}) => {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage || 1);
+  const router = useRouter()
   const [loading, setLoading] = useState({ id: 0, state: false });
   const { paymentRequest, isLoadingRequest, isError } =
     UseGetPaymentRequest(activePage);
   const NextPage = () => {
     if (paymentRequest?.pages) {
       activePage !== paymentRequest?.pages
-        ? setActivePage((prevPage) => prevPage + 1)
+        ? (setActivePage((prevPage) => prevPage + 1), router.push(`/transactions?tab=${tab}&page=${activePage + 1}`))
         : "";
     }
   };
@@ -34,7 +38,7 @@ const WithdrawRequestTable = () => {
   };
   const PrevPage = () => {
     if (paymentRequest?.pages) {
-      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      activePage === 1 ? "" : (setActivePage((prevPage) => prevPage - 1), router.push(`/transactions?tab=${tab}&page=${activePage - 1}`))
     }
   };
   return (
