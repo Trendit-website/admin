@@ -3,7 +3,7 @@ import Icons from "../Shared/Icons";
 import AdvertTask from "./TaskTables/AdvertTask";
 import EngageTask from "./TaskTables/EngageTask";
 import Activities from "../Dashboard/Activities";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation"
 const Task = () => {
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab");

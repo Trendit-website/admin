@@ -5,24 +5,25 @@ import {
   UseGetAllTransaction,
   UseGetBalance,
 } from "../../../api/useGetTransaction";
+import { useRouter, useSearchParams } from "next/navigation";
 import { format } from "date-fns";
-const AllTransactionTable = () => {
-  const [activePage, setActivePage] = useState(1);
+const AllTransactionTable = ({tab}: {tab: string}) => {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage || 1);
+  const router = useRouter()
   const { allTransaction, isLoadingTransaction, isErrorTransaction } =
     UseGetAllTransaction(activePage);
-  // const { balance, balanceError} = UseGetBalance()
-  // console.log(allTransaction);
-  // console.log(balance, balanceError)
   const NextPage = () => {
     if (allTransaction?.pages) {
       activePage !== allTransaction?.pages
-        ? setActivePage((prevPage) => prevPage + 1)
+        ? (setActivePage((prevPage) => prevPage + 1), router.push(`/transactions?tab=${tab}&page=${activePage + 1}`))
         : "";
     }
   };
   const PrevPage = () => {
     if (allTransaction?.pages) {
-      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      activePage === 1 ? "" : (setActivePage((prevPage) => prevPage - 1), router.push(`/transactions?tab=${tab}&page=${activePage - 1}`));
     }
   };
   return (

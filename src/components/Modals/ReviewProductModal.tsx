@@ -26,7 +26,6 @@ const ReviewProductModal = ({
     status: watch("status"),
   };
   const handleReview = (data: any) => {
-    console.log(data);
     setLoading(true);
     UseReviewProduct(id, data)
       .then((response) => {
@@ -77,8 +76,8 @@ const ReviewProductModal = ({
                 `Review`
               )
             }
-            disabled={!fieldContent.comment && !fieldContent.status}
-            classNames={`w-[360px] py-2 rounded-[8px] text-[#FFFFFF] text-[16px] font-bold ${fieldContent.comment && fieldContent.status ? "bg-[#CB29BE]" : "bg-[#CB29BE] opacity-40"}`}
+            disabled={!fieldContent.comment || !fieldContent.status || isLoading}
+            classNames={`w-[360px] py-2 rounded-[8px] text-[#FFFFFF] text-[16px] font-bold ${fieldContent.comment && fieldContent.status && !isLoading ? "bg-[#CB29BE]" : "bg-[#CB29BE] opacity-40"}`}
           />
         </form>
       </div>

@@ -57,8 +57,8 @@ const CreateAdminModal = ({
                 `Create Admin`
               )
             }
-            disabled={fieldContent ? false : true}
-            classNames={`w-[360px] py-2 rounded-[8px] text-[#FFFFFF] text-[16px] font-bold ${fieldContent ? "bg-[#CB29BE]" : "bg-[#CB29BE] opacity-40"}`}
+            disabled={!fieldContent || isLoading}
+            classNames={`w-[360px] py-2 rounded-[8px] text-[#FFFFFF] text-[16px] font-bold ${fieldContent && !isLoading ? "bg-[#CB29BE]" : "bg-[#CB29BE] opacity-40"}`}
           />
         </form>
       </div>

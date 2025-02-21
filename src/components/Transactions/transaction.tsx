@@ -8,8 +8,12 @@ import { useDisclosure } from "@nextui-org/react";
 import { UseGetAllTransaction } from "../../api/useGetTransaction";
 import UseFormatNumbers from "../../utils/useFormatNumber";
 import WithdrawRequestTable from "./TransactionTable/WithdrawRequestTable";
+import { useRouter, useSearchParams } from "next/navigation";
 const Transaction = () => {
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab");
   const [activePage, setActivePage] = useState(1);
+  const router = useRouter()
   const pages = [1, 2, 3, 4, 5, 6, 6];
   const ReportOverview = [
     {
@@ -39,7 +43,7 @@ const Transaction = () => {
     "Order Payment",
     "Payment Request",
   ];
-  const [activeTab, setActiveTab] = useState(Tabs[0]);
+  const [activeTab, setActiveTab] = useState(currentTab || Tabs[0]);
   const [isPopUp, setPopUp] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const showModal = () => {
@@ -47,7 +51,6 @@ const Transaction = () => {
   };
   const { allTransaction, isLoadingTransaction, isErrorTransaction } =
     UseGetAllTransaction(activePage);
-  console.log(allTransaction);
   return (
     <>
       <div className="w-full flex items-start py-8">
@@ -56,7 +59,7 @@ const Transaction = () => {
             <h1 className="flex flex-col text-[30px] font-bold">
               Transactions
               <span className="text-[#667185] text-[14px] font-normal">
-                Check and filter all your medical appointments here
+                Check and filter all transactions here
               </span>
             </h1>
             {/* <div className="flex items-center justify-around bg-main text-[#FFFFFF] w-[117px] h-[36px] py-[2px] px-[6px] rounded-[6px]">
@@ -76,12 +79,12 @@ const Transaction = () => {
                   Available for payouts
                 </span>
               </div>
-              <div
+              {/* <div
                 onClick={() => setPopUp(!isPopUp)}
                 className="flex items-center justify-center rounded-[125px] w-[35px] h-[35px] border-[1px] border-solid border-[#DADADA]"
               >
                 <Icons type="horizontal-dot" />
-              </div>
+              </div> */}
             </div>
             {isPopUp && (
               <div className="flex flex-col px-2 py-2 ml-48 -mt-14 -mb-32 z-10 bg-[#FFFFFF] shadow-2xl w-[301px] h-[172px] rounded-[12px]">
@@ -158,7 +161,7 @@ const Transaction = () => {
             <div className="flex items-center w-full gap-x-12 border-b-[1px] border-solid border-borderColor">
               {Tabs.map((tab, index) => (
                 <p
-                  onClick={() => setActiveTab(tab)}
+                  onClick={() => (setActiveTab(tab),router.push(`/transactions?tab=${tab}`))}
                   key={index}
                   className={`text-[14px] cursor-pointer pb-2 ${activeTab === tab ? "text-main cursor-pointer border-solid border-b-[1px] border-main" : "text-[#344054]"} `}
                 >
@@ -166,14 +169,14 @@ const Transaction = () => {
                 </p>
               ))}
             </div>
-            {activeTab === Tabs[0] && <AllTransactionTable />}
-            {activeTab === Tabs[1] && <EarnerPayoutTable />}
-            {activeTab === Tabs[2] && <OrderPaymentTable />}
-            {activeTab === Tabs[3] && <WithdrawRequestTable />}
+            {activeTab === Tabs[0] && <AllTransactionTable tab={activeTab}/>}
+            {activeTab === Tabs[1] && <EarnerPayoutTable tab={activeTab}/>}
+            {activeTab === Tabs[2] && <OrderPaymentTable tab={activeTab}/>}
+            {activeTab === Tabs[3] && <WithdrawRequestTable tab={activeTab} />}
           </div>
         </div>
       </div>
-      <WithdrawalModal isOpen={isOpen} onClose={onClose} />
+      {/* <WithdrawalModal isOpen={isOpen} onClose={onClose} /> */}
     </>
   );
 };

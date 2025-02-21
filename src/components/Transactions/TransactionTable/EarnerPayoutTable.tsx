@@ -3,28 +3,25 @@ import { UseGetOutflowPayment } from "../../../api/useGetTransaction";
 import { UseCapitalise } from "../../../utils/useCapitalise";
 import { useState } from "react";
 import { format } from "date-fns";
-const EarnerPayoutTable = () => {
-  const [activePage, setActivePage] = useState(1);
+import { useRouter, useSearchParams } from "next/navigation";
+const EarnerPayoutTable = ({tab}: {tab: string}) => {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage || 1);
+  const router = useRouter()
   const { outflowPayment, isLoadingOutFlow, isErrorOutflow } =
     UseGetOutflowPayment(activePage);
-  const pages = Array.from(
-    { length: outflowPayment?.pages ?? 1 },
-    (_, i) => i + 1,
-  );
   const NextPage = () => {
     if (outflowPayment?.pages) {
       activePage !== outflowPayment?.pages
-        ? setActivePage((prevPage) => prevPage + 1)
+        ? (setActivePage((prevPage) => prevPage + 1), router.push(`/transactions?tab=${tab}&page=${activePage + 1}`))
         : "";
     }
   };
   const PrevPage = () => {
     if (outflowPayment?.pages) {
-      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      activePage === 1 ? "" : (setActivePage((prevPage) => prevPage - 1), router.push(`/transactions?tab=${tab}&page=${activePage - 1}`))
     }
-  };
-  const showSpecificPage = (page: number) => {
-    setActivePage(page);
   };
   return (
     <>
