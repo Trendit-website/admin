@@ -153,7 +153,7 @@ const MarketPlaceTable = () => {
                   </tbody>
                 )}
                 {allProducts.products.length < 1 && (
-                  <div className="flex w-full items-ceter py-4">
+                  <div className="flex w-full items-center justify-center py-4">
                     No Products listed at the moments
                   </div>
                 )}
@@ -174,7 +174,7 @@ const MarketPlaceTable = () => {
           <div className="flex w-full items-center justify-between px-4 py-6">
             <div className="flex items-center cursor-pointer gap-x-4">
                 <p className="">
-                  {activePage} of {allProducts ? allProducts.total_pages : activePage}
+                  {activePage} of {allProducts && allProducts.total_pages > 0 ? allProducts.total_pages : activePage}
                 </p>
             </div>
             <div className="flex items-center gap-x-4">
