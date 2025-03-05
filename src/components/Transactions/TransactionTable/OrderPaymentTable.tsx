@@ -3,50 +3,44 @@ import { UseGetInflowPayment } from "../../../api/useGetTransaction";
 import { UseCapitalise } from "../../../utils/useCapitalise";
 import { useState } from "react";
 import { format } from "date-fns";
-const OrderPaymentTable = () => {
-  const [activePage, setActivePage] = useState(1);
+import { useRouter, useSearchParams } from "next/navigation";
+const OrderPaymentTable = ({tab}: {tab: string}) => {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage || 1);
+  const router = useRouter()
   const { inflowPayment, isLoadingInflowPayment, isErrorInflowPayment } =
     UseGetInflowPayment(activePage);
   const NextPage = () => {
     if (inflowPayment?.pages) {
       activePage !== inflowPayment?.pages
-        ? setActivePage((prevPage) => prevPage + 1)
+        ? (setActivePage((prevPage) => prevPage + 1), router.push(`/transactions?tab=${tab}&page=${activePage + 1}`))
         : "";
     }
   };
   const PrevPage = () => {
     if (inflowPayment?.pages) {
-      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      activePage === 1 ? "" : (setActivePage((prevPage) => prevPage - 1), router.push(`/transactions?tab=${tab}&page=${activePage - 1}`));
     }
   };
   return (
     <>
-      {isLoadingInflowPayment && !isErrorInflowPayment && (
-        <div className="w-full h-screen flex py-8 justify-center">
-          <Icons type="loader" />
-        </div>
-      )}
-      {isErrorInflowPayment && (
-        <div className="w-full h-screen text-red-500 h-screen py-8 flex justify-center">
-          {isErrorInflowPayment?.response?.data?.message ||
-            " An error occured try again later"}
-        </div>
-      )}
-      {inflowPayment && (
-        <>
-          <table className="w-full flex flex-col">
-            <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
-              <tr className="flex items-center">
-                <td className="w-3/12">Payment type</td>
-                <td className="w-3/12">Payment method</td>
-                <td className="w-3/12">Transaction Ref</td>
-                <td className="w-3/12">Status</td>
-                <td className="w-3/12">Amount</td>
-                <td className="w-2/12">Created time</td>
-              </tr>
-            </thead>
-            <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
-              {inflowPayment?.transactions?.map(
+      <>
+        <table className="w-full flex flex-col">
+          <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
+            <tr className="flex items-center">
+              <td className="w-3/12">Payment type</td>
+              <td className="w-3/12">Payment method</td>
+              <td className="w-3/12">Transaction Ref</td>
+              <td className="w-3/12">Status</td>
+              <td className="w-3/12">Amount</td>
+              <td className="w-2/12">Created time</td>
+            </tr>
+          </thead>
+          <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
+            {inflowPayment &&
+              inflowPayment.total > 0 &&
+              inflowPayment?.transactions?.map(
                 (transaction: any, index: number) => (
                   <tr
                     key={index}
@@ -79,7 +73,7 @@ const OrderPaymentTable = () => {
                       </div>
                     </td>
                     <td className="w-3/12 text-[#4CAF50]">
-                      {transaction?.amount}
+                      ₦{transaction?.amount}
                     </td>
                     <td className="w-2/12 text-[#000000]">
                       {format(
@@ -90,33 +84,50 @@ const OrderPaymentTable = () => {
                   </tr>
                 ),
               )}
-            </tbody>
-          </table>
-          <div className="flex w-full items-center justify-between px-4 py-6">
-            <div className="flex items-center cursor-pointer gap-x-4">
-              <p className="">
-                {activePage} of {inflowPayment.pages}
-              </p>
-            </div>
-            <div className="flex items-center gap-x-4">
-              <div
-                onClick={() => PrevPage()}
-                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                <Icons type="prev" />
-                Previous
+            {isErrorInflowPayment && (
+              <div className="w-full h-screen text-red-500 h-screen py-8 flex justify-center">
+                {isErrorInflowPayment?.response?.data?.message ||
+                  " An error occured try again later"}
               </div>
-              <div
-                onClick={() => NextPage()}
-                className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                Next
-                <Icons type="next" />
+            )}
+            {isLoadingInflowPayment && !isErrorInflowPayment && (
+              <div className="w-full h-screen flex py-8 justify-center">
+                <Icons type="loader" />
               </div>
-            </div>
+            )}
+          </tbody>
+        </table>
+        <div className="flex w-full items-center justify-between px-4 py-6">
+          <div className="flex items-center cursor-pointer gap-x-4">
+            <p className="">
+              {activePage} of{" "}
+              {inflowPayment && inflowPayment.pages > 0
+                ? inflowPayment?.pages
+                : activePage}
+            </p>
           </div>
-        </>
-      )}
+          <div className="flex items-center gap-x-4">
+            <button
+              disabled={activePage === 1}
+              onClick={() => PrevPage()}
+              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+            >
+              <Icons type="prev" />
+              Previous
+            </button>
+            <button
+              disabled={
+                activePage === inflowPayment?.pages || inflowPayment?.total === 0
+              }
+              onClick={() => NextPage()}
+              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+            >
+              Next
+              <Icons type="next" />
+            </button>
+          </div>
+        </div>
+      </>
     </>
   );
 };

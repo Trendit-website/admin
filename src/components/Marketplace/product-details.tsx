@@ -11,14 +11,14 @@ import ReviewProductModal from "../Modals/ReviewProductModal";
 
 const ProductDetails = () => {
   const router = useRouter();
-  const { details, detailsError } = UsegetProductDetails(router.query?.id);
+  const { details, detailsError } = UsegetProductDetails(router.query?.id)
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [action, setAction] = useState<string>();
   const [modals, setModal] = useState({
     imageModal: false,
     reviewModal: false,
   });
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState(""); 
   const showImageModal = (img: string) => {
     setSelectedImage(img);
     onOpen();
@@ -75,12 +75,15 @@ const ProductDetails = () => {
               </div>
               <div className="flex flex-col  text-primary-black">
                 <p className="text-[22px] font-semibold">
-                  {details.name} {details?.description}
+                  {details.name}
+                </p>
+                <p className="text-[22px] whitespace-pre-line leading-8 font-semibold">
+                  {details?.description}
                 </p>
                 <p className="flex items-center gap-x-2 font-bold">
-                  <Icons type="price-tag" /> #{details?.price}{" "}
+                  <Icons type="price-tag" />₦{details?.price}{" "}
                   <span className="text-[#667185] font-normal">
-                    <s>#{details.original_price}</s>
+                    <s>₦{details.original_price}</s>
                   </span>
                 </p>
                 <div className="py-2 grid grid-cols-3">

@@ -10,29 +10,36 @@ import {
 } from "../../../../api/useGetOrders";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
+import { useState } from "react";
 const OrderDetails = () => {
   const router = useRouter();
   const { orderDetails, isLoading, isError } = UseGetOrderDetails(
     router.query?.id,
   );
-  console.log(orderDetails);
+  const [loading, setLoading] = useState({action: "", state: false})
   const ApproveOrder = (id: number) => {
+    setLoading({action: "accept", state: true})
     UseApproveOrders(id)
       .then((response) => {
         toast.success(response.data?.message);
       })
       .catch((error) => {
         toast.error(error?.response?.data?.message);
-      });
+      }).finally(() => {
+        setLoading({action: "accept", state: false})
+      })
   };
   const RejectOrder = (id: number) => {
+    setLoading({action: "reject", state: true})
     UseRejectOrders(id)
       .then((response) => {
         toast.success(response.data?.message);
       })
       .catch((error) => {
         toast.error(error?.response?.data?.message || error?.message);
-      });
+      }).finally(() => {
+        setLoading({action: "reject", state: false})
+      })
   };
   return (
     <div className="flex flex-col gap-y-6 px-4 py-8 w-full text-[#667185]">
@@ -50,12 +57,13 @@ const OrderDetails = () => {
       {orderDetails && (
         <>
           <div className="flex items-center w-full px-4 gap-x-2 text-[14px]">
-            <Link href="/">
-              <p className="flex items-center gap-x-2">
-                <Icons type="arrow-back" />
-                Back
-              </p>
-            </Link>
+            <p
+              onClick={() => router.back()}
+              className="flex cursor-pointer items-center gap-x-2"
+            >
+              <Icons type="arrow-back" />
+              Back
+            </p>
             <p className="text-[14px]">
               Earn /{" "}
               <span className="text-main">Create {orderDetails?.platform}</span>
@@ -82,7 +90,7 @@ const OrderDetails = () => {
                   }
                   className="flex items-center bg-[#E4E7EC] py-[8px] px-[12px] rounded-[8px] text-primary-black text-[14px]"
                 >
-                  Decline
+                  {loading.action === "reject" && loading.state ? <Icons type="loader" /> : "Decline"}
                 </button>
                 <button
                   onClick={() =>
@@ -90,7 +98,7 @@ const OrderDetails = () => {
                   }
                   className="flex items-center bg-[#CB29BE] py-[8px] px-[12px] rounded-[8px] text-[#ffffff] text-[14px]"
                 >
-                  Approve
+                 {loading.action === "accept" && loading.state ? <Icons type="loader" /> : "Approve"}
                   <Icons type="mark" />
                 </button>
               </div>

@@ -3,57 +3,44 @@ import { UseGetOutflowPayment } from "../../../api/useGetTransaction";
 import { UseCapitalise } from "../../../utils/useCapitalise";
 import { useState } from "react";
 import { format } from "date-fns";
-const EarnerPayoutTable = () => {
-  const [activePage, setActivePage] = useState(1);
+import { useRouter, useSearchParams } from "next/navigation";
+const EarnerPayoutTable = ({tab}: {tab: string}) => {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [activePage, setActivePage] = useState(currentPage || 1);
+  const router = useRouter()
   const { outflowPayment, isLoadingOutFlow, isErrorOutflow } =
     UseGetOutflowPayment(activePage);
-  const pages = Array.from(
-    { length: outflowPayment?.pages ?? 1 },
-    (_, i) => i + 1,
-  );
   const NextPage = () => {
     if (outflowPayment?.pages) {
       activePage !== outflowPayment?.pages
-        ? setActivePage((prevPage) => prevPage + 1)
+        ? (setActivePage((prevPage) => prevPage + 1), router.push(`/transactions?tab=${tab}&page=${activePage + 1}`))
         : "";
     }
   };
   const PrevPage = () => {
     if (outflowPayment?.pages) {
-      activePage === 1 ? "" : setActivePage((prevPage) => prevPage - 1);
+      activePage === 1 ? "" : (setActivePage((prevPage) => prevPage - 1), router.push(`/transactions?tab=${tab}&page=${activePage - 1}`))
     }
-  };
-  const showSpecificPage = (page: number) => {
-    setActivePage(page);
   };
   return (
     <>
-      {isLoadingOutFlow && !isErrorOutflow && (
-        <div className="w-full flex h-screen py-8 justify-center">
-          <Icons type="loader" />
-        </div>
-      )}
-      {isErrorOutflow && (
-        <div className="w-full h-screen text-red-500 h-screen py-8 flex justify-center">
-          {isErrorOutflow?.response?.data?.message ||
-            " An error occured try again later"}
-        </div>
-      )}
-      {outflowPayment && (
-        <>
-          <table className="w-full flex flex-col">
-            <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
-              <tr className="flex items-center">
-                <td className="w-3/12">Account Number</td>
-                <td className="w-4/12">Bank Name</td>
-                <td className="w-3/12">Transaction Ref</td>
-                <td className="w-3/12">Status</td>
-                <td className="w-3/12">Amount</td>
-                <td className="w-2/12">Created time</td>
-              </tr>
-            </thead>
-            <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
-              {outflowPayment?.transactions?.map(
+      <>
+        <table className="w-full flex flex-col">
+          <thead className="w-full bg-[#F5F5F5] py-2 px-8 rounded-tr-[12px] rounded-tl-[12px]">
+            <tr className="flex items-center">
+              <td className="w-3/12">Account Number</td>
+              <td className="w-4/12">Bank Name</td>
+              <td className="w-3/12">Transaction Ref</td>
+              <td className="w-3/12">Status</td>
+              <td className="w-3/12">Amount</td>
+              <td className="w-2/12">Created time</td>
+            </tr>
+          </thead>
+          <tbody className="flex flex-col gap-y-4 text-secondary text-[12px] px-8">
+            {outflowPayment &&
+              outflowPayment.total > 0 &&
+              outflowPayment?.transactions?.map(
                 (transaction: any, index: number) => (
                   <tr
                     key={index}
@@ -85,7 +72,9 @@ const EarnerPayoutTable = () => {
                         {UseCapitalise(transaction?.status)}
                       </div>
                     </td>
-                    <td className="w-3/12">{transaction?.amount}</td>
+                    <td className="w-3/12">
+                      ₦{Number(transaction?.amount).toLocaleString()}.00
+                    </td>
                     <td className="w-2/12 text-[#000000]">
                       {format(
                         new Date(transaction?.created_at),
@@ -95,33 +84,49 @@ const EarnerPayoutTable = () => {
                   </tr>
                 ),
               )}
-            </tbody>
-          </table>
-          <div className="flex w-full items-center justify-between px-4 py-6">
-            <div className="flex items-center cursor-pointer gap-x-4">
-              <p className="">
-                {activePage} of {outflowPayment.pages}
-              </p>
-            </div>
-            <div className="flex items-center gap-x-4">
-              <div
-                onClick={() => PrevPage()}
-                className="flex items-center cursor-pointer gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                <Icons type="prev" />
-                Previous
+            {isErrorOutflow && (
+              <div className="w-full h-screen text-red-500 h-screen py-8 flex justify-center">
+                {isErrorOutflow?.response?.data?.message ||
+                  " An error occured try again later"}
               </div>
-              <div
-                onClick={() => NextPage()}
-                className="flex items-center gap-x-[6px] cursor-pointer px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
-              >
-                Next
-                <Icons type="next" />
+            )}
+            {isLoadingOutFlow && !isErrorOutflow && (
+              <div className="w-full flex h-screen py-8 justify-center">
+                <Icons type="loader" />
               </div>
-            </div>
+            )}
+          </tbody>
+        </table>
+        <div className="flex w-full items-center justify-between px-4 py-6">
+          <div className="flex items-center cursor-pointer gap-x-4">
+            <p className="text-main">
+              {activePage} of{" "}
+              {outflowPayment ? outflowPayment.pages : activePage}
+            </p>
           </div>
-        </>
-      )}
+          <div className="flex items-center gap-x-4">
+            <button
+              disabled={activePage === 1}
+              onClick={() => PrevPage()}
+              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+            >
+              <Icons type="prev" />
+              Previous
+            </button>
+            <button
+              disabled={
+                activePage === outflowPayment?.pages ||
+                outflowPayment?.total === 0
+              }
+              onClick={() => NextPage()}
+              className="flex items-center gap-x-[6px] px-2 py-2 rounded-[8px] border-solid border-[1px] border-borderColor"
+            >
+              Next
+              <Icons type="next" />
+            </button>
+          </div>
+        </div>
+      </>
     </>
   );
 };

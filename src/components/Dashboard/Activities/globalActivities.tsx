@@ -53,7 +53,7 @@ const GlobalActivities = () => {
                 <div className="flex flex-col gap-y-[4px] -mt-[5px]">
                   <span>{item.title}</span>
                   <p>
-                    {item?.body} <span className="text-main">View</span>
+                    {item?.body}
                   </p>
                 </div>
               </div>

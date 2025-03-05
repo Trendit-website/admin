@@ -62,12 +62,12 @@ export const UseGetOrderDetails = (orderId: string | string[] | undefined) => {
 };
 export const UseApproveOrders = (taskId: number) => {
   const approveOrders = ApiClient.post(`/tasks/${taskId}/approve`);
-  mutate("/tasks/${taskId}/approve");
+  mutate(`/tasks/${taskId}/approve`);
   return approveOrders;
 };
 export const UseRejectOrders = (taskId: number) => {
-  const approveOrders = ApiClient.post(`/tasks/${taskId}/`);
-  mutate("/reject-task/${taskId}");
+  const approveOrders = ApiClient.post(`/reject-task/${taskId}`);
+  mutate(`/reject-task/${taskId}`);
   return approveOrders;
 };
 export const UseGetOrderPerformers = (orderKey: string, page: number) => {

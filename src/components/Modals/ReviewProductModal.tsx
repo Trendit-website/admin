@@ -3,12 +3,10 @@ import Button from "../Shared/Button";
 import Icons from "../Shared/Icons";
 import InputField from "../Shared/InputField";
 import DefaultModal from "./modal";
-import Image from "next/image";
 import { useState } from "react";
 import { reviewType } from "../../utils/schema/productSchema";
 import { UseReviewProduct } from "../../api/useGetProduct";
 import toast from "react-hot-toast";
-import { UseCapitalise } from "../../utils/useCapitalise";
 const ReviewProductModal = ({
   isOpen,
   onClose,
@@ -28,7 +26,6 @@ const ReviewProductModal = ({
     status: watch("status"),
   };
   const handleReview = (data: any) => {
-    console.log(data);
     setLoading(true);
     UseReviewProduct(id, data)
       .then((response) => {
@@ -79,8 +76,8 @@ const ReviewProductModal = ({
                 `Review`
               )
             }
-            disabled={!fieldContent.comment && !fieldContent.status}
-            classNames={`w-[360px] py-2 rounded-[8px] text-[#FFFFFF] text-[16px] font-bold ${fieldContent.comment && fieldContent.status ? "bg-[#CB29BE]" : "bg-[#CB29BE] opacity-40"}`}
+            disabled={!fieldContent.comment || !fieldContent.status || isLoading}
+            classNames={`w-[360px] py-2 rounded-[8px] text-[#FFFFFF] text-[16px] font-bold ${fieldContent.comment && fieldContent.status && !isLoading ? "bg-[#CB29BE]" : "bg-[#CB29BE] opacity-40"}`}
           />
         </form>
       </div>
