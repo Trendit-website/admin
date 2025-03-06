@@ -37,7 +37,7 @@ const RequestTable = ({tab}: {tab: string}) => {
       userId: data?.user?.id,
       link: data?.link,
     };
-    UseApproveSocialRequest(requestData)
+    UseApproveSocialRequest(requestData, data?.id)
       .then((response) => {
         toast.success(response.data?.message);
       })
@@ -51,8 +51,8 @@ const RequestTable = ({tab}: {tab: string}) => {
       type: data?.platform,
       userId: data?.user?.id,
       link: data?.link,
-    };
-    UseRejectSocialRequest(requestData)
+    }
+    UseRejectSocialRequest(requestData, data?.id)
       .then((response) => {
         toast.success(response.data?.message);
       })

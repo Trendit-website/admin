@@ -16,16 +16,16 @@ export const UseGetSocialLinkRequest = (page: number, platform?: string) => {
     isError: error,
   };
 };
-export const UseApproveSocialRequest = (data: SocialverificationSchema) => {
-  const approveRequest = ApiClient.post("/social-profiles/1/approve", data);
+export const UseApproveSocialRequest = (data: SocialverificationSchema, id: number) => {
+  const approveRequest = ApiClient.post(`/social-profiles/${id}/approve`, data);
   mutate("/social-profiles/1/approve");
   return approveRequest;
 };
-export const UseRejectSocialRequest = (data: SocialverificationSchema) => {
+export const UseRejectSocialRequest = (data: SocialverificationSchema, id: number) => {
   const rejectRequest = ApiClient.post(
-    "/reject_social_verification_request",
+   `/social-profiles/${id}/reject`,
     data,
   );
-  mutate("/reject_social_verification_request");
+  mutate(`/social-profiles/${id}/reject`);
   return rejectRequest;
 };
