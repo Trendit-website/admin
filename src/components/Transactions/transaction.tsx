@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Icons from "../Shared/Icons";
 import AllTransactionTable from "./TransactionTable/AllTransaction";
 import EarnerPayoutTable from "./TransactionTable/EarnerPayoutTable";
@@ -44,6 +44,11 @@ const Transaction = () => {
     "Payment Request",
   ];
   const [activeTab, setActiveTab] = useState(currentTab || Tabs[0]);
+  useEffect(() => {
+    if(currentTab) {
+      setActiveTab(currentTab)
+    }
+  }, [currentTab])
   const [isPopUp, setPopUp] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const showModal = () => {

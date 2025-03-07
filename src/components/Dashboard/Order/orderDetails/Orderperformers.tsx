@@ -21,7 +21,7 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
   const { performers, isLoading, isError } = UseGetOrderPerformers(
     orderId,
     activePage,
-  );
+  )
   const NextPage = () => {
     if (performers?.total_pages) {
       activePage !== performers?.total_pages
@@ -37,7 +37,7 @@ const Orderperformers = ({ orderId }: { orderId: string }) => {
 
   const verifyTaskPerformance = (key: string, action: string) => {
     setLoading({ id: key, state: true });
-    UseVerifyTaskPerformance(key, action)
+    UseVerifyTaskPerformance(key, action, activePage, orderId)
       .then((response) => {
         toast.success(response.data?.message);
         setLoading({ id: "", state: false });

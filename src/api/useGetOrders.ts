@@ -60,15 +60,15 @@ export const UseGetOrderDetails = (orderId: string | string[] | undefined) => {
     isError: error,
   };
 };
-export const UseApproveOrders = (taskId: number) => {
-  const approveOrders = ApiClient.post(`/tasks/${taskId}/approve`);
-  mutate(`/tasks/${taskId}/approve`);
+export const UseApproveOrders = async(taskId: number, taskKey: string) => {
+  const approveOrders = await ApiClient.post(`/tasks/${taskId}/approve`);
+  await mutate(`/tasks/${taskKey}`);
   return approveOrders;
 };
-export const UseRejectOrders = (taskId: number) => {
-  const approveOrders = ApiClient.post(`/reject-task/${taskId}`);
-  mutate(`/reject-task/${taskId}`);
-  return approveOrders;
+export const UseRejectOrders = async(taskId: number, taskKey: string) => {
+  const rejectOrders = await ApiClient.post(`/tasks/${taskId}/reject`);
+  await mutate(`/tasks/${taskKey}`);
+  return rejectOrders;
 };
 export const UseGetOrderPerformers = (orderKey: string, page: number) => {
   const { data, error } = useSWR<TaskPerfomers>(
@@ -94,11 +94,11 @@ export const UseGetOrderPerformersByStatus = (
     isErrorStatus: error,
   };
 };
-export const UseVerifyTaskPerformance = (key: string, action: string) => {
-  const verifyTaskPerformance = ApiClient.post(`/tasks/verify-performance`, {
+export const UseVerifyTaskPerformance = async(key: string, action: string, page: number, orderKey: string) => {
+  const verifyTaskPerformance = await ApiClient.post(`/tasks/verify-performance`, {
     performed_task_id_key: key,
     status: action,
   });
-  mutate("/tasks/verify-performance");
+  await mutate(`/tasks/${orderKey}/performances?page=${page}&per_page=15`);
   return verifyTaskPerformance;
 };

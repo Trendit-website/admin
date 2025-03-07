@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Activities from "./Activities";
 import AdminProfile from "./adminProfile";
 import OverviewReport from "./Report/overviewReport";
@@ -12,7 +12,12 @@ const Dashboard = () => {
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab");
   const Tabs = ["Overview", "Orders", "Social link Request"];
-  const [activeTab, setActiveTab] = useState(currentTab || Tabs[0]);
+  const [activeTab, setActiveTab] = useState(currentTab || Tabs[0])
+  useEffect(() => {
+    if(currentTab) {
+      setActiveTab(currentTab)
+    }
+  }, [currentTab])
   const router = useRouter()
   return (
     <section className="w-11/12 flex items-start py-12 gap-x-10">
