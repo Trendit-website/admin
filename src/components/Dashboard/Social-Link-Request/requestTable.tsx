@@ -6,6 +6,7 @@ import {
   UseGetSocialLinkRequest,
   UseRejectSocialRequest,
 } from "../../../api/useGetSocialLinkRequest";
+import { mutate } from 'swr';
 import { useState } from "react";
 import { UseCapitalise } from "../../../utils/useCapitalise";
 import { UseFormatStatus } from "../../../utils/useFormatStatus";
@@ -16,6 +17,7 @@ const RequestTable = ({tab}: {tab: string}) => {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
   const [activePage, setActivePage] = useState(currentPage || 1);
+  const [loading, setLoading] = useState({ id: 0, state: false });
   const router = useRouter()
   const platformFilter = [
     "",
@@ -31,34 +33,40 @@ const RequestTable = ({tab}: {tab: string}) => {
     platformTab,
   );
   const approveRequest = (data: any) => {
+    setLoading({ id: data?.id, state: true });
     const requestData = {
       socialVerificationId: data?.id,
       type: data?.platform,
       userId: data?.user?.id,
       link: data?.link,
     };
-    UseApproveSocialRequest(requestData, data?.id)
+    UseApproveSocialRequest(requestData, data?.id, activePage, platformTab)
       .then((response) => {
         toast.success(response.data?.message);
       })
       .catch((error) => {
         toast.error(error?.response?.data?.message);
-      });
+      }).finally(() => {
+        setLoading({id: 0, state: false})
+      })
   };
   const rejectRequest = (data: any) => {
+    setLoading({ id: data?.id, state: true });
     const requestData = {
       socialVerificationId: data?.id,
       type: data?.platform,
       userId: data?.user?.id,
       link: data?.link,
     }
-    UseRejectSocialRequest(requestData, data?.id)
+    UseRejectSocialRequest(requestData, data?.id, activePage, platformTab)
       .then((response) => {
         toast.success(response.data?.message);
       })
       .catch((error) => {
         toast.error(error?.response?.data?.message);
-      });
+      }).finally(() => {
+        setLoading({ id: 0, state: false});
+      })
   };
   const NextPage = () => {
     if (socialRequest?.total_pages) {
@@ -170,7 +178,11 @@ const RequestTable = ({tab}: {tab: string}) => {
                       </td>
                       {profiles?.status === "pending" && (
                         <td className="flex items-center w-3/12 gap-x-4">
-                          <button onClick={() => rejectRequest(profiles)}>
+                           {loading.id === profiles?.id && loading.state ? (
+                            <Icons type="loader" />
+                          ): (
+                            <>
+                               <button onClick={() => rejectRequest(profiles)}>
                             Decline
                           </button>
                           <button
@@ -179,6 +191,8 @@ const RequestTable = ({tab}: {tab: string}) => {
                           >
                             Approve
                           </button>
+                            </>
+                          )}
                         </td>
                       )}
                       {profiles?.status !== "pending" && (

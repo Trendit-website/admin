@@ -116,7 +116,7 @@ const AllOrders = () => {
                       order?.task_type?.slice(1)}
                   </td>
                   <td className=" w-2/12">
-                    #{Number(order?.fee_paid).toLocaleString()}.00
+                  ₦{Number(order?.fee_paid).toLocaleString()}.00
                   </td>
                   <td className="w-2/12">
                     {format(new Date(order.date_created), "MMM dd, yyyy")}

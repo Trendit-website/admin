@@ -2,7 +2,6 @@ import Icons from "../../../Shared/Icons";
 import Image from "next/image";
 import DetailsComponent from "./detailsComponent";
 import Orderperformers from "./Orderperformers";
-import Link from "next/link";
 import {
   UseGetOrderDetails,
   UseApproveOrders,
@@ -15,11 +14,11 @@ const OrderDetails = () => {
   const router = useRouter();
   const { orderDetails, isLoading, isError } = UseGetOrderDetails(
     router.query?.id,
-  );
+  )
   const [loading, setLoading] = useState({action: "", state: false})
   const ApproveOrder = (id: number) => {
     setLoading({action: "accept", state: true})
-    UseApproveOrders(id)
+    UseApproveOrders(id, orderDetails?.task_key)
       .then((response) => {
         toast.success(response.data?.message);
       })
@@ -31,7 +30,7 @@ const OrderDetails = () => {
   };
   const RejectOrder = (id: number) => {
     setLoading({action: "reject", state: true})
-    UseRejectOrders(id)
+    UseRejectOrders(id, orderDetails?.task_key)
       .then((response) => {
         toast.success(response.data?.message);
       })

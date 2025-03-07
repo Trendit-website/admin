@@ -25,7 +25,7 @@ const WithdrawRequestTable = ({tab}: {tab: string}) => {
   };
   const verifyRequest = (id: number, action: string) => {
     setLoading({ id: id, state: true });
-    UseEvaluateWithdrawal({ withdrawal_request_id: id, status: action })
+    UseEvaluateWithdrawal({ withdrawal_request_id: id, status: action }, activePage)
       .then((response) => {
         toast.success(response.data?.message);
       })
@@ -105,7 +105,7 @@ const WithdrawRequestTable = ({tab}: {tab: string}) => {
                           )}
                         </td>
                         <td className="flex justify-center w-1/12">
-                          {loading.id === 2 && loading.state ? (
+                          {loading.id === transaction.id && loading.state ? (
                             <Icons type="loader" />
                           ) : (
                             <div className="flex items-center gap-x-2">

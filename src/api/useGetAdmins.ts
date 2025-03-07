@@ -16,6 +16,11 @@ export const UseCreateAdmin = (email: string) => {
   mutate("/create-admin");
   return createAdmin;
 };
+export const UseAddPricing = (data: any) => {
+  const addPrice = ApiClient.post(`/add-pricing`, data)
+  mutate(`/add-pricing`)
+  return addPrice
+}
 export const UseGetAdminProfile = () => {
   const { data, error } = useSWR<AdminDetailsSchema>("/profile", ApiClient);
   return {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UsersTable from "./UsersTable/usersTable";
 import EarnersTable from "./UsersTable/earnersTable";
 import AdvertisersTable from "./UsersTable/advertisersTable";
@@ -10,6 +10,11 @@ const Users = () => {
   const tabs = ["All Users", "Earners", "Advertisers"];
   const [activeTab, setActiveTab] = useState(currentTab || tabs[0]);
   const router = useRouter()
+  useEffect(() => {
+    if(currentTab) {
+      setActiveTab(currentTab)
+    }
+  }, [currentTab])
   return (
     <div className="w-full flex flex-col gap-y-12 py-8">
       <div className="flex items-center m-auto justify-between w-10/12">

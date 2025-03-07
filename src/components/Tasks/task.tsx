@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Icons from "../Shared/Icons";
 import AdvertTask from "./TaskTables/AdvertTask";
 import EngageTask from "./TaskTables/EngageTask";
@@ -9,6 +9,11 @@ const Task = () => {
   const currentTab = searchParams.get("tab");
   const Tabs = ["Advert tasks", "Engagement tasks",];
   const [activeTab, setActiveTab] = useState(currentTab || Tabs[0]);
+  useEffect(() => {
+    if(currentTab) {
+      setActiveTab(currentTab)
+    }
+  }, [currentTab])
   const router = useRouter()
   return (
     <div className="w-full flex items-start py-8">

@@ -23,12 +23,12 @@ export const UseGetBalance = () => {
     balanceError: error,
   };
 };
-export const UseEvaluateWithdrawal = (data: {
+export const UseEvaluateWithdrawal = async(data: {
   withdrawal_request_id: number;
   status: string;
-}) => {
-  const evaluateRequest = ApiClient.post("/withdrawal-request/evaluate", data);
-  mutate("/withdrawal-request/evaluate");
+}, page: number) => {
+  const evaluateRequest = await ApiClient.post("/withdrawal-request/evaluate", data);
+  await mutate(`/withdrawal-requests?page=${page}&per_page=10`,);
   return evaluateRequest;
 };
 export const UseGetInflowPayment = (page: number) => {
