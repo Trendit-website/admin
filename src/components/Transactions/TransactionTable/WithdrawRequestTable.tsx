@@ -118,7 +118,7 @@ const WithdrawRequestTable = ({tab}: {tab: string}) => {
                               </button>
                               <button
                                 onClick={() =>
-                                  verifyRequest(transaction.id, "accept")
+                                  verifyRequest(transaction.id, "approve")
                                 }
                                 className="text-main"
                               >
