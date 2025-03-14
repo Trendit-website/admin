@@ -3,12 +3,13 @@ import Image from "next/image";
 import { UseGetAdmins } from "../../../api/useGetAdmins";
 import CreateAdminModal from "../../Modals/CreateAdminModal";
 import { format } from "date-fns";
+import { Dispatch, SetStateAction, useState } from "react";
 const Admins = ({
   isOpen,
   onClose,
 }: {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: Dispatch<SetStateAction<{pricing: boolean, admin: boolean}>>
 }) => {
   const { admins, isLoadingAdmins, isErrorAdmins } = UseGetAdmins()
   return (

@@ -16,6 +16,7 @@ const MarketPlaceTable = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const { allProductError, allProducts } = UseGetProducts(activePage)
+  console.log(allProducts)
   const [option, setOption] = useState({ id: null, status: "" });
   const router = useRouter()
   return (
@@ -121,7 +122,9 @@ const MarketPlaceTable = () => {
                           </div>
                         </td>
                         <td>
-                          <div className="flex items-center gap-x-[8px]">
+                          {product?.is_approved && "Approved"}
+                          {product?.is_approved === false && (
+                            <div className="flex items-center gap-x-[8px]">
                             <button
                               onClick={() => (
                                 setOption({
@@ -147,6 +150,8 @@ const MarketPlaceTable = () => {
                               Decline
                             </button>
                           </div>
+                          )}
+                          
                         </td>
                       </tr>
                     ))}

@@ -9,6 +9,7 @@ export type productType = {
         name: string;
         original_price: string;
         price: string;
+        is_approved: boolean;
         product_id: number;
       },
     ];
