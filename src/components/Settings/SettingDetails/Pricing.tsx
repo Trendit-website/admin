@@ -1,7 +1,12 @@
 import { UseGetPricing } from "../../../api/usePricing";
+import AddPricingPlan from "../../Modals/AddPricingPlan";
 import Icons from "../../Shared/Icons";
-import { useState } from "react";
-const Pricing = () => {
+import { Dispatch, SetStateAction, useState } from "react";
+type requiredProps = {
+  isOpen: boolean,
+  onClose: Dispatch<SetStateAction<{pricing: boolean, admin: boolean}>>
+}
+const Pricing = ({ isOpen, onClose}: requiredProps) => {
   const Tabs = [
     "Advert Task",
     "Engagement Task",
@@ -12,6 +17,7 @@ const Pricing = () => {
   const { pricing, isLoadingPrice, isError } = UseGetPricing();
   console.log(pricing);
   return (
+    <>
     <div className="flex flex-col gap-y-8">
       <div className="w-full px-4 py-3 text-[18px] text-primary-black ">
         Pricing
@@ -133,6 +139,8 @@ const Pricing = () => {
         </tbody>
       </table>
     </div>
+    {isOpen && <AddPricingPlan isOpen={isOpen} onClose={onClose}/> }
+    </>
   );
 };
 export default Pricing;

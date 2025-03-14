@@ -3,7 +3,7 @@ import Button from "../Shared/Button";
 import { useForm } from "react-hook-form";
 import InputField from "../Shared/InputField";
 import { LoginSchema } from "../../utils/schema/loginSchema";
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction  } from "react";
 import { UseCreateAdmin } from "../../api/useGetAdmins";
 import Icons from "../Shared/Icons";
 import toast from "react-hot-toast";
@@ -12,7 +12,7 @@ const CreateAdminModal = ({
   onClose,
 }: {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: Dispatch<SetStateAction<{admin: boolean, pricing: boolean}>>
 }) => {
   const form = useForm<LoginSchema>();
   const { register, handleSubmit, watch } = form;

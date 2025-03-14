@@ -9,6 +9,7 @@ import { useDisclosure } from "@nextui-org/react";
 const Setting = () => {
   const Tabs = ["Admin", "Pricing"];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
+  const [modals, setModals] = useState<{pricing: boolean, admin: boolean}>()
   const { onOpen, isOpen, onClose } = useDisclosure();
   const showModal = () => {
     onOpen();
@@ -19,18 +20,27 @@ const Setting = () => {
         <div className="flex items-center justify-between w-full m-auto">
           <h1 className="flex flex-col text-[30px] font-bold">
             Settings
-            <span className="text-[#667185] text-[14px] font-normal">
+            {/* <span className="text-[#667185] text-[14px] font-normal">
               Check and filter all your medical appointments here
-            </span>
+            </span> */}
           </h1>
           {activeTab === "Admin" && (
             <button
-              onClick={() => showModal()}
+              onClick={() => setModals((modals) => ({...modals, admin: true}))}
               className="flex items-center justify-around bg-main text-[#FFFFFF] w-[117px] h-[36px] py-[2px] px-[6px] rounded-[6px]"
             >
               Create
               <Icons type="plus" />
             </button>
+          )}
+          {activeTab === "Pricing" && (
+          <button
+            onClick={() => setModals((modals) => ({...modals, pricing: true}))}
+            className="flex items-center justify-around bg-main text-[#FFFFFF] w-[117px] h-[36px] py-[2px] px-[6px] rounded-[6px]"
+          >
+              Add New 
+            <Icons type="plus" />
+          </button>            
           )}
         </div>
       </div>
@@ -43,11 +53,11 @@ const Setting = () => {
           ))}
         </div>
         <div className="w-9/12">
-          {/* {activeTab === Tabs[0] && <SecuritySetting />} */}
           {activeTab === Tabs[0] && (
-            <Admins isOpen={isOpen} onClose={onClose} />
+            <Admins isOpen={modals?.admin} onClose={setModals} />
           )}
-          {activeTab === Tabs[1] && <Pricing />}
+          {activeTab === Tabs[1] && <Pricing isOpen={modals?.pricing} onClose={setModals}/>}
+          {/* {activeTab === Tabs[0] && <SecuritySetting />} */}
           {/* {activeTab === Tabs[2] && <Prefrence />}
           {activeTab === Tabs[3] && <SocialMedia />} */}
         </div>
